@@ -59,3 +59,28 @@ nav ul li{
   font-size: 14px;
   font-weight: 600;
 }
+main{
+  width: 100%;
+  max-width: 1080px;
+}
+.introduct{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 80%;
+  height: 600px;
+}
+.introduct-text{
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.introduct-notebook{
+  width: 50%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
