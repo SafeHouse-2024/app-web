@@ -36,6 +36,12 @@ header{
   justify-content: space-between;
   align-items: center;
 }
+/* Funciona como um if em css, quando tela for menor que 800px, quero que a classe menu, SUMA */
+@media only screen and (max-device-width: 800px) {
+  .menu{
+    display: none;
+  }
+}
 nav ul{
   display: flex;
   justify-content: space-between;
