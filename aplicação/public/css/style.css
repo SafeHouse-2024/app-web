@@ -18,7 +18,9 @@ table, caption, tbody, tfoot, thead, tr, th, td {
   vertical-align: baseline;
 } */
 /* Adicione sua estilização abaixo, sem apagar o reset */
-
+html{
+  scroll-behavior: smooth;
+}
 body {
   font-family: "JetBrains Mono", monospace;
   background-color: #e5e5e5;
