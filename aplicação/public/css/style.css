@@ -24,7 +24,7 @@ html{
 body {
   font-family: "JetBrains Mono", monospace;
   background-color: #e5e5e5;
-  width: 100vw;
+  width: 99vw;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -46,6 +46,7 @@ body {
   object-fit: cover;
   width: 100%;
   z-index: -1;
+  overflow: hidden;
 }
 header{
   width: 100%;
