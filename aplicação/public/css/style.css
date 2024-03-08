@@ -138,6 +138,9 @@ header{
     flex-direction: column;
     padding: 0;
   }
+  .container{
+    flex-direction: column;
+  }
   .card-servicos{
     display: none;
   }
@@ -178,6 +181,17 @@ main{
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 1px solid black;
+}
+.esconder{
+  opacity: 0;
+  transform: translateX(-100%);
+  transition: all 0.5s ease-in-out;
+}
+.ativo{
+  transition: all 1s ease-in-out;
+  opacity: 1;
+  transform: translateX(0);
 }
 .sessao-texto{
   width: 50%;
@@ -186,7 +200,7 @@ main{
   flex-direction: column;
   justify-content: center;
   align-items: left;
-  padding: 0 50px;
+  /* padding: 0 50px; */
 }
 .sessao-imagem{
   width: 50%;

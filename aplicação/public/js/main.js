@@ -15,3 +15,19 @@ function toggleMenu(event) {
 
 btnMobile.addEventListener('click', toggleMenu);
 btnMobile.addEventListener('touchstart', toggleMenu);
+
+const container = document.querySelectorAll('.esconder');
+
+const meuObservador = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('ativo');
+    } else {
+      entry.target.classList.remove('ativo');
+    }
+  });
+});
+
+container.forEach((container) => {
+  meuObservador.observe(container);
+});
