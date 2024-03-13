@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Honk&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Honk&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap");
 /* CSS Reset */
 /* html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -18,26 +18,24 @@ table, caption, tbody, tfoot, thead, tr, th, td {
   vertical-align: baseline;
 } */
 /* Adicione sua estilização abaixo, sem apagar o reset */
-html{
+html {
   scroll-behavior: smooth;
 }
-.honk{
+.honk {
   font-family: "Honk", system-ui;
   font-size: 40px;
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
-  font-variation-settings:
-    "MORF" 15,
-    "SHLN" 50;
+  font-variation-settings: "MORF" 15, "SHLN" 50;
 }
-.subtitulo{
+.subtitulo {
   font-family: "JetBrains Mono", monospace;
   font-size: 45px;
   font-weight: 400;
   font-style: normal;
 }
-.paragrafo{
+.paragrafo {
   font-family: "JetBrains Mono", monospace;
   font-size: 19.5px;
   font-weight: 400;
@@ -54,7 +52,7 @@ body {
   padding: 0;
   margin: 0;
 }
-header{
+header {
   width: 90%;
   /* max-width: 1080px; */
   height: auto;
@@ -69,10 +67,10 @@ header{
 }
 /* Funciona como um if em css, quando tela for menor que 800px, quero que a classe menu, SUMA */
 @media only screen and (max-device-width: 800px) {
-  li .ancora{
+  li .ancora {
     color: black;
   }
-  .sessao{
+  .sessao {
     flex-direction: column;
   }
   #menu {
@@ -111,7 +109,7 @@ header{
   }
   #hamburger::after,
   #hamburger::before {
-    content: '';
+    content: "";
     display: block;
     width: 20px;
     height: 2px;
@@ -130,18 +128,18 @@ header{
     transform: rotate(-135deg);
     top: -7px;
   }
-  #servicos article{
+  #servicos article {
     flex-direction: column;
     padding: 0;
   }
-  .container{
+  .container {
     flex-direction: column;
   }
-  .card-servicos{
+  .card-servicos {
     display: none;
   }
 }
-nav ul{
+nav ul {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -149,29 +147,29 @@ nav ul{
   height: 100%;
   gap: 40px;
 }
-nav ul li{
+nav ul li {
   list-style: none;
 }
-.ancora{
+.ancora {
   text-decoration: none;
   color: #fff;
   font-size: 20px;
   font-weight: 600;
 }
-main{
+main {
   width: 100%;
   /* max-width: 1720px; */
   margin: 0;
   padding: 0;
 }
-.sessao{
+.sessao {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   min-height: 100vh;
 }
-.container{
+.container {
   width: 90%;
   height: 100%;
   /* max-width: 1720px; */
@@ -179,17 +177,17 @@ main{
   align-items: center;
   justify-content: space-between;
 }
-.esconder{
+.esconder {
   opacity: 0;
   transform: translateX(-100%);
   transition: all 0.5s ease-in-out;
 }
-.ativo{
+.ativo {
   transition: all 1s ease-in-out;
   opacity: 1;
   transform: translateX(0);
 }
-.sessao-texto{
+.sessao-texto {
   width: 50%;
   height: 100%;
   display: flex;
@@ -198,20 +196,21 @@ main{
   align-items: left;
   /* padding: 0 50px; */
 }
-.sessao-imagem{
+.sessao-imagem {
   width: 50%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-p{
+p {
   color: white;
 }
-h1, h2{
+h1,
+h2 {
   color: white;
 }
-.equipe{
+.equipe {
   width: 50%;
   height: 100%;
   display: flex;
@@ -219,12 +218,12 @@ h1, h2{
   justify-content: center;
   align-items: center;
 }
-.equipe ul{
+.equipe ul {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
-.equipe ul li{
+.equipe ul li {
   list-style: none;
   display: flex;
   flex-direction: column;
@@ -236,41 +235,54 @@ h1, h2{
   background-color: rgba(214, 125, 255, 0.573);
   width: 180px;
   height: 200px;
-  border-radius: 10px;
 }
-#sobre{
+#sobre {
   /* #5520bf, #010217, to left */
-  background-image: linear-gradient(120deg, #5520BF 0%, #010217 100%);
+  background-image: linear-gradient(120deg, #5520bf 0%, #010217 100%);
 }
-#servicos{
+#servicos {
   /* #5520bf, #010217, to left */
-  background-image: linear-gradient(120deg, #5520BF 0%, #010217 100%);
+  /* background-image: linear-gradient(120deg, #5520bf 0%, #010217 100%); */
+  background-image: url(../assets/background-2.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
-#servicos article{
+#servicos article {
   width: 100%;
   display: flex;
   justify-content: space-around;
   align-items: center;
   gap: 20px;
 }
-.card-servicos:nth-of-type(1){
-  width: 250px;
-  height: 400px;
-  background-image: linear-gradient(120deg, #FF5757 0%, #8C52FF 100%);
+.card-servicos {
+  width: 25rem;
+  height: 480px;
   border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
-.card-servicos:nth-of-type(2){
-  width: 250px;
-  height: 400px;
-  background-image: linear-gradient(120deg, #5520BF 0%, #010217 100%);
-  border-radius: 10px;
+.card-servicos p{
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  padding: 0 20px;
 }
-.card-servicos:nth-of-type(3){
-  width: 250px;
-  height: 400px;
-  background-image: linear-gradient(120deg, #5DE0E6 0%, #004AAD 100%);
-  border-radius: 10px;
+.card-servicos:nth-of-type(1) {
+  background-image: linear-gradient(120deg, #ff5757 0%, #8c52ff 100%);
+  margin-top: 150px;
 }
-#projeto{
+.card-servicos:nth-of-type(2) {
+  background-image: linear-gradient(120deg, #5520bf 0%, #010217 100%);
+  margin-bottom: 75px;
+}
+.card-servicos:nth-of-type(3) {
+  background-image: linear-gradient(120deg, #5de0e6 0%, #004aad 100%);
+  margin-top: 150px;
+}
+#projeto {
   background-color: #060118;
 }
