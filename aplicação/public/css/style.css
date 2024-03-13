@@ -62,12 +62,16 @@ header{
   justify-content: space-between;
   align-items: center;
   position: fixed;
+  z-index: 1000;
 }
 #btn-mobile {
   display: none;
 }
 /* Funciona como um if em css, quando tela for menor que 800px, quero que a classe menu, SUMA */
 @media only screen and (max-device-width: 800px) {
+  li .ancora{
+    color: black;
+  }
   .sessao{
     flex-direction: column;
   }
@@ -76,27 +80,25 @@ header{
     position: absolute;
     width: 100%;
     top: 70px;
-    right: 0px;
+    left: 0;
+    right: 0;
     background: #e7e7e7;
     transition: 0.6s;
     z-index: 1000;
     height: 0px;
     visibility: hidden;
     overflow-y: hidden;
+    padding: 0;
+    margin: 0;
   }
   #nav.active #menu {
     height: calc(100vh - 70px);
     visibility: visible;
     overflow-y: auto;
   }
-  #menu a {
-    padding: 1rem 0;
-    margin: 0 2rem;
-    border-bottom: 2px solid rgba(0, 0, 0, 0.05);
-  }
   #btn-mobile {
     display: flex;
-    padding: 0.5rem 1rem;
+    /* padding: 0.5rem 1rem; */
     font-size: 1rem;
     border: none;
     background: none;
@@ -145,7 +147,7 @@ nav ul{
   align-items: center;
   width: auto;
   height: 100%;
-  gap: 20px;
+  gap: 40px;
 }
 nav ul li{
   list-style: none;
@@ -160,6 +162,7 @@ main{
   width: 100%;
   /* max-width: 1720px; */
   margin: 0;
+  padding: 0;
 }
 .sessao{
   display: flex;
