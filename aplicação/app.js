@@ -16,9 +16,11 @@ app.use(express.static(path.join(__dirname, "public")));
 // - Aqui, estamos usando o middleware `express.static()`. Esse middleware é responsável por servir arquivos estáticos, como imagens, CSS e JavaScript, para o cliente. O caminho para a pasta de arquivos estáticos é definido como `path.join(__dirname, "public")`, onde `__dirname` é uma variável global que representa o diretório atual do arquivo `app.js` e `"public"` é o nome da pasta onde estão os arquivos estáticos.
 
 var rotaIndex = require("./src/routers/index");
+var rotaUsuario = require("./src/routers/usuario");
 // - Aqui, estamos importando o módulo `routes/index.js` e atribuindo-o à variável `rotaIndex`.
 
 app.use("/", rotaIndex);
+app.use("/usuario", rotaUsuario);
 // - Aqui, estamos dizendo que a rota `/` deve ser tratada pelo módulo `routes/index.js`.
 
 app.listen(porta, () => {
