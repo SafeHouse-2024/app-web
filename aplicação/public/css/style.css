@@ -138,6 +138,9 @@ header {
   .card-servicos {
     display: none;
   }
+  #mebros container {
+    flex-direction: column;
+  }
 }
 nav ul {
   display: flex;
@@ -210,6 +213,9 @@ h1,
 h2 {
   color: white;
 }
+#membros .sessao-texto p{
+  color: white;
+}
 .equipe {
   width: 50%;
   height: 100%;
@@ -223,7 +229,7 @@ h2 {
   flex-direction: column;
   gap: 20px;
 }
-.equipe ul li {
+.card{
   list-style: none;
   display: flex;
   flex-direction: column;
@@ -233,12 +239,18 @@ h2 {
   /* gap: 20px; */
   align-items: center;
   background-color: rgba(214, 125, 255, 0.573);
-  width: 180px;
-  height: 200px;
+  width: 12vw;
+  height: 150px;
 }
 #sobre {
   /* #5520bf, #010217, to left */
-  background-image: linear-gradient(120deg, #5520bf 0%, #010217 100%);
+  background-color: #EEF4F6;
+}
+#sobre .sessao-texto h2,p{
+  color: #010217;
+}
+.sessao-icons img{
+  filter: invert(100%);
 }
 #servicos {
   /* #5520bf, #010217, to left */
@@ -261,7 +273,7 @@ h2 {
   border-radius: 10px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
 }
 .card-servicos p{
@@ -285,4 +297,32 @@ h2 {
 }
 #projeto {
   background-color: #060118;
+}
+
+#projeto .container article{
+  width: 100%;
+  height: 100%;
+}
+#projeto .container article h1{
+  color: #fff;
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+#projeto .container article p{
+  color: #fff;
+  font-size: 18px;
+  font-weight: 400;
+  margin-bottom: 20px;
+}
+#projeto .container article button{
+  padding: 10px 20px;
+  border: none;
+  background-color: #5520bf;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+  border-radius: 20px;
 }
