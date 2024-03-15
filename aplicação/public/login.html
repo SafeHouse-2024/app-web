@@ -54,12 +54,11 @@
         }),
       })
         .then(function (resposta) {
-          console.log("Estou no fetch");
-          if (resposta.ok) {
-            console.log("Usuario autenticado");
-            // window.location.href = '/index.html';
-          } else {
-            alert("Usuario ou senha invalidos");
+          if (resposta.ok){
+            console.log(`#SUCESSO: ${resposta}`);
+            setTimeout(() => {
+                  window.location.href = "/cadastro.html";
+                }, 1000);
           }
         })
         .catch(function (resposta) {

@@ -6,7 +6,7 @@ var mySqlConfig = {
     host: "localhost",
     database: "spectra",
     user: "aluno",
-    password: "sptech",
+    password: "aluno",
 };
 
 // Função para executar instruções SQL
