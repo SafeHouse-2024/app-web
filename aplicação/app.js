@@ -12,10 +12,12 @@ app.use(express.static(path.join(__dirname, "public")));
 
 var rotaIndex = require("./src/routers/index");
 var rotaUsuario = require("./src/routers/usuario");
+var rotaComputador = require("./src/routers/computador");
 // - Aqui, estamos importando o módulo `routes/index.js` e atribuindo-o à variável `rotaIndex`.
 
 app.use("/", rotaIndex);
 app.use("/usuario", rotaUsuario);
+app.use("/computador", rotaComputador);
 // - Aqui, estamos dizendo que a rota `/` deve ser tratada pelo módulo `routes/index.js`.
 
 app.listen(porta, () => {
