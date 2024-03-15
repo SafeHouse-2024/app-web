@@ -4,7 +4,7 @@ var sql = require('mssql');
 // CONEXÃO DO MYSQL WORKBENCH
 var mySqlConfig = {
     host: "localhost",
-    database: "DATABASE_NAME",
+    database: "spectra",
     user: "aluno",
     password: "sptech",
 };
@@ -23,6 +23,7 @@ function executar(instrucao) {
                 resolve(resultados);
             });
             conexao.on('error', function (erro) {
+                console.log("ERRO NO MySQL WORKBENCH: ", erro.sqlMessage);
                 return ("ERRO NO MySQL WORKBENCH: ", erro.sqlMessage);
             });
         });

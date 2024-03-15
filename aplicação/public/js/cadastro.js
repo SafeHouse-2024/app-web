@@ -114,29 +114,3 @@ function validarEmail(email) {
         console.log(`#ERRO: ${resposta}`);
       });
   }
-
-  function autenticar(){
-    var email = document.getElementById('ipt_email').value;
-    var senha = document.getElementById('ipt_senha').value;
-  
-    if(validarEmail(email) && validarSenha(senha)){
-      fetch('/usuarios/autenticar', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({email, senha})
-      })
-      .then(function(resposta){
-        if(resposta.status === 200){
-          alert('Usuario autenticado');
-          window.location.href = '/home';
-        } else {
-          alert('Usuario ou senha invalidos');
-        }
-      })
-      .catch(function(resposta){
-        console.log(`#ERRO: ${resposta}`);
-      });
-    }
-  }
