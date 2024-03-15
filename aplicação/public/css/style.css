@@ -352,3 +352,27 @@ h2 {
   transition: 0.3s;
   border-radius: 20px;
 }
+footer{
+  width: 100%;
+  height: auto;
+  background-color: #060118;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+footer .container .links ul{
+  display: flex;
+  gap: 20px;
+}
+.contato ul{
+  display: flex;
+  flex-direction: column;
+}
+.contato ul li{
+  list-style: none;
+}
+.contato ul li a{
+  text-decoration: none;
+  color: #fff;
+  font-size: 20px;
+}
