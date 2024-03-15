@@ -64,7 +64,13 @@ form button{
   color: white;
   pointer-events: all;
 }
+a{
+  color: #fff;
+  font-weight: 700;
+  font-size: 20px;
+  pointer-events: all;
 
+}
 .bgAnimado{
   position: absolute;
   top: 0;
