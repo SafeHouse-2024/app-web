@@ -20,6 +20,7 @@ function exibirComputadores(){
   listarComputadores().then(function (computadores) {
     console.log(computadores);
     var lista = document.getElementById("listaComputadores");
+    lista.innerHTML = "";
     computadores.forEach(function (computador) {
       var li = document.createElement("li");
       li.appendChild(document.createTextNode(computador.idMaquina + " - " + computador.nomeMaquina + " - " + computador.processador + " - " + computador.memoriaRam + " - " + computador.discoRigido));
