@@ -3,6 +3,8 @@ var router = express.Router();
 
 var computadorController = require('../controllers/computadorController');
 
-router.post('/listar', function(req, res){
+router.get('/listar', function(req, res){
   computadorController.listar(req, res);
 });
+
+module.exports = router;

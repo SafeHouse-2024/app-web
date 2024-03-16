@@ -5,3 +5,7 @@ function listar(){
 
   return database.executar(query);
 }
+
+module.exports = {
+  listar
+};

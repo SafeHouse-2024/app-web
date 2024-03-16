@@ -57,7 +57,11 @@
           if (resposta.ok){
             console.log(`#SUCESSO: ${resposta}`);
             window.location.href = "/dashboard.html";
+          }else if(resposta.status == 401){
+            console.log(`#ERRO: ${resposta}`);
+            alert("Usuário ou senha inválidos");
           }
+
         })
         .catch(function (resposta) {
           console.log(`#ERRO: ${resposta}`);
