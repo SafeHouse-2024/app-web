@@ -78,8 +78,18 @@ if(emailUser.value.length >= 1 && (!emailUser.value.includes("@") || !emailUser.
 
 const hasUpper = (str) => /[A-Z]/.test(str)
 
+var caracteresEspeciais = ["@", "#", "!", "$", "%", "&", "*"];
+
+function validarCaracter(senhaUsuario){
+  for(let i of caracteresEspeciais){
+    if(senhaUsuario.value.includes(i)){
+      return true
+    }
+  }
+}
+
 const validarSenha = (senhaUsuario) => {
-if(senhaUsuario.value.length < 6  || !senhaUsuario.value.includes("@", "#", "!", "$", "%", "&", "*") || !hasUpper(senhaUsuario.value)){
+if(senhaUsuario.value.length < 6  || !validarCaracter(senhaUsuario) || !hasUpper(senhaUsuario.value)){
 
   if(senhaUsuario.value.length < 6 && senhaUsuario.value.length >=1 ){
     senha.style.border = `1px solid red`
@@ -90,7 +100,7 @@ if(senhaUsuario.value.length < 6  || !senhaUsuario.value.includes("@", "#", "!",
     senhaSpan.innerHTML = `A senha deve ter mais de 6 caracteres`
     bgAnimado.style.height = `138%`;
     senhaValida = false
-  }else if(!senhaUsuario.value.includes("@", "#", "!", "$", "%", "&", "*") && senhaUsuario.value.length >=1){
+  }else if(!validarCaracter(senhaUsuario) && senhaUsuario.value.length >=1){
     senha.style.border = `1px solid red`
     senha.style.color = `red`
     senhaSpan.style.display = `block`
@@ -128,8 +138,6 @@ if(senhaUsuario.value.length < 6  || !senhaUsuario.value.includes("@", "#", "!",
 }
 }
 
-
-
 const confirmarSenha = (confirmarSenha) => {
   if(confirmarSenha.value != senha.value){
     senha.style.border = `1px solid red`
@@ -163,6 +171,8 @@ function cadastrar(){
   let nome = document.getElementById("nome").value;
   let cnpj = document.getElementById("cnpj").value;
   let senha = document.getElementById("senha").value;
+
+  console.log(emailValido, senhaValida, nomeValido, senhaConfirmada, cnpjValido);
 
   if(!(emailValido && senhaValida && nomeValido && senhaConfirmada && cnpjValido)){
     Swal.fire({

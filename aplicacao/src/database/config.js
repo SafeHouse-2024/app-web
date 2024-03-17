@@ -5,8 +5,8 @@ var sql = require('mssql');
 var mySqlConfig = {
     host: "localhost",
     database: "Spectra",
-    user: "ian",
-    password: "Ian1234@",
+    user: "aluno",
+    password: "sptech",
 };
 
 // Função para executar instruções SQL
