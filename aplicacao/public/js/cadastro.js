@@ -14,6 +14,16 @@ var senhaValida = false
 var senhaConfirmada = false
 var cnpjValido = false;
 
+window.onload = limparCampos();
+
+function limparCampos(){
+  document.getElementById("email").value = ""
+  document.getElementById("nome").value = ""
+  document.getElementById("cnpj").value = ""
+  document.getElementById("senha").value = ""
+  document.getElementById("confirmar_senha").value = ""
+}
+
 const validarNomeUsuario = (nomeUser) => {
   if(nomeUser.value.length < 3 && nomeUser.value.length >= 1  ){
     nome.style.border = `1px solid red`
