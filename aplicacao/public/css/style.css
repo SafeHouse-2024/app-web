@@ -212,7 +212,7 @@ main {
   transition: all 0.5s ease-in-out;
 }
 .ativo {
-  transition: all 1s ease-in-out;
+  transition: all .5s ease-in-out;
   opacity: 1;
   transform: translateX(0);
 }
@@ -270,7 +270,7 @@ h2 {
 }
 #sobre {
   /* #5520bf, #010217, to left */
-  background-color: #EEF4F6;
+  background-color: #ced6d8;
 }
 #sobre .sessao-texto h2,p{
   color: #010217;
@@ -367,6 +367,7 @@ footer .container .links ul{
 .contato ul{
   display: flex;
   flex-direction: column;
+  gap: 10px;
 }
 .contato ul li{
   list-style: none;
