@@ -4,9 +4,9 @@
   "description": "aplicação web para captura de dados do banco",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon aplicação/app.js",
-    "start": "node aplicação/app.js",
-    "postinstall": "cd aplicação && npm install"
+    "dev": "nodemon aplicacao/app.js",
+    "start": "node aplicacao/app.js",
+    "postinstall": "cd aplicacao && npm install"
   },
   "repository": {
     "type": "git",

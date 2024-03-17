@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
-    <link rel="stylesheet" href="./css/cadastro.css" />
+    <link rel="stylesheet" href="./css/login.css"/>
   </head>
   <body>
     <div class="bgAnimado" id="bgAnimado">
@@ -27,6 +27,9 @@
     </main>
   </body>
 </html>
+
+<!--Script para importar a api do sweet alert-->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
   const bgAnimado = document.getElementById("bgAnimado");
 
@@ -54,15 +57,31 @@
         }),
       })
         .then(function (resposta) {
+          console.log(resposta)
           if (resposta.ok){
-            console.log(`#SUCESSO: ${resposta}`);
-            window.location.href = "/dashboard.html";
-          }else if(resposta.status == 401){
-            console.log(`#ERRO: ${resposta}`);
-            alert("Usuário ou senha inválidos");
-          }
-
-        })
+            // Alerta no topo da lateral direita para login bem-sucedido
+            Swal.fire({
+              icon: "success",
+              title: "Login efetuado com sucesso",
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 1500,
+              timerProgressBar: true,
+            }).then(result => {
+              window.location.href = "/dashboard.html";
+            });
+          }else if(resposta.status == 401 || resposta.status == 500){
+            //alerta de falha na tentativa de autenticação
+            Swal.fire({
+              icon: "error",
+              width: "600",
+              html: "<p>Nome de usuário e/ou senha inválidos, por favor verifique se os campos foram preenchidos corretamente.</p>",
+              confirmButtonColor: "#060118"
+            }).then(result => {
+                ipt_senha.value = ""
+            });
+        }})
         .catch(function (resposta) {
           console.log(`#ERRO: ${resposta}`);
         });

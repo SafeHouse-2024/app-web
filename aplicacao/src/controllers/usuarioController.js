@@ -8,7 +8,7 @@ function autenticar(req, res){
     res.status(400).send('Email ou senha não informados');
   }else{
     usuarioModel.autenticar(email, senha)
-    .then(function(resultados){
+    .then(function(resultados){ 
       if(resultados.length == 1){
         res.json({
           id: resultados[0].id,
@@ -29,6 +29,23 @@ function autenticar(req, res){
 
 }
 
+function cadastrar(req, res){
+
+  const emailEmpresa = req.body.emailEmpresa;
+  const cnpj = req.body.cnpj;
+  const senhaEmpresa = req.body.senhaEmpresa;
+  const nomeEmpresa = req.body.nomeEmpresa
+
+  usuarioModel.cadastrar(emailEmpresa, cnpj, senhaEmpresa, nomeEmpresa).then(resposta => {
+    console.log(resposta.affectedRows)
+    if(resposta.affectedRows == 1){
+      res.status(201).send("Usuário criado com sucesso");
+    }
+  }).catch(error => res.send(error));
+
+}
+
 module.exports = {
-  autenticar
+  autenticar,
+  cadastrar
 };
