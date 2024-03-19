@@ -1,4 +1,4 @@
-var conexaoModel = require('../models/conexao');
+var conexaoModel = require('../models/conexaoModel');
 
 function consulta(req, res){
   var tabela = req.params.tabela;
