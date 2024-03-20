@@ -1,7 +1,9 @@
 function exibirComputadores(){
   //consultaBanco("/conexao/usuario/idUsuario=1", "GET"); quero pegar a resposta e exibir
-  consultaBanco("/conexao/computador/idMaquina>0", "GET").then(function (computadores) {
+  consultaBanco("/conexao/computador/idMaquina>0 AND fkUsuario=2", "GET").then(function (computadores) {
+
     console.log(computadores)
+
     sessionStorage.IDMAQUINA = computadores[0].idMaquina;
     var lista = document.getElementById("listaComputadores");
     lista.innerHTML = "";
