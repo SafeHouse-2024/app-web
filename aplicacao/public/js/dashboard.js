@@ -1,13 +1,19 @@
-function listarComputadores() {
-  return fetch("/computador/listar", {
-    method: "GET",
+// import { olaMundo } from "./main";
+
+const btnAtualizar = document.getElementById("btnAtualizar");
+btnAtualizar.addEventListener("click", function(){
+  exibirComputadores();
+});
+
+function consultaBanco(caminho, metodo) {
+  return fetch(`${caminho}`, {
+    method: `${metodo}`,
     headers: {
       "Content-Type": "application/json",
     },
   })
     .then(function (resposta) {
-      if (resposta.ok){
-        console.log(`#SUCESSO: ${resposta}`);
+      if (resposta.ok) {
         return resposta.json();
       }
     })
@@ -16,9 +22,13 @@ function listarComputadores() {
     });
 }
 
-function exibirComputadores(){
-  listarComputadores().then(function (computadores) {
-    console.log(computadores);
+function exibirComputadores() {
+  fkUsuaio = sessionStorage.IDUSUARIO;
+  url = `/conexao/computador/idMaquina>0 AND fkUsuario=${fkUsuaio}`
+  metodo = "GET"
+
+  consultaBanco(url, metodo).then(function (computadores) {
+    sessionStorage.IDMAQUINA = computadores[0].idMaquina;
     var lista = document.getElementById("listaComputadores");
     lista.innerHTML = "";
     computadores.forEach(function (computador) {

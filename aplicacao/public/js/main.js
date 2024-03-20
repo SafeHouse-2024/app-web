@@ -33,3 +33,9 @@ const meuObservador = new IntersectionObserver((entries) => {
 container.forEach((container) => {
   meuObservador.observe(container);
 });
+
+function olaMundo(){
+  alert("Olá Mundo!")
+}
+
+export { olaMundo };
