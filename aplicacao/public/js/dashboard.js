@@ -1,4 +1,28 @@
-function exibirComputadores(){
+// import { olaMundo } from "./main";
+
+const btnAtualizar = document.getElementById("btnAtualizar");
+btnAtualizar.addEventListener("click", function(){
+  exibirComputadores();
+});
+
+function consultaBanco(caminho, metodo) {
+  return fetch(`${caminho}`, {
+    method: `${metodo}`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then(function (resposta) {
+      if (resposta.ok) {
+        return resposta.json();
+      }
+    })
+    .catch(function (resposta) {
+      console.log(`#ERRO: ${resposta}`);
+    });
+}
+
+function exibirComputadores() {
   fkUsuaio = sessionStorage.IDUSUARIO;
   url = `/conexao/computador/idMaquina>0 AND fkUsuario=${fkUsuaio}`
   metodo = "GET"
@@ -13,22 +37,4 @@ function exibirComputadores(){
       lista.appendChild(li);
     });
   });
-}
-
-function consultaBanco(caminho, metodo) {
-  return fetch(`${caminho}`, {
-    method: `${metodo}`,
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then(function (resposta) {
-      if (resposta.ok){
-        console.log(`#SUCESSO: ${resposta}`);
-        return resposta.json();
-      }
-    })
-    .catch(function (resposta) {
-      console.log(`#ERRO: ${resposta}`);
-    });
 }
