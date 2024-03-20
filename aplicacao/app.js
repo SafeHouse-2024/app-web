@@ -11,11 +11,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
 var rotaIndex = require("./src/routers/index");
-var rotaUsuario = require("./src/routers/usuario");
 var rotaConexao = require("./src/routers/conexao");
 
 app.use("/", rotaIndex);
-app.use("/usuario", rotaUsuario);
 app.use("/conexao", rotaConexao);
 
 app.listen(porta, () => {
