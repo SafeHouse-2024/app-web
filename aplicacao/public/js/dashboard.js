@@ -17,14 +17,26 @@ function listarComputadores() {
 }
 
 function exibirComputadores(){
-  listarComputadores().then(function (computadores) {
-    console.log(computadores);
-    var lista = document.getElementById("listaComputadores");
-    lista.innerHTML = "";
-    computadores.forEach(function (computador) {
-      var li = document.createElement("li");
-      li.appendChild(document.createTextNode(computador.idMaquina + " - " + computador.nomeMaquina + " - " + computador.processador + " - " + computador.memoriaRam + " - " + computador.discoRigido));
-      lista.appendChild(li);
+  consultaBanco("/conexao/usuario/idUsuario=1", "GET");
+}
+
+function consultaBanco(caminho, metodo) {
+  fetch(`${caminho}`, {
+    method: `${metodo}`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then(function (resposta) {
+      if (resposta.ok){
+        console.log(`#SUCESSO: ${resposta}`);
+        return resposta.json();
+      }
+    })
+    .then(function (usuarios) {
+      console.log(usuarios);
+    })
+    .catch(function (resposta) {
+      console.log(`#ERRO: ${resposta}`);
     });
-  });
 }
