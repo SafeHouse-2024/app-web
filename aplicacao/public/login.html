@@ -49,7 +49,7 @@
     var senha = document.getElementById("ipt_senha").value;
 
     if (email != "" || senha != "") {
-      url = `/conexao/Usuario/email='${email}' AND senha='${senha}'`;
+      url = `/conexao/Usuario/where email='${email}' AND senha='${senha}'`;
       metodo = "GET";
 
       consultaBanco(url, metodo).then((resposta) => {
