@@ -24,7 +24,7 @@ function consultaBanco(caminho, metodo) {
 
 function exibirComputadores() {
   fkUsuaio = sessionStorage.IDUSUARIO;
-  url = `/conexao/computador/idMaquina>0 AND fkUsuario=${fkUsuaio}`
+  url = `/conexao/computador/WHERE idMaquina>0 AND fkUsuario=${fkUsuaio}`
   metodo = "GET"
 
   consultaBanco(url, metodo).then(function (computadores) {
