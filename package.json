@@ -1,5 +1,5 @@
 {
-  "name": "app-web-monitoramento",
+  "name": "spectra-api",
   "version": "1.0.0",
   "description": "aplicação web para captura de dados do banco",
   "main": "app.js",

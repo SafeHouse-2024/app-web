@@ -1,3 +1,5 @@
+DROP DATABASE IF EXISTS spectra;
+
 CREATE DATABASE spectra;
 USE spectra;
 
