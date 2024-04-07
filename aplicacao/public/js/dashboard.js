@@ -1,5 +1,9 @@
 // import { olaMundo } from "./main";
 
+document.getElementById('open_btn').addEventListener('click', function () {
+  document.getElementById('sidebar').classList.toggle('open-sidebar');
+});
+
 const btnAtualizar = document.getElementById("btnAtualizar");
 btnAtualizar.addEventListener("click", function(){
   exibirComputadores();
