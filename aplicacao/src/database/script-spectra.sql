@@ -147,3 +147,26 @@ CREATE TABLE SistemaComputador(
     CONSTRAINT fkSistemaComputador FOREIGN KEY (fkSistemaOperacional) REFERENCES SistemaOperacional(idSistemaOperacional),
     PRIMARY KEY(fkSistemaOperacional, fkComputador)
 );
+
+
+CREATE TABLE Usuario(
+  idUsuario INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  email VARCHAR(50),
+  nome VARCHAR(45),
+  senha VARCHAR(45),
+  cargo VARCHAR(30),
+  fkEmpresa INT,
+  CONSTRAINT fk_Empresa FOREIGN KEY (fkEmpresa) REFERENCES empresa(idEmpresa)
+);
+
+INSERT INTO empresa (nome, razaoSocial, telefone, email, cnpj)
+VALUES ('Empresa A', 'SãoPauloTechSchool', '1234567890', 'empresaA@example.com', '12345678901234');
+
+INSERT INTO empresa (nome, razaoSocial, telefone, email, cnpj)
+VALUES ('Empresa B', 'DarkStore', '0987654321', 'empresaB@example.com', '98765432109876');
+
+INSERT INTO Usuario (email, nome, senha, cargo, fkEmpresa)
+VALUES ('fernanda.caramico@sptech.school', 'Usuário 1', 'senha123', 'Cargo 1', 1);
+
+INSERT INTO Usuario (email, nome, senha, cargo, fkEmpresa)
+VALUES ('marcos.floriano@sptech.school', 'Usuário 2', 'senha123', 'Cargo 2', 2);
