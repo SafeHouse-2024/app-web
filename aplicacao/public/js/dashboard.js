@@ -4,11 +4,6 @@ document.getElementById('open_btn').addEventListener('click', function () {
   document.getElementById('sidebar').classList.toggle('open-sidebar');
 });
 
-const btnAtualizar = document.getElementById("btnAtualizar");
-btnAtualizar.addEventListener("click", function(){
-  exibirComputadores();
-});
-
 function consultaBanco(caminho, metodo) {
   return fetch(`${caminho}`, {
     method: `${metodo}`,
@@ -41,4 +36,61 @@ function exibirComputadores() {
       lista.appendChild(li);
     });
   });
+}
+
+function trocaDeTela(tela) {
+  var monitores = [
+    document.getElementById("telaDash"),
+    document.getElementById("telaUsuarios"),
+    document.getElementById("telaNotificacoes"),
+    document.getElementById("telaComputadotes"),
+    document.getElementById("telaLog"),
+    document.getElementById("telaConfiguracoes"),
+  ];
+
+  for (var i = 0; i < monitores.length; i++) {
+    if (tela == 0) {
+      monitores[0].style.display = "flex";
+      monitores[1].style.display = "none";
+      monitores[2].style.display = "none";
+      monitores[3].style.display = "none";
+      monitores[4].style.display = "none";
+      monitores[5].style.display = "none";
+    } else if (tela == 1) {
+      monitores[0].style.display = "none";
+      monitores[1].style.display = "flex";
+      monitores[2].style.display = "none";
+      monitores[3].style.display = "none";
+      monitores[4].style.display = "none";
+      monitores[5].style.display = "none";
+    } else if (tela == 2) {
+      monitores[0].style.display = "none";
+      monitores[1].style.display = "none";
+      monitores[2].style.display = "flex";
+      monitores[3].style.display = "none";
+      monitores[4].style.display = "none";
+      monitores[5].style.display = "none";
+    } else if(tela == 3){
+      monitores[0].style.display = "none";
+      monitores[1].style.display = "none";
+      monitores[2].style.display = "none";
+      monitores[3].style.display = "flex";
+      monitores[4].style.display = "none";
+      monitores[5].style.display = "none";
+    }else if(tela==4){
+      monitores[0].style.display = "none";
+      monitores[1].style.display = "none";
+      monitores[2].style.display = "none";
+      monitores[3].style.display = "none";
+      monitores[4].style.display = "flex";
+      monitores[5].style.display = "none";
+    }else{
+      monitores[0].style.display = "none";
+      monitores[1].style.display = "none";
+      monitores[2].style.display = "none";
+      monitores[3].style.display = "none";
+      monitores[4].style.display = "none";
+      monitores[5].style.display = "flex";
+    }
+  }
 }

@@ -26,8 +26,8 @@
       </div>
 
       <ul id="side_items">
-        <li class="side-item active">
-          <a href="#">
+        <li class="side-item active" onclick="trocarDeTela(0)">
+          <a>
             <i class="fa-solid fa-chart-line"></i>
             <span class="item-description">
               Dashboard
@@ -35,8 +35,8 @@
           </a>
         </li>
 
-        <li class="side-item">
-          <a href="#">
+        <li class="side-item" onclick="trocarDeTela(1)">
+          <a>
             <i class="fa-solid fa-user"></i>
             <span class="item-description">
               Usuários
@@ -44,8 +44,8 @@
           </a>
         </li>
 
-        <li class="side-item">
-          <a href="#">
+        <li class="side-item" onclick="trocarDeTela(2)">
+          <a>
             <i class="fa-solid fa-bell"></i>
             <span class="item-description">
               Notificações
@@ -53,8 +53,8 @@
           </a>
         </li>
 
-        <li class="side-item">
-          <a href="#">
+        <li class="side-item" onclick="trocarDeTela(3)">
+          <a>
             <i class="fa-solid fa-computer"></i>
             <span class="item-description">
               Computadores
@@ -62,8 +62,8 @@
           </a>
         </li>
 
-        <li class="side-item">
-          <a href="#">
+        <li class="side-item" onclick="trocarDeTela(4)">
+          <a>
             <i class="fa-solid fa-paperclip"></i>
             <span class="item-description">
               Log's
@@ -71,8 +71,8 @@
           </a>
         </li>
 
-        <li class="side-item">
-          <a href="#">
+        <li class="side-item" onclick="trocarDeTela(5)">
+          <a>
             <i class="fa-solid fa-gear"></i>
             <span class="item-description">
               Configurações
@@ -97,7 +97,12 @@
   </nav>
   <main>
     <div id="particles-js"></div>
-    <h1>Ola mundo</h1>
+    <section id="telaDash"></section>
+    <section id="telaUsuarios"></section>
+    <section id="telaNotificacoes"></section>
+    <section id="telaComputadores"></section>
+    <section id="telaLog"></section>
+    <section id="telaConfig"></section>
   </main>
 </body>
 
