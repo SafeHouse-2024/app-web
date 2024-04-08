@@ -38,15 +38,33 @@ function exibirComputadores() {
   });
 }
 
-function trocaDeTela(tela) {
-  var monitores = [
-    document.getElementById("telaDash"),
-    document.getElementById("telaUsuarios"),
-    document.getElementById("telaNotificacoes"),
-    document.getElementById("telaComputadotes"),
-    document.getElementById("telaLog"),
-    document.getElementById("telaConfiguracoes"),
-  ];
+var monitores = [
+  document.getElementById("telaDash"),
+  document.getElementById("telaUsuarios"),
+  document.getElementById("telaNotificacoes"),
+  document.getElementById("telaComputadores"),
+  document.getElementById("telaLog"),
+  document.getElementById("telaConfig"),
+];
+
+var itensMenu = [
+  document.getElementById("menuDash"),
+  document.getElementById("menuUsuarios"),
+  document.getElementById("menuNotificacoes"),
+  document.getElementById("menuComputadores"),
+  document.getElementById("menuLog"),
+  document.getElementById("menuConfig"),
+];
+
+function trocarTela(tela) {
+
+  itemClicado = itensMenu[tela];
+  itemClicado.classList.add("active");
+  for (var i = 0; i < itensMenu.length; i++) {
+    if (i != tela) {
+      itensMenu[i].classList.remove("active");
+    }
+  }
 
   for (var i = 0; i < monitores.length; i++) {
     if (tela == 0) {
@@ -84,7 +102,7 @@ function trocaDeTela(tela) {
       monitores[3].style.display = "none";
       monitores[4].style.display = "flex";
       monitores[5].style.display = "none";
-    }else{
+    }else if(tela == 5){
       monitores[0].style.display = "none";
       monitores[1].style.display = "none";
       monitores[2].style.display = "none";
