@@ -57,58 +57,13 @@ var itensMenu = [
 ];
 
 function trocarTela(tela) {
-
   itemClicado = itensMenu[tela];
   itemClicado.classList.add("active");
+  monitores[tela].style.display = "flex";
   for (var i = 0; i < itensMenu.length; i++) {
     if (i != tela) {
       itensMenu[i].classList.remove("active");
-    }
-  }
-
-  for (var i = 0; i < monitores.length; i++) {
-    if (tela == 0) {
-      monitores[0].style.display = "flex";
-      monitores[1].style.display = "none";
-      monitores[2].style.display = "none";
-      monitores[3].style.display = "none";
-      monitores[4].style.display = "none";
-      monitores[5].style.display = "none";
-    } else if (tela == 1) {
-      monitores[0].style.display = "none";
-      monitores[1].style.display = "flex";
-      monitores[2].style.display = "none";
-      monitores[3].style.display = "none";
-      monitores[4].style.display = "none";
-      monitores[5].style.display = "none";
-    } else if (tela == 2) {
-      monitores[0].style.display = "none";
-      monitores[1].style.display = "none";
-      monitores[2].style.display = "flex";
-      monitores[3].style.display = "none";
-      monitores[4].style.display = "none";
-      monitores[5].style.display = "none";
-    } else if (tela == 3) {
-      monitores[0].style.display = "none";
-      monitores[1].style.display = "none";
-      monitores[2].style.display = "none";
-      monitores[3].style.display = "flex";
-      monitores[4].style.display = "none";
-      monitores[5].style.display = "none";
-    } else if (tela == 4) {
-      monitores[0].style.display = "none";
-      monitores[1].style.display = "none";
-      monitores[2].style.display = "none";
-      monitores[3].style.display = "none";
-      monitores[4].style.display = "flex";
-      monitores[5].style.display = "none";
-    } else if (tela == 5) {
-      monitores[0].style.display = "none";
-      monitores[1].style.display = "none";
-      monitores[2].style.display = "none";
-      monitores[3].style.display = "none";
-      monitores[4].style.display = "none";
-      monitores[5].style.display = "flex";
+      monitores[i].style.display = "none";
     }
   }
 }
@@ -146,5 +101,5 @@ let maquinas = document.querySelectorAll('.lista-maquinas > li')
 maquinas.forEach(maquina => {
   maquina.addEventListener('click', function () {
     console.log(maquina.innerText);
-  })
-})
+  });
+});
