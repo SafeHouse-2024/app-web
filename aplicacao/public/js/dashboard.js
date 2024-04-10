@@ -38,23 +38,9 @@ function exibirComputadores() {
   });
 }
 
-var monitores = [
-  document.getElementById("telaDash"),
-  document.getElementById("telaUsuarios"),
-  document.getElementById("telaNotificacoes"),
-  document.getElementById("telaComputadores"),
-  document.getElementById("telaLog"),
-  document.getElementById("telaConfig"),
-];
+var monitores = document.querySelectorAll('main > .telas');
 
-var itensMenu = [
-  document.getElementById("menuDash"),
-  document.getElementById("menuUsuarios"),
-  document.getElementById("menuNotificacoes"),
-  document.getElementById("menuComputadores"),
-  document.getElementById("menuLog"),
-  document.getElementById("menuConfig"),
-];
+var itensMenu = document.querySelectorAll(".menu-lista > li");
 
 function trocarTela(tela) {
   itemClicado = itensMenu[tela];
