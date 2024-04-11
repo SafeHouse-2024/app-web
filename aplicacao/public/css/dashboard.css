@@ -204,32 +204,50 @@ main {
 .lista-maquinas {
   width: 100%;
   height: 100%;
-  
+
   overflow: scroll;
 }
 .item-maquina {
   width: 100%;
   height: 50px;
-  
-  display: flex;
+
+  /* display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-between; */
 
   border: 1px solid #000;
+  border-bottom: none;
+  border-top: none;
   background-color: #36434eb5;
   /* padding: 10px; */
-  
+
   pointer-events: all;
-  transition: .3s;
+  transition: 0.3s;
 }
 
 .activeMaquina {
   height: 500px;
 }
-.header-maquina{
-  margin: 10px;
+.header-maquina {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 10px;
+
+  border: 1px solid #000;
 }
 
-.grafico-maquina{
-  overflow: hidden;
+.grafico-maquina {
+  display: none; /* Alteração: Oculta o gráfico por padrão */
+}
+
+.grafico-maquina {
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+}
+
+.activeMaquina .grafico-maquina {
+  transform: translateX(0%);
 }
