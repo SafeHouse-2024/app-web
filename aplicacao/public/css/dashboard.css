@@ -223,6 +223,8 @@ main {
 
   pointer-events: all;
   transition: 0.3s;
+
+  overflow: hidden;
 }
 
 .activeMaquina {
@@ -237,17 +239,4 @@ main {
   padding: 0 10px;
 
   border: 1px solid #000;
-}
-
-.grafico-maquina {
-  display: none; /* Alteração: Oculta o gráfico por padrão */
-}
-
-.grafico-maquina {
-  transform: translateX(100%);
-  transition: transform 0.3s ease-in-out;
-}
-
-.activeMaquina .grafico-maquina {
-  transform: translateX(0%);
 }

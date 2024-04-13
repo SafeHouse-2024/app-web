@@ -83,19 +83,15 @@ function drawChart() {
 
 let maquinas = document.querySelectorAll('.lista-maquinas > li')
 
-let graficos = document.querySelectorAll('.graficos-maquina > div')
+// let graficos = document.querySelectorAll('.graficos-maquina > div')
 
 maquinas.forEach(maquina => {
   maquina.firstElementChild.addEventListener('click', function () {
     console.log(maquina);
     if(maquina.classList.contains('activeMaquina')){
       maquina.classList.remove('activeMaquina')
-      setTimeout(() => {
-        maquina.children[1].style.display = 'none'
-      }, 300);
     }else{
       maquina.classList.add('activeMaquina')
-      maquina.children[1].style.display = 'block'
     }
   });
 });
