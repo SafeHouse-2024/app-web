@@ -211,15 +211,10 @@ main {
   width: 100%;
   height: 50px;
 
-  /* display: flex;
-  flex-direction: column;
-  justify-content: space-between; */
-
   border: 1px solid #000;
   border-bottom: none;
   border-top: none;
   background-color: #36434eb5;
-  /* padding: 10px; */
 
   pointer-events: all;
   transition: 0.3s;
@@ -239,4 +234,14 @@ main {
   padding: 0 10px;
 
   border: 1px solid #000;
+}
+
+.grafico-maquina{
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
 }
