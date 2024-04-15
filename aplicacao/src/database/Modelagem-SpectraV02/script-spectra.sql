@@ -105,11 +105,13 @@ CREATE TABLE SistemaOperacional(
 
 CREATE TABLE UsoSistema(
 	idUsoSistema INT AUTO_INCREMENT,
-    dataInicialização DATETIME DEFAULT CURRENT_TIMESTAMP,
+    dataInicializacao DATETIME,
     tempoAtividadeMinutos INT,
     fkSistemaOperacional INT,
+    fkComputador INT,
+    CONSTRAINT fkComputadorUso FOREIGN KEY (fkComputador) REFERENCES Computador(idComputador),
     CONSTRAINT fkSistemaUso FOREIGN KEY (fkSistemaOperacional) REFERENCES SistemaOperacional(idSistemaOperacional),
-	PRIMARY KEY(idUsoSistema, fkSistemaOperacional)
+	PRIMARY KEY(idUsoSistema, fkSistemaOperacional, fkComputador)
 );
 
 CREATE TABLE Processo(
@@ -161,4 +163,4 @@ SELECT pc.macAddress, c.nome, ca.nome, ca.valor FROM CaracteristicaComponente ca
 INSERT INTO RegistroComponente (nome, valor, fkComponente) VALUES ('taxaUso', '20', 1), ('TaxaUso', '20', 2);
 
 SELECT c.nome, r.nome, r.valor FROM RegistroComponente r JOIN Componente c ON c.idComponente = r.idRegistro 
-JOIN Computador pc ON pc.idComputador = c.fkComputador WHERE pc.idComputador = 3;
+JOIN Computador pc ON pc.idComputador = c.fkComputador WHERE pc.idComputador = 1;
