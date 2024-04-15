@@ -196,6 +196,10 @@ main {
   pointer-events: none;
 }
 
+.telas article{
+  pointer-events: all;
+}
+
 #telaComputadores article {
   width: 100%;
   height: 100%;

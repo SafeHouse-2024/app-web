@@ -60,9 +60,9 @@ let maquinas = document.querySelectorAll('.lista-maquinas > li')
 maquinas.forEach(maquina => {
   maquina.firstElementChild.addEventListener('click', function () {
     console.log(maquina);
-    if(maquina.classList.contains('activeMaquina')){
+    if (maquina.classList.contains('activeMaquina')) {
       maquina.classList.remove('activeMaquina')
-    }else{
+    } else {
       maquina.classList.add('activeMaquina')
     }
   });
@@ -71,21 +71,21 @@ maquinas.forEach(maquina => {
 
 const ctx = document.getElementById('myChart');
 
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-      datasets: [{
-        label: '# of Votes',
-        data: [12, 19, 3, 5, 2, 3],
-        borderWidth: 1
-      }]
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
-        }
+new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+    datasets: [{
+      label: '# of Votes',
+      data: [12, 19, 3, 5, 2, 3],
+      borderWidth: 1
+    }]
+  },
+  options: {
+    scales: {
+      y: {
+        beginAtZero: true
       }
     }
-  });
+  }
+});
