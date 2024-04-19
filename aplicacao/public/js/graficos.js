@@ -17,10 +17,10 @@ const graficoDonutQuartaMaquina = document.getElementById('graficoMaquina4Donut1
 new Chart(graficoLinhaUmPrimeiraMaquina, {
   type: 'line',
   data: {
-    labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho'],
+    labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
     datasets: [{
       label: 'CPU',
-      data: [0, 10, 5, 2, 20, 30],
+      data: [0, 10, 5, 2, 20, 30, 25, 22, 40, 50, 45, 42],
       borderColor: 'rgba(255, 99, 132, 1)',
       borderWidth: 1
     },
