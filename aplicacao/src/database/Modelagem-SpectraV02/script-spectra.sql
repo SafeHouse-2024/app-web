@@ -1,3 +1,5 @@
+DROP DATABASE IF EXISTS spectra;
+
 CREATE DATABASE spectra;
 USE spectra;
 
@@ -71,8 +73,8 @@ CREATE TABLE Componente(
 
 CREATE TABLE CaracteristicaComponente(
 	idCaracteristicaComponente INT AUTO_INCREMENT,
-    nome VARCHAR(45) NOT NULL,
-    valor VARCHAR(45) NOT NULL,
+    nome VARCHAR(255) NOT NULL,
+    valor VARCHAR(255) NOT NULL,
     fkComponente INT,
     CONSTRAINT fkComponenteCaracteristica FOREIGN KEY (fkComponente) REFERENCES Componente(idComponente),
 	PRIMARY KEY(idCaracteristicaComponente, fkComponente)
@@ -80,8 +82,8 @@ CREATE TABLE CaracteristicaComponente(
 
 CREATE TABLE RegistroComponente(
 	idRegistro INT AUTO_INCREMENT,
-    nome VARCHAR(45) NOT NULL,
-    valor VARCHAR(45) NOT NULL,
+    nome VARCHAR(255) NOT NULL,
+    valor VARCHAR(255) NOT NULL,
     dataRegistro DATETIME DEFAULT CURRENT_TIMESTAMP,
     fkComponente INT,
     CONSTRAINT fkRegistroComponente FOREIGN KEY (fkComponente) REFERENCES Componente(idComponente),
@@ -147,7 +149,7 @@ INSERT INTO Funcionario(nome, sobrenome, email, senha, cargo, fkDarkStore) VALUE
 ('Leonel', 'Superbi', 'victor.leonel@gmail.com', '12345', 'Picker', 1), ('Maquina', null, 'rappi@spectra.com', '12345', null, 1);
 
 INSERT INTO SistemaOperacional (nome) VALUES ('Windows'), ('Linux');
-INSERT INTO Computador (macAddress, ativo, fkDarkStore, fkFuncionario) VALUES ('00:1B:44:11:3A:B7', 'Inativo', 1, 3), ('00:1B:44:11:3A:B8', 'Inativo', 1, 3);
+INSERT INTO Computador (macAddress, ativo, fkDarkStore, fkFuncionario) VALUES ('28:C5:D2:58:3C:57', 'Inativo', 1, 3), ('00:1B:44:11:3A:B8', 'Inativo', 1, 3);
 INSERT INTO SistemaComputador (fkComputador, fkSistemaOperacional) VALUES (1, 1), (2, 2);
 INSERT INTO Componente(nome, fkComputador) VALUES ('CPU', 1), ('Memoria RAM', 1), ('HD', 1), ('SSD', 1);
 
