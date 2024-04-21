@@ -46,6 +46,7 @@ function trocarTela(tela) {
   itemClicado = itensMenu[tela];
   itemClicado.classList.add("active");
   monitores[tela].style.display = "flex";
+  document.title = itemClicado.innerText;
   for (var i = 0; i < itensMenu.length; i++) {
     if (i != tela) {
       itensMenu[i].classList.remove("active");
