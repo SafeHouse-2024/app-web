@@ -3,7 +3,7 @@ var sql = require('mssql');
 
 // CONEXÃO DO MYSQL WORKBENCH
 var mySqlConfig = {
-    host: "54.144.193.104",
+    host: "44.208.29.157",
     database: "spectra",
     user: "admin",
     password: "Sptech#2024",
