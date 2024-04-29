@@ -1,5 +1,3 @@
-DROP DATABASE IF EXISTS spectra;
-
 CREATE DATABASE spectra;
 USE spectra;
 
@@ -149,16 +147,44 @@ INSERT INTO Funcionario(nome, sobrenome, email, senha, cargo, fkDarkStore) VALUE
 ('Leonel', 'Superbi', 'victor.leonel@gmail.com', '12345', 'Picker', 1), ('Maquina', null, 'rappi@spectra.com', '12345', null, 1);
 
 INSERT INTO SistemaOperacional (nome) VALUES ('Windows'), ('Linux');
-INSERT INTO Computador (macAddress, ativo, fkDarkStore, fkFuncionario) VALUES ('28:C5:D2:58:3C:57', 'Inativo', 1, 3), ('00:1B:44:11:3A:B8', 'Inativo', 1, 3);
+INSERT INTO Computador (macAddress, ativo, fkDarkStore, fkFuncionario) VALUES ('00:1B:44:11:3A:B7', 'Inativo', 1, 3), 
+('00:1B:44:11:3A:B8', 'Inativo', 1, 3), ('00:1B:44:11:3A:B1', 'Inativo', 1, 3), ('00:1B:44:11:3A:C7', 'Inativo', 1, 3), ('00:1B:44:11:3A:A7', 'Inativo', 1, 3);	
 INSERT INTO SistemaComputador (fkComputador, fkSistemaOperacional) VALUES (1, 1), (2, 2);
-INSERT INTO Componente(nome, fkComputador) VALUES ('CPU', 1), ('Memoria RAM', 1), ('HD', 1), ('SSD', 1);
+INSERT INTO Componente(nome, fkComputador) VALUES ('Processador', 1), ('Memória', 1), ('Disco', 1), ('Disco', 1),
+('Processador', 2), ('Memória', 2), ('Disco', 2), ('Disco', 2), ('Processador', 3), ('Memória', 3), ('Disco', 3), ('Disco', 3),
+('Processador', 4), ('Memória', 4), ('Disco', 4), ('Disco', 4), ('Processador', 5), ('Memória', 5), ('Disco', 5), ('Disco', 5);
 
 SELECT c.nome FROM Computador pc JOIN Componente c ON c.fkComputador = pc.idComputador;
 
+# Componentes da máquina 1
 INSERT INTO CaracteristicaComponente (nome, valor, fkComponente) VALUES ('Fabricante', 'Intel', 1);
 INSERT INTO CaracteristicaComponente (nome, valor, fkComponente) VALUES ('memoriaTotal', '16', 2);
 INSERT INTO CaracteristicaComponente (nome, valor, fkComponente) VALUES ('memoriaTotal', '1TB', 3);
 INSERT INTO CaracteristicaComponente (nome, valor, fkComponente) VALUES ('memoriaTotal', '128GB', 4);
+
+# Componentes da máquina 2
+INSERT INTO CaracteristicaComponente (nome, valor, fkComponente) VALUES ('Fabricante', 'Intel', 5);
+INSERT INTO CaracteristicaComponente (nome, valor, fkComponente) VALUES ('memoriaTotal', '16', 6);
+INSERT INTO CaracteristicaComponente (nome, valor, fkComponente) VALUES ('memoriaTotal', '1TB', 7);
+INSERT INTO CaracteristicaComponente (nome, valor, fkComponente) VALUES ('memoriaTotal', '128GB', 8);
+
+# Componentes da máquina 3
+INSERT INTO CaracteristicaComponente (nome, valor, fkComponente) VALUES ('Fabricante', 'Intel', 9);
+INSERT INTO CaracteristicaComponente (nome, valor, fkComponente) VALUES ('memoriaTotal', '16', 10);
+INSERT INTO CaracteristicaComponente (nome, valor, fkComponente) VALUES ('memoriaTotal', '1TB', 11);
+INSERT INTO CaracteristicaComponente (nome, valor, fkComponente) VALUES ('memoriaTotal', '128GB', 12);
+
+# Componentes da máquina 4
+INSERT INTO CaracteristicaComponente (nome, valor, fkComponente) VALUES ('Fabricante', 'Intel', 13);
+INSERT INTO CaracteristicaComponente (nome, valor, fkComponente) VALUES ('memoriaTotal', '16', 14);
+INSERT INTO CaracteristicaComponente (nome, valor, fkComponente) VALUES ('memoriaTotal', '1TB', 15);
+INSERT INTO CaracteristicaComponente (nome, valor, fkComponente) VALUES ('memoriaTotal', '128GB', 16);
+
+# Componentes da máquina 5
+INSERT INTO CaracteristicaComponente (nome, valor, fkComponente) VALUES ('Fabricante', 'Intel', 17);
+INSERT INTO CaracteristicaComponente (nome, valor, fkComponente) VALUES ('memoriaTotal', '16', 18);
+INSERT INTO CaracteristicaComponente (nome, valor, fkComponente) VALUES ('memoriaTotal', '1TB', 19);
+INSERT INTO CaracteristicaComponente (nome, valor, fkComponente) VALUES ('memoriaTotal', '128GB', 20);
 
 SELECT pc.macAddress, c.nome, ca.nome, ca.valor FROM CaracteristicaComponente ca JOIN Componente c ON ca.fkComponente = c.idComponente JOIN Computador pc ON pc.idComputador = c.fkComputador WHERE pc.idComputador = 1;
 
