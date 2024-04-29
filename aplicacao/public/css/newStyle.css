@@ -595,8 +595,8 @@ footer {
         justify-content: space-around;
     }
     .div-solucao-mobile div{
-        width: 100%;
-        height: 30%;
+        width: 60%;
+        height: 20%;
         display: flex;
         align-items: center;
         justify-content: space-evenly;
@@ -607,18 +607,19 @@ footer {
     .div-solucao-mobile div h2{
         color: #FFC444;
         font-weight: bold;
-        font-size: 28px;
+        font-size: 20px;
         width: 80%;
         text-align: center;
     }
     .div-solucao-mobile div img{
-        height: 50%;
+        height: 40%;
     }
     .div-solucao-mobile div p{
-        width: 70%;
+        width: 80%;
         text-align: center;
         color: #fff;
-        font-size: 20px;
+        font-size: 14px;
+        margin-bottom: 2%;
     }
 
     .section-sobre-nos {
@@ -647,6 +648,7 @@ footer {
     }
     .div-sobre-nos-mobile h2{
         font-size: 18px;
+        color: #13004C;
     }
     .div-sobre-nos-mobile p{
         width: 50%;
