@@ -200,7 +200,7 @@ main {
   pointer-events: all;
 }
 
-#telaComputadores article:nth-child(1) {
+#telaComputadores > article {
   width: 100%;
   height: 100%;
 
@@ -257,7 +257,7 @@ main {
   height: 90%;
 
   display: flex;
-  justify-content: centerx;
+  justify-content: start;
   align-items: center;
 
   border: 1px solid #fff;
@@ -267,8 +267,8 @@ main {
 }
 
 .grafico-maquina article{
-  width: 50%;
-  height: 50%;
+  width: 33%;
+  height: 100%;
 
   display: flex;
   flex-direction: column;
