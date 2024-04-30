@@ -658,3 +658,51 @@ h2>span{
   padding: 5px;
   align-items: center;
 }
+
+.helpdesk{
+  position: absolute;
+  z-index: 9999;
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.card-help{
+  position: relative;
+  width: max-content;
+  height: 75%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background-color: white;
+  border-radius: 10px;
+
+}
+
+.fechar-helpdesk{
+  cursor: pointer;
+
+  width: 30px;
+  height: 30px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 20%;
+  border: 2px solid #fff;
+  color: rgb(255, 255, 255);
+  font-size: 25px;
+
+  position: absolute;
+  top: -40px;
+  right: 0;
+}
