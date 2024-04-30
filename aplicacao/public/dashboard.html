@@ -1222,13 +1222,13 @@
     </section>
   </main>
 
-  <div class="abrir-helpdesk">
+  <div class="abrir-helpdesk" onclick="document.querySelector('.helpdesk').style.display = 'flex'">
     <p>Precisa de Ajuda ?</p>
   </div>
 
   <div class="helpdesk" style="display: none;">
     <div class="card-help">
-      <div class="fechar-helpdesk">X</div>
+      <div class="fechar-helpdesk" onclick="document.querySelector('.helpdesk').style.display = 'none'">X</div>
       <iframe width='560' height='100%' src='https://app.pipefy.com/public/form/IpfrKHRZ?embedded=true'
         frameborder='0'></iframe>
     </div>
