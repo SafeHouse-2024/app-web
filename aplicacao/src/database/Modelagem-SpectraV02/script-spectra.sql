@@ -31,34 +31,37 @@ CREATE TABLE DarkStore(
 	PRIMARY KEY(idDarkStore, fkEmpresa)
 );
 
-CREATE TABLE Funcionario(
-	idFuncionario INT AUTO_INCREMENT,
+CREATE TABLE Usuario(
+	idUsuario INT AUTO_INCREMENT,
     nome VARCHAR(45),
     sobrenome VARCHAR(45),
+    tipo VARCHAR(45),
     senha VARCHAR(45) NOT NULL,
     email VARCHAR(45) NOT NULL UNIQUE,
     cargo VARCHAR(45),
     fkSupervisor INT,
     fkDarkStore INT,
-	CONSTRAINT fkSupervisor FOREIGN KEY (fkSupervisor) REFERENCES Funcionario(idFuncionario),
+    CONSTRAINT chTipo CHECK (tipo IN ('Funcionário', 'Máquina')),
+	CONSTRAINT fkSupervisor FOREIGN KEY (fkSupervisor) REFERENCES Usuario(idUsuario),
     CONSTRAINT fkDarkStore FOREIGN KEY (fkDarkStore) REFERENCES DarkStore(idDarkStore),
-	PRIMARY KEY(idFuncionario,fkDarkStore)
+	PRIMARY KEY(idUsuario,fkDarkStore)
 );
 
 CREATE TABLE Computador(
 	idComputador INT AUTO_INCREMENT,
     macAddress VARCHAR(30) NOT NULL UNIQUE,
     nome VARCHAR(45),
+    sudo VARCHAR(60),
     ativo VARCHAR(30) NOT NULL DEFAULT 'Inativo',
     codigoAcesso VARCHAR(36) DEFAULT(UUID()),
 	fkDarkStore INT,
-    fkFuncionario INT,
+    fkUsuario INT,
     fkToken INT,
-    CONSTRAINT fkFuncionario FOREIGN KEY (fkFuncionario) REFERENCES Funcionario(idFuncionario),
+    CONSTRAINT fkUsuario FOREIGN KEY (fkUsuario) REFERENCES Usuario(idUsuario),
     CONSTRAINT fkDarkStoreComputador FOREIGN KEY (fkDarkStore) REFERENCES DarkStore(idDarkStore),
     CONSTRAINT fkTokenComputador FOREIGN KEY (fkToken) REFERENCES TokenVerificacao(idTokenVerificacao),
     CONSTRAINT chkAtivo CHECK (ativo IN ('Ativo', 'Inativo')),
-    PRIMARY KEY(idComputador, fkDarkStore, fkFuncionario)
+    PRIMARY KEY(idComputador, fkDarkStore, fkUsuario)
 );
 
 CREATE TABLE Componente(
@@ -92,9 +95,9 @@ CREATE TABLE Log(
 	idLog INT PRIMARY KEY AUTO_INCREMENT,
     descricao VARCHAR(300) NOT NUll,
     dataLog DATETIME DEFAULT CURRENT_TIMESTAMP,
-    fkFuncionario INT,
+    fkUsuario INT,
     fkComputador INT,
-    CONSTRAINT fkFuncionarioLog FOREIGN KEY (fkFuncionario) REFERENCES Funcionario(idFuncionario),
+    CONSTRAINT fkUsuarioLog FOREIGN KEY (fkUsuario) REFERENCES Usuario(idUsuario),
     CONSTRAINT fkComputadorLog FOREIGN KEY (fkComputador) REFERENCES Computador(idComputador)
 );
 
@@ -114,12 +117,18 @@ CREATE TABLE UsoSistema(
 	PRIMARY KEY(idUsoSistema, fkSistemaOperacional, fkComputador)
 );
 
+CREATE TABLE NomeProcesso(
+	idNome INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(45)
+);
+
 CREATE TABLE Processo(
-	idProcesso INT PRIMARY KEY AUTO_INCREMENT,
-    nomeWindows VARCHAR(45),
-    nomeLinux VARCHAR(45),
-    permitido VARCHAR(30)
-    CONSTRAINT chkPermitido CHECK (permitido IN ('Permitido', 'Não Permitido'))
+	idProcesso INT AUTO_INCREMENT,
+    permitido VARCHAR(30),
+    fkNomeProcesso INT,
+    CONSTRAINT chkPermitido CHECK (permitido IN ('Permitido', 'Não Permitido')),
+	CONSTRAINT fkNomeProcesso FOREIGN KEY (fkNomeProcesso) REFERENCES NomeProcesso(idNome),
+    PRIMARY KEY (idProcesso, fkNomeProcesso)
 );
 
 CREATE TABLE ProcessoSistema(
@@ -143,11 +152,11 @@ INSERT INTO Empresa(nome, email, razaoSocial, cnpj) VALUES ('Rappi', 'rappi@gmai
 
 INSERT INTO DarkStore (rua, numero, cep, uf, fkEmpresa) VALUES ('Avenida Ipê Roxo', 372, '08140200', 'SP', 1);
 
-INSERT INTO Funcionario(nome, sobrenome, email, senha, cargo, fkDarkStore) VALUES ('Ian', 'Silva Santos', 'ian@gmail.com', '12345', 'Gerente', 1),
-('Leonel', 'Superbi', 'victor.leonel@gmail.com', '12345', 'Picker', 1), ('Maquina', null, 'rappi@spectra.com', '12345', null, 1);
+INSERT INTO Usuario(nome, sobrenome, tipo, email, senha, cargo, fkDarkStore) VALUES ('Ian', 'Silva Santos', 'Funcionário','ian@gmail.com', '12345', 'Gerente', 1),
+('Leonel', 'Superbi', 'Funcionário','victor.leonel@gmail.com', '12345', 'Picker', 1), ('Maquina', null, 'Máquina','rappi@spectra.com', '12345', null, 1);
 
 INSERT INTO SistemaOperacional (nome) VALUES ('Windows'), ('Linux');
-INSERT INTO Computador (macAddress, ativo, fkDarkStore, fkFuncionario) VALUES ('00:1B:44:11:3A:B7', 'Inativo', 1, 3), 
+INSERT INTO Computador (macAddress, ativo, fkDarkStore, fkUsuario) VALUES ('00:1B:44:11:3A:B7', 'Inativo', 1, 3), 
 ('00:1B:44:11:3A:B8', 'Inativo', 1, 3), ('00:1B:44:11:3A:B1', 'Inativo', 1, 3), ('00:1B:44:11:3A:C7', 'Inativo', 1, 3), ('00:1B:44:11:3A:A7', 'Inativo', 1, 3);	
 INSERT INTO SistemaComputador (fkComputador, fkSistemaOperacional) VALUES (1, 1), (2, 2);
 INSERT INTO Componente(nome, fkComputador) VALUES ('Processador', 1), ('Memória', 1), ('Disco', 1), ('Disco', 1),
@@ -192,3 +201,15 @@ INSERT INTO RegistroComponente (nome, valor, fkComponente) VALUES ('taxaUso', '2
 
 SELECT c.nome, r.nome, r.valor FROM RegistroComponente r JOIN Componente c ON c.idComponente = r.idRegistro 
 JOIN Computador pc ON pc.idComputador = c.fkComputador WHERE pc.idComputador = 1;
+
+INSERT INTO NomeProcesso (nome) VALUES ('Discord');
+INSERT INTO NomeProcesso (nome) VALUES ('discord.exe');
+INSERT INTO NomeProcesso (nome) VALUES ('firefox');
+INSERT INTO NomeProcesso (nome) VALUES ('firefox.exe');
+INSERT INTO Processo (permitido, fkNomeProcesso) VALUES ('Não Permitido', 1);
+INSERT INTO Processo (permitido, fkNomeProcesso) VALUES ('Não Permitido', 2);
+INSERT INTO Processo (permitido, fkNomeProcesso) VALUES ('Não Permitido', 3);
+INSERT INTO Processo (permitido, fkNomeProcesso) VALUES ('Não Permitido', 4);
+INSERT INTO ProcessoSistema (fkProcesso, fkSistemaOperacional) VALUES (1, 2), (3, 2), (2,1), (4, 1);
+
+SELECT np.nome FROM ProcessoSistema ps JOIN Processo p ON p.idProcesso = ps.fkProcesso JOIN NomeProcesso np ON np.idNome = p.fkNomeProcesso WHERE ps.fkSistemaOperacional = 2;
