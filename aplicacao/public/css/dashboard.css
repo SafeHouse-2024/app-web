@@ -643,14 +643,13 @@ main {
 
 h2{
   display: flex;
-  font-size: 12px;
+  font-size: 16px;
   /* position: relative; */
   right: 5%;
   padding-bottom: 15px;
   padding: 10px;
   align-items: center;
   border-radius: 5px;
-
 }
 
 h2>span{
@@ -728,4 +727,9 @@ h2>span{
   z-index: 999999;
   bottom:20px;
   right: 20px;
+}
+
+
+.estado{
+  margin-bottom: 60px;
 }
