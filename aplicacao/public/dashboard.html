@@ -91,36 +91,7 @@
   <main>
     <div id="particles-js"></div>
     <section class="telas" style="display: flex;" id="telaDash">
-      <article>
-        <div class="header-dash">
-          <div class="maquina-geral">
-            <div class="texto-maquina">
-              <p>Máquinas próximas ao limite de CPU.</p>
-              <span>4</span>
-            </div>
-            <div class="footer-maquina">
-              Limite alerta: 70 - 80% de uso
-            </div>
-          </div>
-          <div class="maquina-geral">
-            <div class="texto-maquina">
-              <p>Máquinas próximas ao limite de Ram.</p>
-              <span>3</span>
-            </div>
-            <div class="footer-maquina">
-              Limite alerta: 70 - 80% de uso
-            </div>
-          </div>
-          <div class="maquina-geral">
-            <div class="texto-maquina">
-              <p>Máquinas próximas ao limite de Disco.</p>
-              <span>2</span>
-            </div>
-            <div class="footer-maquina">
-              Limite alerta: 70 - 80% de uso
-            </div>
-          </div>
-        </div>
+      <article> 
         <div class="content-dash">
           <div class="header-content">
             <h1>Dark Stores - <span>SouthTech</span></h1>
@@ -248,13 +219,45 @@
       <article>
         <div class="estado">
           <h1>Campo Grande</h1>
+          <div class="header-computadores">
+            <div class="maquina-geral">
+              <div class="texto-maquina">
+                <p>Máquinas próximas ao limite de CPU.</p>
+                <span>4</span>
+              </div>
+              <div class="footer-maquina">
+                Limite alerta: 70 - 80% de uso
+              </div>
+            </div>
+            <div class="maquina-geral">
+              <div class="texto-maquina">
+                <p>Máquinas próximas ao limite de Ram.</p>
+                <span>3</span>
+              </div>
+              <div class="footer-maquina">
+                Limite alerta: 70 - 80% de uso
+              </div>
+            </div>
+            <div class="maquina-geral">
+              <div class="texto-maquina">
+                <p>Máquinas próximas ao limite de Disco.</p>
+                <span>2</span>
+              </div>
+              <div class="footer-maquina">
+                Limite alerta: 70 - 80% de uso
+              </div>
+            </div>
+          </div>
           <ul class="lista-maquinas">
             <li class="item-maquina">
               <div class="header-maquina">
                 <div>Máquina 1</div>
-                <p>CPU:</p><progress value="50" max="100" min="0"></progress>
-                <p>RAM:</p><progress value="50" max="100" min="0"></progress>
-                <p>Disco:</p><progress value="50" max="100" min="0"></progress>
+                <div class="kpi-progress">
+                  <p>CPU:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                  <p>RAM:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                  <p>Disco:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                </div>
+                <button>Desativar Modo de Segurança</button>
               </div>
               <div class="grafico-maquina">
                 <article>
@@ -297,9 +300,12 @@
             <li class="item-maquina">
               <div class="header-maquina">
                 <div>Máquina 2</div>
-                <p>CPU:</p><progress value="50" max="100" min="0"></progress>
-                <p>RAM:</p><progress value="50" max="100" min="0"></progress>
-                <p>Disco:</p><progress value="50" max="100" min="0"></progress>
+                <div class="kpi-progress">
+                  <p>CPU:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                  <p>RAM:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                  <p>Disco:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                </div>
+                <button>Desativar Modo de Segurança</button>
               </div>
               <div class="grafico-maquina">
                 <article>
@@ -340,9 +346,12 @@
             <li class="item-maquina">
               <div class="header-maquina">
                 <div>Máquina 3</div>
-                <p>CPU:</p><progress value="50" max="100" min="0"></progress>
-                <p>RAM:</p><progress value="50" max="100" min="0"></progress>
-                <p>Disco:</p><progress value="50" max="100" min="0"></progress>
+                <div class="kpi-progress">
+                  <p>CPU:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                  <p>RAM:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                  <p>Disco:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                </div>
+                <button>Desativar Modo de Segurança</button>
               </div>
               <div class="grafico-maquina">
                 <article>
@@ -383,9 +392,12 @@
             <li class="item-maquina">
               <div class="header-maquina">
                 <div>Máquina 4</div>
-                <p>CPU:</p><progress value="50" max="100" min="0"></progress>
-                <p>RAM:</p><progress value="50" max="100" min="0"></progress>
-                <p>Disco:</p><progress value="50" max="100" min="0"></progress>
+                <div class="kpi-progress">
+                  <p>CPU:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                  <p>RAM:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                  <p>Disco:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                </div>
+                <button>Desativar Modo de Segurança</button>
               </div>
               <div class="grafico-maquina">
                 <article>
@@ -425,16 +437,47 @@
             </li>
           </ul>
         </div>
-
         <div class="estado">
           <h1>São Paulo</h1>
+          <div class="header-computadores">
+            <div class="maquina-geral">
+              <div class="texto-maquina">
+                <p>Máquinas próximas ao limite de CPU.</p>
+                <span>4</span>
+              </div>
+              <div class="footer-maquina">
+                Limite alerta: 70 - 80% de uso
+              </div>
+            </div>
+            <div class="maquina-geral">
+              <div class="texto-maquina">
+                <p>Máquinas próximas ao limite de Ram.</p>
+                <span>3</span>
+              </div>
+              <div class="footer-maquina">
+                Limite alerta: 70 - 80% de uso
+              </div>
+            </div>
+            <div class="maquina-geral">
+              <div class="texto-maquina">
+                <p>Máquinas próximas ao limite de Disco.</p>
+                <span>2</span>
+              </div>
+              <div class="footer-maquina">
+                Limite alerta: 70 - 80% de uso
+              </div>
+            </div>
+          </div>
           <ul class="lista-maquinas">
             <li class="item-maquina">
               <div class="header-maquina">
                 <div>Máquina 1</div>
-                <p>CPU:</p><progress value="50" max="100" min="0"></progress>
-                <p>RAM:</p><progress value="50" max="100" min="0"></progress>
-                <p>Disco:</p><progress value="50" max="100" min="0"></progress>
+                <div class="kpi-progress">
+                  <p>CPU:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                  <p>RAM:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                  <p>Disco:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                </div>
+                <button>Desativar Modo de Segurança</button>
               </div>
               <div class="grafico-maquina">
                 <article>
@@ -477,9 +520,12 @@
             <li class="item-maquina">
               <div class="header-maquina">
                 <div>Máquina 2</div>
-                <p>CPU:</p><progress value="50" max="100" min="0"></progress>
-                <p>RAM:</p><progress value="50" max="100" min="0"></progress>
-                <p>Disco:</p><progress value="50" max="100" min="0"></progress>
+                <div class="kpi-progress">
+                  <p>CPU:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                  <p>RAM:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                  <p>Disco:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                </div>
+                <button>Desativar Modo de Segurança</button>
               </div>
               <div class="grafico-maquina">
                 <article>
@@ -520,9 +566,12 @@
             <li class="item-maquina">
               <div class="header-maquina">
                 <div>Máquina 3</div>
-                <p>CPU:</p><progress value="50" max="100" min="0"></progress>
-                <p>RAM:</p><progress value="50" max="100" min="0"></progress>
-                <p>Disco:</p><progress value="50" max="100" min="0"></progress>
+                <div class="kpi-progress">
+                  <p>CPU:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                  <p>RAM:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                  <p>Disco:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                </div>
+                <button>Desativar Modo de Segurança</button>
               </div>
               <div class="grafico-maquina">
                 <article>
@@ -563,9 +612,12 @@
             <li class="item-maquina">
               <div class="header-maquina">
                 <div>Máquina 4</div>
-                <p>CPU:</p><progress value="50" max="100" min="0"></progress>
-                <p>RAM:</p><progress value="50" max="100" min="0"></progress>
-                <p>Disco:</p><progress value="50" max="100" min="0"></progress>
+                <div class="kpi-progress">
+                  <p>CPU:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                  <p>RAM:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                  <p>Disco:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                </div>
+                <button>Desativar Modo de Segurança</button>
               </div>
               <div class="grafico-maquina">
                 <article>
@@ -605,16 +657,47 @@
             </li>
           </ul>
         </div>
-
         <div class="estado">
           <h1>Santa Catarina</h1>
+          <div class="header-computadores">
+            <div class="maquina-geral">
+              <div class="texto-maquina">
+                <p>Máquinas próximas ao limite de CPU.</p>
+                <span>4</span>
+              </div>
+              <div class="footer-maquina">
+                Limite alerta: 70 - 80% de uso
+              </div>
+            </div>
+            <div class="maquina-geral">
+              <div class="texto-maquina">
+                <p>Máquinas próximas ao limite de Ram.</p>
+                <span>3</span>
+              </div>
+              <div class="footer-maquina">
+                Limite alerta: 70 - 80% de uso
+              </div>
+            </div>
+            <div class="maquina-geral">
+              <div class="texto-maquina">
+                <p>Máquinas próximas ao limite de Disco.</p>
+                <span>2</span>
+              </div>
+              <div class="footer-maquina">
+                Limite alerta: 70 - 80% de uso
+              </div>
+            </div>
+          </div>
           <ul class="lista-maquinas">
             <li class="item-maquina">
               <div class="header-maquina">
                 <div>Máquina 1</div>
-                <p>CPU:</p><progress value="50" max="100" min="0"></progress>
-                <p>RAM:</p><progress value="50" max="100" min="0"></progress>
-                <p>Disco:</p><progress value="50" max="100" min="0"></progress>
+                <div class="kpi-progress">
+                  <p>CPU:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                  <p>RAM:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                  <p>Disco:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                </div>
+                <button>Desativar Modo de Segurança</button>
               </div>
               <div class="grafico-maquina">
                 <article>
@@ -657,9 +740,12 @@
             <li class="item-maquina">
               <div class="header-maquina">
                 <div>Máquina 2</div>
-                <p>CPU:</p><progress value="50" max="100" min="0"></progress>
-                <p>RAM:</p><progress value="50" max="100" min="0"></progress>
-                <p>Disco:</p><progress value="50" max="100" min="0"></progress>
+                <div class="kpi-progress">
+                  <p>CPU:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                  <p>RAM:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                  <p>Disco:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                </div>
+                <button>Desativar Modo de Segurança</button>
               </div>
               <div class="grafico-maquina">
                 <article>
@@ -700,9 +786,12 @@
             <li class="item-maquina">
               <div class="header-maquina">
                 <div>Máquina 3</div>
-                <p>CPU:</p><progress value="50" max="100" min="0"></progress>
-                <p>RAM:</p><progress value="50" max="100" min="0"></progress>
-                <p>Disco:</p><progress value="50" max="100" min="0"></progress>
+                <div class="kpi-progress">
+                  <p>CPU:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                  <p>RAM:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                  <p>Disco:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                </div>
+                <button>Desativar Modo de Segurança</button>
               </div>
               <div class="grafico-maquina">
                 <article>
@@ -743,9 +832,12 @@
             <li class="item-maquina">
               <div class="header-maquina">
                 <div>Máquina 4</div>
-                <p>CPU:</p><progress value="50" max="100" min="0"></progress>
-                <p>RAM:</p><progress value="50" max="100" min="0"></progress>
-                <p>Disco:</p><progress value="50" max="100" min="0"></progress>
+                <div class="kpi-progress">
+                  <p>CPU:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                  <p>RAM:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                  <p>Disco:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                </div>
+                <button>Desativar Modo de Segurança</button>
               </div>
               <div class="grafico-maquina">
                 <article>
@@ -787,13 +879,45 @@
         </div>
         <div class="estado">
           <h1>Mirabela</h1>
+          <div class="header-computadores">
+            <div class="maquina-geral">
+              <div class="texto-maquina">
+                <p>Máquinas próximas ao limite de CPU.</p>
+                <span>4</span>
+              </div>
+              <div class="footer-maquina">
+                Limite alerta: 70 - 80% de uso
+              </div>
+            </div>
+            <div class="maquina-geral">
+              <div class="texto-maquina">
+                <p>Máquinas próximas ao limite de Ram.</p>
+                <span>3</span>
+              </div>
+              <div class="footer-maquina">
+                Limite alerta: 70 - 80% de uso
+              </div>
+            </div>
+            <div class="maquina-geral">
+              <div class="texto-maquina">
+                <p>Máquinas próximas ao limite de Disco.</p>
+                <span>2</span>
+              </div>
+              <div class="footer-maquina">
+                Limite alerta: 70 - 80% de uso
+              </div>
+            </div>
+          </div>
           <ul class="lista-maquinas">
             <li class="item-maquina">
               <div class="header-maquina">
                 <div>Máquina 1</div>
-                <p>CPU:</p><progress value="50" max="100" min="0"></progress>
-                <p>RAM:</p><progress value="50" max="100" min="0"></progress>
-                <p>Disco:</p><progress value="50" max="100" min="0"></progress>
+                <div class="kpi-progress">
+                  <p>CPU:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                  <p>RAM:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                  <p>Disco:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                </div>
+                <button>Desativar Modo de Segurança</button>
               </div>
               <div class="grafico-maquina">
                 <article>
@@ -836,9 +960,12 @@
             <li class="item-maquina">
               <div class="header-maquina">
                 <div>Máquina 2</div>
-                <p>CPU:</p><progress value="50" max="100" min="0"></progress>
-                <p>RAM:</p><progress value="50" max="100" min="0"></progress>
-                <p>Disco:</p><progress value="50" max="100" min="0"></progress>
+                <div class="kpi-progress">
+                  <p>CPU:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                  <p>RAM:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                  <p>Disco:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                </div>
+                <button>Desativar Modo de Segurança</button>
               </div>
               <div class="grafico-maquina">
                 <article>
@@ -879,9 +1006,12 @@
             <li class="item-maquina">
               <div class="header-maquina">
                 <div>Máquina 3</div>
-                <p>CPU:</p><progress value="50" max="100" min="0"></progress>
-                <p>RAM:</p><progress value="50" max="100" min="0"></progress>
-                <p>Disco:</p><progress value="50" max="100" min="0"></progress>
+                <div class="kpi-progress">
+                  <p>CPU:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                  <p>RAM:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                  <p>Disco:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                </div>
+                <button>Desativar Modo de Segurança</button>
               </div>
               <div class="grafico-maquina">
                 <article>
@@ -922,9 +1052,12 @@
             <li class="item-maquina">
               <div class="header-maquina">
                 <div>Máquina 4</div>
-                <p>CPU:</p><progress value="50" max="100" min="0"></progress>
-                <p>RAM:</p><progress value="50" max="100" min="0"></progress>
-                <p>Disco:</p><progress value="50" max="100" min="0"></progress>
+                <div class="kpi-progress">
+                  <p>CPU:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                  <p>RAM:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                  <p>Disco:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                </div>
+                <button>Desativar Modo de Segurança</button>
               </div>
               <div class="grafico-maquina">
                 <article>
@@ -966,13 +1099,45 @@
         </div>
         <div class="estado">
           <h1>João Pessoa</h1>
+          <div class="header-computadores">
+            <div class="maquina-geral">
+              <div class="texto-maquina">
+                <p>Máquinas próximas ao limite de CPU.</p>
+                <span>4</span>
+              </div>
+              <div class="footer-maquina">
+                Limite alerta: 70 - 80% de uso
+              </div>
+            </div>
+            <div class="maquina-geral">
+              <div class="texto-maquina">
+                <p>Máquinas próximas ao limite de Ram.</p>
+                <span>3</span>
+              </div>
+              <div class="footer-maquina">
+                Limite alerta: 70 - 80% de uso
+              </div>
+            </div>
+            <div class="maquina-geral">
+              <div class="texto-maquina">
+                <p>Máquinas próximas ao limite de Disco.</p>
+                <span>2</span>
+              </div>
+              <div class="footer-maquina">
+                Limite alerta: 70 - 80% de uso
+              </div>
+            </div>
+          </div>
           <ul class="lista-maquinas">
             <li class="item-maquina">
               <div class="header-maquina">
                 <div>Máquina 1</div>
-                <p>CPU:</p><progress class="barra-progresso" value="50" max="100" min="0"></progress>
-                <p>RAM:</p><progress value="50" max="100" min="0"></progress>
-                <p>Disco:</p><progress value="50" max="100" min="0"></progress>
+                <div class="kpi-progress">
+                  <p>CPU:<progress class="barra-progresso" value="50" max="100" min="0"></progress></p>
+                  <p>RAM:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                  <p>Disco:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                </div>
+                <button>Desativar Modo de Segurança</button>
               </div>
               <div class="grafico-maquina">
                 <article>
@@ -1015,9 +1180,12 @@
             <li class="item-maquina">
               <div class="header-maquina">
                 <div>Máquina 2</div>
-                <p>CPU:</p><progress value="50" max="100" min="0"></progress>
-                <p>RAM:</p><progress value="50" max="100" min="0"></progress>
-                <p>Disco:</p><progress value="50" max="100" min="0"></progress>
+                <div class="kpi-progress">
+                  <p>CPU:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                  <p>RAM:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                  <p>Disco:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                </div>
+                <button>Desativar Modo de Segurança</button>
               </div>
               <div class="grafico-maquina">
                 <article>
@@ -1058,9 +1226,12 @@
             <li class="item-maquina">
               <div class="header-maquina">
                 <div>Máquina 3</div>
-                <p>CPU:</p><progress value="50" max="100" min="0"></progress>
-                <p>RAM:</p><progress value="50" max="100" min="0"></progress>
-                <p>Disco:</p><progress value="50" max="100" min="0"></progress>
+                <div class="kpi-progress">
+                  <p>CPU:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                  <p>RAM:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                  <p>Disco:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                </div>
+                <button>Desativar Modo de Segurança</button>
               </div>
               <div class="grafico-maquina">
                 <article>
@@ -1101,9 +1272,12 @@
             <li class="item-maquina">
               <div class="header-maquina">
                 <div>Máquina 4</div>
-                <p>CPU:</p><progress value="50" max="100" min="0"></progress>
-                <p>RAM:</p><progress value="50" max="100" min="0"></progress>
-                <p>Disco:</p><progress value="50" max="100" min="0"></progress>
+                <div class="kpi-progress">
+                  <p>CPU:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                  <p>RAM:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                  <p>Disco:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
+                </div>
+                <button>Desativar Modo de Segurança</button>
               </div>
               <div class="grafico-maquina">
                 <article>

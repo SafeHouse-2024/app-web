@@ -30,9 +30,9 @@ graficosLinha.forEach((grafico) => {
             datasets: [{
                 label: decidirNome(contador++), 
                 data: sortearLabel(),
-                borderColor: '#ff0000',
-                backgroundColor: 'transparent',
-                borderWidth: 2
+                borderColor: '#fff',
+                backgroundColor: '#fff',
+                borderWidth: 2,
             }]
         }
     });
