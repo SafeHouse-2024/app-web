@@ -4,6 +4,15 @@ document.getElementById('open_btn').addEventListener('click', function () {
   document.getElementById('sidebar').classList.toggle('open-sidebar');
 });
 
+
+document.querySelector('.fechar-popup-user').addEventListener('click', () => {
+  document.querySelector('.popup-usuario').style.display = 'none';
+});
+
+document.querySelector('.button_user').addEventListener('click', () => {
+  document.querySelector('.popup-usuario').style.display = 'flex';
+});
+
 function consultaBanco(caminho, metodo) {
   return fetch(`${caminho}`, {
     method: `${metodo}`,
