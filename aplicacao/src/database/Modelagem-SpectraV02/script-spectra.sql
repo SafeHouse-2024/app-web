@@ -117,26 +117,26 @@ CREATE TABLE UsoSistema(
 	PRIMARY KEY(idUsoSistema, fkSistemaOperacional, fkComputador)
 );
 
-CREATE TABLE NomeProcesso(
-	idNome INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(45)
+CREATE TABLE Processo(
+	idProcesso INT PRIMARY KEY AUTO_INCREMENT,
+    permitido VARCHAR(30),
+    CONSTRAINT chkPermitido CHECK (permitido IN ('Permitido', 'Não Permitido'))
 );
 
-CREATE TABLE Processo(
-	idProcesso INT AUTO_INCREMENT,
-    permitido VARCHAR(30),
-    fkNomeProcesso INT,
-    CONSTRAINT chkPermitido CHECK (permitido IN ('Permitido', 'Não Permitido')),
-	CONSTRAINT fkNomeProcesso FOREIGN KEY (fkNomeProcesso) REFERENCES NomeProcesso(idNome),
-    PRIMARY KEY (idProcesso, fkNomeProcesso)
+CREATE TABLE NomeProcesso(
+	idNome INT AUTO_INCREMENT,
+    nome VARCHAR(45),
+    fkProcesso INT,
+    CONSTRAINT fkNomeProcesso FOREIGN KEY (fkProcesso) REFERENCES Processo(idProcesso),
+    PRIMARY KEY (idNome, fkProcesso)
 );
 
 CREATE TABLE ProcessoSistema(
-	fkProcesso INT,
+	fkNomeProcesso INT,
     fkSistemaOperacional INT,
-    CONSTRAINT fkProcessoSistema FOREIGN KEY (fkProcesso) REFERENCES Processo(idProcesso),
+    CONSTRAINT fkNomeProcessoSistema FOREIGN KEY (fkNomeProcesso) REFERENCES NomeProcesso(idNome),
     CONSTRAINT fkSistemaProcesso FOREIGN KEY (fkSistemaOperacional) REFERENCES SistemaOperacional(idSistemaOperacional),
-    PRIMARY KEY(fkProcesso, fkSistemaOperacional)
+    PRIMARY KEY(fkNomeProcesso, fkSistemaOperacional)
 );
 
 CREATE TABLE SistemaComputador(
@@ -145,6 +145,19 @@ CREATE TABLE SistemaComputador(
     CONSTRAINT fkComputadorSistema FOREIGN KEY (fkComputador) REFERENCES Computador(idComputador),
     CONSTRAINT fkSistemaComputador FOREIGN KEY (fkSistemaOperacional) REFERENCES SistemaOperacional(idSistemaOperacional),
     PRIMARY KEY(fkSistemaOperacional, fkComputador)
+);
+
+CREATE TABLE Notificacao(
+	idNotificacao INT AUTO_INCREMENT,
+    fkDarkStore INT,
+    fkUsuario INT,
+    fkComputador INT,
+    tipo VARCHAR(45),
+    CONSTRAINT chkTipo CHECK (tipo IN ('Segurança', 'Uso Máquina')),
+    CONSTRAINT fkNotificacaoDarkStore FOREIGN KEY (fkDarkStore) REFERENCES DarkStore(idDarkStore),
+    CONSTRAINT fkNotificacaoUsuario FOREIGN KEY (fkUsuario) REFERENCES Usuario(idUsuario),
+    CONSTRAINT fkNotificacaoComputador FOREIGN KEY (fkComputador) REFERENCES Computador(idComputador),
+    PRIMARY KEY (idNotificacao, fkDarkStore, fkUsuario, fkComputador)
 );
 
 INSERT INTO Empresa(nome, email, razaoSocial, cnpj) VALUES ('Rappi', 'rappi@gmail.com', 'Rappi entregas', '12345678910123'),
@@ -202,14 +215,13 @@ INSERT INTO RegistroComponente (nome, valor, fkComponente) VALUES ('taxaUso', '2
 SELECT c.nome, r.nome, r.valor FROM RegistroComponente r JOIN Componente c ON c.idComponente = r.idRegistro 
 JOIN Computador pc ON pc.idComputador = c.fkComputador WHERE pc.idComputador = 1;
 
-INSERT INTO NomeProcesso (nome) VALUES ('Discord');
-INSERT INTO NomeProcesso (nome) VALUES ('discord.exe');
-INSERT INTO NomeProcesso (nome) VALUES ('firefox');
-INSERT INTO NomeProcesso (nome) VALUES ('firefox.exe');
-INSERT INTO Processo (permitido, fkNomeProcesso) VALUES ('Não Permitido', 1);
-INSERT INTO Processo (permitido, fkNomeProcesso) VALUES ('Não Permitido', 2);
-INSERT INTO Processo (permitido, fkNomeProcesso) VALUES ('Não Permitido', 3);
-INSERT INTO Processo (permitido, fkNomeProcesso) VALUES ('Não Permitido', 4);
-INSERT INTO ProcessoSistema (fkProcesso, fkSistemaOperacional) VALUES (1, 2), (3, 2), (2,1), (4, 1);
+INSERT INTO Processo (permitido) VALUES ('Não Permitido');
+INSERT INTO Processo (permitido) VALUES ('Não Permitido');
+INSERT INTO NomeProcesso (nome, fkProcesso) VALUES ('Discord',1);
+INSERT INTO NomeProcesso (nome, fkProcesso) VALUES ('discord.exe',1);
+INSERT INTO NomeProcesso (nome, fkProcesso) VALUES ('firefox',2);
+INSERT INTO NomeProcesso (nome, fkProcesso) VALUES ('firefox.exe',2);
 
-SELECT np.nome FROM ProcessoSistema ps JOIN Processo p ON p.idProcesso = ps.fkProcesso JOIN NomeProcesso np ON np.idNome = p.fkNomeProcesso WHERE ps.fkSistemaOperacional = 2;
+INSERT INTO ProcessoSistema (fkNomeProcesso, fkSistemaOperacional) VALUES (1, 2), (3, 2), (2,1), (4, 1);
+
+INSERT INTO Notificacao(fkDarkStore, fkComputador, fkUsuario, tipo) VALUES (1,2,2, 'Segurança'), (1,5,2, 'Uso Máquina'), (1,4,2, 'Segurança'), (1,2,1, 'Uso Máquina');

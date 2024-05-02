@@ -33,3 +33,9 @@ SELECT * FROM Log;
 
 #Fetch de todos os funcionários de uma Dark Store
 SELECT * FROM Funcionario f JOIN DarkStore dk ON f.fkDarkStore = dk.idDarkStore;
+
+#FETCH de todos os nomes dos processos de um sistema operacional
+SELECT np.nome FROM ProcessoSistema ps JOIN NomeProcesso np ON np.idNome = ps.fkNomeProcesso WHERE ps.fkSistemaOperacional = 1;
+
+#Fetch do e-mail de todos os funcionários que recebem notificação de uma máquina específica
+SELECT u.email FROM Notificacao n JOIN Computador p ON p.idComputador = n.fkComputador JOIN Usuario u ON n.fkUsuario = u.idUsuario WHERE p.idComputador = 5;
