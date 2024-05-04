@@ -248,7 +248,7 @@ main {
 }
 
 .activeMaquina {
-  height: 500px;
+  height: max-content;
 }
 .header-maquina {
   height: 50px;
