@@ -316,9 +316,9 @@ main {
 .content_component{
   background-color: white;
   width: 100%;
-  height: 100%;
   border-radius: 10px;
   overflow-y: scroll;
+  overflow-x: hidden;
   padding: 0 2%;
 }
 
@@ -456,7 +456,7 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  align-items: center;
+
 }
 
 .header-computadores{
@@ -520,22 +520,13 @@ main {
   align-items: center;
 
   background-color: #fff;
-  border-radius: 10px;
 }
 
 .content-dash{
   width: 100%;
-  height: 70%;
+  height: 80%;
 
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-
-  padding: 0 10px;
-  border-radius: 10px;
-  margin-top: 20px;
-  border: #13004C 1px solid;
+  padding: 0 3%;
 }
 
 .header-content{
@@ -573,7 +564,7 @@ main {
 }
 
 .empresas-content{
-  width: 55%;
+  width: 57%;
   height: 90%;
 
   display: grid;
@@ -623,8 +614,7 @@ main {
   justify-content: center;
   align-items: center;
 
-  padding: 10px;
-  padding-top: 260px;
+  padding: 16% 3% 0 0;
 
   overflow-y: scroll;
 }
@@ -632,6 +622,7 @@ main {
 .grafico-barra-content{
   width: 100%;
   height: max-content;
+  margin-bottom: 5%;
 }
 
 .infosHardware{
@@ -740,8 +731,8 @@ h2>span{
   border: 2px solid #fff;
   background-color: rgb(221, 217, 0);
   color: rgb(0, 0, 0);
-  font-size: 25px;
-  padding: 10px;
+  font-size: 20px;
+  padding: 8px;
 
   position: absolute;
   z-index: 999999;
@@ -850,4 +841,150 @@ h2>span{
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.configuration-page{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5%;
+  width: 100%;
+}
+
+.configuration-page .header{
+  width: 100%;
+  margin: 0;
+}
+
+.configuration-page .header .seguranca{
+  margin-right: 10px;
+}
+
+.edit-profile{
+  width: 60%;
+  padding: 0 3%;
+}
+
+#nome{
+  width: 90%;
+}
+
+#sobrenome{
+  width: 100%;
+}
+
+.profile{
+  background-color: #13004C; 
+  color: white; 
+  width: 100%; 
+  padding: 4% 5% 10% 5%; 
+  margin-top: 3%;
+  border-radius: 10px;
+}
+
+.edit-user{
+  width: 20%;
+  height: 10%;
+  padding: 5px;
+  cursor: pointer;
+  background-color: #FFC444;
+  color: #000;
+  border: none;
+  border-radius: 15px;
+}
+
+#email{
+  width: 100%;
+}
+
+.config-item{
+  margin-top: 2%;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+label{
+  margin-bottom: 2%;
+}
+
+.notification{
+  width: 40%;
+  padding: 0 4%;
+  height: 70vh;
+}
+
+.content_component .notification .headers{
+  width: 100%;
+  display: flex;
+  margin-top: 2%;
+}
+
+.content_component .notification .headers .maquina, 
+.content_component .notification .headers .seguranca{
+  background-color: #13004C;
+  color: white;
+  padding: 1% 2%;
+  cursor: pointer;
+}
+
+.content_component .notification .body{
+  display: flex; 
+  flex-direction: column; 
+  margin: 0;
+  padding: 5%;
+  height: 90%;
+  background-color: #13004C;
+  color: white;
+}
+
+.checkbox{
+  display: flex;
+  margin-top: 2%;
+  width: 100%;
+  justify-content: end;
+}
+
+.checkbox label{
+  margin-right: 2%;
+}
+
+.checkbox input{
+  width: 5%;
+  margin-bottom: 2%;
+  cursor: pointer;
+}
+
+.search{
+  padding: 0;
+}
+
+.search input{
+  width: 100%;
+}
+
+.user-configs{
+  height: 80%;
+  overflow-y: scroll;
+}
+
+.user-config{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 2%;
+  background-color: white;
+  padding: 3% 4%;
+  color: black;
+}
+
+.user-config img{
+  width: 30%;
+}
+
+.user-information{
+  display: flex;
+}
+
+.user-information div{
+  margin-left: 8%;
 }

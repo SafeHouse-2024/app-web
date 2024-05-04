@@ -1,6 +1,8 @@
 const graficosLinha = document.querySelectorAll('.chart-linha > canvas');
 const graficosBarra = document.querySelectorAll('.chart-barra > canvas');
 const graficosDonut = document.querySelectorAll('.chart-donut > canvas');
+const graficoCPUDarkStore = document.getElementById('ctx_barra_geral1');
+const graficoRAMDarkStore = document.getElementById('ctx_barra_geral2')
 
 const barraProgresso = document.querySelectorAll('.header-maquina > progress');
 
@@ -52,9 +54,33 @@ graficosDonut.forEach((grafico) => {
   });
 });
 
+
 function sortearValor() {
   return Math.floor(Math.random() * 100);
 }
+
+
+new Chart(graficoCPUDarkStore, {
+  type: 'bar',
+  data: {
+    labels: ['Campo Grande', 'São Paulo', 'Minas', 'Pernambuco', 'Maracás'],
+    datasets: [{
+      label: "Uso de CPU",
+      data: [5, 4, 3, 9, 2]
+    }]
+  }
+})
+
+new Chart(graficoRAMDarkStore, {
+  type: 'bar',
+  data: {
+    labels: ['Campo Grande', 'São Paulo', 'Minas', 'Pernambuco', 'Maracás'],
+    datasets: [{
+      label: "Uso de RAM",
+      data: [5, 4, 3, 9, 2]
+    }]
+  }
+})
 
 setInterval(() => {
   barraProgresso.forEach((barra) => {

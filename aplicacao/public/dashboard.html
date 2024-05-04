@@ -1420,30 +1420,115 @@
       </article>
     </section>
     <section class="telas" style="display: none;" id="telaConfig">
-      <article>
-        <div class="header-config">
-          <div class="profile">
-            <img src="" alt="">
-            <h1>Samuel Santos</h1>
-          </div>
-        </div>
-        <div class="content-config">
+      <article class="content_component" style="overflow-y: hidden;">
+        <div class="configuration-page">
           <div class="edit-profile">
             <h1>Configurações</h1>
-            <div class="config-item">
-              <h2>Nome</h2>
-              <input type="text" value="Samuel Santos">
-            </div>
-            <div class="config-item">
-              <h2>Email</h2>
-              <input type="text" value="samuel.santos@gmail.com">
-            </div>
-            <div class="config-item">
-              <h2>Username</h2>
-              <input type="text" value="123456">
-            </div>
-            <button>Save</button>
+            <div class="profile">
+              <div style="display: flex; justify-content: space-between; width: 100%;">
+                <h2 style="padding: 0;">Usuário</h2>
+                <button class="edit-user">Editar</button>
+              </div>
+              <div style="display: flex;">
+                <div class="config-item">
+                  <label for="nome">Nome:</label>
+                  <input id="nome" readonly type="text">
+                </div>
+                <div class="config-item">
+                  <label for="sobrenome">Sobrenome</label>
+                  <input type="text" readonly id="sobrenome">
+                </div>
+              </div>
+              <div class="config-item">
+                <label for="email">Email:</label>
+                <input type="text" readonly id="email">
+              </div>
+              <div class="config-item" style="display: flex; flex-direction: column; width: 45%;">
+                <label for="cargo">Cargo:</label>
+                <input type="text" readonly id="cargo">
+              </div>
+            </div>    
           </div>
+          <div class="notification">
+            <h3>Notificações</h3>
+            <div class="headers">
+              <div class="seguranca">Segurança</div>
+              <div class="maquina">Uso Máquina</div>
+            </div>
+            <div class="body">
+                <div class="search">
+                  <input type="text" placeholder="Pesquisar usuário">
+                </div>
+                <div class="checkbox">
+                  <label for="check">Selecionar todos</label>
+                  <input id="check" type="checkbox">
+                </div>
+                <div class="user-configs">
+                  <div class="user-config">
+                    <div class="user-information">
+                      <img src="assets/user-icon.png" alt="">
+                      <div>
+                        <p>Usuário</p>
+                        <p>E-mail</p>
+                      </div>
+                    </div>
+                    <input type="checkbox">
+                  </div>
+                  <div class="user-config">
+                    <div class="user-information">
+                      <img src="assets/user-icon.png" alt="">
+                      <div>
+                        <p>Usuário</p>
+                        <p>E-mail</p>
+                      </div>
+                    </div>
+                    <input type="checkbox">
+                  </div>
+                  <div class="user-config">
+                    <div class="user-information">
+                      <img src="assets/user-icon.png" alt="">
+                      <div>
+                        <p>Usuário</p>
+                        <p>E-mail</p>
+                      </div>
+                    </div>
+                    <input type="checkbox">
+                  </div>
+                  <div class="user-config">
+                    <div class="user-information">
+                      <img src="assets/user-icon.png" alt="">
+                      <div>
+                        <p>Usuário</p>
+                        <p>E-mail</p>
+                      </div>
+                    </div>
+                    <input type="checkbox">
+                  </div>
+                  <div class="user-config">
+                    <div class="user-information">
+                      <img src="assets/user-icon.png" alt="">
+                      <div>
+                        <p>Usuário</p>
+                        <p>E-mail</p>
+                      </div>
+                    </div>
+                    <input type="checkbox">
+                  </div>
+                  <div class="user-config">
+                    <div class="user-information">
+                      <img src="assets/user-icon.png" alt="">
+                      <div>
+                        <p>Usuário</p>
+                        <p>E-mail</p>
+                      </div>
+                    </div>
+                    <input type="checkbox">
+                  </div>
+                </div>
+            </div>      
+          </div>
+      </div>
+      
       </article>
     </section>
   </main>
