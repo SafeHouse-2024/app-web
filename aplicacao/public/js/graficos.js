@@ -32,8 +32,8 @@ graficosLinha.forEach((grafico) => {
             datasets: [{
                 label: decidirNome(contador++), 
                 data: sortearLabel(),
-                borderColor: '#fff',
-                backgroundColor: '#fff',
+                borderColor: '#09037b',
+                backgroundColor: '#09037b',
                 borderWidth: 2,
             }]
         }
@@ -45,10 +45,10 @@ graficosDonut.forEach((grafico) => {
   new Chart(ctx, {
     type: 'doughnut',
     data: {
-      labels: ['CPU', 'RAM', 'Disco'],
+      labels: ['Disponível', 'Ocupado'],
       datasets: [{
-        data: [30, 40, 30],
-        backgroundColor: ['#ff0000', '#00ff00', '#0000ff']
+        data: [900, 100],
+        backgroundColor: ['#00ff00', '#ff0000']
       }]
     }
   });
