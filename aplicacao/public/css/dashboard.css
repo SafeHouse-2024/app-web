@@ -779,7 +779,7 @@ h2>span{
 }
 
 .popup-card {
-  background-color: #e0dfdff6;
+  background-color: #e9e7e7f3;
   width: 30%;
   height: 55%;
   display: flex;
@@ -846,6 +846,33 @@ h2>span{
   display: flex;
   align-items: center;
   justify-content: center;
+
+  cursor: pointer;
+}
+
+.bto-criar-user {
+  display: flex;
+  width: 35%;
+  height: 10%;
+  border-radius: 20px;
+
+  align-items: center;
+  justify-content: center;
+  font-family: "Poppins", sans-serif;
+  font-size: medium;
+
+  border: none;
+  cursor: pointer;
+  background-color: #13004C;
+  color: white;
+}
+
+.ipt-campo {
+  display: flex;
+  background-color: #ffffff;
+  border: none;
+  cursor: pointer;
+  padding-left: 10px;
 }
 
 .configuration-page{
