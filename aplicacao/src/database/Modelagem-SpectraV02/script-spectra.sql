@@ -34,12 +34,14 @@ CREATE TABLE DarkStore(
 CREATE TABLE Usuario(
 	idUsuario INT AUTO_INCREMENT,
     nome VARCHAR(45),
+    tipo VARCHAR(45) NOT NULL,
     sobrenome VARCHAR(45),
     senha VARCHAR(45) NOT NULL,
     email VARCHAR(45) NOT NULL UNIQUE,
     cargo VARCHAR(45),
     fkSupervisor INT,
     fkDarkStore INT,
+    CONSTRAINT chTipo CHECK (tipo IN ('Funcionário', 'Máquina')),
 	CONSTRAINT fkSupervisor FOREIGN KEY (fkSupervisor) REFERENCES Usuario(idUsuario),
     CONSTRAINT fkDarkStore FOREIGN KEY (fkDarkStore) REFERENCES DarkStore(idDarkStore),
 	PRIMARY KEY(idUsuario,fkDarkStore)
@@ -163,9 +165,9 @@ INSERT INTO Empresa(nome, email, razaoSocial, cnpj) VALUES ('Rappi', 'rappi@gmai
 
 INSERT INTO DarkStore (rua, numero, cep, uf, fkEmpresa) VALUES ('Avenida Ipê Roxo', 372, '08140200', 'SP', 1);
 
-INSERT INTO Usuario(nome, sobrenome, email, senha, cargo, fkDarkStore) VALUES ('Ian', 'Silva Santos', 'ian@gmail.com', '12345', 'Gerente', 1),
-('Leonel', 'Superbi', 'victor.leonel@gmail.com', '12345', 'Picker', 1), ('Maquina', null, 'rappi@spectra.com', '12345', null, 1), ('Marcos', 'Floriano', 'marcos@gmail.com', '12345', 'Picker', 1),
-('Nathan', 'Silva', 'nathan.silva@gmail.com', '1234', 'Supervisor', 1);
+INSERT INTO Usuario(nome, sobrenome, tipo, email, senha, cargo, fkDarkStore) VALUES ('Ian', 'Silva Santos', 'Funcionário','ian@gmail.com', '12345', 'Gerente', 1),
+('Leonel', 'Superbi', 'Funcionário','victor.leonel@gmail.com', '12345', 'Picker', 1), ('Maquina', null, 'Máquina','rappi@spectra.com', '12345', null, 1), ('Marcos', 'Floriano', 'Funcionário','marcos@gmail.com', '12345', 'Picker', 1),
+('Nathan', 'Silva', 'Funcionário','nathan.silva@gmail.com', '1234', 'Supervisor', 1);
 
 INSERT INTO SistemaOperacional (nome) VALUES ('Windows'), ('Linux');
 INSERT INTO Computador (macAddress, ativo, fkDarkStore, fkUsuario) VALUES ('00:1B:44:11:3A:B7', 'Inativo', 1, 3), 
