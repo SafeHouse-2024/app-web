@@ -1,49 +1,60 @@
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cadastre-se</title>
   <link rel="stylesheet" href="./css/cadastro.css">
 </head>
+
 <body>
   <div class="bgAnimado" id="bgAnimado">
     <div class="bgAdmin" id="bgAdmin"></div>
   </div>
   <main>
-    <h1>Cadastro</h1>
-    <p>Faça seu cadastro para acessar o seu negócio de onde estiver!</p>
-    <form onsubmit="return false">
-      <span>
-        <label for="nome">Nome</label>
-        <input type="text" id="nome" name="nome" onblur="validarNomeUsuario(this)">
-        <span id="nomeSpan" class="validacao">Nome inválido</span>
-      </span>
-      <span>
-        <label for="cnpj">CNPJ</label>
-        <input type="number" id="cnpj" name="cnpj" onblur="validarCnpj(this)">
-        <span id="cnpjSpan" class="validacao">Cnpj deve ter 14 digítos</span>
-      </span>
-      <span>
-        <label for="email">E-mail</label>
-        <input type="text" id="email" name="email" onblur="validarEmail(this)">
-        <span id="emailSpan" class="validacao">E-mail inválido</span>
-      </span>
-      <span>
-        <label for="senha">Senha</label>
-        <input type="password" id="senha" name="senha" onblur="validarSenha(this)">
-        <span id="senhaSpan" class="validacao"></span>
-      </span>
-      <span>
-        <label for="confirmar-senha">Confirmar senha</label>
-        <input type="password" id="confirmar_senha" name="confirmar-senha" onblur="confirmarSenha(this)">
-        <span id="confirmSpan" class="validacao">As senhas não são iguais</span>
-      </span>
+    <div class="group">
+      <h1>Cadastro</h1>
+      <p>Faça seu cadastro para acessar o seu negócio de onde estiver!</p>
+      <form onsubmit="return false">
+        <div class="container-form">
+          <span>
+            <label for="nome">Nome</label>
+            <input type="text" id="nome" name="nome" onblur="validarNomeUsuario(this)">
+            <span id="nomeSpan" class="validacao">Nome inválido</span>
+          </span>
+          <span>
+            <label for="cnpj">CNPJ</label>
+            <input type="number" id="cnpj" name="cnpj" onblur="validarCnpj(this)">
+            <span id="cnpjSpan" class="validacao">Cnpj deve ter 14 digítos</span>
+          </span>
+        </div>
+        <div class="container-form">
+          <span>
+            <label for="email">E-mail</label>
+            <input type="text" id="email" name="email" onblur="validarEmail(this)">
+            <span id="emailSpan" class="validacao">E-mail inválido</span>
+          </span>
+          <span>
+            <label for="senha">Senha</label>
+            <input type="password" id="senha" name="senha" onblur="validarSenha(this)">
+            <span id="senhaSpan" class="validacao"></span>
+          </span>
+        </div>
+        <div class="container-form">
+          <span>
+            <label for="confirmar-senha">Confirmar senha</label>
+            <input type="password" id="confirmar_senha" name="confirmar-senha" onblur="confirmarSenha(this)">
+            <span id="confirmSpan" class="validacao">As senhas não são iguais</span>
+          </span>
+        </div>
+      </form>
       <button type="submit" onclick="cadastrar()">Cadastrar</button>
-    </form>
-    <a href="login.html">Já tem cadastro? Faça login</a>
+      <a href="login.html">Nâo tem cadastro? Faça login</a>
+    </div>
   </main>
 </body>
+
 </html>
 <script src="./js/cadastro.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

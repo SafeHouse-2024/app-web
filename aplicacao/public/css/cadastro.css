@@ -1,9 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 
-
-body{
+*{
   margin: 0;
   padding: 0;
+  box-sizing: 0;
+  border: 0;
+}
+body{ 
   font-family: 'JetBrains Mono', monospace;
   background-color: gray;
   color: white;
@@ -11,74 +14,109 @@ body{
 main{
   position: relative;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
-  height: auto;
+  height: 100vh;
   pointer-events: none;
-  margin-bottom: 5%;
 }
+.group{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+  width: 55%;
+  height: 85%;
+  background-color: #D9D9D9;
+  color: black;
+  box-shadow: 1px 1px 10px 2px black;
+  opacity: 0.9;
+  border-radius: 20px;
+}
+
 h1{
   font-size: 40px;
-  font-weight: 700;
-  margin-bottom: 20px;
-
+  font-weight: bold;
+  color: #13004C;
 }
 p{
+  width: 70%;
   font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 20px;
+  font-weight: bold;
   text-align: center;
+  color: #13004C;
 }	
 form{
-  width: 50%;
+  width: auto;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   gap: 20px;
   padding: 20px;
+  height: auto;
 }
 form span{
-  width: 100%;
+  width: 90%;
   display: flex;
   flex-direction: column;
   pointer-events: all;
+  background-color: transparent;
+  justify-content: space-around;
+  margin-bottom: 5%;
 }
 span input{
-  background-image: linear-gradient(to right, #CDFFD8, #94B9FF);
+  background-color: transparent;
+  border-bottom: #FFC444 2px solid;
   margin-top: 10px;
   padding: 10px;
-  border: none;
-  border-radius: 15px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   outline: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
 }
-form button{
-  background-color: #2A0A87;
-  padding: 15px 20px;
+span input:focus{
+  border-bottom: #1300ac solid 2px;
+}
+button{
+  background-color: #FFC444;
+  width: 220px;
+  padding: 10px;
+  border-radius: 5px;
   border: none;
-  font-size: 16px;
-  border-radius: 15px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   outline: none;
   cursor: pointer;
-  color: white;
+  color: #13004C;
+  font-weight: bold;
   pointer-events: all;
+  transition: .5s all ease-in-out;
 }
+button:hover{
+  background-color: #13004C;
+  color: #FFC444;
+}
+
 a{
-  color: #fff;
-  font-weight: 200;
+  color: #13004C;
+  font-weight: 300;
   font-size: 16px;
   pointer-events: all;
-
+  transition: all .5s;
+}
+a:hover{
+  color: #FFC444;
+}
+.container-form{
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  background-color: transparent;
+  flex-direction: column;
 }
 .bgAnimado{
   position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
-  height: 125%;
+  height: 100%;
   display: grid;
   grid-template-columns: repeat(20, 1fr);
   grid-template-rows: repeat(20, 1fr);
@@ -95,7 +133,7 @@ a{
   background-color: #1d1d1d;
 }
 .caixaColorida:hover{
-  background-color: #2A0A87;
+  background-color: #13004C;
   transition-duration: 0s;
 }
 .bgAdmin{
@@ -104,7 +142,7 @@ a{
   left: 0;
   width: 100%;
   height: 40px;
-  background: #00bfff;
+  background: #FFC444;
   filter: blur(60px);
   animation: animBack 6s linear infinite;
 }

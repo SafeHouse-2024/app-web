@@ -83,21 +83,22 @@ form button{
   color: #13004C;
   font-weight: bold;
   pointer-events: all;
+  transition: .5s all ease-in-out;
 }
 form button:hover{
   background-color: #13004C;
   color: #FFC444;
-  transition: .5s all;
 }
+
 a{
   color: #13004C;
   font-weight: bold;
   font-size: 16px;
   pointer-events: all;
+  transition: .5s all;
 }
 a:hover{
   color: #FFC444;
-  transition: .7s all;
 }
 .bgAnimado{
   position: absolute;
