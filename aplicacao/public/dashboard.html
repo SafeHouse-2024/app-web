@@ -18,7 +18,7 @@
       <div id="user">
         <img src="./assets/Logo png.png" id="user_avatar" alt="Avatar">
 
-        <p id="user_infos">
+        <p id="user_infos" style="color: white;">
           <span class="item-description" id="userName">
             José Bezerra
           </span>
@@ -59,7 +59,7 @@
           <a>
             <i class="fa-solid fa-paperclip"></i>
             <span class="item-description">
-              Log's
+              Histórico
             </span>
           </a>
         </li>
@@ -260,7 +260,10 @@
             <h1 id="campogrande">Campo Grande</h1>
             <select name="cidades" id="cidades">
               <option value="Campo Grande">Campo Grande</option>
+              <option value="Rio de Janeiro">Rio de Janeiro</option>
               <option value="São Paulo">São Paulo</option>
+              <option value="Mirabela">Mirabela</option>
+              <option value="João Pessoa">João Pessoa</option>
             </select>
           </div>
           <div class="header-computadores">
@@ -522,6 +525,17 @@
                 Limite alerta: 70 - 80% de uso
               </div>
             </div>
+            <button class="adicionar-maquina">Adicionar Máquina</button>
+          </div>
+          <div style="display: flex; justify-content: space-between;">
+            <div>
+              <h3>Total de máquinas: 4</h3>
+            </div>
+            <div class="alertas-dash" style="justify-content: end; margin-bottom: 2%;">
+              <p><span style="background-color: green;"></span> Estado Normal</p>
+              <p><span style="background-color: yellow;"></span> Estado Atenção</p>
+              <p><span style="background-color: red;"></span> Estado Crítico</p>
+            </div>
           </div>
           <ul class="lista-maquinas">
             <li class="item-maquina">
@@ -741,6 +755,17 @@
               <div class="footer-maquina">
                 Limite alerta: 70 - 80% de uso
               </div>
+            </div>
+            <button class="adicionar-maquina">Adicionar Máquina</button>
+          </div>
+          <div style="display: flex; justify-content: space-between;">
+            <div>
+              <h3>Total de máquinas: 4</h3>
+            </div>
+            <div class="alertas-dash" style="justify-content: end; margin-bottom: 2%;">
+              <p><span style="background-color: green;"></span> Estado Normal</p>
+              <p><span style="background-color: yellow;"></span> Estado Atenção</p>
+              <p><span style="background-color: red;"></span> Estado Crítico</p>
             </div>
           </div>
           <ul class="lista-maquinas">
@@ -962,6 +987,17 @@
                 Limite alerta: 70 - 80% de uso
               </div>
             </div>
+            <button class="adicionar-maquina">Adicionar Máquina</button>
+          </div>
+          <div style="display: flex; justify-content: space-between;">
+            <div>
+              <h3>Total de máquinas: 4</h3>
+            </div>
+            <div class="alertas-dash" style="justify-content: end; margin-bottom: 2%;">
+              <p><span style="background-color: green;"></span> Estado Normal</p>
+              <p><span style="background-color: yellow;"></span> Estado Atenção</p>
+              <p><span style="background-color: red;"></span> Estado Crítico</p>
+            </div>
           </div>
           <ul class="lista-maquinas">
             <li class="item-maquina">
@@ -1182,6 +1218,17 @@
                 Limite alerta: 70 - 80% de uso
               </div>
             </div>
+            <button class="adicionar-maquina">Adicionar Máquina</button>
+          </div>
+          <div style="display: flex; justify-content: space-between;">
+            <div>
+              <h3>Total de máquinas: 4</h3>
+            </div>
+            <div class="alertas-dash" style="justify-content: end; margin-bottom: 2%;">
+              <p><span style="background-color: green;"></span> Estado Normal</p>
+              <p><span style="background-color: yellow;"></span> Estado Atenção</p>
+              <p><span style="background-color: red;"></span> Estado Crítico</p>
+            </div>
           </div>
           <ul class="lista-maquinas">
             <li class="item-maquina">
@@ -1377,14 +1424,27 @@
     </section>
     <section class="telas" style="display: none;" id="telaLog">
       <article class="content_component">
-        <div class="header">
+        <div class="header" style="width: 100%; justify-content: space-between;">
           <div class="title">
-            <h2>Logs</h2>
+            <h2>Histórico</h2>
           </div>
           <div class="buttons">
-            <span>Todos</span>
-            <span>Usuários</span>
-            <span>Máquinas</span>
+            <div style="width: 100%;">
+              <label for="informacao">Selecione a informação:</label>
+              <select name="informacao" id="informacao" style="width: 46%;">
+                <option value="Uso de Hardware">Uso de Hardware</option>
+                <option value="Usuários">Usuários</option>
+                <option value="Seguranca">Segurança das máquinas</option>
+              </select>
+            </div>
+            <div style="width: 50%;">
+              <label for="periodo">Periodo: </label>
+              <select name="periodo" id="periodo">
+                <option value="Hoje">Hoje</option>
+                <option value="7 dias">Últimos 7 dias</option>
+                <option value="30 dias">Últimos 30 dias</option>
+              </select>
+            </div>
           </div>
         </div>
         <div class="body">
