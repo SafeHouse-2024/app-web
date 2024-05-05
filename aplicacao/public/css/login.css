@@ -144,3 +144,18 @@ a:hover{
       top: 120%;
   }
 }
+
+@media only screen and (max-width: 600px){
+/* 
+  .bgAnimado{
+    display: none;
+  }
+  .bgAdmin{
+    display: none;
+  } */
+
+  main div{
+    width: 80%;
+    height: 90vh;
+  }
+} 
