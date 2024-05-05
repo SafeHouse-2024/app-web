@@ -64,6 +64,8 @@ form span{
   background-color: transparent;
   justify-content: space-around;
   margin-bottom: 5%;
+  color: #13004C;
+  font-weight: bold;
 }
 span input{
   background-color: transparent;
