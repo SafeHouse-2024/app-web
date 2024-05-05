@@ -51,6 +51,24 @@ var monitores = document.querySelectorAll('main > .telas');
 
 var itensMenu = document.querySelectorAll(".menu-lista > li");
 
+var darkStore = document.querySelectorAll('.dark-content');
+
+darkStore.forEach(dark => {
+  dark.addEventListener('click', () => {
+    trocarTela(2);
+    let darkClicada = dark.getElementsByTagName('p')[0];
+    darkClicadaNome = darkClicada.getElementsByTagName('span')[0].innerText;
+    darkClicadaFormatada = darkClicadaNome.replace(/ /g, '').toLowerCase();
+    console.log(darkClicadaFormatada);
+    window.location.href = `#${darkClicadaFormatada}`;
+
+    document.getElementById(darkClicadaFormatada).style.boxShadow = "0px 0px 10px 5px #FFC444";
+    setTimeout(() => {
+      document.getElementById(darkClicadaFormatada).style.boxShadow = "none";
+    }, 2000);
+  })
+});
+
 function trocarTela(tela) {
   itemClicado = itensMenu[tela];
   itemClicado.classList.add("active");
@@ -95,3 +113,8 @@ botaoMaquina.addEventListener("click", () => {
   botaoMaquina.style.backgroundColor = "#FFC444"
   botaoMaquina.style.color = "black"
 })
+
+// function abrirDarkStore(){
+//   trocarTela(2);
+//   window.location.href = "#saoPaulo";
+// }
