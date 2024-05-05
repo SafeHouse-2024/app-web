@@ -1,17 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: 0;
   border: 0;
 }
-body{ 
+
+body {
   font-family: 'JetBrains Mono', monospace;
   background-color: gray;
   color: white;
 }
-main{
+
+main {
   position: relative;
   display: flex;
   flex-direction: row;
@@ -20,7 +22,8 @@ main{
   height: 100vh;
   pointer-events: none;
 }
-.group{
+
+.group {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
@@ -34,19 +37,21 @@ main{
   border-radius: 20px;
 }
 
-h1{
+h1 {
   font-size: 40px;
   font-weight: bold;
   color: #13004C;
 }
-p{
+
+p {
   width: 70%;
   font-size: 20px;
   font-weight: bold;
   text-align: center;
   color: #13004C;
-}	
-form{
+}
+
+form {
   width: auto;
   display: flex;
   flex-direction: row;
@@ -56,7 +61,8 @@ form{
   padding: 20px;
   height: auto;
 }
-form span{
+
+form span {
   width: 90%;
   display: flex;
   flex-direction: column;
@@ -67,7 +73,8 @@ form span{
   color: #13004C;
   font-weight: bold;
 }
-span input{
+
+span input {
   background-color: transparent;
   border-bottom: #FFC444 2px solid;
   margin-top: 10px;
@@ -77,10 +84,12 @@ span input{
   border-left: none;
   border-right: none;
 }
-span input:focus{
+
+span input:focus {
   border-bottom: #1300ac solid 2px;
 }
-button{
+
+button {
   background-color: #FFC444;
   width: 220px;
   padding: 10px;
@@ -93,29 +102,33 @@ button{
   pointer-events: all;
   transition: .5s all ease-in-out;
 }
-button:hover{
+
+button:hover {
   background-color: #13004C;
   color: #FFC444;
 }
 
-a{
+a {
   color: #13004C;
   font-weight: bold;
   font-size: 16px;
   pointer-events: all;
   transition: all .5s;
 }
-a:hover{
+
+a:hover {
   color: #FFC444;
 }
-.container-form{
+
+.container-form {
   height: 100%;
   display: flex;
   justify-content: space-between;
   background-color: transparent;
   flex-direction: column;
 }
-.bgAnimado{
+
+.bgAnimado {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -126,7 +139,8 @@ a:hover{
   filter: saturate(2);
   overflow: hidden;
 }
-.caixaColorida{
+
+.caixaColorida {
   z-index: 2;
   filter: brightness(1.1);
   transition: 2s ease;
@@ -134,11 +148,13 @@ a:hover{
   margin: 2px;
   background-color: #1d1d1d;
 }
-.caixaColorida:hover{
+
+.caixaColorida:hover {
   background-color: #13004C;
   transition-duration: 0s;
 }
-.bgAdmin{
+
+.bgAdmin {
   position: absolute;
   top: 0;
   left: 0;
@@ -149,16 +165,34 @@ a:hover{
   animation: animBack 6s linear infinite;
 }
 
-.validacao{
-    display: none;  
-    margin-top: 1%;
+.validacao {
+  display: none;
+  margin-top: 1%;
 }
 
 @keyframes animBack {
-  0%{
-      top: -60px;
+  0% {
+    top: -60px;
   }
-  100%{
-      top: 120%;
+
+  100% {
+    top: 120%;
   }
 }
+
+@media only screen and (max-width: 600px){
+    .bgAnimado{
+      height: 680px;
+    }
+    main{
+      height: auto;
+    }
+    .group{
+      width: 80%;
+      height: auto;
+    }
+    form{
+      display: flex;
+      flex-direction: column;
+    }
+  } 
