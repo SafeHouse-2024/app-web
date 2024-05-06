@@ -392,6 +392,9 @@ footer {
         align-items: center;
         justify-content: center;
     }
+    header div{
+        margin-top: 0%;
+    }
 
     .span-btn-login {
         display: none;
