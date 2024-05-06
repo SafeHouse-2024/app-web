@@ -182,7 +182,7 @@ a:hover {
 
 @media only screen and (max-width: 600px){
     .bgAnimado{
-      height: 680px;
+      height: 935px;
     }
     main{
       height: auto;
@@ -192,7 +192,13 @@ a:hover {
       height: auto;
     }
     form{
+      width: 60%;
       display: flex;
       flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .container-form{
+      width: 80%;
     }
   } 
