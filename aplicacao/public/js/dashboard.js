@@ -25,42 +25,9 @@ function consultaBanco(caminho, metodo) {
     });
 }
 
-// function exibirComputadores() {
-//   fkUsuaio = sessionStorage.IDUSUARIO;
-//   url = `/conexao/computador/WHERE idMaquina>0 AND fkUsuario=${fkUsuaio}`
-//   metodo = "GET"
-
-//   consultaBanco(url, metodo).then(function (computadores) {
-//     sessionStorage.IDMAQUINA = computadores[0].idMaquina;
-//     var lista = document.getElementById("listaComputadores");
-//     lista.innerHTML = "";
-//     computadores.forEach(function (computador) {
-//       var li = document.createElement("li");
-//       li.appendChild(document.createTextNode(computador.idMaquina + " - " + computador.nomeMaquina + " - " + computador.processador + " - " + computador.memoriaRam + " - " + computador.discoRigido));
-//       lista.appendChild(li);
-//     });
-//   });
-// }
-
 var monitores = document.querySelectorAll('main > .telas');
 var itensMenu = document.querySelectorAll(".menu-lista > li");
-var darkStore = document.querySelectorAll('.dark-content');
 
-// darkStore.forEach(dark => {
-//   dark.addEventListener('click', () => {
-//     trocarTela(2);
-//     let darkClicada = dark.getElementsByTagName('p')[0];
-//     darkClicadaNome = darkClicada.getElementsByTagName('span')[0].innerText;
-//     darkClicadaFormatada = darkClicadaNome.replace(/ /g, '').toLowerCase();
-//     console.log(darkClicadaFormatada);
-//     window.location.href = `#${darkClicadaFormatada}`;
-
-//     document.getElementById(darkClicadaFormatada).style.boxShadow = "0px 0px 10px 5px #FFC444";
-//     setTimeout(() => {
-//       document.getElementById(darkClicadaFormatada).style.boxShadow = "none";
-//     }, 2000);
-//   })
-// });
 
 function trocarTela(tela) {
   itemClicado = itensMenu[tela];
@@ -88,3 +55,74 @@ function trocarTela(tela) {
 //     }
 //   });
 // });
+
+usuario = {
+  idUsuario: sessionStorage.IDUSUARIO,
+  nome: sessionStorage.NOME,
+  sobrenome: sessionStorage.SOBRENOME,
+  tipo: sessionStorage.TIPO,
+  email: sessionStorage.EMAIL,
+  senha: sessionStorage.SENHA,
+  cargo: sessionStorage.CARGO,
+  fkDarkStore: sessionStorage.FKDARKSTORE,
+}
+
+function buscarDarkStore() {
+  url = `/conexao/darkstore/WHERE idDarkStore=${usuario.fkDarkStore}`;
+  metodo = "GET";
+
+  return consultaBanco(url, metodo).then(function (darkStore) {
+    return darkStore;
+  });
+}
+
+darkStoreLoja = {
+  idDarkStore: darkStore[0].idDarkStore,
+  nome: darkStore[0].nome,
+  endereco: darkStore[0].endereco,
+  uf: darkStore[0].uf,
+  fkEmpresa: darkStore[0].fkEmpresa,
+  computadores: [],
+  funcionarios: darkStore[0].funcionarios
+}
+
+
+function buscarEmpresa() {
+  url = `/conexao/empresa/WHERE idEmpresa=${darkStoreLoja.fkEmpresa}`;
+  metodo = "GET";
+
+  return consultaBanco(url, metodo).then(function (empresa) {
+    return empresa;
+  });
+}
+
+function buscarComputadoresDarkStore() {
+  url = `/conexao/computador/WHERE fkDarkStore=${darkStoreLoja.idDarkStore}`;
+  metodo = "GET";
+
+  return consultaBanco(url, metodo).then(function (computadores) {
+    return computadores;
+  });
+}
+
+computador = {
+  idComputador: '',
+  nome: '',
+  fkDarkStore: '',
+  fkUsuario: '',
+  ativo: false,
+  macAddress: '',
+  componentes: [],
+}
+
+buscarComputadoresDarkStore().forEach(computador => {
+  computador.idComputador = computador.idComputador;
+  computador.nome = computador.nome;
+  computador.fkDarkStore = computador.fkDarkStore;
+  computador.fkUsuario = computador.fkUsuario;
+  computador.ativo = computador.ativo;
+  computador.macAddress = computador.macAddress;
+  computador.componentes = computador.componentes;
+
+  darkStoreLoja.computadores.push(computador);
+});

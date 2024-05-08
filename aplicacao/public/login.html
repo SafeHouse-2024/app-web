@@ -57,6 +57,13 @@
       consultaBanco(url, metodo).then((resposta) => {
         if (resposta.length > 0 && resposta != undefined) {
           sessionStorage.IDUSUARIO = resposta[0].idUsuario;
+          sessionStorage.NOME = resposta[0].nome;
+          sessionStorage.SOBRENOME = resposta[0].sobrenome;
+          sessionStorage.TIPO = resposta[0].tipo;
+          sessionStorage.EMAIL = resposta[0].email;
+          sessionStorage.SENHA = resposta[0].senha;
+          sessionStorage.CARGO = resposta[0].cargo;
+          sessionStorage.FKDARKSTORE = resposta[0].fkDarkStore;
           // Alerta no topo da lateral direita para login bem-sucedido
           Swal.fire({
             icon: "success",
