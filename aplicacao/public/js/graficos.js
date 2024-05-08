@@ -1,6 +1,8 @@
 const graficosLinha = document.querySelectorAll('.chart-linha > canvas');
 const graficosBarra = document.querySelectorAll('.chart-barra > canvas');
 const graficosDonut = document.querySelectorAll('.chart-donut > canvas');
+const graficoCPUDarkStore = document.getElementById('ctx_barra_geral1');
+const graficoRAMDarkStore = document.getElementById('ctx_barra_geral2')
 
 const barraProgresso = document.querySelectorAll('.header-maquina > progress');
 
@@ -30,9 +32,9 @@ graficosLinha.forEach((grafico) => {
             datasets: [{
                 label: decidirNome(contador++), 
                 data: sortearLabel(),
-                borderColor: '#ff0000',
-                backgroundColor: 'transparent',
-                borderWidth: 2
+                borderColor: '#09037b',
+                backgroundColor: '#09037b',
+                borderWidth: 2,
             }]
         }
     });
@@ -43,18 +45,42 @@ graficosDonut.forEach((grafico) => {
   new Chart(ctx, {
     type: 'doughnut',
     data: {
-      labels: ['CPU', 'RAM', 'Disco'],
+      labels: ['Disponível', 'Ocupado'],
       datasets: [{
-        data: [30, 40, 30],
-        backgroundColor: ['#ff0000', '#00ff00', '#0000ff']
+        data: [900, 100],
+        backgroundColor: ['#00ff00', '#ff0000']
       }]
     }
   });
 });
 
+
 function sortearValor() {
   return Math.floor(Math.random() * 100);
 }
+
+
+new Chart(graficoCPUDarkStore, {
+  type: 'bar',
+  data: {
+    labels: ['Campo Grande', 'São Paulo', 'Minas', 'Pernambuco', 'Maracás'],
+    datasets: [{
+      label: "Uso de CPU",
+      data: [5, 4, 3, 9, 2]
+    }]
+  }
+})
+
+new Chart(graficoRAMDarkStore, {
+  type: 'bar',
+  data: {
+    labels: ['Campo Grande', 'São Paulo', 'Minas', 'Pernambuco', 'Maracás'],
+    datasets: [{
+      label: "Uso de RAM",
+      data: [5, 4, 3, 9, 2]
+    }]
+  }
+})
 
 setInterval(() => {
   barraProgresso.forEach((barra) => {

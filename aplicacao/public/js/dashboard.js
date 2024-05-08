@@ -4,6 +4,15 @@ document.getElementById('open_btn').addEventListener('click', function () {
   document.getElementById('sidebar').classList.toggle('open-sidebar');
 });
 
+
+document.querySelector('.fechar-popup-user').addEventListener('click', () => {
+  document.querySelector('.popup-usuario').style.display = 'none';
+});
+
+document.querySelector('.button_user').addEventListener('click', () => {
+  document.querySelector('.popup-usuario').style.display = 'flex';
+});
+
 function consultaBanco(caminho, metodo) {
   return fetch(`${caminho}`, {
     method: `${metodo}`,
@@ -41,6 +50,24 @@ function exibirComputadores() {
 var monitores = document.querySelectorAll('main > .telas');
 
 var itensMenu = document.querySelectorAll(".menu-lista > li");
+
+var darkStore = document.querySelectorAll('.dark-content');
+
+darkStore.forEach(dark => {
+  dark.addEventListener('click', () => {
+    trocarTela(2);
+    let darkClicada = dark.getElementsByTagName('p')[0];
+    darkClicadaNome = darkClicada.getElementsByTagName('span')[0].innerText;
+    darkClicadaFormatada = darkClicadaNome.replace(/ /g, '').toLowerCase();
+    console.log(darkClicadaFormatada);
+    window.location.href = `#${darkClicadaFormatada}`;
+
+    document.getElementById(darkClicadaFormatada).style.boxShadow = "0px 0px 10px 5px #FFC444";
+    setTimeout(() => {
+      document.getElementById(darkClicadaFormatada).style.boxShadow = "none";
+    }, 2000);
+  })
+});
 
 function trocarTela(tela) {
   itemClicado = itensMenu[tela];

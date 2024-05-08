@@ -21,7 +21,6 @@ body {
 }
 
 main {
-  padding: 20px;
   position: fixed;
   z-index: 1;
   padding-left: calc(82px + 20px);
@@ -34,7 +33,7 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color: #ffffff;
+  background-color: #13004C;
   height: 100vh;
   border-radius: 0px 18px 18px 0px;
   position: relative;
@@ -85,12 +84,12 @@ main {
 }
 
 .side-item.active {
-  background-color: #4f46e5;
+  background-color: #FFC444;
 }
 
 .side-item:hover:not(.active),
 #logout_btn:hover {
-  background-color: #e3e9f7;
+  background-color: #ffc44480;
 }
 
 .side-item a {
@@ -98,11 +97,11 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #0a0a0a;
+  color: #fff;
 }
 
 .side-item.active a {
-  color: #e3e9f7;
+  color: #000;
 }
 
 .side-item a i {
@@ -129,14 +128,15 @@ main {
   text-align: start;
   cursor: pointer;
   background-color: transparent;
+  color: #fff;
 }
 
 #open_btn {
   position: absolute;
   top: 30px;
   right: -10px;
-  background-color: #4f46e5;
-  color: #e3e9f7;
+  background-color: yellow;
+  color: #000;
   border-radius: 100%;
   width: 20px;
   height: 20px;
@@ -157,7 +157,7 @@ main {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  font-size: 14px;
+  font-size: 16px;
   transition: width 0.6s;
   height: 0px;
 }
@@ -203,12 +203,15 @@ main {
 #telaComputadores > article {
   width: 100%;
   height: 100%;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
 
   overflow-y: scroll;
 }
 
 .lista-maquinas {
-  width: 95%;
+  width: 100%;
   height: max-content;
 
   overflow: scroll;
@@ -225,16 +228,28 @@ main {
   border: 1px solid #000;
   border-bottom: none;
   border-top: none;
-  background-color: #ffffffce;
-
+  background-color: #fff;
   pointer-events: all;
   transition: 0.3s;
 
   overflow: hidden;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.item-maquina .header-maquina button{
+  padding: .5% 3%;
+  background-color: #FFC444;
+  color: black;
+  border: none;
+  border-radius: 15px;
+  z-index: 9999;
+  cursor: pointer;
 }
 
 .activeMaquina {
-  height: 500px;
+  min-height: max-content;
+  height: 700px;
 }
 .header-maquina {
   height: 50px;
@@ -245,11 +260,13 @@ main {
   padding: 0 10px;
 
   border: 1px solid #000;
+  background-color: #13004C;
 }
 
 .header-maquina:hover {
   cursor: pointer;
   background-color: #adadad;
+
 }
 
 .grafico-maquina{
@@ -272,11 +289,8 @@ main {
 
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center; 
+  align-items: center;
 }
-
-
 
 .chart-linha{
   width: 90%;  
@@ -292,27 +306,26 @@ main {
 
 .chart-linha>a{
   display: flex;
-  font-size: 12px;
+  font-size: 14px;
+  color: black;
 }
 
 .chart-donut{
-  width: 50%;
+  width: 70%;
   /* position: relative; */
   display: flex;
-  top: 5%;
-  right: 75%;
-  top: 5%;
   flex-direction: column;
+  margin-top: 6%;
 }
 
 
 .content_component{
   background-color: white;
-  width: 94%;
-  height: 80vh;
-  margin: 2% 0 0 2%;
-  border-radius: 15px;
+  width: 100%;
+  border-radius: 10px;
   overflow-y: scroll;
+  overflow-x: hidden;
+  overflow-x: hidden;
   padding: 0 2%;
 }
 
@@ -334,13 +347,18 @@ main {
   color: white;
 }
 
-.content_component .header .title{
+.content_component .header .title h2{
   font-size: 20px;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 .content_component .header .buttons{
   display: flex;
+  margin-right: 8%;
+}
+
+.content_component .header .buttons label{
+  padding-top: 2%;
 }
 
 .content_component .header .buttons span{
@@ -450,20 +468,22 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  align-items: center;
+
+
 }
 
-.header-dash{
+.header-computadores{
   display: flex;
   justify-content: space-between;
   align-items: center;
 
   height: 30%;
   width: 100%;
+  margin: 30px 0;
 }
 
 .maquina-geral{
-  width: 30%;
+  width: 24%;
   height: 100%;
 
   display: flex;
@@ -483,19 +503,21 @@ main {
   justify-content: space-evenly;
   align-items: center;
   color: #09037b;
+  padding: 5%;
 }
 
 .texto-maquina p{
   font-size: 20px;
-  width: 50%;
+  width: 70%;
 }
 
 .texto-maquina span{
   font-size: 30px;
+  width: 15%;
 }
 
 .footer-maquina{
-  width: 100%;
+  width: 90%;
   height: 20%;
 
   display: flex;
@@ -503,19 +525,22 @@ main {
   align-items: center;
 }
 
-.content-dash{
+#telaDash > article{
   width: 100%;
-  height: 70%;
+  height: 100%;
 
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-
-  padding: 0 10px;
   background-color: #fff;
-  border-radius: 10px;
-  margin-top: 20px;
+}
+
+.content-dash{
+  width: 100%;
+  height: 80%;
+
+  padding: 0 3%;
 }
 
 .header-content{
@@ -545,7 +570,7 @@ main {
 
 .main-content{
   width: 100%;
-  height: 90%;
+  height: 80%;
 
   display: flex;
   justify-content: space-between;
@@ -553,7 +578,8 @@ main {
 }
 
 .empresas-content{
-  width: 55%;
+  width: 57%;
+  width: 57%;
   height: 90%;
 
   display: grid;
@@ -573,7 +599,7 @@ main {
   align-items: start;
 
   padding: 10px;
-  background-color: #787878;
+  background-color: #13004C;
   color: white;
   border-radius: 10px;
   transition: .3s;
@@ -597,14 +623,10 @@ main {
 .graficos-content{
   width: 40%;
   height: 90%;
-
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
 
-  padding: 10px;
-  padding-top: 260px;
+  /* padding: 16% 3% 0 0; */
 
   overflow-y: scroll;
 }
@@ -612,45 +634,46 @@ main {
 .grafico-barra-content{
   width: 100%;
   height: max-content;
+  margin-bottom: 5%;
+  margin-bottom: 5%;
 }
 
 .infosHardware{
-  display: flex;
-  font-size: 15px;
-  /* position: relative; */
-  left: 35%;
- flex-direction: column;
- background-color: #eaeaea;
- padding: 10px;
- border-radius: 5px;
+  background-color: #13004C;
+  padding: 20px;
+  border-radius: 5px;
+  width: 100%;
+  margin-top: 2%;
  }
- 
- .infosHardware>a{
-   display: flex;
-   flex-direction: column;
+
+ .infosHardware a{
+  width: 100%;
  }
+
+.infosDash{
+  background-color: #13004C;
+  color: white;
+  margin-top: 5%;
+}
 
  .infosDash>h2{
   display: flex;
   /* position: relative; */
-  background-color: #eaeaea;
   width: 300px;
-  padding-bottom: 10px;
+  padding-bottom: 5px;
   border-radius: 5px;
-  height: 70px;
   right: 120%;
 }
 
 h2{
   display: flex;
-  font-size: 12px;
+  font-size: 16px;
   /* position: relative; */
   right: 5%;
   padding-bottom: 15px;
   padding: 10px;
   align-items: center;
   border-radius: 5px;
-
 }
 
 h2>span{
@@ -690,8 +713,8 @@ h2>span{
 .fechar-helpdesk{
   cursor: pointer;
 
-  width: 30px;
-  height: 30px;
+  /* width: 30px;
+  height: 30px; */
 
   display: flex;
   justify-content: center;
@@ -709,9 +732,9 @@ h2>span{
 
 .abrir-helpdesk{
   cursor: pointer;
-
-  /* width: 30px;
-  height: 30px; */
+/*  
+  width: 55px;
+  height: 55px;  */
 
   display: flex;
   justify-content: center;
@@ -719,13 +742,486 @@ h2>span{
 
   border-radius: 10px;
   border: 2px solid #fff;
-  background-color: rgb(221, 217, 0);
+  background-color: #FFC444;
   color: rgb(0, 0, 0);
-  font-size: 25px;
-  padding: 10px;
+  font-size: 20px;
+  padding: 8px;
+  font-size: 20px;
+  padding: 8px;
 
   position: absolute;
   z-index: 999999;
   bottom:20px;
   right: 20px;
+}
+
+
+.estado{
+  margin-top: 20px;
+}
+
+#cidades{
+  width: 20%;
+}
+
+.kpi-progress{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 50%;
+  height: 100%;
+  padding: 10px;
+}
+.kpi-progress p{
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 30%;
+  border-right: 1px solid #000;
+}
+.barra-progresso{
+  width:50%;
+  height: 10px;
+  border-radius: 10px;
+}
+
+.popup-usuario {
+  position: absolute;
+  z-index: 9999999999999;
+
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.288);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: all;
+}
+
+.popup-card {
+  background-color: #e9e7e7f3;
+  width: 40%;
+  height: 70%;
+  display: flex;
+  border-radius: 20px;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-direction: column;
+}
+
+.popup-card h1 {
+  width: 80%;
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-ipt {
+  flex-direction: column;
+  width: 80%;
+  height: 50%;
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.ipt-info-user {
+  flex-direction: row;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  font-family: "Poppins", sans-serif;
+  font-size: large;
+}
+
+.ipt-info-user div {
+  flex-direction: column;
+  display: flex;
+  width: 45%;
+  font-family: "Poppins", sans-serif;
+}
+
+.ipt-info {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  font-family: "Poppins", sans-serif;
+  font-size: large;
+}
+
+.fechar-popup-user{
+  position: relative;
+  width: 35px;
+  height: 35px;
+  color: rgb(255, 255, 255);
+  background-color: red;
+  font-weight: 600;
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 50%;
+  margin-top: -120px;
+
+  cursor: pointer;
+}
+
+.bto-criar-user {
+  display: flex;
+  width: 35%;
+  height: 10%;
+  border-radius: 20px;
+
+  align-items: center;
+  justify-content: center;
+  font-family: "Poppins", sans-serif;
+  font-size: medium;
+
+  border: none;
+  cursor: pointer;
+  background-color: #13004C;
+  color: white;
+}
+
+.ipt-campo {
+  display: flex;
+  background-color: #ffffff;
+  border: none;
+  cursor: pointer;
+  padding-left: 10px;
+}
+
+.configuration-page{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5%;
+  width: 100%;
+}
+
+.configuration-page .header{
+  width: 100%;
+  margin: 0;
+}
+
+.configuration-page .header .seguranca{
+  margin-right: 10px;
+}
+
+.edit-profile{
+  width: 60%;
+  padding: 0 3%;
+}
+
+#nome{
+  width: 90%;
+}
+
+#sobrenome{
+  width: 100%;
+}
+
+.profile{
+  background-color: #13004C; 
+  color: white; 
+  width: 100%; 
+  padding: 4% 5% 10% 5%; 
+  margin-top: 3%;
+  border-radius: 10px;
+}
+
+.edit-user{
+  width: 20%;
+  height: 10%;
+  padding: 5px;
+  cursor: pointer;
+  background-color: #FFC444;
+  color: #000;
+  border: none;
+  border-radius: 15px;
+}
+
+#email{
+  width: 100%;
+}
+
+.config-item{
+  margin-top: 2%;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+label{
+  margin-bottom: 2%;
+}
+
+.notification{
+  width: 40%;
+  padding: 0 4%;
+  height: 70vh;
+}
+
+.content_component .notification .headers{
+  width: 100%;
+  display: flex;
+  margin-top: 2%;
+}
+
+.content_component .notification .headers .maquina, 
+.content_component .notification .headers .seguranca{
+  background-color: #13004C;
+  color: white;
+  padding: 1% 2%;
+  cursor: pointer;
+}
+
+.content_component .notification .body{
+  display: flex; 
+  flex-direction: column; 
+  margin: 0;
+  padding: 5%;
+  height: 90%;
+  background-color: #13004C;
+  color: white;
+}
+
+.checkbox{
+  display: flex;
+  margin-top: 2%;
+  width: 100%;
+  justify-content: end;
+}
+
+.checkbox label{
+  margin-right: 2%;
+}
+
+.checkbox input{
+  width: 5%;
+  margin-bottom: 2%;
+  cursor: pointer;
+}
+
+.search{
+  padding: 0;
+}
+
+.search input{
+  width: 100%;
+}
+
+.user-configs{
+  height: 80%;
+  overflow-y: scroll;
+}
+
+.user-config{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 2%;
+  background-color: white;
+  padding: 3% 4%;
+  color: black;
+}
+
+.user-config img{
+  width: 30%;
+}
+
+.user-information{
+  display: flex;
+}
+
+.user-information div{
+  margin-left: 8%;
+}
+
+.adicionar-maquina{
+  padding: 1% 2%;
+  background-color: #13004C;
+  color: white;
+  border: none;
+  border-radius: 15px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.adicionar-maquina:hover{
+  background-color: #FFC444;
+  color: black;
+  transition: .5s;
+
+  cursor: pointer;
+}
+
+.bto-criar-user {
+  display: flex;
+  width: 35%;
+  height: 10%;
+  border-radius: 20px;
+
+  align-items: center;
+  justify-content: center;
+  font-family: "Poppins", sans-serif;
+  font-size: medium;
+
+  border: none;
+  cursor: pointer;
+  background-color: #13004C;
+  color: white;
+}
+
+.ipt-campo {
+  display: flex;
+  background-color: #ffffff;
+  border: none;
+  cursor: pointer;
+  padding-left: 10px;
+}
+
+.configuration-page{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5%;
+  width: 100%;
+}
+
+.configuration-page .header{
+  width: 100%;
+  margin: 0;
+}
+
+.configuration-page .header .seguranca{
+  margin-right: 10px;
+}
+
+.edit-profile{
+  width: 60%;
+  padding: 0 3%;
+}
+
+#nome{
+  width: 90%;
+}
+
+#sobrenome{
+  width: 100%;
+}
+
+.profile{
+  background-color: #13004C; 
+  color: white; 
+  width: 100%; 
+  padding: 4% 5% 10% 5%; 
+  margin-top: 3%;
+  border-radius: 10px;
+}
+
+.edit-user{
+  width: 20%;
+  height: 10%;
+  padding: 5px;
+  cursor: pointer;
+  background-color: #FFC444;
+  color: #000;
+  border: none;
+  border-radius: 15px;
+}
+
+#email{
+  width: 100%;
+}
+
+.config-item{
+  margin-top: 2%;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+label{
+  margin-bottom: 2%;
+}
+
+.notification{
+  width: 40%;
+  padding: 0 4%;
+  height: 70vh;
+}
+
+.content_component .notification .headers{
+  width: 100%;
+  display: flex;
+  margin-top: 2%;
+}
+
+.content_component .notification .headers .maquina, 
+.content_component .notification .headers .seguranca{
+  background-color: #13004C;
+  color: white;
+  padding: 1% 2%;
+  cursor: pointer;
+}
+
+.content_component .notification .body{
+  display: flex; 
+  flex-direction: column; 
+  margin: 0;
+  padding: 5%;
+  height: 90%;
+  background-color: #13004C;
+  color: white;
+}
+
+.checkbox{
+  display: flex;
+  margin-top: 2%;
+  width: 100%;
+  justify-content: end;
+}
+
+.checkbox label{
+  margin-right: 2%;
+}
+
+.checkbox input{
+  width: 5%;
+  margin-bottom: 2%;
+  cursor: pointer;
+}
+
+.search{
+  padding: 0;
+}
+
+.search input{
+  width: 100%;
+}
+
+.user-configs{
+  height: 80%;
+  overflow-y: scroll;
+}
+
+.user-config{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 2%;
+  background-color: white;
+  padding: 3% 4%;
+  color: black;
+}
+
+.user-config img{
+  width: 30%;
+}
+
+.user-information{
+  display: flex;
+}
+
+.user-information div{
+  margin-left: 8%;
 }
