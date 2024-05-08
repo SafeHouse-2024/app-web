@@ -95,26 +95,3 @@ maquinas.forEach(maquina => {
     }
   });
 });
-
-
-// Botões de notificação
-var botaoSeguranca = document.querySelector(".seguranca")
-var botaoMaquina = document.querySelector(".maquina")
-botaoSeguranca.addEventListener('click', () => {
-  botaoSeguranca.style.backgroundColor = "#FFC444"
-  botaoSeguranca.style.color = "black"
-  botaoMaquina.style.backgroundColor = "#13004C"
-  botaoMaquina.style.color = "white"
-})
-
-botaoMaquina.addEventListener("click", () => {
-  botaoSeguranca.style.backgroundColor = "#13004C"
-  botaoSeguranca.style.color = "white"
-  botaoMaquina.style.backgroundColor = "#FFC444"
-  botaoMaquina.style.color = "black"
-})
-
-// function abrirDarkStore(){
-//   trocarTela(2);
-//   window.location.href = "#saoPaulo";
-// }
