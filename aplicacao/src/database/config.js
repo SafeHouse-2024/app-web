@@ -3,10 +3,10 @@ var sql = require('mssql');
 
 // CONEXÃO DO MYSQL WORKBENCH
 var mySqlConfig = {
-    host: "44.208.29.157",
+    host: "localhost",
     database: "spectra",
-    user: "admin",
-    password: "Sptech#2024",
+    user: "aluno",
+    password: "sptech",
 };
 
 // Função para executar instruções SQL

@@ -1,36 +1,34 @@
 <!DOCTYPE html>
 <html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="./css/login.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login</title>
-  <link rel="stylesheet" href="./css/login.css" />
-</head>
-
-<body>
-  <div class="bgAnimado" id="bgAnimado">
-    <div class="bgAdmin" id="bgAdmin"></div>
-  </div>
-  <main>
-    <div>
-      <h1>Faça seu login</h1>
-      <form onsubmit="return false">
-        <span>
-          <label for="email">E-mail</label>
-          <input type="text" id="ipt_email" name="email" required />
-        </span>
-        <span>
-          <label for="senha">Senha</label>
-          <input type="password" id="ipt_senha" name="senha" required />
-        </span>
-        <button onclick="login()">Login</button>
-      </form>
-      <a href="./cadastro.html">Faça seu cadastro!</a>
+  <body>
+    <div class="bgAnimado" id="bgAnimado">
+      <div class="bgAdmin" id="bgAdmin"></div>
     </div>
-  </main>
-</body>
-
+    <main>
+      <div>
+        <h1>Faça seu login</h1>
+        <form onsubmit="return false">
+          <span>
+            <label for="email">E-mail</label>
+            <input type="text" id="ipt_email" name="email" required />
+          </span>
+          <span>
+            <label for="senha">Senha</label>
+            <input type="password" id="ipt_senha" name="senha" required />
+          </span>
+          <button onclick="login()">Login</button>
+        </form>
+        <a href="./cadastro.html">Faça seu cadastro!</a>
+      </div>
+    </main>
+  </body>
 </html>
 
 <!--Script para importar a api do sweet alert-->
@@ -51,7 +49,7 @@
     var senha = document.getElementById("ipt_senha").value;
 
     if (email != "" || senha != "") {
-      url = `/conexao/Funcionario/where email='${email}' AND senha='${senha}'`;
+      url = `/conexao/usuario/where email='${email}' AND senha='${senha}'`;
       metodo = "GET";
 
       consultaBanco(url, metodo).then((resposta) => {
@@ -64,6 +62,18 @@
           sessionStorage.SENHA = resposta[0].senha;
           sessionStorage.CARGO = resposta[0].cargo;
           sessionStorage.FKDARKSTORE = resposta[0].fkDarkStore;
+
+          consultaBanco(
+            `conexao/empresa/WHERE idEmpresa = ${sessionStorage.FKDARKSTORE}`,
+            "GET"
+          )
+            .then(function (resposta) {
+              sessionStorage.IDEMPRESA = resposta[0].idEmpresa;
+            })
+            .catch(function (resposta) {
+              console.log(`#ERRO: ${resposta}`);
+            });
+
           // Alerta no topo da lateral direita para login bem-sucedido
           Swal.fire({
             icon: "success",
@@ -73,7 +83,7 @@
             showConfirmButton: false,
             timer: 1500,
             timerProgressBar: true,
-          }).then(result => {
+          }).then((result) => {
             window.location.href = "/dashboard.html";
           });
         } else {
@@ -82,9 +92,9 @@
             icon: "error",
             width: "600",
             html: "<p>Nome de usuário e/ou senha inválidos, por favor verifique se os campos foram preenchidos corretamente.</p>",
-            confirmButtonColor: "#060118"
-          }).then(result => {
-            ipt_senha.value = ""
+            confirmButtonColor: "#060118",
+          }).then((result) => {
+            ipt_senha.value = "";
           });
         }
       });

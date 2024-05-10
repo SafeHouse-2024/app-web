@@ -1,1631 +1,2386 @@
 <!DOCTYPE html>
 <html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DashBoard</title>
+    <link rel="stylesheet" href="./css/dashboard.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="short icon" href="./assets/Logo png.png" type="img" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DashBoard</title>
-  <link rel="stylesheet" href="./css/dashboard.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="short icon" href="./assets/Logo png.png" type="img">
-</head>
+  <body>
+    <nav id="sidebar">
+      <div id="sidebar_content">
+        <div id="user">
+          <img src="./assets/Logo png.png" id="user_avatar" alt="Avatar" />
 
-<body>
-  <nav id="sidebar">
-    <div id="sidebar_content">
-      <div id="user">
-        <img src="./assets/Logo png.png" id="user_avatar" alt="Avatar">
+          <p id="user_infos" style="color: white">
+            <span class="item-description" id="userName"> José Bezerra </span>
+            <span class="item-description" id="userEmail">
+              jose@gmail.com
+            </span>
+          </p>
+        </div>
 
-        <p id="user_infos" style="color: white;">
-          <span class="item-description" id="userName">
-            José Bezerra
-          </span>
-          <span class="item-description" id="userEmail">
-            jose@gmail.com
-          </span>
-        </p>
+        <ul id="side_items" class="menu-lista">
+          <li id="menuDash" class="side-item active" onclick="trocarTela(0)">
+            <a>
+              <i class="fa-solid fa-chart-line"></i>
+              <span class="item-description"> Dashboard </span>
+            </a>
+          </li>
+
+          <li id="menuUsuarios" class="side-item" onclick="trocarTela(1)">
+            <a>
+              <i class="fa-solid fa-user"></i>
+              <span class="item-description"> Usuários </span>
+            </a>
+          </li>
+          <li id="menuComputadores" class="side-item" onclick="trocarTela(2)">
+            <a>
+              <i class="fa-solid fa-computer"></i>
+              <span class="item-description"> Computadores </span>
+            </a>
+          </li>
+
+          <li id="menuLog" class="side-item" onclick="trocarTela(3)">
+            <a>
+              <i class="fa-solid fa-paperclip"></i>
+              <span class="item-description"> Histórico </span>
+            </a>
+          </li>
+
+          <li id="menuConfig" class="side-item" onclick="trocarTela(4)">
+            <a>
+              <i class="fa-solid fa-gear"></i>
+              <span class="item-description"> Configurações </span>
+            </a>
+          </li>
+        </ul>
+
+        <button id="open_btn">
+          <i id="open_btn_icon" class="fa-solid fa-chevron-right"></i>
+        </button>
       </div>
 
-      <ul id="side_items" class="menu-lista">
-        <li id="menuDash" class="side-item active" onclick="trocarTela(0)">
-          <a>
-            <i class="fa-solid fa-chart-line"></i>
-            <span class="item-description">
-              Dashboard
-            </span>
-          </a>
-        </li>
-
-        <li id="menuUsuarios" class="side-item" onclick="trocarTela(1)">
-          <a>
-            <i class="fa-solid fa-user"></i>
-            <span class="item-description">
-              Usuários
-            </span>
-          </a>
-        </li>
-        <li id="menuComputadores" class="side-item" onclick="trocarTela(2)">
-          <a>
-            <i class="fa-solid fa-computer"></i>
-            <span class="item-description">
-              Computadores
-            </span>
-          </a>
-        </li>
-
-        <li id="menuLog" class="side-item" onclick="trocarTela(3)">
-          <a>
-            <i class="fa-solid fa-paperclip"></i>
-            <span class="item-description">
-              Histórico
-            </span>
-          </a>
-        </li>
-
-        <li id="menuConfig" class="side-item" onclick="trocarTela(4)">
-          <a>
-            <i class="fa-solid fa-gear"></i>
-            <span class="item-description">
-              Configurações
-            </span>
-          </a>
-        </li>
-      </ul>
-
-      <button id="open_btn">
-        <i id="open_btn_icon" class="fa-solid fa-chevron-right"></i>
-      </button>
-    </div>
-
-    <div id="logout">
-      <button id="logout_btn">
-        <i class="fa-solid fa-right-from-bracket"></i>
-        <span class="item-description">
-          Sair
-        </span>
-      </button>
-    </div>
-  </nav>
-  <main>
-    <div id="particles-js"></div>
-    <section class="telas" style="display: flex;" id="telaDash">
-      <article>
-        <div class="content-dash">
-          <div class="header-content">
-            <h1>Dark Stores - <span>SouthTech</span></h1>
-            <div class="alertas-dash">
-              <p><span style="background-color: green;"></span> Estado Normal</p>
-              <p><span style="background-color: yellow;"></span> Estado Atenção</p>
-              <p><span style="background-color: red;"></span> Estado Crítico</p>
-            </div>
-          </div>
-          <div class="main-content">
-            <div class="empresas-content">
-              <div class="dark-content">
-                <span class="status-maquina" style="background-color: yellow;"></span>
-                <p>Dark Store - <span>Campo Grande</span></p>
-                <p>Quantidade de máquinas: <span>12</span></p>
-              </div>
-              <div class="dark-content">
-                <span class="status-maquina" style="background-color: green;"></span>
-                <p>Dark Store - <span>Rio de Janeiro</span></p>
-                <p>Quantidade de máquinas: <span>23</span></p>
-              </div>
-              <div class="dark-content">
-                <span class="status-maquina" style="background-color: yellow;"></span>
-                <p>Dark Store - <span>São Paulo</span></p>
-                <p>Quantidade de máquinas: <span>42</span></p>
-              </div>
-              <div class="dark-content">
-                <span class="status-maquina" style="background-color: green;"></span>
-                <p>Dark Store - <span>Mirabela</span></p>
-                <p>Quantidade de máquinas: <span>18</span></p>
-              </div>
-              <div class="dark-content">
-                <span class="status-maquina" style="background-color: yellow;"></span>
-                <p>Dark Store - <span>Santa Catarina</span></p>
-                <p>Quantidade de máquinas: <span>11</span></p>
-              </div>
-              <div class="dark-content">
-                <span class="status-maquina" style="background-color: green;"></span>
-                <p>Dark Store - <span>João Pessoa</span></p>
-                <p>Quantidade de máquinas: <span>24</span></p>
-              </div>
-            </div>
-            <div class="graficos-content">
-              <div class="grafico-barra-content">
-                <p>Quantidade de máquinas com uso excessivo de CPU em cada Dark Store</p>
-                <canvas id="ctx_barra_geral1"></canvas>
-              </div>
-              <div class="grafico-barra-content">
-                <p>Quantidade de máquinas com uso excessivo de RAM em cada Dark Store</p>
-                <canvas id="ctx_barra_geral2"></canvas>
-              </div>
-            </div>
-          </div>
-        </div>
-      </article>
-    </section>
-    <section class="telas" style="display: none;" id="telaUsuarios">
-      <article class="content_component">
-        <div class="header" style="width: 93%;">
-          <div class="title">
-            <h2>Funcionários</h2>
-          </div>
-          <div class="button_user">
-            <span>Adicionar</span>
-          </div>
-        </div>
-        <div class="body" style="margin-top: 0;">
-          <div class="card">
-            <div class="picture_user">
-              <img src="assets/user-icon.png" style="width: 60px;" alt="">
-            </div>
-            <div class="descricao">
-              <div>Nome do Usuário: Alissa Souza</div>
-              <div>Cargo: Analista Jr.</div>
-            </div>
-            <div class="buttons">
-              <span>Editar</span>
-              <span>Excluir</span>
-            </div>
-          </div>
-          <div class="card">
-            <div class="picture_user">
-              <img src="assets/user-icon.png" style="width: 60px;" alt="">
-            </div>
-            <div class="descricao">
-              <div>Nome do Usuário: George Albert</div>
-              <div>Cargo: Técnico de TI</div>
-            </div>
-            <div class="buttons">
-              <span>Editar</span>
-              <span>Excluir</span>
-            </div>
-          </div>
-          <div class="card">
-            <div class="picture_user">
-              <img src="assets/user-icon.png" style="width: 60px;" alt="">
-            </div>
-            <div class="descricao">
-              <div>Nome do Usuário: Yuri Maladosso</div>
-              <div>Cargo: Analista Pleno</div>
-            </div>
-            <div class="buttons">
-              <span>Editar</span>
-              <span>Excluir</span>
-            </div>
-          </div>
-          <div class="card">
-            <div class="picture_user">
-              <img src="assets/user-icon.png" style="width: 60px;" alt="">
-            </div>
-            <div class="descricao">
-              <div>Nome do Usuário: Bianca Nolasco</div>
-              <div>Cargo: Técnico de TI</div>
-            </div>
-            <div class="buttons">
-              <span>Editar</span>
-              <span>Excluir</span>
-            </div>
-          </div>
-          <div class="break"></div>
-        </div>
-      </article>
-      <div class="popup-usuario" style="display: none;">
-        <div class="popup-card">
-
-          <div class="fechar-popup-user">X</div>
-
-          <h1> ADICIONAR FUNCIONÁRIO</h1>
-
-          <div class="popup-ipt">
-            <div class="ipt-info-user">
-              <div>
-                <label for="nome">Nome:</label>
-                <input type="text" name="nome" class="ipt-campo">
-              </div>
-              <div>
-                <label for="sobrenome">Sobrenome:</label>
-                <input type="text" name="sobrenome" class="ipt-campo">
-              </div>
-            </div>
-            <div class="ipt-info">
-              <label for="email"> E-mail:</label>
-              <input type="text" name="email" class="ipt-campo">
-            </div>
-
-            <div class="ipt-info">
-              <label for="senha"> Senha:</label>
-              <input type="text" name="senha" class="ipt-campo">
-            </div>
-
-            <div class="ipt-info">
-              <label for="cargo">Cargo:</label>
-              <input type="text" name="cargo" class="ipt-campo">
-            </div>
-          </div>
-          <button class="bto-criar-user">Criar Usuario</button>
-
-          
-        </div>
+      <div id="logout">
+        <button id="logout_btn">
+          <i class="fa-solid fa-right-from-bracket"></i>
+          <span class="item-description"> Sair </span>
+        </button>
       </div>
-    </section>
-    <section class="telas" style="display: none;" id="telaComputadores">
-      <article>
-        <div class="estado">
-          <div style="display: flex; justify-content: space-between;">
-            <h1 id="campogrande">Campo Grande</h1>
-            <select name="cidades" id="cidades">
-              <option value="Campo Grande">Campo Grande</option>
-              <option value="Rio de Janeiro">Rio de Janeiro</option>
-              <option value="São Paulo">São Paulo</option>
-              <option value="Mirabela">Mirabela</option>
-              <option value="João Pessoa">João Pessoa</option>
-            </select>
-          </div>
-          <div class="header-computadores">
-            <div class="maquina-geral">
-              <div class="texto-maquina">
-                <p>Máquinas próximas ao limite de CPU.</p>
-                <span>4</span>
-              </div>
-              <div class="footer-maquina">
-                Limite alerta: 70 - 80% de uso
+    </nav>
+    <main>
+      <div id="particles-js"></div>
+      <section class="telas" style="display: flex" id="telaDash">
+        <article>
+          <div class="content-dash">
+            <div class="header-content">
+              <h1>Dark Stores - <span>SouthTech</span></h1>
+              <div class="alertas-dash">
+                <p>
+                  <span style="background-color: green"></span> Estado Normal
+                </p>
+                <p>
+                  <span style="background-color: yellow"></span> Estado Atenção
+                </p>
+                <p>
+                  <span style="background-color: red"></span> Estado Crítico
+                </p>
               </div>
             </div>
-            <div class="maquina-geral">
-              <div class="texto-maquina">
-                <p>Máquinas próximas ao limite de Ram.</p>
-                <span>3</span>
-              </div>
-              <div class="footer-maquina">
-                Limite alerta: 70 - 80% de uso
-              </div>
-            </div>
-            <div class="maquina-geral">
-              <div class="texto-maquina">
-                <p>Máquinas próximas ao limite de Disco.</p>
-                <span>2</span>
-              </div>
-              <div class="footer-maquina">
-                Limite alerta: 70 - 80% de uso
-              </div>
-            </div>
-            <button class="adicionar-maquina">Adicionar Máquina</button>
-          </div>
-          <div style="display: flex; justify-content: space-between;">
-            <div>
-              <h3>Total de máquinas: 4</h3>
-            </div>
-            <div class="alertas-dash" style="justify-content: end; margin-bottom: 2%;">
-              <p><span style="background-color: green;"></span> Estado Normal</p>
-              <p><span style="background-color: yellow;"></span> Estado Atenção</p>
-              <p><span style="background-color: red;"></span> Estado Crítico</p>
-            </div>
-          </div>
-          <ul class="lista-maquinas">
-            <li class="item-maquina">
-              <div class="header-maquina">
-                <div>Máquina 1</div>
-                <div class="kpi-progress">
-                  <p>CPU:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                  <p>RAM:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                  <p>Disco:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                </div>
-                <button>Desativar Modo de Segurança</button>
-              </div>
-              <div class="grafico-maquina">
-                <article>
-                  <div class="chart-linha">
-                    <a>Porcentagem de uso de CPU em tempo real</a>
-                    <canvas id="graficoMaquina1Linha1"></canvas>
-                  </div>
-                  <div class="chart-linha">
-                    <a>Porcentagem de uso de Memória RAM em tempo real</a>
-                    <canvas id="graficoMaquina1Linha2"></canvas>
-                  </div>
-                </article>
-                <article>
-                  <div class="infosDash">
-                    <h2>Tempo de uso da máquina: <span>15h</span></h2>
-                    <h2>Data da última inicialização: <span>22/12/2023</span></h2>
-                  </div>
-                  <div class="chart-donut">
-                    <canvas id="graficoMaquina1Donut1"></canvas>
-                  </div>
-                </article>
-                <article class="infosHardware">
-                  <h1>Informações do Hardware</h1>
-                  <a style="font-weight: bold; margin-top: 2%;">CPU</a>
-                  <a>Nome: AMD Rayzen 3 3250U with Hadeon Graphics<br>
-                    Fabricante: AuthenticAMD<br>
-                    Frequência: 2600000000 <br>
-                    Total de núcleos: 5 </a>
-                  <a style="font-weight: bold; margin-top: 2%;">RAM</a>
-                  <a>Total: 10,35GB</a>
-                  <a style="font-weight: bold; margin-top: 2%;">Disco</a>
-                  <a>Total: 928,82GB</a>
-                  <a style="font-weight: bold; margin-top: 2%;">Rede</a>
-                  <a>MacAdress: 10.18.7.82<br>
-                    IPV4: 10.16.7.82<br>
-                    IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</a>
-                </article>
-              </div>
-            </li>
-            <li class="item-maquina">
-              <div class="header-maquina">
-                <div>Máquina 2</div>
-                <div class="kpi-progress">
-                  <p>CPU:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                  <p>RAM:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                  <p>Disco:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                </div>
-                <button>Desativar Modo de Segurança</button>
-              </div>
-              <div class="grafico-maquina">
-                <article>
-                  <div class="chart-linha">
-                    <canvas id="graficoMaquina2Linha1"></canvas>
-                  </div>
-                  <div class="chart-linha">
-                    <canvas id="graficoMaquina2Linha2"></canvas>
-                  </div>
-                </article>
-                <article>
-                  <div class="infosDash">
-                    <h2>Tempo de uso da máquina: <span>15h</span></h2>
-                    <h2>Data da última inicialização: <span>22/12/2023</span></h2>
-                  </div>
-                  <div class="chart-donut">
-                    <canvas id="graficoMaquina2Donut1"></canvas>
-                  </div>
-                </article>
-                <article class="infosHardware">
-                  <h1>Informações do Hardware</h1>
-                  <a style="font-weight: bold;">CPU</a>
-                  <a>Nome: AMD Rayzen 3 3250U with Hadeon Graphics<br>
-                    Fabricante: AuthenticAMD<br>
-                    Frequência: 2600000000 <br>
-                    Total de núcleos: 5 </a>
-                  <a style="font-weight: bold;">RAM</a>
-                  <a>Total: 10,35GB</a>
-                  <a style="font-weight: bold;">Disco</a>
-                  <a>Total: 928,82GB</a>
-                  <a style="font-weight: bold;">Rede</a>
-                  <a>MacAdress: 10.18.7.82<br>
-                    IPV4: 10.16.7.82<br>
-                    IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</a>
-                </article>
-              </div>
-            </li>
-            <li class="item-maquina">
-              <div class="header-maquina">
-                <div>Máquina 3</div>
-                <div class="kpi-progress">
-                  <p>CPU:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                  <p>RAM:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                  <p>Disco:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                </div>
-                <button>Desativar Modo de Segurança</button>
-              </div>
-              <div class="grafico-maquina">
-                <article>
-                  <div class="chart-linha">
-                    <canvas id="graficoMaquina3Linha1"></canvas>
-                  </div>
-                  <div class="chart-linha">
-                    <canvas id="graficoMaquina3Linha2"></canvas>
-                  </div>
-                </article>
-                <article>
-                  <div class="infosDash">
-                    <h2>Tempo de uso da máquina: <span>62h</span></h2>
-                    <h2>Data da última inicialização: <span>01/02/2024</span></h2>
-                  </div>
-                  <div class="chart-donut">
-                    <canvas id="graficoMaquina3Donut1"></canvas>
-                  </div>
-                </article>
-                <article class="infosHardware">
-                  <h1>Informações do Hardware</h1>
-                  <a style="font-weight: bold;">CPU</a>
-                  <a>Nome: AMD Rayzen 3 3250U with Hadeon Graphics<br>
-                    Fabricante: AuthenticAMD<br>
-                    Frequência: 2600000000 <br>
-                    Total de núcleos: 5 </a>
-                  <a style="font-weight: bold;">RAM</a>
-                  <a>Total: 10,35GB</a>
-                  <a style="font-weight: bold;">Disco</a>
-                  <a>Total: 928,82GB</a>
-                  <a style="font-weight: bold;">Rede</a>
-                  <a>MacAdress: 10.18.7.82<br>
-                    IPV4: 10.16.7.82<br>
-                    IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</a>
-                </article>
-              </div>
-            </li>
-            <li class="item-maquina">
-              <div class="header-maquina">
-                <div>Máquina 4</div>
-                <div class="kpi-progress">
-                  <p>CPU:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                  <p>RAM:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                  <p>Disco:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                </div>
-                <button>Desativar Modo de Segurança</button>
-              </div>
-              <div class="grafico-maquina">
-                <article>
-                  <div class="chart-linha">
-                    <canvas id="graficoMaquina4Linha1"></canvas>
-                  </div>
-                  <div class="chart-linha">
-                    <canvas id="graficoMaquina4Linha2"></canvas>
-                  </div>
-                </article>
-                <article>
-                  <div class="infosDash">
-                    <h2>Tempo de uso da máquina: <span>10h</span></h2>
-                    <h2>Data da última inicialização: <span>30/03/2024</span></h2>
-                  </div>
-                  <div class="chart-donut">
-                    <canvas id="graficoMaquina4Donut1"></canvas>
-                  </div>
-                </article>
-                <article class="infosHardware">
-                  <h1>Informações do Hardware</h1>
-                  <a style="font-weight: bold;">CPU</a>
-                  <a>Nome: AMD Rayzen 3 3250U with Hadeon Graphics<br>
-                    Fabricante: AuthenticAMD<br>
-                    Frequência: 2600000000 <br>
-                    Total de núcleos: 5 </a>
-                  <a style="font-weight: bold;">RAM</a>
-                  <a>Total: 10,35GB</a>
-                  <a style="font-weight: bold;">Disco</a>
-                  <a>Total: 928,82GB</a>
-                  <a style="font-weight: bold;">Rede</a>
-                  <a>MacAdress: 10.18.7.82<br>
-                    IPV4: 10.16.7.82<br>
-                    IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</a>
-                </article>
-              </div>
-            </li>
-          </ul>
-        </div>
-        <div class="estado">
-          <h1 id="riodejaneiro">Rio de Janeiro</h1>
-          <div class="header-computadores">
-            <div class="maquina-geral">
-              <div class="texto-maquina">
-                <p>Máquinas próximas ao limite de CPU.</p>
-                <span>4</span>
-              </div>
-              <div class="footer-maquina">
-                Limite alerta: 70 - 80% de uso
-              </div>
-            </div>
-            <div class="maquina-geral">
-              <div class="texto-maquina">
-                <p>Máquinas próximas ao limite de Ram.</p>
-                <span>3</span>
-              </div>
-              <div class="footer-maquina">
-                Limite alerta: 70 - 80% de uso
-              </div>
-            </div>
-            <div class="maquina-geral">
-              <div class="texto-maquina">
-                <p>Máquinas próximas ao limite de Disco.</p>
-                <span>2</span>
-              </div>
-              <div class="footer-maquina">
-                Limite alerta: 70 - 80% de uso
-              </div>
-            </div>
-            <button class="adicionar-maquina">Adicionar Máquina</button>
-          </div>
-          <div style="display: flex; justify-content: space-between;">
-            <div>
-              <h3>Total de máquinas: 4</h3>
-            </div>
-            <div class="alertas-dash" style="justify-content: end; margin-bottom: 2%;">
-              <p><span style="background-color: green;"></span> Estado Normal</p>
-              <p><span style="background-color: yellow;"></span> Estado Atenção</p>
-              <p><span style="background-color: red;"></span> Estado Crítico</p>
-            </div>
-          </div>
-          <ul class="lista-maquinas">
-            <li class="item-maquina">
-              <div class="header-maquina">
-                <div>Máquina 1</div>
-                <div class="kpi-progress">
-                  <p>CPU:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                  <p>RAM:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                  <p>Disco:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                </div>
-                <button>Desativar Modo de Segurança</button>
-              </div>
-              <div class="grafico-maquina">
-                <article>
-                  <div class="chart-linha">
-                    <a>Porcentagem de uso de CPU em tempo real</a>
-                    <canvas id="graficoMaquina1Linha1"></canvas>
-                  </div>
-                  <div class="chart-linha">
-                    <a>Porcentagem de uso de Memória RAM em tempo real</a>
-                    <canvas id="graficoMaquina1Linha2"></canvas>
-                  </div>
-                </article>
-                <article>
-                  <div class="infosDash">
-                    <h2>Tempo de uso da máquina: <span>15h</span></h2>
-                    <h2>Data da última inicialização: <span>22/12/2023</span></h2>
-                  </div>
-                  <div class="chart-donut">
-                    <canvas id="graficoMaquina1Donut1"></canvas>
-                  </div>
-                </article>
-                <article class="infosHardware">
-                  <h1>Informações do Hardware</h1>
-                  <a style="font-weight: bold;">CPU</a>
-                  <a>Nome: AMD Rayzen 3 3250U with Hadeon Graphics<br>
-                    Fabricante: AuthenticAMD<br>
-                    Frequência: 2600000000 <br>
-                    Total de núcleos: 5 </a>
-                  <a style="font-weight: bold;">RAM</a>
-                  <a>Total: 10,35GB</a>
-                  <a style="font-weight: bold;">Disco</a>
-                  <a>Total: 928,82GB</a>
-                  <a style="font-weight: bold;">Rede</a>
-                  <a>MacAdress: 10.18.7.82<br>
-                    IPV4: 10.16.7.82<br>
-                    IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</a>
-                </article>
-              </div>
-            </li>
-            <li class="item-maquina">
-              <div class="header-maquina">
-                <div>Máquina 2</div>
-                <div class="kpi-progress">
-                  <p>CPU:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                  <p>RAM:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                  <p>Disco:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                </div>
-                <button>Desativar Modo de Segurança</button>
-              </div>
-              <div class="grafico-maquina">
-                <article>
-                  <div class="chart-linha">
-                    <canvas id="graficoMaquina2Linha1"></canvas>
-                  </div>
-                  <div class="chart-linha">
-                    <canvas id="graficoMaquina2Linha2"></canvas>
-                  </div>
-                </article>
-                <article>
-                  <div class="infosDash">
-                    <h2>Tempo de uso da máquina: <span>15h</span></h2>
-                    <h2>Data da última inicialização: <span>22/12/2023</span></h2>
-                  </div>
-                  <div class="chart-donut">
-                    <canvas id="graficoMaquina2Donut1"></canvas>
-                  </div>
-                </article>
-                <article class="infosHardware">
-                  <h1>Informações do Hardware</h1>
-                  <a style="font-weight: bold;">CPU</a>
-                  <a>Nome: AMD Rayzen 3 3250U with Hadeon Graphics<br>
-                    Fabricante: AuthenticAMD<br>
-                    Frequência: 2600000000 <br>
-                    Total de núcleos: 5 </a>
-                  <a style="font-weight: bold;">RAM</a>
-                  <a>Total: 10,35GB</a>
-                  <a style="font-weight: bold;">Disco</a>
-                  <a>Total: 928,82GB</a>
-                  <a style="font-weight: bold;">Rede</a>
-                  <a>MacAdress: 10.18.7.82<br>
-                    IPV4: 10.16.7.82<br>
-                    IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</a>
-                </article>
-              </div>
-            </li>
-            <li class="item-maquina">
-              <div class="header-maquina">
-                <div>Máquina 3</div>
-                <div class="kpi-progress">
-                  <p>CPU:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                  <p>RAM:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                  <p>Disco:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                </div>
-                <button>Desativar Modo de Segurança</button>
-              </div>
-              <div class="grafico-maquina">
-                <article>
-                  <div class="chart-linha">
-                    <canvas id="graficoMaquina3Linha1"></canvas>
-                  </div>
-                  <div class="chart-linha">
-                    <canvas id="graficoMaquina3Linha2"></canvas>
-                  </div>
-                </article>
-                <article>
-                  <div class="infosDash">
-                    <h2>Tempo de uso da máquina: <span>62h</span></h2>
-                    <h2>Data da última inicialização: <span>01/02/2024</span></h2>
-                  </div>
-                  <div class="chart-donut">
-                    <canvas id="graficoMaquina3Donut1"></canvas>
-                  </div>
-                </article>
-                <article class="infosHardware">
-                  <h1>Informações do Hardware</h1>
-                  <a style="font-weight: bold;">CPU</a>
-                  <a>Nome: AMD Rayzen 3 3250U with Hadeon Graphics<br>
-                    Fabricante: AuthenticAMD<br>
-                    Frequência: 2600000000 <br>
-                    Total de núcleos: 5 </a>
-                  <a style="font-weight: bold;">RAM</a>
-                  <a>Total: 10,35GB</a>
-                  <a style="font-weight: bold;">Disco</a>
-                  <a>Total: 928,82GB</a>
-                  <a style="font-weight: bold;">Rede</a>
-                  <a>MacAdress: 10.18.7.82<br>
-                    IPV4: 10.16.7.82<br>
-                    IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</a>
-                </article>
-              </div>
-            </li>
-            <li class="item-maquina">
-              <div class="header-maquina">
-                <div>Máquina 4</div>
-                <div class="kpi-progress">
-                  <p>CPU:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                  <p>RAM:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                  <p>Disco:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                </div>
-                <button>Desativar Modo de Segurança</button>
-              </div>
-              <div class="grafico-maquina">
-                <article>
-                  <div class="chart-linha">
-                    <canvas id="graficoMaquina4Linha1"></canvas>
-                  </div>
-                  <div class="chart-linha">
-                    <canvas id="graficoMaquina4Linha2"></canvas>
-                  </div>
-                </article>
-                <article>
-                  <div class="infosDash">
-                    <h2>Tempo de uso da máquina: <span>10h</span></h2>
-                    <h2>Data da última inicialização: <span>30/03/2024</span></h2>
-                  </div>
-                  <div class="chart-donut">
-                    <canvas id="graficoMaquina4Donut1"></canvas>
-                  </div>
-                </article>
-                <article class="infosHardware">
-                  <h1>Informações do Hardware</h1>
-                  <a style="font-weight: bold;">CPU</a>
-                  <a>Nome: AMD Rayzen 3 3250U with Hadeon Graphics<br>
-                    Fabricante: AuthenticAMD<br>
-                    Frequência: 2600000000 <br>
-                    Total de núcleos: 5 </a>
-                  <a style="font-weight: bold;">RAM</a>
-                  <a>Total: 10,35GB</a>
-                  <a style="font-weight: bold;">Disco</a>
-                  <a>Total: 928,82GB</a>
-                  <a style="font-weight: bold;">Rede</a>
-                  <a>MacAdress: 10.18.7.82<br>
-                    IPV4: 10.16.7.82<br>
-                    IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</a>
-                </article>
-              </div>
-            </li>
-          </ul>
-        </div>
-        <div class="estado">
-          <h1 id="sãopaulo">São Paulo</h1>
-          <div class="header-computadores">
-            <div class="maquina-geral">
-              <div class="texto-maquina">
-                <p>Máquinas próximas ao limite de CPU.</p>
-                <span>4</span>
-              </div>
-              <div class="footer-maquina">
-                Limite alerta: 70 - 80% de uso
-              </div>
-            </div>
-            <div class="maquina-geral">
-              <div class="texto-maquina">
-                <p>Máquinas próximas ao limite de Ram.</p>
-                <span>3</span>
-              </div>
-              <div class="footer-maquina">
-                Limite alerta: 70 - 80% de uso
-              </div>
-            </div>
-            <div class="maquina-geral">
-              <div class="texto-maquina">
-                <p>Máquinas próximas ao limite de Disco.</p>
-                <span>2</span>
-              </div>
-              <div class="footer-maquina">
-                Limite alerta: 70 - 80% de uso
-              </div>
-            </div>
-            <button class="adicionar-maquina">Adicionar Máquina</button>
-          </div>
-          <div style="display: flex; justify-content: space-between;">
-            <div>
-              <h3>Total de máquinas: 4</h3>
-            </div>
-            <div class="alertas-dash" style="justify-content: end; margin-bottom: 2%;">
-              <p><span style="background-color: green;"></span> Estado Normal</p>
-              <p><span style="background-color: yellow;"></span> Estado Atenção</p>
-              <p><span style="background-color: red;"></span> Estado Crítico</p>
-            </div>
-          </div>
-          <ul class="lista-maquinas">
-            <li class="item-maquina">
-              <div class="header-maquina">
-                <div>Máquina 1</div>
-                <div class="kpi-progress">
-                  <p>CPU:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                  <p>RAM:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                  <p>Disco:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                </div>
-                <button>Desativar Modo de Segurança</button>
-              </div>
-              <div class="grafico-maquina">
-                <article>
-                  <div class="chart-linha">
-                    <a>Porcentagem de uso de CPU em tempo real</a>
-                    <canvas id="graficoMaquina1Linha1"></canvas>
-                  </div>
-                  <div class="chart-linha">
-                    <a>Porcentagem de uso de Memória RAM em tempo real</a>
-                    <canvas id="graficoMaquina1Linha2"></canvas>
-                  </div>
-                </article>
-                <article>
-                  <div class="infosDash">
-                    <h2>Tempo de uso da máquina: <span>15h</span></h2>
-                    <h2>Data da última inicialização: <span>22/12/2023</span></h2>
-                  </div>
-                  <div class="chart-donut">
-                    <canvas id="graficoMaquina1Donut1"></canvas>
-                  </div>
-                </article>
-                <article class="infosHardware">
-                  <h1>Informações do Hardware</h1>
-                  <a style="font-weight: bold;">CPU</a>
-                  <a>Nome: AMD Rayzen 3 3250U with Hadeon Graphics<br>
-                    Fabricante: AuthenticAMD<br>
-                    Frequência: 2600000000 <br>
-                    Total de núcleos: 5 </a>
-                  <a style="font-weight: bold;">RAM</a>
-                  <a>Total: 10,35GB</a>
-                  <a style="font-weight: bold;">Disco</a>
-                  <a>Total: 928,82GB</a>
-                  <a style="font-weight: bold;">Rede</a>
-                  <a>MacAdress: 10.18.7.82<br>
-                    IPV4: 10.16.7.82<br>
-                    IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</a>
-                </article>
-              </div>
-            </li>
-            <li class="item-maquina">
-              <div class="header-maquina">
-                <div>Máquina 2</div>
-                <div class="kpi-progress">
-                  <p>CPU:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                  <p>RAM:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                  <p>Disco:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                </div>
-                <button>Desativar Modo de Segurança</button>
-              </div>
-              <div class="grafico-maquina">
-                <article>
-                  <div class="chart-linha">
-                    <canvas id="graficoMaquina2Linha1"></canvas>
-                  </div>
-                  <div class="chart-linha">
-                    <canvas id="graficoMaquina2Linha2"></canvas>
-                  </div>
-                </article>
-                <article>
-                  <div class="infosDash">
-                    <h2>Tempo de uso da máquina: <span>15h</span></h2>
-                    <h2>Data da última inicialização: <span>22/12/2023</span></h2>
-                  </div>
-                  <div class="chart-donut">
-                    <canvas id="graficoMaquina2Donut1"></canvas>
-                  </div>
-                </article>
-                <article class="infosHardware">
-                  <h1>Informações do Hardware</h1>
-                  <a style="font-weight: bold;">CPU</a>
-                  <a>Nome: AMD Rayzen 3 3250U with Hadeon Graphics<br>
-                    Fabricante: AuthenticAMD<br>
-                    Frequência: 2600000000 <br>
-                    Total de núcleos: 5 </a>
-                  <a style="font-weight: bold;">RAM</a>
-                  <a>Total: 10,35GB</a>
-                  <a style="font-weight: bold;">Disco</a>
-                  <a>Total: 928,82GB</a>
-                  <a style="font-weight: bold;">Rede</a>
-                  <a>MacAdress: 10.18.7.82<br>
-                    IPV4: 10.16.7.82<br>
-                    IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</a>
-                </article>
-              </div>
-            </li>
-            <li class="item-maquina">
-              <div class="header-maquina">
-                <div>Máquina 3</div>
-                <div class="kpi-progress">
-                  <p>CPU:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                  <p>RAM:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                  <p>Disco:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                </div>
-                <button>Desativar Modo de Segurança</button>
-              </div>
-              <div class="grafico-maquina">
-                <article>
-                  <div class="chart-linha">
-                    <canvas id="graficoMaquina3Linha1"></canvas>
-                  </div>
-                  <div class="chart-linha">
-                    <canvas id="graficoMaquina3Linha2"></canvas>
-                  </div>
-                </article>
-                <article>
-                  <div class="infosDash">
-                    <h2>Tempo de uso da máquina: <span>62h</span></h2>
-                    <h2>Data da última inicialização: <span>01/02/2024</span></h2>
-                  </div>
-                  <div class="chart-donut">
-                    <canvas id="graficoMaquina3Donut1"></canvas>
-                  </div>
-                </article>
-                <article class="infosHardware">
-                  <h1>Informações do Hardware</h1>
-                  <a style="font-weight: bold;">CPU</a>
-                  <a>Nome: AMD Rayzen 3 3250U with Hadeon Graphics<br>
-                    Fabricante: AuthenticAMD<br>
-                    Frequência: 2600000000 <br>
-                    Total de núcleos: 5 </a>
-                  <a style="font-weight: bold;">RAM</a>
-                  <a>Total: 10,35GB</a>
-                  <a style="font-weight: bold;">Disco</a>
-                  <a>Total: 928,82GB</a>
-                  <a style="font-weight: bold;">Rede</a>
-                  <a>MacAdress: 10.18.7.82<br>
-                    IPV4: 10.16.7.82<br>
-                    IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</a>
-                </article>
-              </div>
-            </li>
-            <li class="item-maquina">
-              <div class="header-maquina">
-                <div>Máquina 4</div>
-                <div class="kpi-progress">
-                  <p>CPU:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                  <p>RAM:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                  <p>Disco:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                </div>
-                <button>Desativar Modo de Segurança</button>
-              </div>
-              <div class="grafico-maquina">
-                <article>
-                  <div class="chart-linha">
-                    <canvas id="graficoMaquina4Linha1"></canvas>
-                  </div>
-                  <div class="chart-linha">
-                    <canvas id="graficoMaquina4Linha2"></canvas>
-                  </div>
-                </article>
-                <article>
-                  <div class="infosDash">
-                    <h2>Tempo de uso da máquina: <span>10h</span></h2>
-                    <h2>Data da última inicialização: <span>30/03/2024</span></h2>
-                  </div>
-                  <div class="chart-donut">
-                    <canvas id="graficoMaquina4Donut1"></canvas>
-                  </div>
-                </article>
-                <article class="infosHardware">
-                  <h1>Informações do Hardware</h1>
-                  <a style="font-weight: bold;">CPU</a>
-                  <a>Nome: AMD Rayzen 3 3250U with Hadeon Graphics<br>
-                    Fabricante: AuthenticAMD<br>
-                    Frequência: 2600000000 <br>
-                    Total de núcleos: 5 </a>
-                  <a style="font-weight: bold;">RAM</a>
-                  <a>Total: 10,35GB</a>
-                  <a style="font-weight: bold;">Disco</a>
-                  <a>Total: 928,82GB</a>
-                  <a style="font-weight: bold;">Rede</a>
-                  <a>MacAdress: 10.18.7.82<br>
-                    IPV4: 10.16.7.82<br>
-                    IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</a>
-                </article>
-              </div>
-            </li>
-          </ul>
-        </div>
-        <div class="estado">
-          <h1 id="mirabela">Mirabela</h1>
-          <div class="header-computadores">
-            <div class="maquina-geral">
-              <div class="texto-maquina">
-                <p>Máquinas próximas ao limite de CPU.</p>
-                <span>4</span>
-              </div>
-              <div class="footer-maquina">
-                Limite alerta: 70 - 80% de uso
-              </div>
-            </div>
-            <div class="maquina-geral">
-              <div class="texto-maquina">
-                <p>Máquinas próximas ao limite de Ram.</p>
-                <span>3</span>
-              </div>
-              <div class="footer-maquina">
-                Limite alerta: 70 - 80% de uso
-              </div>
-            </div>
-            <div class="maquina-geral">
-              <div class="texto-maquina">
-                <p>Máquinas próximas ao limite de Disco.</p>
-                <span>2</span>
-              </div>
-              <div class="footer-maquina">
-                Limite alerta: 70 - 80% de uso
-              </div>
-            </div>
-            <button class="adicionar-maquina">Adicionar Máquina</button>
-          </div>
-          <div style="display: flex; justify-content: space-between;">
-            <div>
-              <h3>Total de máquinas: 4</h3>
-            </div>
-            <div class="alertas-dash" style="justify-content: end; margin-bottom: 2%;">
-              <p><span style="background-color: green;"></span> Estado Normal</p>
-              <p><span style="background-color: yellow;"></span> Estado Atenção</p>
-              <p><span style="background-color: red;"></span> Estado Crítico</p>
-            </div>
-          </div>
-          <ul class="lista-maquinas">
-            <li class="item-maquina">
-              <div class="header-maquina">
-                <div>Máquina 1</div>
-                <div class="kpi-progress">
-                  <p>CPU:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                  <p>RAM:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                  <p>Disco:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                </div>
-                <button>Desativar Modo de Segurança</button>
-              </div>
-              <div class="grafico-maquina">
-                <article>
-                  <div class="chart-linha">
-                    <a>Porcentagem de uso de CPU em tempo real</a>
-                    <canvas id="graficoMaquina1Linha1"></canvas>
-                  </div>
-                  <div class="chart-linha">
-                    <a>Porcentagem de uso de Memória RAM em tempo real</a>
-                    <canvas id="graficoMaquina1Linha2"></canvas>
-                  </div>
-                </article>
-                <article>
-                  <div class="infosDash">
-                    <h2>Tempo de uso da máquina: <span>15h</span></h2>
-                    <h2>Data da última inicialização: <span>22/12/2023</span></h2>
-                  </div>
-                  <div class="chart-donut">
-                    <canvas id="graficoMaquina1Donut1"></canvas>
-                  </div>
-                </article>
-                <article class="infosHardware">
-                  <h1>Informações do Hardware</h1>
-                  <a style="font-weight: bold;">CPU</a>
-                  <a>Nome: AMD Rayzen 3 3250U with Hadeon Graphics<br>
-                    Fabricante: AuthenticAMD<br>
-                    Frequência: 2600000000 <br>
-                    Total de núcleos: 5 </a>
-                  <a style="font-weight: bold;">RAM</a>
-                  <a>Total: 10,35GB</a>
-                  <a style="font-weight: bold;">Disco</a>
-                  <a>Total: 928,82GB</a>
-                  <a style="font-weight: bold;">Rede</a>
-                  <a>MacAdress: 10.18.7.82<br>
-                    IPV4: 10.16.7.82<br>
-                    IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</a>
-                </article>
-              </div>
-            </li>
-            <li class="item-maquina">
-              <div class="header-maquina">
-                <div>Máquina 2</div>
-                <div class="kpi-progress">
-                  <p>CPU:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                  <p>RAM:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                  <p>Disco:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                </div>
-                <button>Desativar Modo de Segurança</button>
-              </div>
-              <div class="grafico-maquina">
-                <article>
-                  <div class="chart-linha">
-                    <canvas id="graficoMaquina2Linha1"></canvas>
-                  </div>
-                  <div class="chart-linha">
-                    <canvas id="graficoMaquina2Linha2"></canvas>
-                  </div>
-                </article>
-                <article>
-                  <div class="infosDash">
-                    <h2>Tempo de uso da máquina: <span>15h</span></h2>
-                    <h2>Data da última inicialização: <span>22/12/2023</span></h2>
-                  </div>
-                  <div class="chart-donut">
-                    <canvas id="graficoMaquina2Donut1"></canvas>
-                  </div>
-                </article>
-                <article class="infosHardware">
-                  <h1>Informações do Hardware</h1>
-                  <a style="font-weight: bold;">CPU</a>
-                  <a>Nome: AMD Rayzen 3 3250U with Hadeon Graphics<br>
-                    Fabricante: AuthenticAMD<br>
-                    Frequência: 2600000000 <br>
-                    Total de núcleos: 5 </a>
-                  <a style="font-weight: bold;">RAM</a>
-                  <a>Total: 10,35GB</a>
-                  <a style="font-weight: bold;">Disco</a>
-                  <a>Total: 928,82GB</a>
-                  <a style="font-weight: bold;">Rede</a>
-                  <a>MacAdress: 10.18.7.82<br>
-                    IPV4: 10.16.7.82<br>
-                    IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</a>
-                </article>
-              </div>
-            </li>
-            <li class="item-maquina">
-              <div class="header-maquina">
-                <div>Máquina 3</div>
-                <div class="kpi-progress">
-                  <p>CPU:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                  <p>RAM:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                  <p>Disco:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                </div>
-                <button>Desativar Modo de Segurança</button>
-              </div>
-              <div class="grafico-maquina">
-                <article>
-                  <div class="chart-linha">
-                    <canvas id="graficoMaquina3Linha1"></canvas>
-                  </div>
-                  <div class="chart-linha">
-                    <canvas id="graficoMaquina3Linha2"></canvas>
-                  </div>
-                </article>
-                <article>
-                  <div class="infosDash">
-                    <h2>Tempo de uso da máquina: <span>62h</span></h2>
-                    <h2>Data da última inicialização: <span>01/02/2024</span></h2>
-                  </div>
-                  <div class="chart-donut">
-                    <canvas id="graficoMaquina3Donut1"></canvas>
-                  </div>
-                </article>
-                <article class="infosHardware">
-                  <h1>Informações do Hardware</h1>
-                  <a style="font-weight: bold;">CPU</a>
-                  <a>Nome: AMD Rayzen 3 3250U with Hadeon Graphics<br>
-                    Fabricante: AuthenticAMD<br>
-                    Frequência: 2600000000 <br>
-                    Total de núcleos: 5 </a>
-                  <a style="font-weight: bold;">RAM</a>
-                  <a>Total: 10,35GB</a>
-                  <a style="font-weight: bold;">Disco</a>
-                  <a>Total: 928,82GB</a>
-                  <a style="font-weight: bold;">Rede</a>
-                  <a>MacAdress: 10.18.7.82<br>
-                    IPV4: 10.16.7.82<br>
-                    IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</a>
-                </article>
-              </div>
-            </li>
-            <li class="item-maquina">
-              <div class="header-maquina">
-                <div>Máquina 4</div>
-                <div class="kpi-progress">
-                  <p>CPU:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                  <p>RAM:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                  <p>Disco:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                </div>
-                <button>Desativar Modo de Segurança</button>
-              </div>
-              <div class="grafico-maquina">
-                <article>
-                  <div class="chart-linha">
-                    <canvas id="graficoMaquina4Linha1"></canvas>
-                  </div>
-                  <div class="chart-linha">
-                    <canvas id="graficoMaquina4Linha2"></canvas>
-                  </div>
-                </article>
-                <article>
-                  <div class="infosDash">
-                    <h2>Tempo de uso da máquina: <span>10h</span></h2>
-                    <h2>Data da última inicialização: <span>30/03/2024</span></h2>
-                  </div>
-                  <div class="chart-donut">
-                    <canvas id="graficoMaquina4Donut1"></canvas>
-                  </div>
-                </article>
-                <article class="infosHardware">
-                  <h1>Informações do Hardware</h1>
-                  <a style="font-weight: bold;">CPU</a>
-                  <a>Nome: AMD Rayzen 3 3250U with Hadeon Graphics<br>
-                    Fabricante: AuthenticAMD<br>
-                    Frequência: 2600000000 <br>
-                    Total de núcleos: 5 </a>
-                  <a style="font-weight: bold;">RAM</a>
-                  <a>Total: 10,35GB</a>
-                  <a style="font-weight: bold;">Disco</a>
-                  <a>Total: 928,82GB</a>
-                  <a style="font-weight: bold;">Rede</a>
-                  <a>MacAdress: 10.18.7.82<br>
-                    IPV4: 10.16.7.82<br>
-                    IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</a>
-                </article>
-              </div>
-            </li>
-          </ul>
-        </div>
-        <div class="estado">
-          <h1 id="joãopessoa">João Pessoa</h1>
-          <div class="header-computadores">
-            <div class="maquina-geral">
-              <div class="texto-maquina">
-                <p>Máquinas próximas ao limite de CPU.</p>
-                <span>4</span>
-              </div>
-              <div class="footer-maquina">
-                Limite alerta: 70 - 80% de uso
-              </div>
-            </div>
-            <div class="maquina-geral">
-              <div class="texto-maquina">
-                <p>Máquinas próximas ao limite de Ram.</p>
-                <span>3</span>
-              </div>
-              <div class="footer-maquina">
-                Limite alerta: 70 - 80% de uso
-              </div>
-            </div>
-            <div class="maquina-geral">
-              <div class="texto-maquina">
-                <p>Máquinas próximas ao limite de Disco.</p>
-                <span>2</span>
-              </div>
-              <div class="footer-maquina">
-                Limite alerta: 70 - 80% de uso
-              </div>
-            </div>
-            <button class="adicionar-maquina">Adicionar Máquina</button>
-          </div>
-          <div style="display: flex; justify-content: space-between;">
-            <div>
-              <h3>Total de máquinas: 4</h3>
-            </div>
-            <div class="alertas-dash" style="justify-content: end; margin-bottom: 2%;">
-              <p><span style="background-color: green;"></span> Estado Normal</p>
-              <p><span style="background-color: yellow;"></span> Estado Atenção</p>
-              <p><span style="background-color: red;"></span> Estado Crítico</p>
-            </div>
-          </div>
-          <ul class="lista-maquinas">
-            <li class="item-maquina">
-              <div class="header-maquina">
-                <div>Máquina 1</div>
-                <div class="kpi-progress">
-                  <p>CPU:<progress class="barra-progresso" value="50" max="100" min="0"></progress></p>
-                  <p>RAM:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                  <p>Disco:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                </div>
-                <button>Desativar Modo de Segurança</button>
-              </div>
-              <div class="grafico-maquina">
-                <article>
-                  <div class="chart-linha">
-                    <a>Porcentagem de uso de CPU em tempo real</a>
-                    <canvas id="graficoMaquina1Linha1"></canvas>
-                  </div>
-                  <div class="chart-linha">
-                    <a>Porcentagem de uso de Memória RAM em tempo real</a>
-                    <canvas id="graficoMaquina1Linha2"></canvas>
-                  </div>
-                </article>
-                <article>
-                  <div class="infosDash">
-                    <h2>Tempo de uso da máquina: <span>15h</span></h2>
-                    <h2>Data da última inicialização: <span>22/12/2023</span></h2>
-                  </div>
-                  <div class="chart-donut">
-                    <canvas id="graficoMaquina1Donut1"></canvas>
-                  </div>
-                </article>
-                <article class="infosHardware">
-                  <h1>Informações do Hardware</h1>
-                  <a style="font-weight: bold;">CPU</a>
-                  <a>Nome: AMD Rayzen 3 3250U with Hadeon Graphics<br>
-                    Fabricante: AuthenticAMD<br>
-                    Frequência: 2600000000 <br>
-                    Total de núcleos: 5 </a>
-                  <a style="font-weight: bold;">RAM</a>
-                  <a>Total: 10,35GB</a>
-                  <a style="font-weight: bold;">Disco</a>
-                  <a>Total: 928,82GB</a>
-                  <a style="font-weight: bold;">Rede</a>
-                  <a>MacAdress: 10.18.7.82<br>
-                    IPV4: 10.16.7.82<br>
-                    IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</a>
-                </article>
-              </div>
-            </li>
-            <li class="item-maquina">
-              <div class="header-maquina">
-                <div>Máquina 2</div>
-                <div class="kpi-progress">
-                  <p>CPU:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                  <p>RAM:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                  <p>Disco:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                </div>
-                <button>Desativar Modo de Segurança</button>
-              </div>
-              <div class="grafico-maquina">
-                <article>
-                  <div class="chart-linha">
-                    <canvas id="graficoMaquina2Linha1"></canvas>
-                  </div>
-                  <div class="chart-linha">
-                    <canvas id="graficoMaquina2Linha2"></canvas>
-                  </div>
-                </article>
-                <article>
-                  <div class="infosDash">
-                    <h2>Tempo de uso da máquina: <span>15h</span></h2>
-                    <h2>Data da última inicialização: <span>22/12/2023</span></h2>
-                  </div>
-                  <div class="chart-donut">
-                    <canvas id="graficoMaquina2Donut1"></canvas>
-                  </div>
-                </article>
-                <article class="infosHardware">
-                  <h1>Informações do Hardware</h1>
-                  <a style="font-weight: bold;">CPU</a>
-                  <a>Nome: AMD Rayzen 3 3250U with Hadeon Graphics<br>
-                    Fabricante: AuthenticAMD<br>
-                    Frequência: 2600000000 <br>
-                    Total de núcleos: 5 </a>
-                  <a style="font-weight: bold;">RAM</a>
-                  <a>Total: 10,35GB</a>
-                  <a style="font-weight: bold;">Disco</a>
-                  <a>Total: 928,82GB</a>
-                  <a style="font-weight: bold;">Rede</a>
-                  <a>MacAdress: 10.18.7.82<br>
-                    IPV4: 10.16.7.82<br>
-                    IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</a>
-                </article>
-              </div>
-            </li>
-            <li class="item-maquina">
-              <div class="header-maquina">
-                <div>Máquina 3</div>
-                <div class="kpi-progress">
-                  <p>CPU:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                  <p>RAM:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                  <p>Disco:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                </div>
-                <button>Desativar Modo de Segurança</button>
-              </div>
-              <div class="grafico-maquina">
-                <article>
-                  <div class="chart-linha">
-                    <canvas id="graficoMaquina3Linha1"></canvas>
-                  </div>
-                  <div class="chart-linha">
-                    <canvas id="graficoMaquina3Linha2"></canvas>
-                  </div>
-                </article>
-                <article>
-                  <div class="infosDash">
-                    <h2>Tempo de uso da máquina: <span>62h</span></h2>
-                    <h2>Data da última inicialização: <span>01/02/2024</span></h2>
-                  </div>
-                  <div class="chart-donut">
-                    <canvas id="graficoMaquina3Donut1"></canvas>
-                  </div>
-                </article>
-                <article class="infosHardware">
-                  <h1>Informações do Hardware</h1>
-                  <a style="font-weight: bold;">CPU</a>
-                  <a>Nome: AMD Rayzen 3 3250U with Hadeon Graphics<br>
-                    Fabricante: AuthenticAMD<br>
-                    Frequência: 2600000000 <br>
-                    Total de núcleos: 5 </a>
-                  <a style="font-weight: bold;">RAM</a>
-                  <a>Total: 10,35GB</a>
-                  <a style="font-weight: bold;">Disco</a>
-                  <a>Total: 928,82GB</a>
-                  <a style="font-weight: bold;">Rede</a>
-                  <a>MacAdress: 10.18.7.82<br>
-                    IPV4: 10.16.7.82<br>
-                    IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</a>
-                </article>
-              </div>
-            </li>
-            <li class="item-maquina">
-              <div class="header-maquina">
-                <div>Máquina 4</div>
-                <div class="kpi-progress">
-                  <p>CPU:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                  <p>RAM:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                  <p>Disco:<progress value="50" max="100" min="0" class="barra-progresso"></progress></p>
-                </div>
-                <button>Desativar Modo de Segurança</button>
-              </div>
-              <div class="grafico-maquina">
-                <article>
-                  <div class="chart-linha">
-                    <canvas id="graficoMaquina4Linha1"></canvas>
-                  </div>
-                  <div class="chart-linha">
-                    <canvas id="graficoMaquina4Linha2"></canvas>
-                  </div>
-                </article>
-                <article>
-                  <div class="infosDash">
-                    <h2>Tempo de uso da máquina: <span>10h</span></h2>
-                    <h2>Data da última inicialização: <span>30/03/2024</span></h2>
-                  </div>
-                  <div class="chart-donut">
-                    <canvas id="graficoMaquina4Donut1"></canvas>
-                  </div>
-                </article>
-                <article class="infosHardware">
-                  <h1>Informações do Hardware</h1>
-                  <a style="font-weight: bold;">CPU</a>
-                  <a>Nome: AMD Rayzen 3 3250U with Hadeon Graphics<br>
-                    Fabricante: AuthenticAMD<br>
-                    Frequência: 2600000000 <br>
-                    Total de núcleos: 5 </a>
-                  <a style="font-weight: bold;">RAM</a>
-                  <a>Total: 10,35GB</a>
-                  <a style="font-weight: bold;">Disco</a>
-                  <a>Total: 928,82GB</a>
-                  <a style="font-weight: bold;">Rede</a>
-                  <a>MacAdress: 10.18.7.82<br>
-                    IPV4: 10.16.7.82<br>
-                    IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</a>
-                </article>
-              </div>
-            </li>
-          </ul>
-        </div>
 
-      </article>
-    </section>
-    <section class="telas" style="display: none;" id="telaLog">
-      <article class="content_component">
-        <div class="header" style="width: 100%; justify-content: space-between;">
-          <div class="title">
-            <h2>Histórico</h2>
-          </div>
-          <div class="buttons">
-            <div style="width: 100%;">
-              <label for="informacao">Selecione a informação:</label>
-              <select name="informacao" id="informacao" style="width: 46%;">
-                <option value="Uso de Hardware">Uso de Hardware</option>
-                <option value="Usuários">Usuários</option>
-                <option value="Seguranca">Segurança das máquinas</option>
-              </select>
-            </div>
-            <div style="width: 50%;">
-              <label for="periodo">Periodo: </label>
-              <select name="periodo" id="periodo">
-                <option value="Hoje">Hoje</option>
-                <option value="7 dias">Últimos 7 dias</option>
-                <option value="30 dias">Últimos 30 dias</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="body">
-          <div class="card">
-            <div class="picture">
-              <img src="assets/user-icon.png" alt="">
-              <p>George Albert</p>
-            </div>
-            <div class="descricao log">
-              <div style="margin-bottom: 10px;">
-                <p>Descrição: Adicionou uma nova máquina
-                <p></p>
+            <div class="main-content">
+
+              <div class="empresas-content" id="empresasContent">
+
+                <!-- Esta sendo montado no JavaScipt -->
+
               </div>
-              <div>
-                <p>Data: 27/04/2024 às 18:59:00</p>
+
+              <div class="graficos-content">
+                <div class="grafico-barra-content">
+                  <p>
+                    Quantidade de máquinas com uso excessivo de CPU em cada Dark
+                    Store
+                  </p>
+                  <canvas id="ctx_barra_geral1"></canvas>
+                </div>
+
+                <div class="grafico-barra-content">
+                  <p>
+                    Quantidade de máquinas com uso excessivo de RAM em cada Dark
+                    Store
+                  </p>
+                  <canvas id="ctx_barra_geral2"></canvas>
+                </div>
               </div>
             </div>
           </div>
-          <div class="card">
-            <div class="picture">
-              <img src="assets/computador-icon.png" alt="">
-              <p>Máquina 1</p>
+        </article>
+      </section>
+
+      <section class="telas" style="display: none" id="telaUsuarios">
+        <article class="content_component">
+          <div class="header" style="width: 93%">
+            <div class="title">
+              <h2>Funcionários</h2>
             </div>
-            <div class="descricao log">
-              <div style="margin-bottom: 10px;">
-                <p>Descrição: Houve uma tentativa de abrir o Whatsapp
-                <p></p>
-              </div>
-              <div>
-                <p>Data: 27/04/2024 às 18:59:00</p>
-              </div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="picture">
-              <img src="assets/computador-icon.png" alt="">
-              <p>Máquina 1</p>
-            </div>
-            <div class="descricao log">
-              <div style="margin-bottom: 10px;">
-                <p>Descrição: Houve uma tentativa de abrir o Whatsapp
-                <p></p>
-              </div>
-              <div>
-                <p>Data: 27/04/2024 às 18:59:00</p>
-              </div>
+
+            <div class="button_user">
+              <span>Adicionar</span>
             </div>
           </div>
-        </div>
-      </article>
-    </section>
-    <section class="telas" style="display: none;" id="telaConfig">
-      <article class="content_component" style="overflow-y: hidden;">
-        <div class="configuration-page">
-          <div class="edit-profile">
-            <h1>Configurações</h1>
-            <div class="profile">
-              <div style="display: flex; justify-content: space-between; width: 100%;">
-                <h2 style="padding: 0;">Usuário</h2>
-                <button class="edit-user">Editar</button>
+
+          <div class="body" style="margin-top: 0">
+            <div class="card">
+              <div class="picture_user">
+                <img src="assets/user-icon.png" style="width: 60px" alt="" />
               </div>
-              <div style="display: flex;">
-                <div class="config-item">
+
+              <div class="descricao">
+                <div>Nome do Usuário: Alissa Souza</div>
+                <div>Cargo: Analista Jr.</div>
+              </div>
+
+              <div class="buttons">
+                <span>Editar</span>
+                <span>Excluir</span>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="picture_user">
+                <img src="assets/user-icon.png" style="width: 60px" alt="" />
+              </div>
+
+              <div class="descricao">
+                <div>Nome do Usuário: George Albert</div>
+
+                <div>Cargo: Técnico de TI</div>
+              </div>
+
+              <div class="buttons">
+                <span>Editar</span>
+                <span>Excluir</span>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="picture_user">
+                <img src="assets/user-icon.png" style="width: 60px" alt="" />
+              </div>
+
+              <div class="descricao">
+                <div>Nome do Usuário: Yuri Maladosso</div>
+
+                <div>Cargo: Analista Pleno</div>
+              </div>
+
+              <div class="buttons">
+                <span>Editar</span>
+                <span>Excluir</span>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="picture_user">
+                <img src="assets/user-icon.png" style="width: 60px" alt="" />
+              </div>
+
+              <div class="descricao">
+                <div>Nome do Usuário: Bianca Nolasco</div>
+
+                <div>Cargo: Técnico de TI</div>
+              </div>
+
+              <div class="buttons">
+                <span>Editar</span>
+                <span>Excluir</span>
+              </div>
+            </div>
+
+            <div class="break"></div>
+          </div>
+        </article>
+        <div class="popup-usuario" style="display: none">
+          <div class="popup-card">
+            <div class="fechar-popup-user">X</div>
+
+            <h1>ADICIONAR FUNCIONÁRIO</h1>
+
+            <div class="popup-ipt">
+              <div class="ipt-info-user">
+                <div>
                   <label for="nome">Nome:</label>
-                  <input id="nome" readonly type="text">
+                  <input type="text" name="nome" class="ipt-campo" />
                 </div>
-                <div class="config-item">
-                  <label for="sobrenome">Sobrenome</label>
-                  <input type="text" readonly id="sobrenome">
+
+                <div>
+                  <label for="sobrenome">Sobrenome:</label>
+                  <input type="text" name="sobrenome" class="ipt-campo" />
                 </div>
               </div>
-              <div class="config-item">
-                <label for="email">Email:</label>
-                <input type="text" readonly id="email">
+
+              <div class="ipt-info">
+                <label for="email"> E-mail:</label>
+                <input type="text" name="email" class="ipt-campo" />
               </div>
-              <div class="config-item" style="display: flex; flex-direction: column; width: 45%;">
+
+              <div class="ipt-info">
+                <label for="senha"> Senha:</label>
+                <input type="text" name="senha" class="ipt-campo" />
+              </div>
+
+              <div class="ipt-info">
                 <label for="cargo">Cargo:</label>
-                <input type="text" readonly id="cargo">
+                <input type="text" name="cargo" class="ipt-campo" />
               </div>
-            </div>    
-          </div>
-          <div class="notification">
-            <h3>Notificações</h3>
-            <div class="headers">
-              <div class="seguranca">Segurança</div>
-              <div class="maquina">Uso Máquina</div>
             </div>
-            <div class="body">
-                <div class="search">
-                  <input type="text" placeholder="Pesquisar usuário">
+
+            <button class="bto-criar-user">Criar Usuario</button>
+          </div>
+        </div>
+      </section>
+      <section class="telas" style="display: none" id="telaComputadores">
+        <article>
+          <div class="estado">
+            <div style="display: flex; justify-content: space-between">
+              <h1 id="campogrande">Campo Grande</h1>
+              <select name="cidades" id="cidades">
+                <option value="Campo Grande">Campo Grande</option>
+                <option value="Rio de Janeiro">Rio de Janeiro</option>
+                <option value="São Paulo">São Paulo</option>
+                <option value="Mirabela">Mirabela</option>
+                <option value="João Pessoa">João Pessoa</option>
+              </select>
+            </div>
+
+            <div class="header-computadores">
+              <div class="maquina-geral">
+                <div class="texto-maquina">
+                  <p>Máquinas próximas ao limite de CPU.</p>
+                  <span>4</span>
                 </div>
+
+                <div class="footer-maquina">Limite alerta: 70 - 80% de uso</div>
+              </div>
+
+              <div class="maquina-geral">
+                <div class="texto-maquina">
+                  <p>Máquinas próximas ao limite de Ram.</p>
+                  <span>3</span>
+                </div>
+
+                <div class="footer-maquina">Limite alerta: 70 - 80% de uso</div>
+              </div>
+
+              <div class="maquina-geral">
+                <div class="texto-maquina">
+                  <p>Máquinas próximas ao limite de Disco.</p>
+                  <span>2</span>
+                </div>
+
+                <div class="footer-maquina">Limite alerta: 70 - 80% de uso</div>
+              </div>
+
+              <button class="adicionar-maquina">Adicionar Máquina</button>
+            </div>
+
+            <div style="display: flex; justify-content: space-between">
+              <div>
+                <h3>Total de máquinas: 4</h3>
+              </div>
+
+              <div
+                class="alertas-dash"
+                style="justify-content: end; margin-bottom: 2%"
+              >
+                <p>
+                  <span style="background-color: green"></span> Estado Normal
+                </p>
+                <p>
+                  <span style="background-color: yellow"></span> Estado Atenção
+                </p>
+                <p>
+                  <span style="background-color: red"></span> Estado Crítico
+                </p>
+              </div>
+            </div>
+
+            <ul class="lista-maquinas">
+              <li class="item-maquina">
+                <div class="header-maquina">
+                  <div>Máquina 1</div>
+
+                  <div class="kpi-progress">
+                    <p>
+                      CPU:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                    <p>
+                      RAM:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                    <p>
+                      Disco:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                  </div>
+
+                  <button>Desativar Modo de Segurança</button>
+                </div>
+
+                <div class="grafico-maquina">
+                  <article>
+                    <div class="chart-linha">
+                      <a>Porcentagem de uso de CPU em tempo real</a>
+                      <canvas id="graficoMaquina1Linha1"></canvas>
+                    </div>
+
+                    <div class="chart-linha">
+                      <a>Porcentagem de uso de Memória RAM em tempo real</a>
+                      <canvas id="graficoMaquina1Linha2"></canvas>
+                    </div>
+                  </article>
+                  <article>
+                    <div class="infosDash">
+                      <h2>Tempo de uso da máquina: <span>15h</span></h2>
+                      <h2>
+                        Data da última inicialização: <span>22/12/2023</span>
+                      </h2>
+                    </div>
+
+                    <div class="chart-donut">
+                      <canvas id="graficoMaquina1Donut1"></canvas>
+                    </div>
+                  </article>
+                  <article class="infosHardware">
+                    <h1>Informações do Hardware</h1>
+                    <a style="font-weight: bold; margin-top: 2%">CPU</a>
+                    <a
+                      >Nome: AMD Rayzen 3 3250U with Hadeon Graphics<br />
+                      Fabricante: AuthenticAMD<br />
+                      Frequência: 2600000000 <br />
+                      Total de núcleos: 5
+                    </a>
+                    <a style="font-weight: bold; margin-top: 2%">RAM</a>
+                    <a>Total: 10,35GB</a>
+                    <a style="font-weight: bold; margin-top: 2%">Disco</a>
+                    <a>Total: 928,82GB</a>
+                    <a style="font-weight: bold; margin-top: 2%">Rede</a>
+                    <a
+                      >MacAdress: 10.18.7.82<br />
+                      IPV4: 10.16.7.82<br />
+                      IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</a
+                    >
+                  </article>
+                </div>
+              </li>
+              <li class="item-maquina">
+                <div class="header-maquina">
+                  <div>Máquina 2</div>
+
+                  <div class="kpi-progress">
+                    <p>
+                      CPU:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                    <p>
+                      RAM:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                    <p>
+                      Disco:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                  </div>
+
+                  <button>Desativar Modo de Segurança</button>
+                </div>
+
+                <div class="grafico-maquina">
+                  <article>
+                    <div class="chart-linha">
+                      <canvas id="graficoMaquina2Linha1"></canvas>
+                    </div>
+
+                    <div class="chart-linha">
+                      <canvas id="graficoMaquina2Linha2"></canvas>
+                    </div>
+                  </article>
+                  <article>
+                    <div class="infosDash">
+                      <h2>Tempo de uso da máquina: <span>15h</span></h2>
+                      <h2>
+                        Data da última inicialização: <span>22/12/2023</span>
+                      </h2>
+                    </div>
+
+                    <div class="chart-donut">
+                      <canvas id="graficoMaquina2Donut1"></canvas>
+                    </div>
+                  </article>
+                  <article class="infosHardware">
+                    <h1>Informações do Hardware</h1>
+                    <a style="font-weight: bold">CPU</a>
+                    <a
+                      >Nome: AMD Rayzen 3 3250U with Hadeon Graphics<br />
+                      Fabricante: AuthenticAMD<br />
+                      Frequência: 2600000000 <br />
+                      Total de núcleos: 5
+                    </a>
+                    <a style="font-weight: bold">RAM</a>
+                    <a>Total: 10,35GB</a>
+                    <a style="font-weight: bold">Disco</a>
+                    <a>Total: 928,82GB</a>
+                    <a style="font-weight: bold">Rede</a>
+                    <a
+                      >MacAdress: 10.18.7.82<br />
+                      IPV4: 10.16.7.82<br />
+                      IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</a
+                    >
+                  </article>
+                </div>
+              </li>
+              <li class="item-maquina">
+                <div class="header-maquina">
+                  <div>Máquina 3</div>
+
+                  <div class="kpi-progress">
+                    <p>
+                      CPU:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                    <p>
+                      RAM:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                    <p>
+                      Disco:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                  </div>
+
+                  <button>Desativar Modo de Segurança</button>
+                </div>
+
+                <div class="grafico-maquina">
+                  <article>
+                    <div class="chart-linha">
+                      <canvas id="graficoMaquina3Linha1"></canvas>
+                    </div>
+
+                    <div class="chart-linha">
+                      <canvas id="graficoMaquina3Linha2"></canvas>
+                    </div>
+                  </article>
+                  <article>
+                    <div class="infosDash">
+                      <h2>Tempo de uso da máquina: <span>62h</span></h2>
+                      <h2>
+                        Data da última inicialização: <span>01/02/2024</span>
+                      </h2>
+                    </div>
+
+                    <div class="chart-donut">
+                      <canvas id="graficoMaquina3Donut1"></canvas>
+                    </div>
+                  </article>
+                  <article class="infosHardware">
+                    <h1>Informações do Hardware</h1>
+                    <a style="font-weight: bold">CPU</a>
+                    <a
+                      >Nome: AMD Rayzen 3 3250U with Hadeon Graphics<br />
+                      Fabricante: AuthenticAMD<br />
+                      Frequência: 2600000000 <br />
+                      Total de núcleos: 5
+                    </a>
+                    <a style="font-weight: bold">RAM</a>
+                    <a>Total: 10,35GB</a>
+                    <a style="font-weight: bold">Disco</a>
+                    <a>Total: 928,82GB</a>
+                    <a style="font-weight: bold">Rede</a>
+                    <a
+                      >MacAdress: 10.18.7.82<br />
+                      IPV4: 10.16.7.82<br />
+                      IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</a
+                    >
+                  </article>
+                </div>
+              </li>
+              <li class="item-maquina">
+                <div class="header-maquina">
+                  <div>Máquina 4</div>
+
+                  <div class="kpi-progress">
+                    <p>
+                      CPU:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                    <p>
+                      RAM:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                    <p>
+                      Disco:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                  </div>
+
+                  <button>Desativar Modo de Segurança</button>
+                </div>
+
+                <div class="grafico-maquina">
+                  <article>
+                    <div class="chart-linha">
+                      <canvas id="graficoMaquina4Linha1"></canvas>
+                    </div>
+
+                    <div class="chart-linha">
+                      <canvas id="graficoMaquina4Linha2"></canvas>
+                    </div>
+                  </article>
+                  <article>
+                    <div class="infosDash">
+                      <h2>Tempo de uso da máquina: <span>10h</span></h2>
+                      <h2>
+                        Data da última inicialização: <span>30/03/2024</span>
+                      </h2>
+                    </div>
+
+                    <div class="chart-donut">
+                      <canvas id="graficoMaquina4Donut1"></canvas>
+                    </div>
+                  </article>
+                  <article class="infosHardware">
+                    <h1>Informações do Hardware</h1>
+                    <a style="font-weight: bold">CPU</a>
+                    <a
+                      >Nome: AMD Rayzen 3 3250U with Hadeon Graphics<br />
+                      Fabricante: AuthenticAMD<br />
+                      Frequência: 2600000000 <br />
+                      Total de núcleos: 5
+                    </a>
+                    <a style="font-weight: bold">RAM</a>
+                    <a>Total: 10,35GB</a>
+                    <a style="font-weight: bold">Disco</a>
+                    <a>Total: 928,82GB</a>
+                    <a style="font-weight: bold">Rede</a>
+                    <a
+                      >MacAdress: 10.18.7.82<br />
+                      IPV4: 10.16.7.82<br />
+                      IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</a
+                    >
+                  </article>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="estado">
+            <h1 id="riodejaneiro">Rio de Janeiro</h1>
+            <div class="header-computadores">
+              <div class="maquina-geral">
+                <div class="texto-maquina">
+                  <p>Máquinas próximas ao limite de CPU.</p>
+                  <span>4</span>
+                </div>
+
+                <div class="footer-maquina">Limite alerta: 70 - 80% de uso</div>
+              </div>
+
+              <div class="maquina-geral">
+                <div class="texto-maquina">
+                  <p>Máquinas próximas ao limite de Ram.</p>
+                  <span>3</span>
+                </div>
+
+                <div class="footer-maquina">Limite alerta: 70 - 80% de uso</div>
+              </div>
+
+              <div class="maquina-geral">
+                <div class="texto-maquina">
+                  <p>Máquinas próximas ao limite de Disco.</p>
+                  <span>2</span>
+                </div>
+
+                <div class="footer-maquina">Limite alerta: 70 - 80% de uso</div>
+              </div>
+
+              <button class="adicionar-maquina">Adicionar Máquina</button>
+            </div>
+
+            <div style="display: flex; justify-content: space-between">
+              <div>
+                <h3>Total de máquinas: 4</h3>
+              </div>
+
+              <div
+                class="alertas-dash"
+                style="justify-content: end; margin-bottom: 2%"
+              >
+                <p>
+                  <span style="background-color: green"></span> Estado Normal
+                </p>
+                <p>
+                  <span style="background-color: yellow"></span> Estado Atenção
+                </p>
+                <p>
+                  <span style="background-color: red"></span> Estado Crítico
+                </p>
+              </div>
+            </div>
+
+            <ul class="lista-maquinas">
+              <li class="item-maquina">
+                <div class="header-maquina">
+                  <div>Máquina 1</div>
+
+                  <div class="kpi-progress">
+                    <p>
+                      CPU:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                    <p>
+                      RAM:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                    <p>
+                      Disco:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                  </div>
+
+                  <button>Desativar Modo de Segurança</button>
+                </div>
+
+                <div class="grafico-maquina">
+                  <article>
+                    <div class="chart-linha">
+                      <a>Porcentagem de uso de CPU em tempo real</a>
+                      <canvas id="graficoMaquina1Linha1"></canvas>
+                    </div>
+
+                    <div class="chart-linha">
+                      <a>Porcentagem de uso de Memória RAM em tempo real</a>
+                      <canvas id="graficoMaquina1Linha2"></canvas>
+                    </div>
+                  </article>
+                  <article>
+                    <div class="infosDash">
+                      <h2>Tempo de uso da máquina: <span>15h</span></h2>
+                      <h2>
+                        Data da última inicialização: <span>22/12/2023</span>
+                      </h2>
+                    </div>
+
+                    <div class="chart-donut">
+                      <canvas id="graficoMaquina1Donut1"></canvas>
+                    </div>
+                  </article>
+                  <article class="infosHardware">
+                    <h1>Informações do Hardware</h1>
+                    <a style="font-weight: bold">CPU</a>
+                    <a
+                      >Nome: AMD Rayzen 3 3250U with Hadeon Graphics<br />
+                      Fabricante: AuthenticAMD<br />
+                      Frequência: 2600000000 <br />
+                      Total de núcleos: 5
+                    </a>
+                    <a style="font-weight: bold">RAM</a>
+                    <a>Total: 10,35GB</a>
+                    <a style="font-weight: bold">Disco</a>
+                    <a>Total: 928,82GB</a>
+                    <a style="font-weight: bold">Rede</a>
+                    <a
+                      >MacAdress: 10.18.7.82<br />
+                      IPV4: 10.16.7.82<br />
+                      IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</a
+                    >
+                  </article>
+                </div>
+              </li>
+              <li class="item-maquina">
+                <div class="header-maquina">
+                  <div>Máquina 2</div>
+
+                  <div class="kpi-progress">
+                    <p>
+                      CPU:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                    <p>
+                      RAM:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                    <p>
+                      Disco:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                  </div>
+
+                  <button>Desativar Modo de Segurança</button>
+                </div>
+
+                <div class="grafico-maquina">
+                  <article>
+                    <div class="chart-linha">
+                      <canvas id="graficoMaquina2Linha1"></canvas>
+                    </div>
+
+                    <div class="chart-linha">
+                      <canvas id="graficoMaquina2Linha2"></canvas>
+                    </div>
+                  </article>
+                  <article>
+                    <div class="infosDash">
+                      <h2>Tempo de uso da máquina: <span>15h</span></h2>
+                      <h2>
+                        Data da última inicialização: <span>22/12/2023</span>
+                      </h2>
+                    </div>
+
+                    <div class="chart-donut">
+                      <canvas id="graficoMaquina2Donut1"></canvas>
+                    </div>
+                  </article>
+                  <article class="infosHardware">
+                    <h1>Informações do Hardware</h1>
+                    <a style="font-weight: bold">CPU</a>
+                    <a
+                      >Nome: AMD Rayzen 3 3250U with Hadeon Graphics<br />
+                      Fabricante: AuthenticAMD<br />
+                      Frequência: 2600000000 <br />
+                      Total de núcleos: 5
+                    </a>
+                    <a style="font-weight: bold">RAM</a>
+                    <a>Total: 10,35GB</a>
+                    <a style="font-weight: bold">Disco</a>
+                    <a>Total: 928,82GB</a>
+                    <a style="font-weight: bold">Rede</a>
+                    <a
+                      >MacAdress: 10.18.7.82<br />
+                      IPV4: 10.16.7.82<br />
+                      IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</a
+                    >
+                  </article>
+                </div>
+              </li>
+              <li class="item-maquina">
+                <div class="header-maquina">
+                  <div>Máquina 3</div>
+
+                  <div class="kpi-progress">
+                    <p>
+                      CPU:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                    <p>
+                      RAM:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                    <p>
+                      Disco:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                  </div>
+
+                  <button>Desativar Modo de Segurança</button>
+                </div>
+
+                <div class="grafico-maquina">
+                  <article>
+                    <div class="chart-linha">
+                      <canvas id="graficoMaquina3Linha1"></canvas>
+                    </div>
+
+                    <div class="chart-linha">
+                      <canvas id="graficoMaquina3Linha2"></canvas>
+                    </div>
+                  </article>
+                  <article>
+                    <div class="infosDash">
+                      <h2>Tempo de uso da máquina: <span>62h</span></h2>
+                      <h2>
+                        Data da última inicialização: <span>01/02/2024</span>
+                      </h2>
+                    </div>
+
+                    <div class="chart-donut">
+                      <canvas id="graficoMaquina3Donut1"></canvas>
+                    </div>
+                  </article>
+                  <article class="infosHardware">
+                    <h1>Informações do Hardware</h1>
+                    <a style="font-weight: bold">CPU</a>
+                    <a
+                      >Nome: AMD Rayzen 3 3250U with Hadeon Graphics<br />
+                      Fabricante: AuthenticAMD<br />
+                      Frequência: 2600000000 <br />
+                      Total de núcleos: 5
+                    </a>
+                    <a style="font-weight: bold">RAM</a>
+                    <a>Total: 10,35GB</a>
+                    <a style="font-weight: bold">Disco</a>
+                    <a>Total: 928,82GB</a>
+                    <a style="font-weight: bold">Rede</a>
+                    <a
+                      >MacAdress: 10.18.7.82<br />
+                      IPV4: 10.16.7.82<br />
+                      IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</a
+                    >
+                  </article>
+                </div>
+              </li>
+              <li class="item-maquina">
+                <div class="header-maquina">
+                  <div>Máquina 4</div>
+
+                  <div class="kpi-progress">
+                    <p>
+                      CPU:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                    <p>
+                      RAM:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                    <p>
+                      Disco:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                  </div>
+
+                  <button>Desativar Modo de Segurança</button>
+                </div>
+
+                <div class="grafico-maquina">
+                  <article>
+                    <div class="chart-linha">
+                      <canvas id="graficoMaquina4Linha1"></canvas>
+                    </div>
+
+                    <div class="chart-linha">
+                      <canvas id="graficoMaquina4Linha2"></canvas>
+                    </div>
+                  </article>
+                  <article>
+                    <div class="infosDash">
+                      <h2>Tempo de uso da máquina: <span>10h</span></h2>
+                      <h2>
+                        Data da última inicialização: <span>30/03/2024</span>
+                      </h2>
+                    </div>
+
+                    <div class="chart-donut">
+                      <canvas id="graficoMaquina4Donut1"></canvas>
+                    </div>
+                  </article>
+                  <article class="infosHardware">
+                    <h1>Informações do Hardware</h1>
+                    <a style="font-weight: bold">CPU</a>
+                    <a
+                      >Nome: AMD Rayzen 3 3250U with Hadeon Graphics<br />
+                      Fabricante: AuthenticAMD<br />
+                      Frequência: 2600000000 <br />
+                      Total de núcleos: 5
+                    </a>
+                    <a style="font-weight: bold">RAM</a>
+                    <a>Total: 10,35GB</a>
+                    <a style="font-weight: bold">Disco</a>
+                    <a>Total: 928,82GB</a>
+                    <a style="font-weight: bold">Rede</a>
+                    <a
+                      >MacAdress: 10.18.7.82<br />
+                      IPV4: 10.16.7.82<br />
+                      IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</a
+                    >
+                  </article>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="estado">
+            <h1 id="sãopaulo">São Paulo</h1>
+            <div class="header-computadores">
+              <div class="maquina-geral">
+                <div class="texto-maquina">
+                  <p>Máquinas próximas ao limite de CPU.</p>
+                  <span>4</span>
+                </div>
+
+                <div class="footer-maquina">Limite alerta: 70 - 80% de uso</div>
+              </div>
+
+              <div class="maquina-geral">
+                <div class="texto-maquina">
+                  <p>Máquinas próximas ao limite de Ram.</p>
+                  <span>3</span>
+                </div>
+
+                <div class="footer-maquina">Limite alerta: 70 - 80% de uso</div>
+              </div>
+
+              <div class="maquina-geral">
+                <div class="texto-maquina">
+                  <p>Máquinas próximas ao limite de Disco.</p>
+                  <span>2</span>
+                </div>
+
+                <div class="footer-maquina">Limite alerta: 70 - 80% de uso</div>
+              </div>
+
+              <button class="adicionar-maquina">Adicionar Máquina</button>
+            </div>
+
+            <div style="display: flex; justify-content: space-between">
+              <div>
+                <h3>Total de máquinas: 4</h3>
+              </div>
+
+              <div
+                class="alertas-dash"
+                style="justify-content: end; margin-bottom: 2%"
+              >
+                <p>
+                  <span style="background-color: green"></span> Estado Normal
+                </p>
+                <p>
+                  <span style="background-color: yellow"></span> Estado Atenção
+                </p>
+                <p>
+                  <span style="background-color: red"></span> Estado Crítico
+                </p>
+              </div>
+            </div>
+
+            <ul class="lista-maquinas">
+              <li class="item-maquina">
+                <div class="header-maquina">
+                  <div>Máquina 1</div>
+
+                  <div class="kpi-progress">
+                    <p>
+                      CPU:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                    <p>
+                      RAM:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                    <p>
+                      Disco:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                  </div>
+
+                  <button>Desativar Modo de Segurança</button>
+                </div>
+
+                <div class="grafico-maquina">
+                  <article>
+                    <div class="chart-linha">
+                      <a>Porcentagem de uso de CPU em tempo real</a>
+                      <canvas id="graficoMaquina1Linha1"></canvas>
+                    </div>
+
+                    <div class="chart-linha">
+                      <a>Porcentagem de uso de Memória RAM em tempo real</a>
+                      <canvas id="graficoMaquina1Linha2"></canvas>
+                    </div>
+                  </article>
+                  <article>
+                    <div class="infosDash">
+                      <h2>Tempo de uso da máquina: <span>15h</span></h2>
+                      <h2>
+                        Data da última inicialização: <span>22/12/2023</span>
+                      </h2>
+                    </div>
+
+                    <div class="chart-donut">
+                      <canvas id="graficoMaquina1Donut1"></canvas>
+                    </div>
+                  </article>
+                  <article class="infosHardware">
+                    <h1>Informações do Hardware</h1>
+                    <a style="font-weight: bold">CPU</a>
+                    <a
+                      >Nome: AMD Rayzen 3 3250U with Hadeon Graphics<br />
+                      Fabricante: AuthenticAMD<br />
+                      Frequência: 2600000000 <br />
+                      Total de núcleos: 5
+                    </a>
+                    <a style="font-weight: bold">RAM</a>
+                    <a>Total: 10,35GB</a>
+                    <a style="font-weight: bold">Disco</a>
+                    <a>Total: 928,82GB</a>
+                    <a style="font-weight: bold">Rede</a>
+                    <a
+                      >MacAdress: 10.18.7.82<br />
+                      IPV4: 10.16.7.82<br />
+                      IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</a
+                    >
+                  </article>
+                </div>
+              </li>
+              <li class="item-maquina">
+                <div class="header-maquina">
+                  <div>Máquina 2</div>
+
+                  <div class="kpi-progress">
+                    <p>
+                      CPU:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                    <p>
+                      RAM:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                    <p>
+                      Disco:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                  </div>
+
+                  <button>Desativar Modo de Segurança</button>
+                </div>
+
+                <div class="grafico-maquina">
+                  <article>
+                    <div class="chart-linha">
+                      <canvas id="graficoMaquina2Linha1"></canvas>
+                    </div>
+
+                    <div class="chart-linha">
+                      <canvas id="graficoMaquina2Linha2"></canvas>
+                    </div>
+                  </article>
+                  <article>
+                    <div class="infosDash">
+                      <h2>Tempo de uso da máquina: <span>15h</span></h2>
+                      <h2>
+                        Data da última inicialização: <span>22/12/2023</span>
+                      </h2>
+                    </div>
+
+                    <div class="chart-donut">
+                      <canvas id="graficoMaquina2Donut1"></canvas>
+                    </div>
+                  </article>
+                  <article class="infosHardware">
+                    <h1>Informações do Hardware</h1>
+                    <a style="font-weight: bold">CPU</a>
+                    <a
+                      >Nome: AMD Rayzen 3 3250U with Hadeon Graphics<br />
+                      Fabricante: AuthenticAMD<br />
+                      Frequência: 2600000000 <br />
+                      Total de núcleos: 5
+                    </a>
+                    <a style="font-weight: bold">RAM</a>
+                    <a>Total: 10,35GB</a>
+                    <a style="font-weight: bold">Disco</a>
+                    <a>Total: 928,82GB</a>
+                    <a style="font-weight: bold">Rede</a>
+                    <a
+                      >MacAdress: 10.18.7.82<br />
+                      IPV4: 10.16.7.82<br />
+                      IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</a
+                    >
+                  </article>
+                </div>
+              </li>
+              <li class="item-maquina">
+                <div class="header-maquina">
+                  <div>Máquina 3</div>
+
+                  <div class="kpi-progress">
+                    <p>
+                      CPU:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                    <p>
+                      RAM:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                    <p>
+                      Disco:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                  </div>
+
+                  <button>Desativar Modo de Segurança</button>
+                </div>
+
+                <div class="grafico-maquina">
+                  <article>
+                    <div class="chart-linha">
+                      <canvas id="graficoMaquina3Linha1"></canvas>
+                    </div>
+
+                    <div class="chart-linha">
+                      <canvas id="graficoMaquina3Linha2"></canvas>
+                    </div>
+                  </article>
+                  <article>
+                    <div class="infosDash">
+                      <h2>Tempo de uso da máquina: <span>62h</span></h2>
+                      <h2>
+                        Data da última inicialização: <span>01/02/2024</span>
+                      </h2>
+                    </div>
+
+                    <div class="chart-donut">
+                      <canvas id="graficoMaquina3Donut1"></canvas>
+                    </div>
+                  </article>
+                  <article class="infosHardware">
+                    <h1>Informações do Hardware</h1>
+                    <a style="font-weight: bold">CPU</a>
+                    <a
+                      >Nome: AMD Rayzen 3 3250U with Hadeon Graphics<br />
+                      Fabricante: AuthenticAMD<br />
+                      Frequência: 2600000000 <br />
+                      Total de núcleos: 5
+                    </a>
+                    <a style="font-weight: bold">RAM</a>
+                    <a>Total: 10,35GB</a>
+                    <a style="font-weight: bold">Disco</a>
+                    <a>Total: 928,82GB</a>
+                    <a style="font-weight: bold">Rede</a>
+                    <a
+                      >MacAdress: 10.18.7.82<br />
+                      IPV4: 10.16.7.82<br />
+                      IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</a
+                    >
+                  </article>
+                </div>
+              </li>
+              <li class="item-maquina">
+                <div class="header-maquina">
+                  <div>Máquina 4</div>
+
+                  <div class="kpi-progress">
+                    <p>
+                      CPU:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                    <p>
+                      RAM:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                    <p>
+                      Disco:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                  </div>
+
+                  <button>Desativar Modo de Segurança</button>
+                </div>
+
+                <div class="grafico-maquina">
+                  <article>
+                    <div class="chart-linha">
+                      <canvas id="graficoMaquina4Linha1"></canvas>
+                    </div>
+
+                    <div class="chart-linha">
+                      <canvas id="graficoMaquina4Linha2"></canvas>
+                    </div>
+                  </article>
+                  <article>
+                    <div class="infosDash">
+                      <h2>Tempo de uso da máquina: <span>10h</span></h2>
+                      <h2>
+                        Data da última inicialização: <span>30/03/2024</span>
+                      </h2>
+                    </div>
+
+                    <div class="chart-donut">
+                      <canvas id="graficoMaquina4Donut1"></canvas>
+                    </div>
+                  </article>
+                  <article class="infosHardware">
+                    <h1>Informações do Hardware</h1>
+                    <a style="font-weight: bold">CPU</a>
+                    <a
+                      >Nome: AMD Rayzen 3 3250U with Hadeon Graphics<br />
+                      Fabricante: AuthenticAMD<br />
+                      Frequência: 2600000000 <br />
+                      Total de núcleos: 5
+                    </a>
+                    <a style="font-weight: bold">RAM</a>
+                    <a>Total: 10,35GB</a>
+                    <a style="font-weight: bold">Disco</a>
+                    <a>Total: 928,82GB</a>
+                    <a style="font-weight: bold">Rede</a>
+                    <a
+                      >MacAdress: 10.18.7.82<br />
+                      IPV4: 10.16.7.82<br />
+                      IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</a
+                    >
+                  </article>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="estado">
+            <h1 id="mirabela">Mirabela</h1>
+            <div class="header-computadores">
+              <div class="maquina-geral">
+                <div class="texto-maquina">
+                  <p>Máquinas próximas ao limite de CPU.</p>
+                  <span>4</span>
+                </div>
+
+                <div class="footer-maquina">Limite alerta: 70 - 80% de uso</div>
+              </div>
+
+              <div class="maquina-geral">
+                <div class="texto-maquina">
+                  <p>Máquinas próximas ao limite de Ram.</p>
+                  <span>3</span>
+                </div>
+
+                <div class="footer-maquina">Limite alerta: 70 - 80% de uso</div>
+              </div>
+
+              <div class="maquina-geral">
+                <div class="texto-maquina">
+                  <p>Máquinas próximas ao limite de Disco.</p>
+                  <span>2</span>
+                </div>
+
+                <div class="footer-maquina">Limite alerta: 70 - 80% de uso</div>
+              </div>
+
+              <button class="adicionar-maquina">Adicionar Máquina</button>
+            </div>
+
+            <div style="display: flex; justify-content: space-between">
+              <div>
+                <h3>Total de máquinas: 4</h3>
+              </div>
+
+              <div
+                class="alertas-dash"
+                style="justify-content: end; margin-bottom: 2%"
+              >
+                <p>
+                  <span style="background-color: green"></span> Estado Normal
+                </p>
+                <p>
+                  <span style="background-color: yellow"></span> Estado Atenção
+                </p>
+                <p>
+                  <span style="background-color: red"></span> Estado Crítico
+                </p>
+              </div>
+            </div>
+
+            <ul class="lista-maquinas">
+              <li class="item-maquina">
+                <div class="header-maquina">
+                  <div>Máquina 1</div>
+
+                  <div class="kpi-progress">
+                    <p>
+                      CPU:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                    <p>
+                      RAM:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                    <p>
+                      Disco:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                  </div>
+
+                  <button>Desativar Modo de Segurança</button>
+                </div>
+
+                <div class="grafico-maquina">
+                  <article>
+                    <div class="chart-linha">
+                      <a>Porcentagem de uso de CPU em tempo real</a>
+                      <canvas id="graficoMaquina1Linha1"></canvas>
+                    </div>
+
+                    <div class="chart-linha">
+                      <a>Porcentagem de uso de Memória RAM em tempo real</a>
+                      <canvas id="graficoMaquina1Linha2"></canvas>
+                    </div>
+                  </article>
+                  <article>
+                    <div class="infosDash">
+                      <h2>Tempo de uso da máquina: <span>15h</span></h2>
+                      <h2>
+                        Data da última inicialização: <span>22/12/2023</span>
+                      </h2>
+                    </div>
+
+                    <div class="chart-donut">
+                      <canvas id="graficoMaquina1Donut1"></canvas>
+                    </div>
+                  </article>
+                  <article class="infosHardware">
+                    <h1>Informações do Hardware</h1>
+                    <a style="font-weight: bold">CPU</a>
+                    <a
+                      >Nome: AMD Rayzen 3 3250U with Hadeon Graphics<br />
+                      Fabricante: AuthenticAMD<br />
+                      Frequência: 2600000000 <br />
+                      Total de núcleos: 5
+                    </a>
+                    <a style="font-weight: bold">RAM</a>
+                    <a>Total: 10,35GB</a>
+                    <a style="font-weight: bold">Disco</a>
+                    <a>Total: 928,82GB</a>
+                    <a style="font-weight: bold">Rede</a>
+                    <a
+                      >MacAdress: 10.18.7.82<br />
+                      IPV4: 10.16.7.82<br />
+                      IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</a
+                    >
+                  </article>
+                </div>
+              </li>
+              <li class="item-maquina">
+                <div class="header-maquina">
+                  <div>Máquina 2</div>
+
+                  <div class="kpi-progress">
+                    <p>
+                      CPU:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                    <p>
+                      RAM:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                    <p>
+                      Disco:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                  </div>
+
+                  <button>Desativar Modo de Segurança</button>
+                </div>
+
+                <div class="grafico-maquina">
+                  <article>
+                    <div class="chart-linha">
+                      <canvas id="graficoMaquina2Linha1"></canvas>
+                    </div>
+
+                    <div class="chart-linha">
+                      <canvas id="graficoMaquina2Linha2"></canvas>
+                    </div>
+                  </article>
+                  <article>
+                    <div class="infosDash">
+                      <h2>Tempo de uso da máquina: <span>15h</span></h2>
+                      <h2>
+                        Data da última inicialização: <span>22/12/2023</span>
+                      </h2>
+                    </div>
+
+                    <div class="chart-donut">
+                      <canvas id="graficoMaquina2Donut1"></canvas>
+                    </div>
+                  </article>
+                  <article class="infosHardware">
+                    <h1>Informações do Hardware</h1>
+                    <a style="font-weight: bold">CPU</a>
+                    <a
+                      >Nome: AMD Rayzen 3 3250U with Hadeon Graphics<br />
+                      Fabricante: AuthenticAMD<br />
+                      Frequência: 2600000000 <br />
+                      Total de núcleos: 5
+                    </a>
+                    <a style="font-weight: bold">RAM</a>
+                    <a>Total: 10,35GB</a>
+                    <a style="font-weight: bold">Disco</a>
+                    <a>Total: 928,82GB</a>
+                    <a style="font-weight: bold">Rede</a>
+                    <a
+                      >MacAdress: 10.18.7.82<br />
+                      IPV4: 10.16.7.82<br />
+                      IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</a
+                    >
+                  </article>
+                </div>
+              </li>
+              <li class="item-maquina">
+                <div class="header-maquina">
+                  <div>Máquina 3</div>
+
+                  <div class="kpi-progress">
+                    <p>
+                      CPU:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                    <p>
+                      RAM:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                    <p>
+                      Disco:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                  </div>
+
+                  <button>Desativar Modo de Segurança</button>
+                </div>
+
+                <div class="grafico-maquina">
+                  <article>
+                    <div class="chart-linha">
+                      <canvas id="graficoMaquina3Linha1"></canvas>
+                    </div>
+
+                    <div class="chart-linha">
+                      <canvas id="graficoMaquina3Linha2"></canvas>
+                    </div>
+                  </article>
+                  <article>
+                    <div class="infosDash">
+                      <h2>Tempo de uso da máquina: <span>62h</span></h2>
+                      <h2>
+                        Data da última inicialização: <span>01/02/2024</span>
+                      </h2>
+                    </div>
+
+                    <div class="chart-donut">
+                      <canvas id="graficoMaquina3Donut1"></canvas>
+                    </div>
+                  </article>
+                  <article class="infosHardware">
+                    <h1>Informações do Hardware</h1>
+                    <a style="font-weight: bold">CPU</a>
+                    <a
+                      >Nome: AMD Rayzen 3 3250U with Hadeon Graphics<br />
+                      Fabricante: AuthenticAMD<br />
+                      Frequência: 2600000000 <br />
+                      Total de núcleos: 5
+                    </a>
+                    <a style="font-weight: bold">RAM</a>
+                    <a>Total: 10,35GB</a>
+                    <a style="font-weight: bold">Disco</a>
+                    <a>Total: 928,82GB</a>
+                    <a style="font-weight: bold">Rede</a>
+                    <a
+                      >MacAdress: 10.18.7.82<br />
+                      IPV4: 10.16.7.82<br />
+                      IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</a
+                    >
+                  </article>
+                </div>
+              </li>
+              <li class="item-maquina">
+                <div class="header-maquina">
+                  <div>Máquina 4</div>
+
+                  <div class="kpi-progress">
+                    <p>
+                      CPU:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                    <p>
+                      RAM:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                    <p>
+                      Disco:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                  </div>
+
+                  <button>Desativar Modo de Segurança</button>
+                </div>
+
+                <div class="grafico-maquina">
+                  <article>
+                    <div class="chart-linha">
+                      <canvas id="graficoMaquina4Linha1"></canvas>
+                    </div>
+
+                    <div class="chart-linha">
+                      <canvas id="graficoMaquina4Linha2"></canvas>
+                    </div>
+                  </article>
+                  <article>
+                    <div class="infosDash">
+                      <h2>Tempo de uso da máquina: <span>10h</span></h2>
+                      <h2>
+                        Data da última inicialização: <span>30/03/2024</span>
+                      </h2>
+                    </div>
+
+                    <div class="chart-donut">
+                      <canvas id="graficoMaquina4Donut1"></canvas>
+                    </div>
+                  </article>
+                  <article class="infosHardware">
+                    <h1>Informações do Hardware</h1>
+                    <a style="font-weight: bold">CPU</a>
+                    <a
+                      >Nome: AMD Rayzen 3 3250U with Hadeon Graphics<br />
+                      Fabricante: AuthenticAMD<br />
+                      Frequência: 2600000000 <br />
+                      Total de núcleos: 5
+                    </a>
+                    <a style="font-weight: bold">RAM</a>
+                    <a>Total: 10,35GB</a>
+                    <a style="font-weight: bold">Disco</a>
+                    <a>Total: 928,82GB</a>
+                    <a style="font-weight: bold">Rede</a>
+                    <a
+                      >MacAdress: 10.18.7.82<br />
+                      IPV4: 10.16.7.82<br />
+                      IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</a
+                    >
+                  </article>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="estado">
+            <h1 id="joãopessoa">João Pessoa</h1>
+            <div class="header-computadores">
+              <div class="maquina-geral">
+                <div class="texto-maquina">
+                  <p>Máquinas próximas ao limite de CPU.</p>
+                  <span>4</span>
+                </div>
+
+                <div class="footer-maquina">Limite alerta: 70 - 80% de uso</div>
+              </div>
+
+              <div class="maquina-geral">
+                <div class="texto-maquina">
+                  <p>Máquinas próximas ao limite de Ram.</p>
+                  <span>3</span>
+                </div>
+
+                <div class="footer-maquina">Limite alerta: 70 - 80% de uso</div>
+              </div>
+
+              <div class="maquina-geral">
+                <div class="texto-maquina">
+                  <p>Máquinas próximas ao limite de Disco.</p>
+                  <span>2</span>
+                </div>
+
+                <div class="footer-maquina">Limite alerta: 70 - 80% de uso</div>
+              </div>
+
+              <button class="adicionar-maquina">Adicionar Máquina</button>
+            </div>
+
+            <div style="display: flex; justify-content: space-between">
+              <div>
+                <h3>Total de máquinas: 4</h3>
+              </div>
+
+              <div
+                class="alertas-dash"
+                style="justify-content: end; margin-bottom: 2%"
+              >
+                <p>
+                  <span style="background-color: green"></span> Estado Normal
+                </p>
+                <p>
+                  <span style="background-color: yellow"></span> Estado Atenção
+                </p>
+                <p>
+                  <span style="background-color: red"></span> Estado Crítico
+                </p>
+              </div>
+            </div>
+
+            <ul class="lista-maquinas">
+              <li class="item-maquina">
+                <div class="header-maquina">
+                  <div>Máquina 1</div>
+
+                  <div class="kpi-progress">
+                    <p>
+                      CPU:<progress
+                        class="barra-progresso"
+                        value="50"
+                        max="100"
+                        min="0"
+                      ></progress>
+                    </p>
+                    <p>
+                      RAM:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                    <p>
+                      Disco:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                  </div>
+
+                  <button>Desativar Modo de Segurança</button>
+                </div>
+
+                <div class="grafico-maquina">
+                  <article>
+                    <div class="chart-linha">
+                      <a>Porcentagem de uso de CPU em tempo real</a>
+                      <canvas id="graficoMaquina1Linha1"></canvas>
+                    </div>
+
+                    <div class="chart-linha">
+                      <a>Porcentagem de uso de Memória RAM em tempo real</a>
+                      <canvas id="graficoMaquina1Linha2"></canvas>
+                    </div>
+                  </article>
+                  <article>
+                    <div class="infosDash">
+                      <h2>Tempo de uso da máquina: <span>15h</span></h2>
+                      <h2>
+                        Data da última inicialização: <span>22/12/2023</span>
+                      </h2>
+                    </div>
+
+                    <div class="chart-donut">
+                      <canvas id="graficoMaquina1Donut1"></canvas>
+                    </div>
+                  </article>
+                  <article class="infosHardware">
+                    <h1>Informações do Hardware</h1>
+                    <a style="font-weight: bold">CPU</a>
+                    <a
+                      >Nome: AMD Rayzen 3 3250U with Hadeon Graphics<br />
+                      Fabricante: AuthenticAMD<br />
+                      Frequência: 2600000000 <br />
+                      Total de núcleos: 5
+                    </a>
+                    <a style="font-weight: bold">RAM</a>
+                    <a>Total: 10,35GB</a>
+                    <a style="font-weight: bold">Disco</a>
+                    <a>Total: 928,82GB</a>
+                    <a style="font-weight: bold">Rede</a>
+                    <a
+                      >MacAdress: 10.18.7.82<br />
+                      IPV4: 10.16.7.82<br />
+                      IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</a
+                    >
+                  </article>
+                </div>
+              </li>
+              <li class="item-maquina">
+                <div class="header-maquina">
+                  <div>Máquina 2</div>
+
+                  <div class="kpi-progress">
+                    <p>
+                      CPU:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                    <p>
+                      RAM:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                    <p>
+                      Disco:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                  </div>
+
+                  <button>Desativar Modo de Segurança</button>
+                </div>
+
+                <div class="grafico-maquina">
+                  <article>
+                    <div class="chart-linha">
+                      <canvas id="graficoMaquina2Linha1"></canvas>
+                    </div>
+
+                    <div class="chart-linha">
+                      <canvas id="graficoMaquina2Linha2"></canvas>
+                    </div>
+                  </article>
+                  <article>
+                    <div class="infosDash">
+                      <h2>Tempo de uso da máquina: <span>15h</span></h2>
+                      <h2>
+                        Data da última inicialização: <span>22/12/2023</span>
+                      </h2>
+                    </div>
+
+                    <div class="chart-donut">
+                      <canvas id="graficoMaquina2Donut1"></canvas>
+                    </div>
+                  </article>
+                  <article class="infosHardware">
+                    <h1>Informações do Hardware</h1>
+                    <a style="font-weight: bold">CPU</a>
+                    <a
+                      >Nome: AMD Rayzen 3 3250U with Hadeon Graphics<br />
+                      Fabricante: AuthenticAMD<br />
+                      Frequência: 2600000000 <br />
+                      Total de núcleos: 5
+                    </a>
+                    <a style="font-weight: bold">RAM</a>
+                    <a>Total: 10,35GB</a>
+                    <a style="font-weight: bold">Disco</a>
+                    <a>Total: 928,82GB</a>
+                    <a style="font-weight: bold">Rede</a>
+                    <a
+                      >MacAdress: 10.18.7.82<br />
+                      IPV4: 10.16.7.82<br />
+                      IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</a
+                    >
+                  </article>
+                </div>
+              </li>
+              <li class="item-maquina">
+                <div class="header-maquina">
+                  <div>Máquina 3</div>
+
+                  <div class="kpi-progress">
+                    <p>
+                      CPU:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                    <p>
+                      RAM:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                    <p>
+                      Disco:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                  </div>
+
+                  <button>Desativar Modo de Segurança</button>
+                </div>
+
+                <div class="grafico-maquina">
+                  <article>
+                    <div class="chart-linha">
+                      <canvas id="graficoMaquina3Linha1"></canvas>
+                    </div>
+
+                    <div class="chart-linha">
+                      <canvas id="graficoMaquina3Linha2"></canvas>
+                    </div>
+                  </article>
+                  <article>
+                    <div class="infosDash">
+                      <h2>Tempo de uso da máquina: <span>62h</span></h2>
+                      <h2>
+                        Data da última inicialização: <span>01/02/2024</span>
+                      </h2>
+                    </div>
+
+                    <div class="chart-donut">
+                      <canvas id="graficoMaquina3Donut1"></canvas>
+                    </div>
+                  </article>
+                  <article class="infosHardware">
+                    <h1>Informações do Hardware</h1>
+                    <a style="font-weight: bold">CPU</a>
+                    <a
+                      >Nome: AMD Rayzen 3 3250U with Hadeon Graphics<br />
+                      Fabricante: AuthenticAMD<br />
+                      Frequência: 2600000000 <br />
+                      Total de núcleos: 5
+                    </a>
+                    <a style="font-weight: bold">RAM</a>
+                    <a>Total: 10,35GB</a>
+                    <a style="font-weight: bold">Disco</a>
+                    <a>Total: 928,82GB</a>
+                    <a style="font-weight: bold">Rede</a>
+                    <a
+                      >MacAdress: 10.18.7.82<br />
+                      IPV4: 10.16.7.82<br />
+                      IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</a
+                    >
+                  </article>
+                </div>
+              </li>
+              <li class="item-maquina">
+                <div class="header-maquina">
+                  <div>Máquina 4</div>
+
+                  <div class="kpi-progress">
+                    <p>
+                      CPU:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                    <p>
+                      RAM:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                    <p>
+                      Disco:<progress
+                        value="50"
+                        max="100"
+                        min="0"
+                        class="barra-progresso"
+                      ></progress>
+                    </p>
+                  </div>
+
+                  <button>Desativar Modo de Segurança</button>
+                </div>
+
+                <div class="grafico-maquina">
+                  <article>
+                    <div class="chart-linha">
+                      <canvas id="graficoMaquina4Linha1"></canvas>
+                    </div>
+
+                    <div class="chart-linha">
+                      <canvas id="graficoMaquina4Linha2"></canvas>
+                    </div>
+                  </article>
+                  <article>
+                    <div class="infosDash">
+                      <h2>Tempo de uso da máquina: <span>10h</span></h2>
+                      <h2>
+                        Data da última inicialização: <span>30/03/2024</span>
+                      </h2>
+                    </div>
+
+                    <div class="chart-donut">
+                      <canvas id="graficoMaquina4Donut1"></canvas>
+                    </div>
+                  </article>
+                  <article class="infosHardware">
+                    <h1>Informações do Hardware</h1>
+                    <a style="font-weight: bold">CPU</a>
+                    <a
+                      >Nome: AMD Rayzen 3 3250U with Hadeon Graphics<br />
+                      Fabricante: AuthenticAMD<br />
+                      Frequência: 2600000000 <br />
+                      Total de núcleos: 5
+                    </a>
+                    <a style="font-weight: bold">RAM</a>
+                    <a>Total: 10,35GB</a>
+                    <a style="font-weight: bold">Disco</a>
+                    <a>Total: 928,82GB</a>
+                    <a style="font-weight: bold">Rede</a>
+                    <a
+                      >MacAdress: 10.18.7.82<br />
+                      IPV4: 10.16.7.82<br />
+                      IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</a
+                    >
+                  </article>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </article>
+      </section>
+      <section class="telas" style="display: none" id="telaLog">
+        <article class="content_component">
+          <div
+            class="header"
+            style="width: 100%; justify-content: space-between"
+          >
+            <div class="title">
+              <h2>Histórico</h2>
+            </div>
+
+            <div class="buttons">
+              <div style="width: 100%">
+                <label for="informacao">Selecione a informação:</label>
+                <select name="informacao" id="informacao" style="width: 46%">
+                  <option value="Uso de Hardware">Uso de Hardware</option>
+                  <option value="Usuários">Usuários</option>
+                  <option value="Seguranca">Segurança das máquinas</option>
+                </select>
+              </div>
+
+              <div style="width: 50%">
+                <label for="periodo">Periodo: </label>
+                <select name="periodo" id="periodo">
+                  <option value="Hoje">Hoje</option>
+                  <option value="7 dias">Últimos 7 dias</option>
+                  <option value="30 dias">Últimos 30 dias</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="body">
+            <div class="card">
+              <div class="picture">
+                <img src="assets/user-icon.png" alt="" />
+                <p>George Albert</p>
+              </div>
+
+              <div class="descricao log">
+                <div style="margin-bottom: 10px">
+                  <p>Descrição: Adicionou uma nova máquina</p>
+                  <p></p>
+                </div>
+
+                <div>
+                  <p>Data: 27/04/2024 às 18:59:00</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="picture">
+                <img src="assets/computador-icon.png" alt="" />
+                <p>Máquina 1</p>
+              </div>
+
+              <div class="descricao log">
+                <div style="margin-bottom: 10px">
+                  <p>Descrição: Houve uma tentativa de abrir o Whatsapp</p>
+                  <p></p>
+                </div>
+
+                <div>
+                  <p>Data: 27/04/2024 às 18:59:00</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="picture">
+                <img src="assets/computador-icon.png" alt="" />
+                <p>Máquina 1</p>
+              </div>
+
+              <div class="descricao log">
+                <div style="margin-bottom: 10px">
+                  <p>Descrição: Houve uma tentativa de abrir o Whatsapp</p>
+                  <p></p>
+                </div>
+
+                <div>
+                  <p>Data: 27/04/2024 às 18:59:00</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+      <section class="telas" style="display: none" id="telaConfig">
+        <article class="content_component" style="overflow-y: hidden">
+          <div class="configuration-page">
+            <div class="edit-profile">
+              <h1>Configurações</h1>
+              <div class="profile">
+                <div
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    width: 100%;
+                  "
+                >
+                  <h2 style="padding: 0">Usuário</h2>
+                  <button class="edit-user">Editar</button>
+                </div>
+
+                <div style="display: flex">
+                  <div class="config-item">
+                    <label for="nome">Nome:</label>
+                    <input id="nome" readonly type="text" />
+                  </div>
+
+                  <div class="config-item">
+                    <label for="sobrenome">Sobrenome</label>
+                    <input type="text" readonly id="sobrenome" />
+                  </div>
+                </div>
+
+                <div class="config-item">
+                  <label for="email">Email:</label>
+                  <input type="text" readonly id="email" />
+                </div>
+
+                <div
+                  class="config-item"
+                  style="display: flex; flex-direction: column; width: 45%"
+                >
+                  <label for="cargo">Cargo:</label>
+                  <input type="text" readonly id="cargo" />
+                </div>
+              </div>
+            </div>
+
+            <div class="notification">
+              <h3>Notificações</h3>
+              <div class="headers">
+                <div class="seguranca">Segurança</div>
+
+                <div class="maquina">Uso Máquina</div>
+              </div>
+
+              <div class="body">
+                <div class="search">
+                  <input type="text" placeholder="Pesquisar usuário" />
+                </div>
+
                 <div class="checkbox">
                   <label for="check">Selecionar todos</label>
-                  <input id="check" type="checkbox">
+                  <input id="check" type="checkbox" />
                 </div>
+
                 <div class="user-configs">
                   <div class="user-config">
                     <div class="user-information">
-                      <img src="assets/user-icon.png" alt="">
+                      <img src="assets/user-icon.png" alt="" />
                       <div>
                         <p>Usuário</p>
                         <p>E-mail</p>
                       </div>
                     </div>
-                    <input type="checkbox">
+
+                    <input type="checkbox" />
                   </div>
+
                   <div class="user-config">
                     <div class="user-information">
-                      <img src="assets/user-icon.png" alt="">
+                      <img src="assets/user-icon.png" alt="" />
                       <div>
                         <p>Usuário</p>
                         <p>E-mail</p>
                       </div>
                     </div>
-                    <input type="checkbox">
+
+                    <input type="checkbox" />
                   </div>
+
                   <div class="user-config">
                     <div class="user-information">
-                      <img src="assets/user-icon.png" alt="">
+                      <img src="assets/user-icon.png" alt="" />
                       <div>
                         <p>Usuário</p>
                         <p>E-mail</p>
                       </div>
                     </div>
-                    <input type="checkbox">
+
+                    <input type="checkbox" />
                   </div>
+
                   <div class="user-config">
                     <div class="user-information">
-                      <img src="assets/user-icon.png" alt="">
+                      <img src="assets/user-icon.png" alt="" />
                       <div>
                         <p>Usuário</p>
                         <p>E-mail</p>
                       </div>
                     </div>
-                    <input type="checkbox">
+
+                    <input type="checkbox" />
                   </div>
+
                   <div class="user-config">
                     <div class="user-information">
-                      <img src="assets/user-icon.png" alt="">
+                      <img src="assets/user-icon.png" alt="" />
                       <div>
                         <p>Usuário</p>
                         <p>E-mail</p>
                       </div>
                     </div>
-                    <input type="checkbox">
+
+                    <input type="checkbox" />
                   </div>
+
                   <div class="user-config">
                     <div class="user-information">
-                      <img src="assets/user-icon.png" alt="">
+                      <img src="assets/user-icon.png" alt="" />
                       <div>
                         <p>Usuário</p>
                         <p>E-mail</p>
                       </div>
                     </div>
-                    <input type="checkbox">
+
+                    <input type="checkbox" />
                   </div>
                 </div>
-            </div>      
+              </div>
+            </div>
           </div>
-      </div>
-      
-      </article>
-    </section>
-  </main>
+        </article>
+      </section>
+    </main>
 
-  <div class="abrir-helpdesk" onclick="document.querySelector('.helpdesk').style.display = 'flex'">
-    <img src="./assets/support_1067566 1.svg" alt="">
-  </div>
-
-  <div class="helpdesk" style="display: none;">
-    <div class="card-help">
-      <div style="cursor: pointer;" class="fechar-helpdesk" onclick="document.querySelector('.helpdesk').style.display = 'none'">X</div>
-      <iframe width='560' height='100%' src='https://app.pipefy.com/public/form/IpfrKHRZ?embedded=true'
-        frameborder='0'></iframe>
+    <div
+      class="abrir-helpdesk"
+      onclick="document.querySelector('.helpdesk').style.display = 'flex'"
+    >
+      <img src="./assets/support_1067566 1.svg" alt="" />
     </div>
-  </div>
-</body>
 
+    <div class="helpdesk" style="display: none">
+      <div class="card-help">
+        <div
+          style="cursor: pointer"
+          class="fechar-helpdesk"
+          onclick="document.querySelector('.helpdesk').style.display = 'none'"
+        >
+          X
+        </div>
+
+        <!-- <iframe
+          width="560"
+          height="100%"
+          src="https://app.pipefy.com/public/form/IpfrKHRZ?embedded=true"
+          frameborder="0"
+        ></iframe> -->
+      </div>
+    </div>
+  </body>
 </html>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="./js/dashboard.js"></script>
 <script src="./js/particle/particles.js"></script>
-<script src="./js/particle/app.js"></script>
+<script src="./js/particle/app.js"></script>;
 <script src="./js/graficos.js"></script>
