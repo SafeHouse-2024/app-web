@@ -49,7 +49,7 @@
     var senha = document.getElementById("ipt_senha").value;
 
     if (email != "" || senha != "") {
-      url = `/conexao/usuario/where email='${email}' AND senha='${senha}'`;
+      url = `/conexao/SELECT * FROM usuario where email='${email}' AND senha='${senha}'`;
       metodo = "GET";
 
       consultaBanco(url, metodo).then((resposta) => {
@@ -64,7 +64,7 @@
           sessionStorage.FKDARKSTORE = resposta[0].fkDarkStore;
 
           consultaBanco(
-            `conexao/empresa/WHERE idEmpresa = ${sessionStorage.FKDARKSTORE}`,
+            `conexao/SELECT * FROM empresa WHERE idEmpresa = ${sessionStorage.FKDARKSTORE}`,
             "GET"
           )
             .then(function (resposta) {

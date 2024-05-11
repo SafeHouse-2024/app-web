@@ -1,9 +1,8 @@
 var conexaoModel = require('../models/conexaoModel');
 
 function consulta(req, res){
-  var tabela = req.params.tabela;
-  var condicao = req.params.condicao;
-  conexaoModel.consulta(tabela, condicao)
+  var query = req.params.query;
+  conexaoModel.consulta(query)
   .then(function(resultados){
     res.json(resultados);
   })

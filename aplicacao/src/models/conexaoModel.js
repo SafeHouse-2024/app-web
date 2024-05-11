@@ -1,7 +1,6 @@
 var database = require('../database/config');
 
-function consulta(tabela, condicao='') {
-  var query = `SELECT * FROM ${tabela} ${condicao}`;
+function consulta(query) {
   return database.executar(query);
 }
 function inserir(tabela, campos, valores) {

@@ -3,7 +3,7 @@ var router = express.Router();
 
 var conexaoController = require('../controllers/conexaoController');
 
-router.get('/:tabela/:condicao', function (req, res) {
+router.get('/:query', function (req, res) {
   conexaoController.consulta(req, res);
 });
 

@@ -8,7 +8,7 @@ SELECT c.idComponente as 'Id do Componente', c.nome as 'Nome do Componente', ca.
 FROM Componente c JOIN Computador pc ON c.fkComputador = pc.idComputador JOIN CaracteristicaComponente ca ON ca.fkComponente = c.idComponente;
 
 # Fetch dos registros de um componente.
-SELECT * FROM Componente c JOIN RegistroComponente rc ON c.idComponente = rc.fkComponente WHERE c.fkComputador = 3 AND c.nome LIKE 'Processador';
+SELECT * FROM Componente c JOIN RegistroComponente rc ON c.idComponente = rc.fkComponente WHERE c.fkComputador = 1 AND c.nome LIKE 'Processador';
 
 #Fetch do valor das medições do processador
 SELECT rc.valor FROM Componente c JOIN RegistroComponente rc ON c.idComponente = rc.fkComponente WHERE c.fkComputador = 3 AND c.nome LIKE 'Processador';
@@ -39,3 +39,8 @@ SELECT np.nome FROM ProcessoSistema ps JOIN NomeProcesso np ON np.idNome = ps.fk
 
 #Fetch do e-mail de todos os funcionários que recebem notificação de uma máquina específica
 SELECT u.email FROM Notificacao n JOIN Computador p ON p.idComputador = n.fkComputador JOIN Usuario u ON n.fkUsuario = u.idUsuario WHERE p.idComputador = 5;
+
+
+SELECT pc.*, c.nome as 'Nome do Componente', ca.nome as 'Nome da Característica', ca.valor 'Valor da Característica' 
+FROM Componente c JOIN Computador pc ON c.fkComputador = pc.idComputador JOIN CaracteristicaComponente ca ON ca.fkComponente = c.idComponente WHERE pc.`fkDarkStore` = 1;
+
