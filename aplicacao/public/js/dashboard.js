@@ -44,8 +44,21 @@ function trocarTela(tela) {
   }
 }
 
+let maquinas = document.querySelectorAll('.lista-maquinas > li')
+
+maquinas.forEach(maquina => {
+  maquina.firstElementChild.addEventListener('click', function () {
+    console.log(maquina);
+    if (maquina.classList.contains('activeMaquina')) {
+      maquina.classList.remove('activeMaquina')
+    } else {
+      maquina.classList.add('activeMaquina')
+    }
+  });
+});
+
 const darkstores = []
-const maquinas = []
+// const maquinas = []
 
 function buscarDarkstore() {
   consultaBanco(`conexao/darkstore/WHERE fkEmpresa = ${sessionStorage.IDEMPRESA}`, 'GET')
@@ -73,7 +86,7 @@ function buscarMaquinas() {
 }
 
 function plotarDarkStore() {
-  for (let i = 0; i <= darkstores.length; i++) {
+  for (let i = 0; i < darkstores.length; i++) {
     document.querySelector('#empresasContent').innerHTML += `
     <div class="dark-content">
     <span
@@ -84,9 +97,6 @@ function plotarDarkStore() {
     <p>Quantidade de máquinas: <span>${maquinas.length}</span></p>
   </div>`;
   }
-  console.log("Terminei de plotar a darkstore");
-  console.log(document.querySelector('#empresasContent').innerHTML);
-
 }
 
 // window.addEventListener("DOMContentLoaded", () => {
@@ -104,13 +114,12 @@ window.onload = function () {
       buscarMaquinas();
       plotarDarkStore();
     }
-
+    
     console.log(sessionStorage.CARGO == "Gerente TI"? "É Gerente TI": "Não é Gerente TI");
     for(let dark of darkstores){
       console.log(dark);
     }
   },3000);
 }
-
 
 // Faz essa função ser executada assim que a página carregar POR FAVOR IAN
