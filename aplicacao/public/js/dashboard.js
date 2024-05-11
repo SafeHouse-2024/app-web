@@ -265,7 +265,7 @@ window.onload = buscarDarkstore();
 
 function buscarUsuarios() {
   let funcionarios = [];
-  consultaBanco(`conexao/SELECT * FROM usuario WHERE fkDarkstore = ${sessionStorage.FKDARKSTORE}`, 'GET').then(function (resposta) {
+  consultaBanco(`conexao/SELECT * FROM usuario WHERE fkDarkstore = ${sessionStorage.FKDARKSTORE} AND tipo = 'Funcionário'`, 'GET').then(function (resposta) {
     if (resposta != null) {
       funcionarios = resposta;
       console.log(funcionarios);
@@ -297,4 +297,68 @@ function buscarUsuarios() {
     `;
     }
   }, 1000);
+}
+
+function buscarLog() {
+  let logs = [];
+  consultaBanco(`conexao/SELECT Log.*, usuario.nome as usuarioNome, computador.nome as computadorNome FROM Log
+  JOIN Computador ON Log.fkComputador = Computador.idComputador
+  JOIN DarkStore ON Computador.fkDarkStore = DarkStore.idDarkStore
+  LEFT JOIN Usuario ON Log.fkUsuario = Usuario.idUsuario
+  WHERE DarkStore.idDarkStore = ${sessionStorage.FKDARKSTORE}`, 'GET').then(function (resposta) {
+    console.log(resposta);
+    logs = resposta;
+  }).catch(function (resposta) {
+    console.log(`#ERRO: ${resposta}`);
+  });
+
+  let conteudoLogs = document.querySelector('.body-log');
+  conteudoLogs.innerHTML = '';
+  setTimeout(() => {
+    for (let i = 0; i < logs.length; i++) {
+
+      if (logs[i].fkComputador != null) {
+        conteudoLogs.innerHTML += `
+      <div class="card">
+              <div class="picture">
+                <img src="assets/user-icon.png" alt="" />
+                <p>${logs[i].computadorNome}</p>
+              </div>
+
+              <div class="descricao log">
+                <div style="margin-bottom: 10px">
+                  <p>Descrição: ${logs[i].descricao}</p>
+                  <p></p>
+                </div>
+
+                <div>
+                  <p>Data: ${logs[i].dataLog}</p>
+                </div>
+              </div>
+            </div>
+    `;
+      } else {
+        conteudoLogs.innerHTML += `
+        <div class="card">
+                <div class="picture">
+                  <img src="assets/user-icon.png" alt="" />
+                  <p>${logs[i].usuarioNome}</p>
+                </div>
+  
+                <div class="descricao log">
+                  <div style="margin-bottom: 10px">
+                    <p>Descrição: ${logs[i].descricao}</p>
+                    <p></p>
+                  </div>
+  
+                  <div>
+                    <p>Data: ${logs[i].dataLog}</p>
+                  </div>
+                </div>
+              </div>
+      `;
+      }
+    }
+  }, 1000);
+
 }
