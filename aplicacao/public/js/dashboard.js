@@ -58,31 +58,67 @@ maquinas.forEach(maquina => {
 });
 
 const darkstores = []
-// const maquinas = []
-
+const computadores = []
+const selectDasCidades = document.querySelector('#cidades');
 function buscarDarkstore() {
   consultaBanco(`conexao/darkstore/WHERE fkEmpresa = ${sessionStorage.IDEMPRESA}`, 'GET')
     .then(function (resposta) {
       if (resposta != null) {
-        darkstores.push(resposta[0]); 
+        darkstores.push(resposta[0]);
       }
     }).catch(function (resposta) {
       console.log(`#ERRO: ${resposta}`);
     });
 
-    console.log(darkstores);
+  selectDasCidades.innerHTML = '';
+  consultaBanco(`conexao/darkstore/WHERE fkEmpresa = ${sessionStorage.IDEMPRESA}`, 'GET').then(function (resposta) {
+    if (resposta != null) {
+      resposta.forEach(darkstore => {
+        selectDasCidades.innerHTML += `<option value="${darkstore.idDarkstore}">${darkstore.uf}</option>`;
+      });
+    }
+  }).catch(function (resposta) {
+    console.log(`#ERRO: ${resposta}`);
+  });
 }
+
+selectDasCidades.addEventListener('change', function () {
+  let idDarkstore = selectDasCidades.value;
+  consultaBanco(`conexao/computador/WHERE fkDarkstore = ${idDarkstore}`, 'GET').then(function (resposta) {
+    console.log(resposta);
+  }).catch(function (resposta) {
+    console.log(`#ERRO: ${resposta}`);
+  });
+
+  document.querySelector('.estado').innerHTML = '';
+  consultaBanco(`conexao/darkstore/WHERE idDarkstore = ${idDarkstore}`, 'GET').then(function (resposta) {
+    document.querySelector('.estado').innerHTML = resposta[0].uf;
+  }).catch(function (resposta) {
+    console.log(`#ERRO: ${resposta}`);
+  });
+});
 
 function buscarMaquinas() {
   consultaBanco(`conexao/computador/WHERE fkDarkstore = ${sessionStorage.FKDARKSTORE}`, 'GET')
     .then(function (resposta) {
       if (resposta) {
-        maquinas.push(resposta);
+        computadores.push(resposta);
       }
     }).catch(function (resposta) {
       console.log(`#ERRO: ${resposta}`);
     });
-  console.log(maquinas);
+
+    for (let i = 0; i < computadores.length; i++) {
+      consultaBanco(`conexao/componente/WHERE fkComputador = ${computadores[i].idComputador}`, 'GET')
+        .then(function (resposta) {
+          if (resposta) {
+            console.log("Resposta: ", resposta);
+            computadores[i].componente = resposta.nome;
+          }
+        }).catch(function (resposta) {
+          console.log(`#ERRO: ${resposta}`);
+        });
+    }
 }
 
 function plotarDarkStore() {
@@ -99,27 +135,5 @@ function plotarDarkStore() {
   }
 }
 
-// window.addEventListener("DOMContentLoaded", () => {
-//   if(sessionStorage.CARGO == "Gerente TI"){
-//     buscarDarkstore();
-//     buscarMaquinas();
-//     plotarDarkStore();
-//   }
-// })
-
-window.onload = function () {
-  setTimeout(() => {
-    if (sessionStorage.CARGO == "Gerente TI") {
-      buscarDarkstore();
-      buscarMaquinas();
-      plotarDarkStore();
-    }
-    
-    console.log(sessionStorage.CARGO == "Gerente TI"? "É Gerente TI": "Não é Gerente TI");
-    for(let dark of darkstores){
-      console.log(dark);
-    }
-  },3000);
-}
 
 // Faz essa função ser executada assim que a página carregar POR FAVOR IAN
