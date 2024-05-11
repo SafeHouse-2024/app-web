@@ -370,7 +370,7 @@ main {
   cursor: pointer;
 }
 
-.content_component .body{
+.content_component .content-users{
   display: flex;
   flex-wrap: wrap;
   width: 100%;
@@ -976,7 +976,7 @@ label{
   cursor: pointer;
 }
 
-.content_component .notification .body{
+.content_component .notification .notification-content{
   display: flex; 
   flex-direction: column; 
   margin: 0;
@@ -1165,7 +1165,7 @@ label{
   cursor: pointer;
 }
 
-.content_component .notification .body{
+.content_component .notification .notification-content{
   display: flex; 
   flex-direction: column; 
   margin: 0;

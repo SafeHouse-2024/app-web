@@ -255,6 +255,46 @@ function buscarMaquinas() {
       });
     });
   }, 1000);
+
+  setTimeout(() => {
+    buscarUsuarios();
+  }, 2000);
 }
 
 window.onload = buscarDarkstore();
+
+function buscarUsuarios() {
+  let funcionarios = [];
+  consultaBanco(`conexao/SELECT * FROM usuario WHERE fkDarkstore = ${sessionStorage.FKDARKSTORE}`, 'GET').then(function (resposta) {
+    if (resposta != null) {
+      funcionarios = resposta;
+      console.log(funcionarios);
+    }
+  }).catch(function (resposta) {
+    console.log(`#ERRO: ${resposta}`);
+  });
+
+  let conteudoUsers = document.querySelector('.content-users');
+  conteudoUsers.innerHTML = '';
+  setTimeout(() => {
+    for (let i = 0; i < funcionarios.length; i++) {
+      conteudoUsers.innerHTML += `
+      <div class="card">
+      <div class="picture_user">
+        <img src="assets/user-icon.png" style="width: 60px" alt="" />
+      </div>
+
+      <div class="descricao">
+        <div>Nome do Usuário: ${funcionarios[i].nome}</div>
+        <div>Cargo: ${funcionarios[i].cargo}</div>
+      </div>
+
+      <div class="buttons">
+        <span>Editar</span>
+        <span>Excluir</span>
+      </div>
+    </div>
+    `;
+    }
+  }, 1000);
+}
