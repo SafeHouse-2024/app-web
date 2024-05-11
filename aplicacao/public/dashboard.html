@@ -259,58 +259,56 @@
             <option value="João Pessoa">João Pessoa</option>
           </select>
           <div class="estado">
-            <h1 id="sãopaulo">São Paulo</h1>
+            <h1>São Paulo</h1>
             <div class="header-computadores">
-              <div class="maquina-geral">
-                <div class="texto-maquina">
-                  <p>Máquinas próximas ao limite de CPU.</p>
-                  <span>4</span>
+              <div style="display: flex; widht: 100%; justify-content: space-between;">
+                <div class="maquina-geral">
+                  <div class="texto-maquina">
+                    <p>Máquinas próximas ao limite de CPU.</p>
+                    <span>4</span>
+                  </div>
+                  <div class="footer-maquina">Limite alerta: 70 - 80% de uso</div>
                 </div>
-
-                <div class="footer-maquina">Limite alerta: 70 - 80% de uso</div>
+                <div class="maquina-geral">
+                  <div class="texto-maquina">
+                    <p>Máquinas próximas ao limite de Ram.</p>
+                    <span>3</span>
+                  </div>
+                  <div class="footer-maquina">Limite alerta: 70 - 80% de uso</div>
+                </div>
+                <div class="maquina-geral">
+                  <div class="texto-maquina">
+                    <p>Máquinas próximas ao limite de Disco.</p>
+                    <span>2</span>
+                  </div>
+                  <div class="footer-maquina">Limite alerta: 70 - 80% de uso</div>
+                </div>
+                <button class="adicionar-maquina">Adicionar Máquina</button>
               </div>
 
-              <div class="maquina-geral">
-                <div class="texto-maquina">
-                  <p>Máquinas próximas ao limite de Ram.</p>
-                  <span>3</span>
+              <div style="widht: 100%; display: flex; justify-content: space-between">
+                <div>
+                  <h3>Total de máquinas: 4</h3>
                 </div>
-
-                <div class="footer-maquina">Limite alerta: 70 - 80% de uso</div>
+  
+                <div
+                  class="alertas-dash"
+                  style="justify-content: end; margin-bottom: 2%"
+                >
+                  <p>
+                    <span style="background-color: green"></span> Estado Normal
+                  </p>
+                  <p>
+                    <span style="background-color: yellow"></span> Estado Atenção
+                  </p>
+                  <p>
+                    <span style="background-color: red"></span> Estado Crítico
+                  </p>
+                </div>
               </div>
 
-              <div class="maquina-geral">
-                <div class="texto-maquina">
-                  <p>Máquinas próximas ao limite de Disco.</p>
-                  <span>2</span>
-                </div>
-
-                <div class="footer-maquina">Limite alerta: 70 - 80% de uso</div>
-              </div>
-
-              <button class="adicionar-maquina">Adicionar Máquina</button>
             </div>
 
-            <div style="display: flex; justify-content: space-between">
-              <div>
-                <h3>Total de máquinas: 4</h3>
-              </div>
-
-              <div
-                class="alertas-dash"
-                style="justify-content: end; margin-bottom: 2%"
-              >
-                <p>
-                  <span style="background-color: green"></span> Estado Normal
-                </p>
-                <p>
-                  <span style="background-color: yellow"></span> Estado Atenção
-                </p>
-                <p>
-                  <span style="background-color: red"></span> Estado Crítico
-                </p>
-              </div>
-            </div>
 
             <ul class="lista-maquinas" id="maquinas_darkstore">
               <li class="item-maquina">

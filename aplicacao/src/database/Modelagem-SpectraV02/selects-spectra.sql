@@ -44,3 +44,5 @@ SELECT u.email FROM Notificacao n JOIN Computador p ON p.idComputador = n.fkComp
 SELECT pc.*, c.nome as 'Nome do Componente', ca.nome as 'Nome da Característica', ca.valor 'Valor da Característica' 
 FROM Componente c JOIN Computador pc ON c.fkComputador = pc.idComputador JOIN CaracteristicaComponente ca ON ca.fkComponente = c.idComponente WHERE pc.`fkDarkStore` = 1;
 
+SELECT pc.*, c.nome as 'nomeComponente', ca.nome as 'nomeCaracteristica', ca.valor 'valorCaracteristica' 
+  FROM Componente c JOIN Computador pc ON c.fkComputador = pc.idComputador JOIN CaracteristicaComponente ca ON ca.fkComponente = c.idComponente WHERE pc.fkDarkStore = 1;

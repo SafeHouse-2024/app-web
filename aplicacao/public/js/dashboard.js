@@ -49,6 +49,7 @@ const darkstores = []
 const selectDasCidades = document.querySelector('#cidades');
 
 function buscarDarkstore() {
+  buscarMaquinas();
   consultaBanco(`conexao/SELECT * FROM darkstore WHERE fkEmpresa = ${sessionStorage.IDEMPRESA}`, 'GET')
     .then(function (resposta) {
       if (resposta != null) {
@@ -57,7 +58,7 @@ function buscarDarkstore() {
     }).catch(function (resposta) {
       console.log(`#ERRO: ${resposta}`);
     });
-    
+
   selectDasCidades.innerHTML = '';
   consultaBanco(`conexao/SELECT * FROM darkstore WHERE fkEmpresa = ${sessionStorage.IDEMPRESA}`, 'GET').then(function (resposta) {
     if (resposta != null) {
@@ -68,6 +69,21 @@ function buscarDarkstore() {
   }).catch(function (resposta) {
     console.log(`#ERRO: ${resposta}`);
   });
+
+  setTimeout(() => {
+    for (let i = 0; i < darkstores.length; i++) {
+      document.querySelector('#empresasContent').innerHTML += `
+    <div class="dark-content">
+    <span
+      class="status-maquina"
+      style="background-color: yellow"
+    ></span>
+    <p>Dark Store - <span>${darkstores[0].uf}</span></p>
+    <p>Quantidade de máquinas: <span>${computadores.length}</span></p>
+    </div>`;
+    }
+  }, 1000);
+
 }
 
 selectDasCidades.addEventListener('change', function () {
@@ -77,7 +93,7 @@ selectDasCidades.addEventListener('change', function () {
   }).catch(function (resposta) {
     console.log(`#ERRO: ${resposta}`);
   });
-  
+
   document.querySelector('.estado').innerHTML = '';
   consultaBanco(`conexao/SELECT * FROM darkstore WHERE idDarkstore = ${idDarkstore}`, 'GET').then(function (resposta) {
     document.querySelector('.estado').innerHTML = resposta[0].uf;
@@ -89,12 +105,13 @@ selectDasCidades.addEventListener('change', function () {
 const computadores = [];
 
 function buscarMaquinas() {
-  query = `SELECT pc.*, c.nome as 'nomeComponente', ca.nome as 'nomeCaracteristica', ca.valor 'valorCaracteristica' 
+  query = `SELECT pc.*, c.nome as 'nomeComponente', c.idComponente as 'idComponente', ca.nome as 'nomeCaracteristica', ca.valor 'valorCaracteristica' 
   FROM Componente c JOIN Computador pc ON c.fkComputador = pc.idComputador JOIN CaracteristicaComponente ca ON ca.fkComponente = c.idComponente WHERE pc.fkDarkStore = ${sessionStorage.FKDARKSTORE};
   `
 
   let idComputador = 0;
   let indiceComputador = -1;
+  let idComponente = 0;
 
   consultaBanco(`conexao/${query}`, 'GET')
     .then(function (resposta) {
@@ -107,27 +124,21 @@ function buscarMaquinas() {
               darkstore: resposta[i].fkDarkStore,
               usuario: resposta[i].fkUsuario,
               macAddress: resposta[i].macAddress,
-              componentes: [
-                {
-                  nome: resposta[i].nomeComponente,
-                  caracteristicas: [
-                    {
-                      nome: resposta[i].nomeCaracteristica,
-                      valor: resposta[i].valorCaracteristica
-                    }
-                  ]
-                }
-              ]
+              componentes: []
             });
             idComputador = resposta[i].idComputador;
             indiceComputador++;
           }
-          computadores[indiceComputador].componentes.push({
-            nome: resposta[i].nomeComponente,
-            caracteristicas: [{
-              nome: resposta[i].nomeCaracteristica,
-              valor: resposta[i].valorCaracteristica
-            }]
+          if (resposta[i].idComponente != idComponente) {
+            computadores[indiceComputador].componentes.push({
+              nome: resposta[i].nomeComponente,
+              caracteristicas: []
+            });
+            idComponente = resposta[i].idComponente;
+          }
+          computadores[indiceComputador].componentes[computadores[indiceComputador].componentes.length - 1].caracteristicas.push({
+            nome: resposta[i].nomeCaracteristica,
+            valor: resposta[i].valorCaracteristica
           });
         }
       }
@@ -135,26 +146,10 @@ function buscarMaquinas() {
       console.log(`#ERRO: ${resposta}`);
     });
 
-  console.log(computadores);
-}
-
-function criarDashboard() {
-
-  for (let i = 0; i < darkstores.length; i++) {
-    document.querySelector('#empresasContent').innerHTML += `
-    <div class="dark-content">
-    <span
-      class="status-maquina"
-      style="background-color: yellow"
-    ></span>
-    <p>Dark Store - <span>${darkstores[0].uf}</span></p>
-    <p>Quantidade de máquinas: <span>${computadores.length}</span></p>
-  </div>`;
-  }
-  
   document.querySelector('#maquinas_darkstore').innerHTML = '';
-  for(let i = 0; i < computadores.length; i++){
-    document.querySelector('#maquinas_darkstore').innerHTML += `
+  setTimeout(() => {
+    for (let i = 0; i < computadores.length; i++) {
+      document.querySelector('#maquinas_darkstore').innerHTML += `
     <li class="item-maquina">
     <div class="header-maquina">
     <div>${computadores[i].hostname}</div>
@@ -215,38 +210,51 @@ function criarDashboard() {
       </article>
       <article class="infosHardware">
         <h1>Informações do Hardware</h1>
-        <a style="font-weight: bold">CPU</a>
-        <a
-          >Nome: AMD Rayzen 3 3250U with Hadeon Graphics<br />
-          Fabricante: AuthenticAMD<br />
-          Frequência: 2600000000 <br />
-          Total de núcleos: 5
-        </a>
-        <a style="font-weight: bold">RAM</a>
-        <a>Total: 10,35GB</a>
-        <a style="font-weight: bold">Disco</a>
-        <a>Total: 928,82GB</a>
-        <a style="font-weight: bold">Rede</a>
-        <a
-          >MacAdress: 10.18.7.82<br />
-          IPV4: 10.16.7.82<br />
-          IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</a
-        >
+        <div id="info_hardware_${i}">
+        </div>
       </article>
     </div>
   </li>
-  `;	
-  }
-  let maquinas = document.querySelectorAll('#maquinas_darkstore > li')
-  
-  maquinas.forEach(maquina => {
-    maquina.firstElementChild.addEventListener('click', function () {
-      console.log(maquina);
-      if (maquina.classList.contains('activeMaquina')) {
-        maquina.classList.remove('activeMaquina')
-      } else {
-        maquina.classList.add('activeMaquina')
+  `;
+    }
+
+    for (let i = 0; i < computadores.length; i++) {
+
+      let infoHardware = document.querySelector(`#info_hardware_${i}`);
+      infoHardware.innerHTML = '';
+      for (let j = 0; j < computadores[i].componentes.length; j++) {
+        infoHardware.innerHTML += `
+      <div class="infoHardware">
+      <h2>${computadores[i].componentes[j].nome}</h2>
+      <ul>
+      ${computadores[i].componentes[j].caracteristicas.map(caracteristica => {
+          return `
+        <li>
+        <span>${caracteristica.nome}</span>
+        <span>${caracteristica.valor}</span>
+        </li>
+        `;
+        }).join('')}
+      </ul>
+      </div>
+      `;
       }
+    }
+    console.log('Dashboard criado');
+
+    let maquinas = document.querySelectorAll('#maquinas_darkstore > li')
+
+    maquinas.forEach(maquina => {
+      maquina.firstElementChild.addEventListener('click', function () {
+        console.log(maquina);
+        if (maquina.classList.contains('activeMaquina')) {
+          maquina.classList.remove('activeMaquina')
+        } else {
+          maquina.classList.add('activeMaquina')
+        }
+      });
     });
-  });
+  }, 1000);
 }
+
+window.onload = buscarDarkstore();
