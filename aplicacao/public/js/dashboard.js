@@ -362,3 +362,23 @@ function buscarLog() {
   }, 1000);
 
 }
+
+function enviarMensagemSlack(){
+  let mensagem = "Teste Final";
+
+  fetch(`/slack/mensagem`, {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      message: mensagem
+    })
+  }).then(function (resposta) {
+    if (resposta.ok) {
+      return resposta.json();
+    }
+  }).catch(function (resposta) {
+    console.log(`#ERRO: ${resposta}`);
+  });
+}
