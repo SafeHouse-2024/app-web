@@ -23,7 +23,7 @@ body {
 main {
   position: fixed;
   z-index: 1;
-  padding-left: calc(82px + 20px);
+  padding-left: calc(82px);
   width: 100vw;
   height: 100vh;
   color: #000;
@@ -527,9 +527,9 @@ main {
 
 .content-dash{
   width: 100%;
-  height: 80%;
-
-  padding: 0 3%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .header-content{
@@ -546,11 +546,17 @@ main {
   justify-content: space-between;
   align-items: center;
 }
-.alertas-dash p{
+
+.alertas-dash div{
+  z-index: 0;
+}
+
+.alertas-dash div p{
   margin: 0 10px;
   width: max-content;
+  padding: 2% 0;
 }
-.alertas-dash p span{
+.alertas-dash div p span{
   width: 30px;
   height: 10px;
   border-radius: 10px;
@@ -559,23 +565,23 @@ main {
 
 .main-content{
   width: 100%;
-  height: 80%;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  height: 100%;
+  margin-top: 2%;
+  padding: 0 2%;
 }
 
 .empresas-content{
-  width: 57%;
-  width: 57%;
+  width: 100%;
   height: 90%;
+  display: flex;
+  padding: 0 2% 0 3%;
+}
 
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 20px;
-
-  overflow-y: scroll;
+.empresas-content .grafico-barra-content{
+  width: 40%;
+  height: 92%;
+  margin-left: 7%;
+  margin-top: 2%;
 }
 
 .dark-content{
@@ -610,21 +616,16 @@ main {
 }
 
 .graficos-content{
-  width: 40%;
-  height: 90%;
+  width: 100%;
+  height: 50vh;
   display: flex;
-  flex-direction: column;
 
   /* padding: 16% 3% 0 0; */
-
-  overflow-y: scroll;
 }
 
 .grafico-barra-content{
-  width: 100%;
-  height: max-content;
-  margin-bottom: 5%;
-  margin-bottom: 5%;
+  width: 35%;
+  height: 100%;
 }
 
 .infosHardware{
@@ -1213,4 +1214,40 @@ label{
 
 .user-information div{
   margin-left: 8%;
+}
+
+.darkstore-geral{
+  width: 100%;
+  border: 1px solid black;
+  height: auto;
+}
+
+.darkstore-geral thead, .darkstore-geral tbody{
+  border: 1px solid black;
+}
+
+.darkstore-geral td{
+  border: 1px solid black;
+  text-align: center;
+}
+
+.darkstore-geral th{
+  border: 1px solid black;
+  text-align: center;
+  background-color: #13004C;
+  color: white;
+}
+
+#div-informativa{
+  z-index: 9999;
+  color: rgb(0, 0, 0);
+  position: absolute;
+  top: 40%;
+  width: 20%;
+  height: 15%;
+  background-color: rgb(255, 255, 255);
+}
+
+.informacoes-segurança{
+  width: 100%;
 }

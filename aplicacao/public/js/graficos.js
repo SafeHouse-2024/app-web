@@ -1,89 +1,162 @@
-const graficosLinha = document.querySelectorAll('.chart-linha > canvas');
-const graficosBarra = document.querySelectorAll('.chart-barra > canvas');
-const graficosDonut = document.querySelectorAll('.chart-donut > canvas');
-const graficoCPUDarkStore = document.getElementById('ctx_barra_geral1');
-const graficoRAMDarkStore = document.getElementById('ctx_barra_geral2')
 
-const barraProgresso = document.querySelectorAll('.header-maquina > progress');
 
-function sortearLabel() {
-  let valor = Math.floor(Math.random() * 100);
-  let data = [];
-  for (let i = 0; i < 5; i++) {
-    data.push(valor);
-    valor = Math.floor(Math.random() * 100);
-  }
-
-  return data;
+criarHover = (message) =>{
+  const hover = document.createElement("div");
+  hover.setAttribute("id", "div-informativa")
+  const newElement = document.createTextNode(message);
+  hover.appendChild(newElement)
+  return hover
 }
 
-const decidirNome = (decidi) => {
- return decidi%2 ? 'CPU' : 'RAM';
-}
-
-let contador = 1;
-
-graficosLinha.forEach((grafico) => {
-  const ctx = grafico.getContext('2d');
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ['12:00', '12:30', '13:00', '13:30', '14:00'],
-            datasets: [{
-                label: decidirNome(contador++), 
-                data: sortearLabel(),
-                borderColor: '#09037b',
-                backgroundColor: '#09037b',
-                borderWidth: 2,
-            }]
+const chart = Highcharts.chart('cpu-darkstore', {
+  chart: {
+      type: 'column'
+  },
+  title: {
+      text: 'Quantidade de máquinas em cada darkstore com uso excessivo de CPU',
+      style: {
+        fontSize: '14px'
+      }
+  },
+  xAxis: {
+      categories: ['Campo Grande', 'São Paulo', 'Rio de Janeiro', 'Mirabela', 'Santo André'],
+      title: {
+        text: "Darkstore",
+      },
+      labels: {
+        style: {
+          fontSize: "12px"
         }
-    });
+      }
+  },
+  yAxis: {
+      title: {
+          text: 'Quantidade de máquinas'
+      }
+  },
+  series: [{
+      data: [5, 4, 2, 3, 4],
+      color: '#13004C',
+      showInLegend: false
+  }]
 });
 
-graficosDonut.forEach((grafico) => {
-  const ctx = grafico.getContext('2d');
-  new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-      labels: ['Disponível', 'Ocupado'],
-      datasets: [{
-        data: [900, 100],
-        backgroundColor: ['#00ff00', '#ff0000']
-      }]
-    }
-  });
-});
-
-
-function sortearValor() {
-  return Math.floor(Math.random() * 100);
-}
-
-
-new Chart(graficoCPUDarkStore, {
-  type: 'bar',
-  data: {
-    labels: ['Campo Grande', 'São Paulo', 'Minas', 'Pernambuco', 'Maracás'],
-    datasets: [{
-      label: "Uso de CPU",
-      data: [5, 4, 3, 9, 2]
-    }]
-  }
+const chart2 = Highcharts.chart("ram-darkstore", {
+chart: {
+      type: 'column'
+  },
+  title: {
+      text: 'Quantidade de máquinas em cada darkstore com uso excessivo de RAM',
+      style: {
+        fontSize: '14px'
+      }
+  },
+  xAxis: {
+      categories: ['Campo Grande', 'São Paulo', 'Rio de Janeiro', 'Mirabela', 'Santo André'],
+      title: {
+        text: "Darkstore",
+      },
+      labels: {
+        style: {
+          fontSize: "12px"
+        }
+      }
+  },
+  yAxis: {
+      title: {
+          text: 'Quantidade de máquinas'
+      }
+  },
+  series: [{
+      name: "Quantidade de Máquinas",
+      data: [5, 4, 2, 3, 4],
+      color: '#13004C',
+      showInLegend: false
+  }]
 })
 
-new Chart(graficoRAMDarkStore, {
-  type: 'bar',
-  data: {
-    labels: ['Campo Grande', 'São Paulo', 'Minas', 'Pernambuco', 'Maracás'],
-    datasets: [{
-      label: "Uso de RAM",
-      data: [5, 4, 3, 9, 2]
-    }]
-  }
+const chart3 = Highcharts.chart("rede-darkstore", {
+chart: {
+      type: 'column'
+  },
+  title: {
+      text: 'Quantidade de máquinas em cada darkstore com uso excessivo de Rede',
+      style: {
+        fontSize: '14px'
+      }
+  },
+  xAxis: {
+      categories: ['Campo Grande', 'São Paulo', 'Rio de Janeiro', 'Mirabela', 'Santo André'],
+      labels: {
+        style: {
+          fontSize: "12px"
+        }
+      },
+      title: {
+        text: "Darkstore"
+      }
+  },
+  yAxis: {
+      title: {
+          text: 'Quantidade de máquinas'
+      }
+  },
+  series: [{
+      data: [5, 4, 2, 3, 4],
+      color: '#13004C',
+      showInLegend: false
+  }]
 })
 
-setInterval(() => {
-  barraProgresso.forEach((barra) => {
-    barra.value = sortearValor();
-  });
-}, 2000);
+const chart4 = Highcharts.chart("seguranca-darkstore", {
+  chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Quantidade de violações de segurança em cada Darkstore',
+        style: {
+          fontSize: '14px'
+        }
+    },
+    xAxis: {
+        categories: ['Campo Grande', 'São Paulo', 'Rio de Janeiro', 'Mirabela', 'Santo André'],
+    },
+    yAxis: {
+        title: {
+            text: 'Total de violações'
+        }
+    },
+    series: [{
+        data: [5, 4, 2, 3, 4],
+        color: '#13004C',
+        showInLegend: false
+    }]
+  })
+
+
+var estadoNormalGeral = document.getElementById("estadoNormalGeral")
+estadoNormalGeral.addEventListener('mouseenter', () => {
+  document.getElementById("alertasGeral").insertBefore(criarHover("Estado Normal indica que essa darkstore não tem nenhuma máquina com uso excessivo de hardware"), estadoNormalGeral)
+})
+
+estadoNormalGeral.addEventListener('mouseout', () => {
+  document.getElementById("alertasGeral").removeChild(document.getElementById("div-informativa"));
+})
+
+var estadoAlertaGeral = document.getElementById("estadoAlertaGeral")
+estadoAlertaGeral.addEventListener('mouseenter', () => {
+  document.getElementById("alertasGeral").insertBefore(criarHover("Estado de alerta indica que essa darkstore tem até 30% dos computadores com uso excessivo de hardware"), estadoAlertaGeral)
+})
+
+estadoAlertaGeral.addEventListener('mouseout', () => {
+  document.getElementById("alertasGeral").removeChild(document.getElementById("div-informativa"))
+})
+
+var estadoCriticoGeral = document.getElementById("estadoCriticoGeral")
+estadoCriticoGeral.addEventListener('mouseenter', () => {
+  document.getElementById("alertasGeral").insertBefore(criarHover("Estado de alerta indica que essa darkstore tem mais de 50% dos computadores com uso excessivo de hardware"), estadoCriticoGeral)
+})
+
+estadoCriticoGeral.addEventListener('mouseout', () => {
+  document.getElementById("alertasGeral").removeChild(document.getElementById("div-informativa"))
+})

@@ -49,8 +49,9 @@ const darkstores = []
 const selectDasCidades = document.querySelector('#cidades');
 
 function buscarDarkstore() {
+  query = `SELECT * FROM DarkStore WHERE fkEmpresa = ${sessionStorage.IDEMPRESA}`
   buscarMaquinas();
-  consultaBanco(`conexao/SELECT * FROM darkstore WHERE fkEmpresa = ${sessionStorage.IDEMPRESA}`, 'GET')
+  consultaBanco(`conexao/${query}`, 'GET')
     .then(function (resposta) {
       if (resposta != null) {
         darkstores.push(resposta[0]);
@@ -60,7 +61,7 @@ function buscarDarkstore() {
     });
 
   selectDasCidades.innerHTML = '';
-  consultaBanco(`conexao/SELECT * FROM darkstore WHERE fkEmpresa = ${sessionStorage.IDEMPRESA}`, 'GET').then(function (resposta) {
+  consultaBanco(`conexao/${query}`, 'GET').then(function (resposta) {
     if (resposta != null) {
       resposta.forEach(darkstore => {
         selectDasCidades.innerHTML += `<option value="${darkstore.idDarkstore}">${darkstore.uf}</option>`;
@@ -73,14 +74,11 @@ function buscarDarkstore() {
   setTimeout(() => {
     for (let i = 0; i < darkstores.length; i++) {
       document.querySelector('#empresasContent').innerHTML += `
-    <div class="dark-content">
-    <span
-      class="status-maquina"
-      style="background-color: yellow"
-    ></span>
-    <p>Dark Store - <span>${darkstores[0].uf}</span></p>
-    <p>Quantidade de máquinas: <span>${computadores.length}</span></p>
-    </div>`;
+          <tr>
+            <td>${darkstores[i].uf}</td>
+            <td>${computadores.length}</td>
+            <td>Normal</td>
+          </tr>`;
     }
   }, 1000);
 
@@ -88,14 +86,14 @@ function buscarDarkstore() {
 
 selectDasCidades.addEventListener('change', function () {
   let idDarkstore = selectDasCidades.value;
-  consultaBanco(`conexao/SELECT * FROM computador WHERE fkDarkstore = ${idDarkstore}`, 'GET').then(function (resposta) {
+  consultaBanco(`conexao/SELECT * FROM Computador WHERE fkDarkstore = ${idDarkstore}`, 'GET').then(function (resposta) {
     console.log(resposta);
   }).catch(function (resposta) {
     console.log(`#ERRO: ${resposta}`);
   });
 
   document.querySelector('.estado').innerHTML = '';
-  consultaBanco(`conexao/SELECT * FROM darkstore WHERE idDarkstore = ${idDarkstore}`, 'GET').then(function (resposta) {
+  consultaBanco(`conexao/SELECT * FROM DarkStore WHERE idDarkstore = ${idDarkstore}`, 'GET').then(function (resposta) {
     document.querySelector('.estado').innerHTML = resposta[0].uf;
   }).catch(function (resposta) {
     console.log(`#ERRO: ${resposta}`);
@@ -265,7 +263,7 @@ window.onload = buscarDarkstore();
 
 function buscarUsuarios() {
   let funcionarios = [];
-  consultaBanco(`conexao/SELECT * FROM usuario WHERE fkDarkstore = ${sessionStorage.FKDARKSTORE} AND tipo = 'Funcionário'`, 'GET').then(function (resposta) {
+  consultaBanco(`conexao/SELECT * FROM Usuario WHERE fkDarkstore = ${sessionStorage.FKDARKSTORE} AND tipo = 'Funcionário'`, 'GET').then(function (resposta) {
     if (resposta != null) {
       funcionarios = resposta;
       console.log(funcionarios);
@@ -301,11 +299,12 @@ function buscarUsuarios() {
 
 function buscarLog() {
   let logs = [];
-  consultaBanco(`conexao/SELECT Log.*, usuario.nome as usuarioNome, computador.nome as computadorNome FROM Log
+  query = `SELECT Log.*, usuario.nome as usuarioNome, computador.nome as computadorNome FROM Log
   JOIN Computador ON Log.fkComputador = Computador.idComputador
   JOIN DarkStore ON Computador.fkDarkStore = DarkStore.idDarkStore
   LEFT JOIN Usuario ON Log.fkUsuario = Usuario.idUsuario
-  WHERE DarkStore.idDarkStore = ${sessionStorage.FKDARKSTORE}`, 'GET').then(function (resposta) {
+  WHERE DarkStore.idDarkStore = ${sessionStorage.FKDARKSTORE}`
+  consultaBanco(`conexao/${query}`, 'GET').then(function (resposta) {
     console.log(resposta);
     logs = resposta;
   }).catch(function (resposta) {
