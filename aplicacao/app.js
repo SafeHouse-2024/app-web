@@ -19,11 +19,9 @@ app.use(express.static(path.join(__dirname, "public")));
 
 var rotaIndex = require("./src/routers/index");
 var rotaConexao = require("./src/routers/conexao");
-var rotaSlack = require("./src/routers/slack");
 
 app.use("/", rotaIndex);
 app.use("/conexao", rotaConexao);
-app.use("/slack", rotaSlack);
 
 io.listen(3001);
 

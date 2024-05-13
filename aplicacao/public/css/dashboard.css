@@ -568,6 +568,11 @@ main {
   height: 100%;
   margin-top: 2%;
   padding: 0 2%;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 2%;
 }
 
 .empresas-content{
@@ -616,16 +621,16 @@ main {
 }
 
 .graficos-content{
-  width: 100%;
+  /* width: 100%;
   height: 50vh;
   display: flex;
 
-  /* padding: 16% 3% 0 0; */
+  padding: 16% 3% 0 0; */
 }
 
 .grafico-barra-content{
-  width: 35%;
-  height: 100%;
+  /* width: 35%;
+  height: 100%; */
 }
 
 .infosHardware{
