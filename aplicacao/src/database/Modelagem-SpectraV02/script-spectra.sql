@@ -171,7 +171,7 @@ INSERT INTO Usuario(nome, sobrenome, tipo, email, senha, cargo, fkDarkStore) VAL
 
 INSERT INTO SistemaOperacional (nome) VALUES ('Windows'), ('Linux');
 INSERT INTO Computador (macAddress, ativo, fkDarkStore, fkUsuario) VALUES ('00:1B:44:11:3A:B7', 'Inativo', 1, 3), 
-('00:1B:44:11:3A:B8', 'Inativo', 1, 3), ('00:1B:44:11:3A:B1', 'Inativo', 1, 3), ('00:1B:44:11:3A:C7', 'Inativo', 1, 3), ('00:1B:44:11:3A:A7', 'Inativo', 1, 3);	
+('00:1B:44:11:3A:B8', 'Inativo', 1, 3), ('00:1B:44:11:3A:B1', 'Inativo', 1, 3), ('00:1B:44:11:3A:C7', 'Inativo', 1, 3), ('00:1B:44:11:3A:A7', 'Inativo', 1, 3), ('00:15:5d:b6:c0:22', 'Inativo', 1, 3);
 INSERT INTO SistemaComputador (fkComputador, fkSistemaOperacional) VALUES (1, 1), (2, 2);
 INSERT INTO Componente(nome, fkComputador) VALUES ('Processador', 1), ('Memória', 1), ('Disco', 1), ('Disco', 1),
 ('Processador', 2), ('Memória', 2), ('Disco', 2), ('Disco', 2), ('Processador', 3), ('Memória', 3), ('Disco', 3), ('Disco', 3),
