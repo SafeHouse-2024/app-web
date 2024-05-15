@@ -363,7 +363,7 @@ function buscarLog() {
 }
 
 function enviarMensagemSlack(){
-  let mensagem = "Teste Final";
+  let mensagem = "Seu codigo de acesso é 1234";
 
   fetch(`/slack/mensagem`, {
     method: 'POST',

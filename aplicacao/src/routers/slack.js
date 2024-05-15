@@ -7,7 +7,7 @@ rota.use(express.json());
 rota.post("/mensagem", async (req, res) => {
     const mensagem = req.body.message;
     console.log(mensagem);
-    const url = 'https://hooks.slack.com/services/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';
+    const url = 'https://hooks.slack.com/services/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';
     const data = {
         text: mensagem
     };
