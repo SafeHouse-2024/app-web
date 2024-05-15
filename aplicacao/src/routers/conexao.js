@@ -11,7 +11,7 @@ router.post('/:tabela/:campos/:valores', function (req, res) {
   conexaoController.inserir(req, res);
 });
 
-router.put('/:tabela/:condicao/:campos', function (req, res) {
+router.put('/:query', function (req, res) {
   conexaoController.alterar(req, res);
 });
 

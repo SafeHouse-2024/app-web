@@ -141,7 +141,7 @@
               <h2>Funcionários</h2>
             </div>
 
-            <div class="button_user">
+            <div class="button_user" id="button_user">
               <span>Adicionar</span>
             </div>
           </div>
@@ -217,9 +217,9 @@
             <div class="break"></div>
           </div>
         </article>
-        <div class="popup-usuario" style="display: none">
+        <div class="popup" id="popup_usuario" style="display: none">
           <div class="popup-card">
-            <div class="fechar-popup-user">X</div>
+            <div class="fechar-popup-user" id="fechar-popup-user">X</div>
 
             <h1>ADICIONAR FUNCIONÁRIO</h1>
 
@@ -256,6 +256,29 @@
           </div>
         </div>
       </section>
+      <div class="popup" id="popup_maquina" style="display: none">
+        <div class="popup-card">
+          <div class="fechar-popup-user" id="fechar-popup-maquina">X</div>
+
+          <h1>ADICIONAR MAQUINA</h1>
+
+          <div class="popup-ipt">
+            <div class="ipt-info-user">
+              <div>
+                <label for="nome">Nome da maquina:</label>
+                <input type="text" name="nome" class="ipt-campo" />
+              </div>
+
+              <div>
+                <label for="sobrenome">MacAdress:</label>
+                <input type="text" name="sobrenome" class="ipt-campo" />
+              </div>
+            </div>
+          </div>
+
+          <button class="bto-criar-user">Adicionar maquina</button>
+        </div>
+      </div>
       <section class="telas" style="display: none" id="telaComputadores">
         <article>
           <select name="cidades" id="cidades">
@@ -290,7 +313,7 @@
                   </div>
                   <div class="footer-maquina">Limite alerta: 70 - 80% de uso</div>
                 </div>
-                <button class="adicionar-maquina">Adicionar Máquina</button>
+                <button class="adicionar-maquina" id="button_maquina">Adicionar Máquina</button>
               </div>
 
               <div style="width: 100%; display: flex; justify-content: space-between">
@@ -504,7 +527,7 @@
                   "
                 >
                   <h2 style="padding: 0">Usuário</h2>
-                  <button class="edit-user">Editar</button>
+                  <button class="edit-user" onclick="editarUsuario()">Editar</button>
                 </div>
 
                 <div style="display: flex">

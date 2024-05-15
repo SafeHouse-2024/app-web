@@ -25,10 +25,8 @@ function inserir(req, res){
 }
 
 function alterar(req, res){
-  var tabela = req.params.tabela;
-  var condicao = req.params.condicao;
-  var campos = req.params.campos;
-  conexaoModel.alterar(tabela, condicao, campos)
+  var query = req.params.query;
+  conexaoModel.consulta(query)
   .then(function(resultados){
     res.json(resultados);
   })

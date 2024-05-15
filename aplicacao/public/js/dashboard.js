@@ -3,11 +3,17 @@
 document.getElementById('open_btn').addEventListener('click', function () {
   document.getElementById('sidebar').classList.toggle('open-sidebar');
 });
-document.querySelector('.fechar-popup-user').addEventListener('click', () => {
-  document.querySelector('.popup-usuario').style.display = 'none';
+document.querySelector('#fechar-popup-user').addEventListener('click', () => {
+  document.querySelector('#popup_usuario').style.display = 'none';
 });
-document.querySelector('.button_user').addEventListener('click', () => {
-  document.querySelector('.popup-usuario').style.display = 'flex';
+document.querySelector('#button_user').addEventListener('click', () => {
+  document.querySelector('#popup_usuario').style.display = 'flex';
+});
+document.getElementById('fechar-popup-maquina').addEventListener('click', () => {
+  document.getElementById('popup_maquina').style.display = 'none';
+});
+document.querySelector('#button_maquina').addEventListener('click', () => {
+  document.getElementById('popup_maquina').style.display = 'flex';
 });
 
 function consultaBanco(caminho, metodo) {
@@ -27,11 +33,11 @@ function consultaBanco(caminho, metodo) {
     });
 }
 
-var monitores = document.querySelectorAll('main > .telas');
-var itensMenu = document.querySelectorAll(".menu-lista > li");
 
 
 function trocarTela(tela) {
+  var monitores = document.querySelectorAll('main > .telas');
+  var itensMenu = document.querySelectorAll(".menu-lista > li");
   itemClicado = itensMenu[tela];
   itemClicado.classList.add("active");
   monitores[tela].style.display = "flex";
@@ -256,6 +262,7 @@ function buscarMaquinas() {
 
   setTimeout(() => {
     buscarUsuarios();
+    colocarDadosUsuario();
   }, 2000);
 }
 
@@ -380,4 +387,48 @@ function enviarMensagemSlack(){
   }).catch(function (resposta) {
     console.log(`#ERRO: ${resposta}`);
   });
+}
+
+function editarUsuario(){
+
+  //venficando se no botão de editar está escrito "Editar"
+  let botao = document.querySelector('.edit-user');
+  let inputs = document.querySelectorAll('.config-item input');
+  let podeEditar = false;
+
+  if(botao.innerText == 'Editar'){
+    botao.innerText = 'Salvar';
+    inputs.forEach(input => {
+      input.removeAttribute('readonly');
+    });
+  }else{
+    botao.innerText = 'Editar';
+    inputs.forEach(input => {
+      input.setAttribute('readonly', 'true');
+    });
+    podeEditar = true;
+    console.log(inputs[0].value, inputs[1].value, inputs[2].value, inputs[3].value);
+  }
+
+  if(podeEditar){
+    let nome = inputs[0].value;
+    let sobrenome = inputs[1].value;
+    let email = inputs[2].value;
+    let cargo = inputs[3].value;
+
+   consultaBanco(`conexao/UPDATE Usuario SET nome = '${nome}', sobrenome = '${sobrenome}', email = '${email}', cargo = '${cargo}' WHERE idUsuario = ${sessionStorage.IDUSUARIO}`, 'PUT')
+   .then(function (resposta) {
+      console.log(resposta);
+    }).catch(function (resposta) {
+      console.log(`#ERRO: ${resposta}`);
+    });
+  }
+}
+
+function colocarDadosUsuario(){
+  let inputs = document.querySelectorAll('.config-item input');
+  inputs[0].value = sessionStorage.NOME;
+  inputs[1].value = sessionStorage.SOBRENOME;
+  inputs[2].value = sessionStorage.EMAIL;
+  inputs[3].value = sessionStorage.CARGO;
 }
