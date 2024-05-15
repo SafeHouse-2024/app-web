@@ -10,7 +10,7 @@ criarHover = (message) =>{
 
 const chart = Highcharts.chart('cpu-darkstore', {
   chart: {
-      type: 'column'
+      type: 'bar'
   },
   title: {
       text: 'Quantidade de máquinas em cada darkstore com uso excessivo de CPU',
