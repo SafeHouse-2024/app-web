@@ -64,11 +64,11 @@
           sessionStorage.FKDARKSTORE = resposta[0].fkDarkStore;
 
           consultaBanco(
-            `conexao/SELECT * FROM empresa WHERE idEmpresa = ${sessionStorage.FKDARKSTORE}`,
+            `conexao/SELECT * FROM darkstore where idDarkStore=${resposta[0].fkDarkStore}`,
             "GET"
           )
             .then(function (resposta) {
-              sessionStorage.IDEMPRESA = resposta[0].idEmpresa;
+              sessionStorage.IDEMPRESA = resposta[0].fkEmpresa;
             })
             .catch(function (resposta) {
               console.log(`#ERRO: ${resposta}`);

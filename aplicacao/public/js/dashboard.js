@@ -55,9 +55,9 @@ const darkstores = []
 const selectDasCidades = document.querySelector('#cidades');
 
 function buscarDarkstore() {
-  query = `SELECT * FROM DarkStore WHERE fkEmpresa = ${sessionStorage.IDEMPRESA}`
+  consulta = `SELECT * FROM DarkStore WHERE fkEmpresa = ${sessionStorage.IDEMPRESA}`
   buscarMaquinas();
-  consultaBanco(`conexao/${query}`, 'GET')
+  consultaBanco(`conexao/${consulta}`, 'GET')
     .then(function (resposta) {
       if (resposta != null) {
         darkstores.push(resposta[0]);
@@ -67,10 +67,10 @@ function buscarDarkstore() {
     });
 
   selectDasCidades.innerHTML = '';
-  consultaBanco(`conexao/${query}`, 'GET').then(function (resposta) {
-    if (resposta != null) {
+  consultaBanco(`conexao/${consulta}`, 'GET').then(function (resposta) {
+    if (resposta != null && resposta.length > 0) {
       resposta.forEach(darkstore => {
-        selectDasCidades.innerHTML += `<option value="${darkstore.idDarkstore}">${darkstore.uf}</option>`;
+        selectDasCidades.innerHTML += `<option value="${darkstore.idDarkStore}">${darkstore.uf}</option>`;
       });
     }
   }).catch(function (resposta) {
@@ -323,8 +323,6 @@ function buscarLog() {
   conteudoLogs.innerHTML = '';
   setTimeout(() => {
     for (let i = 0; i < logs.length; i++) {
-
-      if (logs[i].fkComputador != null) {
         data = logs[i].dataLog.split('T');
         data = data[0].split('-');
         data = `${data[2]}/${data[1]}/${data[0]}`;
@@ -337,7 +335,7 @@ function buscarLog() {
       <div class="card">
               <div class="picture">
                 <img src="assets/user-icon.png" alt="" />
-                <p>${logs[i].computadorNome}</p>
+                <p>${logs[i].usuarioNome != null ? logs[i].computadorNome : logs[i].usuarioNome}</p>
               </div>
 
               <div class="descricao log">
@@ -352,27 +350,6 @@ function buscarLog() {
               </div>
             </div>
     `;
-      } else {
-        conteudoLogs.innerHTML += `
-        <div class="card">
-                <div class="picture">
-                  <img src="assets/user-icon.png" alt="" />
-                  <p>${logs[i].usuarioNome}</p>
-                </div>
-  
-                <div class="descricao log">
-                  <div style="margin-bottom: 10px">
-                    <p>Descrição: ${logs[i].descricao}</p>
-                    <p></p>
-                  </div>
-  
-                  <div>
-                    <p>Data: ${logs[i].dataLog}</p>
-                  </div>
-                </div>
-              </div>
-      `;
-      }
     }
   }, 1000);
 
@@ -445,6 +422,4 @@ const logout = () => {
   window.location.href = '/';
 }
 
-if(sessionStorage.IDUSUARIO == undefined){
-  window.location.href = '/';
-}
+if(sessionStorage.IDUSUARIO == undefined) window.location.href = '/';
