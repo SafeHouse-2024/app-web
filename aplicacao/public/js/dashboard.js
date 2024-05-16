@@ -432,3 +432,12 @@ function colocarDadosUsuario(){
   inputs[2].value = sessionStorage.EMAIL;
   inputs[3].value = sessionStorage.CARGO;
 }
+
+const logout = () => {
+  sessionStorage.clear();
+  window.location.href = '/';
+}
+
+if(sessionStorage.IDUSUARIO == undefined){
+  window.location.href = '/';
+}
