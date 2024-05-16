@@ -263,6 +263,7 @@ function buscarMaquinas() {
   setTimeout(() => {
     buscarUsuarios();
     colocarDadosUsuario();
+    buscarLog();
   }, 2000);
 }
 
@@ -324,6 +325,14 @@ function buscarLog() {
     for (let i = 0; i < logs.length; i++) {
 
       if (logs[i].fkComputador != null) {
+        data = logs[i].dataLog.split('T');
+        data = data[0].split('-');
+        data = `${data[2]}/${data[1]}/${data[0]}`;
+
+        hora = logs[i].dataLog.split('T');
+        hora = hora[1].split(':');
+        hora = `${hora[0]}:${hora[1]}`;
+
         conteudoLogs.innerHTML += `
       <div class="card">
               <div class="picture">
@@ -338,7 +347,7 @@ function buscarLog() {
                 </div>
 
                 <div>
-                  <p>Data: ${logs[i].dataLog}</p>
+                  <p>Data: ${data} Hora: ${hora}</p>
                 </div>
               </div>
             </div>
@@ -369,9 +378,7 @@ function buscarLog() {
 
 }
 
-function enviarMensagemSlack(){
-  let mensagem = "Seu codigo de acesso é 1234";
-
+function enviarMensagemSlack(mensagem){
   fetch(`/slack/mensagem`, {
     method: 'POST',
     headers: {
@@ -382,7 +389,7 @@ function enviarMensagemSlack(){
     })
   }).then(function (resposta) {
     if (resposta.ok) {
-      return resposta.json();
+      return resposta;
     }
   }).catch(function (resposta) {
     console.log(`#ERRO: ${resposta}`);
