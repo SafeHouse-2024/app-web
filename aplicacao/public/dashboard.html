@@ -287,11 +287,6 @@
       </div>
       <section class="telas" style="display: none;" id="telaDarkStores">
         <article class="content_component">
-
-        </article>
-      </section>
-      <section class="telas" style="display: none" id="telaComputadores">
-        <article>
           <select name="cidades" id="cidades">
             <option value="Campo Grande">Campo Grande</option>
             <option value="Rio de Janeiro">Rio de Janeiro</option>
@@ -345,12 +340,9 @@
                   <p>
                     <span style="background-color: red"></span> Estado Crítico
                   </p>
-                </div>
+                </div>  
               </div>
-
             </div>
-
-
             <ul class="lista-maquinas" id="maquinas_darkstore">
               <li class="item-maquina">
                 <div class="header-maquina">
@@ -398,41 +390,54 @@
                       <canvas id="graficoMaquina1Linha2"></canvas>
                     </div>
                   </article>
-                  <article>
-                    <div class="infosDash">
-                      <h2>Tempo de uso da máquina: <span>15h</span></h2>
-                      <h2>
-                        Data da última inicialização: <span>22/12/2023</span>
-                      </h2>
-                    </div>
-
-                    <div class="chart-donut">
-                      <canvas id="graficoMaquina1Donut1"></canvas>
-                    </div>
-                  </article>
-                  <article class="infosHardware">
-                    <h1>Informações do Hardware</h1>
-                    <a style="font-weight: bold">CPU</a>
-                    <a
-                      >Nome: AMD Rayzen 3 3250U with Hadeon Graphics<br />
-                      Fabricante: AuthenticAMD<br />
-                      Frequência: 2600000000 <br />
-                      Total de núcleos: 5
-                    </a>
-                    <a style="font-weight: bold">RAM</a>
-                    <a>Total: 10,35GB</a>
-                    <a style="font-weight: bold">Disco</a>
-                    <a>Total: 928,82GB</a>
-                    <a style="font-weight: bold">Rede</a>
-                    <a
-                      >MacAdress: 10.18.7.82<br />
-                      IPV4: 10.16.7.82<br />
-                      IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</a
-                    >
-                  </article>
                 </div>
               </li>
             </ul>
+          </div>
+        </article>
+      </section>
+      <section class="telas" style="display: none" id="telaComputadores">
+        <article class="content_component">
+          <div class="informacoes-maquina">
+            <div class="body">
+              <div class="maquinas">
+                <div class="header">
+                  <h2>Máquina 1</h2>
+                  <button>Desativar modo de segurança</button>
+                </div>
+                <div id="maquinas" style="display: flex; justify-content: space-between;">
+                  
+                </div>
+              </div>
+              <div class="graficos">
+                <div class="grafico-linha-content">
+                  <div id="rede-linha" style="width: 100%; height: 100%;"></div>
+                </div>
+                <div class="grafico-linha-content">
+                  <div id="cpu-linha" style="width: 100%; height: 100%;"></div>
+                </div>
+                <div class="grafico-linha-content">
+                  <div id="ram-linha" style="width: 100%; height: 100%;"></div>
+                </div>
+              </div>
+              <div class="informacoes-dash">
+                <div>
+                  <div class="infosDash">
+                    <h2>Tempo de uso da máquina: <span>15h</span></h2>
+                    <h2>
+                      Data da última inicialização: <span>22/12/2023</span>
+                    </h2>
+                  </div>
+                  <div class="chart-donut">
+                    <div id="disco-donut"></div>
+                  </div>
+                </div>
+                <div>
+                  <h1>Informações do Hardware</h1>
+                  <div id="infoHardware"></div>
+                </div>
+              </div>
+          </div>
           </div>
         </article>
       </section>

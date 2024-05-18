@@ -49,7 +49,7 @@
     var senha = document.getElementById("ipt_senha").value;
 
     if (email != "" || senha != "") {
-      url = `/conexao/SELECT * FROM Usuario where email='${email}' AND senha='${senha}'`;
+      url = `/conexao/SELECT Usuario.*, DarkStore.fkEmpresa FROM Usuario JOIN DarkStore ON fkDarkStore = idDarkStore where email='${email}' AND senha='${senha}'`;
       metodo = "GET";
 
       consultaBanco(url, metodo).then((resposta) => {
@@ -62,17 +62,7 @@
           sessionStorage.SENHA = resposta[0].senha;
           sessionStorage.CARGO = resposta[0].cargo;
           sessionStorage.FKDARKSTORE = resposta[0].fkDarkStore;
-
-          consultaBanco(
-            `conexao/SELECT * FROM darkstore where idDarkStore=${resposta[0].fkDarkStore}`,
-            "GET"
-          )
-            .then(function (resposta) {
-              sessionStorage.IDEMPRESA = resposta[0].fkEmpresa;
-            })
-            .catch(function (resposta) {
-              console.log(`#ERRO: ${resposta}`);
-            });
+          sessionStorage.IDEMPRESA = resposta[0].fkEmpresa;
 
           // Alerta no topo da lateral direita para login bem-sucedido
           Swal.fire({

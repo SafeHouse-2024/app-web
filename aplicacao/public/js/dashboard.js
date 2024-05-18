@@ -92,14 +92,17 @@ function buscarDarkstore() {
 
 selectDasCidades.addEventListener('change', function () {
   let idDarkstore = selectDasCidades.value;
-  consultaBanco(`conexao/SELECT * FROM Computador WHERE fkDarkstore = ${idDarkstore}`, 'GET').then(function (resposta) {
+  const consultaComputador = `SELECT * FROM Computador WHERE fkDarkstore = ${idDarkstore}`
+
+  consultaBanco(`conexao/${consultaComputador}`, 'GET').then(function (resposta) {
     console.log(resposta);
   }).catch(function (resposta) {
     console.log(`#ERRO: ${resposta}`);
   });
 
+  const consultaDarkStore = `SELECT * FROM DarkStore WHERE idDarkstore = ${idDarkstore}`
   document.querySelector('.estado').innerHTML = '';
-  consultaBanco(`conexao/SELECT * FROM DarkStore WHERE idDarkstore = ${idDarkstore}`, 'GET').then(function (resposta) {
+  consultaBanco(`conexao/${consultaDarkStore}`, 'GET').then(function (resposta) {
     document.querySelector('.estado').innerHTML = resposta[0].uf;
   }).catch(function (resposta) {
     console.log(`#ERRO: ${resposta}`);
@@ -151,6 +154,7 @@ function buscarMaquinas() {
     });
 
   document.querySelector('#maquinas_darkstore').innerHTML = '';
+  document.getElementById("maquinas").innerHTML = ""
   setTimeout(() => {
     for (let i = 0; i < computadores.length; i++) {
       document.querySelector('#maquinas_darkstore').innerHTML += `
@@ -218,13 +222,11 @@ function buscarMaquinas() {
         </div>
       </article>
     </div>
-  </li>
-  `;
+  </li>`;
     }
 
     for (let i = 0; i < computadores.length; i++) {
-
-      let infoHardware = document.querySelector(`#info_hardware_${i}`);
+      let infoHardware = document.querySelector(`#infoHardware`);
       infoHardware.innerHTML = '';
       for (let j = 0; j < computadores[i].componentes.length; j++) {
         infoHardware.innerHTML += `
@@ -244,6 +246,14 @@ function buscarMaquinas() {
       `;
       }
     }
+
+    for (let i = 0; i < computadores.length; i++){
+      document.getElementById("maquinas").innerHTML += `
+      <span>${computadores[i].hostname}</span>
+      <span>${computadores[i].macAddress}</span>
+      `
+    }
+
     console.log('Dashboard criado');
 
     let maquinas = document.querySelectorAll('#maquinas_darkstore > li')
@@ -271,7 +281,8 @@ window.onload = buscarDarkstore();
 
 function buscarUsuarios() {
   let funcionarios = [];
-  consultaBanco(`conexao/SELECT * FROM Usuario WHERE fkDarkstore = ${sessionStorage.FKDARKSTORE} AND tipo = 'Funcionário'`, 'GET').then(function (resposta) {
+  const consulta = `SELECT * FROM Usuario WHERE fkDarkstore = ${sessionStorage.FKDARKSTORE} AND tipo = 'Funcionário'`
+  consultaBanco(`conexao/${consulta}`, 'GET').then(function (resposta) {
     if (resposta != null) {
       funcionarios = resposta;
       console.log(funcionarios);
@@ -307,7 +318,7 @@ function buscarUsuarios() {
 
 function buscarLog() {
   let logs = [];
-  query = `SELECT Log.*, usuario.nome as usuarioNome, computador.nome as computadorNome FROM Log
+  query = `SELECT Log.*, Usuario.nome as usuarioNome, Computador.nome as computadorNome FROM Log
   JOIN Computador ON Log.fkComputador = Computador.idComputador
   JOIN DarkStore ON Computador.fkDarkStore = DarkStore.idDarkStore
   LEFT JOIN Usuario ON Log.fkUsuario = Usuario.idUsuario
@@ -399,8 +410,9 @@ function editarUsuario(){
     let sobrenome = inputs[1].value;
     let email = inputs[2].value;
     let cargo = inputs[3].value;
+    const consulta = `UPDATE Usuario SET nome = '${nome}', sobrenome = '${sobrenome}', email = '${email}', cargo = '${cargo}' WHERE idUsuario = ${sessionStorage.IDUSUARIO}`
 
-   consultaBanco(`conexao/UPDATE Usuario SET nome = '${nome}', sobrenome = '${sobrenome}', email = '${email}', cargo = '${cargo}' WHERE idUsuario = ${sessionStorage.IDUSUARIO}`, 'PUT')
+   consultaBanco(`conexao/${consulta}`, 'PUT')
    .then(function (resposta) {
       console.log(resposta);
     }).catch(function (resposta) {
