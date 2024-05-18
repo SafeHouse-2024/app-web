@@ -657,18 +657,20 @@ main {
  }
 
 .infosDash{
+  width: 100%;
   background-color: #13004C;
   color: white;
 }
 
  .infosDash>h2{
   display: flex;
-  /* position: relative; */
   width: 300px;
+  /* position: relative; */
   padding-bottom: 5px;
   border-radius: 5px;
   right: 120%;
 }
+
 
 h2{
   display: flex;

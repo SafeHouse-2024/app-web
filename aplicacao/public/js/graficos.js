@@ -419,3 +419,9 @@ estadoCriticoGeral.addEventListener('mouseenter', () => {
 estadoCriticoGeral.addEventListener('mouseout', () => {
   document.getElementById("alertasGeral").removeChild(document.getElementById("div-informativa"))
 })
+
+console.log(chart6.series[0].userOptions.data)
+
+const initLineChartCPU = (data) =>{
+  chart6.series[0].userOptions.data = data
+}

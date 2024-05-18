@@ -50,13 +50,14 @@ function trocarTela(tela) {
   }
 }
 
-
+let usoSistema;
 const darkstores = []
 const selectDasCidades = document.querySelector('#cidades');
 
 function buscarDarkstore() {
   consulta = `SELECT * FROM DarkStore WHERE fkEmpresa = ${sessionStorage.IDEMPRESA}`
   buscarMaquinas();
+  buscarUsoMaquina();
   consultaBanco(`conexao/${consulta}`, 'GET')
     .then(function (resposta) {
       if (resposta != null) {
@@ -88,6 +89,22 @@ function buscarDarkstore() {
     }
   }, 1000);
 
+}
+
+const buscarUsoMaquina = (idComputador = 6) => {
+  query = `SELECT * FROM UsoSistema WHERE fkComputador = ${idComputador} ORDER BY idUsoSistema DESC LIMIT 1`
+  consultaBanco(`conexao/${query}`, 'GET').then((resposta) => {
+      usoSistema = resposta
+  }).catch(err => console.log(err))
+
+  setTimeout(() => {
+    document.getElementById("infosDash").innerHTML = `
+    <h2>Tempo de uso da máquina: <span>${usoSistema[0].tempoAtividadeMinutos}</span></h2>
+    <h2>
+      Data e hora da última inicialização: <span>${usoSistema[0].dataInicializacao.split("T").join(" ").split(".000Z")[0]}</span>
+    </h2>
+    `
+  }, 1000)
 }
 
 selectDasCidades.addEventListener('change', function () {
