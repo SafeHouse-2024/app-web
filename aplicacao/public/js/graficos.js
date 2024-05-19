@@ -372,8 +372,6 @@ const chart8 = Highcharts.chart('disco-donut', {
         },
         {
             name: 'Livre',
-            sliced: true,
-            selected: true,
             y: 26.71
         },]}]
 });
@@ -419,6 +417,7 @@ const buscarGraficos = () => {
 
   const queryProcessador = `SELECT rc.valor as 'valor', rc.dataRegistro as 'dataRegistro' FROM Componente c JOIN RegistroComponente rc ON c.idComponente = rc.fkComponente WHERE c.fkComputador = 6 AND c.nome LIKE 'Processador' ORDER BY idRegistro DESC LIMIT 7;`
   const queryMemoria = `SELECT rc.valor as 'valor', rc.dataRegistro as 'dataRegistro' FROM Componente c JOIN RegistroComponente rc ON c.idComponente = rc.fkComponente WHERE c.fkComputador = 6 AND c.nome LIKE 'Memória' ORDER BY idRegistro DESC LIMIT 7;`
+  const queryDisco = `SELECT ca.nome, ca.valor FROM Componente c JOIN CaracteristicaComponente ca ON c.idComponente = ca.fkComponente WHERE c.fkComputador = 6 AND c.nome LIKE 'Disco';`
 
   consultaBanco(`/conexao/${queryMemoria}`, 'GET').then((resposta) =>{
     initLineChart(chart6,resposta, 'Processador', timeoutCPU)
@@ -427,8 +426,19 @@ const buscarGraficos = () => {
   consultaBanco(`/conexao/${queryProcessador}`, 'GET').then((resposta) => {
     initLineChart(chart7, resposta, 'Memória', timeoutRAM)
   })
-  
 
+  consultaBanco(`/conexao/${queryDisco}`, 'GET').then((resposta) => {
+    initDonutChart(resposta)
+  })
+  
+}
+
+
+const initDonutChart = (data) =>{
+
+  console.log((parseFloat(data[0].valor.split(" ")) - parseFloat(data[1].valor.split(" "))))
+  let configuracaoInicial = [{name: "Livre", y: parseFloat(data[1].valor.split(" "))},{name: "Ocupado",y: (parseFloat(data[0].valor.split(" ")) - parseFloat(data[1].valor.split(" ")))}]
+  chart8.series[0].setData(configuracaoInicial)
 }
 
 // const initLineChart = (chart, data, componente, timeout) =>{
