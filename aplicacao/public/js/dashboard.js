@@ -453,3 +453,19 @@ const logout = () => {
 }
 
 if(sessionStorage.IDUSUARIO == undefined) window.location.href = '/';
+
+function adicionarMaquina(){
+  let inputs = document.querySelectorAll('#popup_maquina input');
+  let nome = inputs[0].value;
+  let macAddress = inputs[1].value;
+  let darkstore = selectDasCidades.value;
+  let usuario = sessionStorage.IDUSUARIO;
+  const consulta = `INSERT INTO Computador (nome, macAddress, fkDarkStore, fkUsuario) VALUES ('${nome}', '${macAddress}', ${darkstore}, ${usuario})`
+
+  consultaBanco(`conexao/${consulta}`, 'POST')
+  .then(function (resposta) {
+    console.log(resposta);
+  }).catch(function (resposta) {
+    console.log(`#ERRO: ${resposta}`);
+  });
+}
