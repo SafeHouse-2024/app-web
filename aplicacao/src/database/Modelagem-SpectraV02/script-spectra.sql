@@ -21,6 +21,7 @@ CREATE TABLE TokenVerificacao(
 
 CREATE TABLE DarkStore(
 	idDarkStore INT AUTO_INCREMENT,
+    nome VARCHAR(60) NOT NULL,
     rua VARCHAR(45) NOT NULL,
     numero INT NOT NULL,
     complemento VARCHAR(45),
@@ -146,24 +147,10 @@ CREATE TABLE SistemaComputador(
     PRIMARY KEY (fkSistemaOperacional, fkComputador)
 );
 
-CREATE TABLE Notificacao(
-	idNotificacao INT AUTO_INCREMENT,
-    fkDarkStore INT,
-    fkUsuario INT,
-    fkComputador INT,
-    tipo VARCHAR(45),
-    CONSTRAINT chkTipo CHECK (tipo IN ('Segurança', 'Uso Máquina')),
-    CONSTRAINT fkNotificacaoDarkStore FOREIGN KEY (fkDarkStore) REFERENCES DarkStore(idDarkStore),
-    CONSTRAINT fkNotificacaoUsuario FOREIGN KEY (fkUsuario) REFERENCES Usuario(idUsuario),
-    CONSTRAINT fkNotificacaoComputador FOREIGN KEY (fkComputador) REFERENCES Computador(idComputador),
-    PRIMARY KEY (idNotificacao, fkDarkStore, fkUsuario, fkComputador)
-);
-
-
 INSERT INTO Empresa(nome, email, razaoSocial, cnpj) VALUES ('Rappi', 'rappi@gmail.com', 'Rappi entregas', '12345678910123'),
 ('Daki', 'daki@gmail.com', 'Daki entregas', '12345678910123');
 
-INSERT INTO DarkStore (rua, numero, cep, uf, fkEmpresa) VALUES ('Avenida Ipê Roxo', 372, '08140200', 'SP', 1);
+INSERT INTO DarkStore (nome, rua, numero, cep, uf, fkEmpresa) VALUES ('Campo Grande','Avenida Ipê Roxo', 372, '08140200', 'SP', 1);
 
 INSERT INTO Usuario(nome, sobrenome, tipo, email, senha, cargo, fkDarkStore) VALUES ('Ian', 'Silva Santos', 'Funcionário','ian@gmail.com', '12345', 'Gerente', 1),
 ('Leonel', 'Superbi', 'Funcionário','victor.leonel@gmail.com', '12345', 'Picker', 1), ('Maquina', null, 'Máquina','rappi@spectra.com', '12345', null, 1), ('Marcos', 'Floriano', 'Funcionário','marcos@gmail.com', '12345', 'Picker', 1),
@@ -224,5 +211,3 @@ INSERT INTO NomeProcesso (nome, fkProcesso) VALUES ('firefox',2);
 INSERT INTO NomeProcesso (nome, fkProcesso) VALUES ('firefox.exe',2);
 
 INSERT INTO ProcessoSistema (fkNomeProcesso, fkSistemaOperacional) VALUES (1, 2), (3, 2), (2,1), (4, 1);
-
-INSERT INTO Notificacao(fkDarkStore, fkComputador, fkUsuario, tipo) VALUES (1,2,2, 'Segurança'), (1,5,2, 'Uso Máquina'), (1,4,2, 'Segurança'), (1,2,1, 'Uso Máquina');

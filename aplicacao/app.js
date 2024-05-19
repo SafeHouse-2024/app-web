@@ -32,7 +32,7 @@ io.on('connection', (socket) => {
     let nomeEmpresa = socket.handshake.headers.empresa;
     let nomeDarkStore = socket.handshake.headers.darkstore;
     let macAddress = socket.handshake.headers.macaddress;
-    console.log(socket.handshake.headers);
+    console.log(macAddress)
     socket.on(`send_message_${nomeEmpresa}`, (data) => {
         socket.broadcast.emit(`receive_message_${nomeEmpresa}`, data)
     })
