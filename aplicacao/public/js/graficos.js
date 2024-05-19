@@ -285,15 +285,7 @@ const chart6 = Highcharts.chart("cpu-linha", {
   },
   series: [{
     name: 'CPU',
-    data: [{
-      x: (new Date()).getTime(),
-      y: 35
-    },
-    {
-      x: (new Date()).getTime() + 2000,
-      y: 38
-    }
-  ],
+    data: [],
     showInLegend: false
   }
 ]
@@ -420,8 +412,35 @@ estadoCriticoGeral.addEventListener('mouseout', () => {
   document.getElementById("alertasGeral").removeChild(document.getElementById("div-informativa"))
 })
 
-console.log(chart6.series[0].userOptions.data)
+const buscarGraficos = () => {
+
+  const queryProcessador = `SELECT rc.valor as 'valor', rc.dataRegistro as 'dataRegistro' FROM Componente c JOIN RegistroComponente rc ON c.idComponente = rc.fkComponente WHERE c.fkComputador = 6 AND c.nome LIKE 'Processador' ORDER BY idRegistro LIMIT 7;`
+  const queryMemoria = `SELECT rc.valor as 'valor', rc.dataRegistro as 'dataRegistro' FROM Componente c JOIN RegistroComponente rc ON c.idComponente = rc.fkComponente WHERE c.fkComputador = 6 AND c.nome LIKE 'Memória' ORDER BY idRegistro LIMIT 7;`
+
+  consultaBanco(`/conexao/${queryProcessador}`, 'GET').then((resposta) =>{
+    initLineChartCPU(resposta)
+  })
+
+  consultaBanco(`/conexao/${queryMemoria}`, 'GET').then((resposta) => {
+    initLineChartRam(resposta)
+  })
+
+}
 
 const initLineChartCPU = (data) =>{
-  chart6.series[0].userOptions.data = data
+  let configuracaoInicial = []
+  for(var i = 0; i < data.length; i++){
+    configuracaoInicial.push({x: new Date(data[i].dataRegistro).getTime(), y: parseFloat(data[i].valor)}) 
+  }
+
+  chart6.series[0].setData(configuracaoInicial)
+}
+
+const initLineChartRam = (data) => {
+  let configuracaoInicial = []
+  for(var i = 0; i < data.length; i ++){
+    configuracaoInicial.push({x: new Date(data[i].dataRegistro).getTime(), y: parseFloat(data[i].valor)})
+  }
+
+  chart7.series[0].setData(configuracaoInicial)
 }

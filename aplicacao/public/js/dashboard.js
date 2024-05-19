@@ -58,6 +58,7 @@ function buscarDarkstore() {
   consulta = `SELECT * FROM DarkStore WHERE fkEmpresa = ${sessionStorage.IDEMPRESA}`
   buscarMaquinas();
   buscarUsoMaquina();
+  buscarGraficos();
   consultaBanco(`conexao/${consulta}`, 'GET')
     .then(function (resposta) {
       if (resposta != null) {
