@@ -468,4 +468,22 @@ function adicionarMaquina(){
   }).catch(function (resposta) {
     console.log(`#ERRO: ${resposta}`);
   });
+
+  setTimeout(() => {
+    let codigoAcesso = buscarCodigoAcesso(nome);
+  }, 1000);
+}
+
+function buscarCodigoAcesso(nome){
+  let codigoAcesso = '';
+  const consulta = `SELECT codigoAcesso FROM Computador WHERE nome = '${nome}'`
+  consultaBanco(`conexao/${consulta}`, 'GET')
+  .then(function (resposta) {
+    console.log(resposta[0].codigoAcesso);
+    codigoAcesso = resposta[0].codigoAcesso;
+  }).catch(function (resposta) {
+    console.log(`#ERRO: ${resposta}`);
+  });
+
+  return codigoAcesso;
 }
