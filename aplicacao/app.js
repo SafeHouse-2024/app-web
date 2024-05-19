@@ -30,10 +30,14 @@ io.listen(3001);
 io.on('connection', (socket) => {
     //if(socket.handshake.headers.token != '123') return 
     let nomeEmpresa = socket.handshake.headers.empresa;
+    let nomeDarkStore = ""
     let macAddress = "a4:63:a1:6d:0f:f7"
     console.log(socket.handshake.headers);
     socket.on(`send_message_${nomeEmpresa}`, (data) => {
         socket.broadcast.emit(`receive_message_${nomeEmpresa}`, data)
+    })
+    socket.on(`send_message_${nomeEmpresa}_${nomeDarkStore}`, (data) => {
+        socket.broadcast.emit(`receive_message_${nomeEmpresa}_${nomeDarkStore}`, data)
     })
     socket.on(`send_message_${macAddress}`, (data) => {
         socket.broadcast.emit(`receive_message_${macAddress}`, data)
