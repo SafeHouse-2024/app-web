@@ -431,40 +431,38 @@ const buscarGraficos = () => {
 
 }
 
+// const initLineChart = (chart, data, componente, timeout) =>{
 
+//   let configuracaoInicial = []
+//   for(var i = 0; i < data.length; i++){
+//     configuracaoInicial.push({x: new Date(data[i].dataRegistro).getTime(), y: parseFloat(data[i].valor)}) 
+//   }
 
-const initLineChart = (chart, data, componente, timeout) =>{
+//   chart.series[0].setData(configuracaoInicial)
+//   setTimeout(() => {
+//     updateLineChart(chart, componente, timeout)
+//   }, 3000)
+// }
 
-  let configuracaoInicial = []
-  for(var i = 0; i < data.length; i++){
-    configuracaoInicial.push({x: new Date(data[i].dataRegistro).getTime(), y: parseFloat(data[i].valor)}) 
-  }
-
-  chart.series[0].setData(configuracaoInicial)
-  setTimeout(() => {
-    updateLineChart(chart, componente, timeout)
-  }, 3000)
-}
-
-const updateLineChart = (chart, componente, timeout) => {
+// const updateLineChart = (chart, componente, timeout) => {
   
-  chartData = chart.series[0].userOptions.data
-  const query = `SELECT rc.valor as 'valor', rc.dataRegistro as 'dataRegistro' FROM Componente c JOIN RegistroComponente rc ON c.idComponente = rc.fkComponente WHERE c.fkComputador = 6 AND c.nome LIKE '${componente}' ORDER BY idRegistro DESC LIMIT 1;`
-  let resposta;
-  consultaBanco(`/conexao/${query}`, 'GET').then(data => {
-    resposta = data
-  })
-  timeout = setTimeout(() => {
-    if(new Date(resposta[0].dataRegistro).getTime() != chart.series[0].xData[chart.series[0].xData.length -1]){
-      chartData.shift()
-      chartData.push({x: new Date(resposta[0].dataRegistro).getTime(), y: parseFloat(resposta[0].valor)})
-      if(componente == 'Processador'){
-        chart.series[0].setData(chart6.series[0].userOptions.data)
-      }else{
-        chart.series[0].setData(chart7.series[0].userOptions.data)
-      }
-    }
-    updateLineChart(chart, componente, timeout)
-  }, 3000)
+//   chartData = chart.series[0].userOptions.data
+//   const query = `SELECT rc.valor as 'valor', rc.dataRegistro as 'dataRegistro' FROM Componente c JOIN RegistroComponente rc ON c.idComponente = rc.fkComponente WHERE c.fkComputador = 6 AND c.nome LIKE '${componente}' ORDER BY idRegistro DESC LIMIT 1;`
+//   let resposta;
+//   consultaBanco(`/conexao/${query}`, 'GET').then(data => {
+//     resposta = data
+//   })
+//   timeout = setTimeout(() => {
+//     if(new Date(resposta[0].dataRegistro).getTime() != chart.series[0].xData[chart.series[0].xData.length -1]){
+//       chartData.shift()
+//       chartData.push({x: new Date(resposta[0].dataRegistro).getTime(), y: parseFloat(resposta[0].valor)})
+//       if(componente == 'Processador'){
+//         chart.series[0].setData(chart6.series[0].userOptions.data)
+//       }else{
+//         chart.series[0].setData(chart7.series[0].userOptions.data)
+//       }
+//     }
+//     updateLineChart(chart, componente, timeout)
+//   }, 3000)
 
-}
+// }

@@ -99,8 +99,11 @@ const buscarUsoMaquina = (idComputador = 6) => {
   }).catch(err => console.log(err))
 
   setTimeout(() => {
+    tempoDeUso = String(usoSistema[0].tempoAtividadeMinutos / 60 /60).split(".")
+    let hours = tempoDeUso[0]
+    let minutos = String(parseFloat(tempoDeUso[1]) * 60).split("")
     document.getElementById("infosDash").innerHTML = `
-    <h2>Tempo de uso da máquina: <span>${usoSistema[0].tempoAtividadeMinutos}</span></h2>
+    <h2>Tempo de uso da máquina: <span>${hours} Horas e ${minutos[0]}${minutos[1]} minutos</span></h2>
     <h2>
       Data e hora da última inicialização: <span>${usoSistema[0].dataInicializacao.split("T").join(" ").split(".000Z")[0]}</span>
     </h2>
