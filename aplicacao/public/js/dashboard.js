@@ -270,9 +270,11 @@ function buscarMaquinas() {
 
     for (let i = 0; i < computadores.length; i++){
       document.getElementById("maquinas").innerHTML += `
-      <span>${computadores[i].hostname}</span>
-      <span>${computadores[i].macAddress}</span>
-      `
+      <div class="maquina-info">
+        <span>${computadores[i].hostname}</span>
+        <span>${computadores[i].macAddress}</span>
+      </div>
+        `
     }
 
     console.log('Dashboard criado');
