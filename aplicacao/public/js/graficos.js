@@ -231,7 +231,67 @@ const chart5 = Highcharts.chart("rede-linha", {
   ]
 })
 
-const chart6 = Highcharts.chart("cpu-linha", {
+const chart6 = Highcharts.chart("ram-linha", {
+  chart: {
+        type: 'areaspline'
+    },
+    title: {
+        text: 'Uso de RAM em tempo real',
+        style: {
+          fontSize: '14px'
+        }
+    },
+    legend: {
+      layout: 'vertical',
+      align: 'left',
+      verticalAlign: 'top',
+      x: 120,
+      y: 70,
+      floating: true,
+      borderWidth: 1,
+      backgroundColor:
+          Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF'
+    },
+    tooltip: {
+      shared: true,
+      formatter: function () {
+        var texto = "";
+        for(var i = 0; i < this.points.length; i++){
+          texto += `<b> A taxa de uso de ${this.points[i].series.name} é de: ${this.points[i].y}</b> </br>`
+        }
+        return texto
+    }
+  },
+  plotOptions: {
+    series: {
+        pointStart: (new Date()).getTime()
+    },
+    areaspline: {
+        fillOpacity: 0.5
+    }
+  },
+  xAxis: {
+      type: 'datetime',
+      plotBands: [{ // Highlight the two last years
+        from: 2019,
+        to: 2020,
+        color: 'rgba(68, 170, 213, .2)'
+    }]
+  },
+  yAxis: {
+      title: {
+          text: 'Total de violações'
+      }
+  },
+  series: [{
+    name: 'RAM',
+    data: [],
+    showInLegend: false
+  }
+]
+})
+
+const chart7 = Highcharts.chart("cpu-linha", {
   chart: {
         type: 'areaspline'
     },
@@ -285,74 +345,7 @@ const chart6 = Highcharts.chart("cpu-linha", {
   },
   series: [{
     name: 'CPU',
-    data: [],
-    showInLegend: false
-  }
-]
-})
-
-const chart7 = Highcharts.chart("ram-linha", {
-  chart: {
-        type: 'areaspline'
-    },
-    title: {
-        text: 'Uso de CPU em tempo real',
-        style: {
-          fontSize: '14px'
-        }
-    },
-    legend: {
-      layout: 'vertical',
-      align: 'left',
-      verticalAlign: 'top',
-      x: 120,
-      y: 70,
-      floating: true,
-      borderWidth: 1,
-      backgroundColor:
-          Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF'
-    },
-    tooltip: {
-      shared: true,
-      formatter: function () {
-        var texto = "";
-        for(var i = 0; i < this.points.length; i++){
-          texto += `<b> A taxa de uso de ${this.points[i].series.name} é de: ${this.points[i].y}</b> </br>`
-        }
-        return texto
-    }
-  },
-  plotOptions: {
-    series: {
-        pointStart: (new Date()).getTime()
-    },
-    areaspline: {
-        fillOpacity: 0.5
-    }
-  },
-  xAxis: {
-      type: 'datetime',
-      plotBands: [{ // Highlight the two last years
-        from: 2019,
-        to: 2020,
-        color: 'rgba(68, 170, 213, .2)'
-    }]
-  },
-  yAxis: {
-      title: {
-          text: 'Total de violações'
-      }
-  },
-  series: [{
-    name: 'RAM',
-    data: [{
-      x: (new Date()).getTime(),
-      y: 35
-    },
-    {
-      x: (new Date()).getTime() + 2000,
-      y: 38
-    }
+    data: [
   ],
     showInLegend: false
   }
@@ -412,35 +405,66 @@ estadoCriticoGeral.addEventListener('mouseout', () => {
   document.getElementById("alertasGeral").removeChild(document.getElementById("div-informativa"))
 })
 
+
+let timeoutCPU;
+let timeoutRAM;
+
 const buscarGraficos = () => {
 
-  const queryProcessador = `SELECT rc.valor as 'valor', rc.dataRegistro as 'dataRegistro' FROM Componente c JOIN RegistroComponente rc ON c.idComponente = rc.fkComponente WHERE c.fkComputador = 6 AND c.nome LIKE 'Processador' ORDER BY idRegistro LIMIT 7;`
-  const queryMemoria = `SELECT rc.valor as 'valor', rc.dataRegistro as 'dataRegistro' FROM Componente c JOIN RegistroComponente rc ON c.idComponente = rc.fkComponente WHERE c.fkComputador = 6 AND c.nome LIKE 'Memória' ORDER BY idRegistro LIMIT 7;`
+  if (timeoutCPU != undefined){
+    clearTimeout(timeoutCPU)
+  }else if(timeoutRAM != undefined){
+    clearTimeout(timeoutRAM)
+  }
 
-  consultaBanco(`/conexao/${queryProcessador}`, 'GET').then((resposta) =>{
-    initLineChartCPU(resposta)
+  const queryProcessador = `SELECT rc.valor as 'valor', rc.dataRegistro as 'dataRegistro' FROM Componente c JOIN RegistroComponente rc ON c.idComponente = rc.fkComponente WHERE c.fkComputador = 6 AND c.nome LIKE 'Processador' ORDER BY idRegistro DESC LIMIT 7;`
+  const queryMemoria = `SELECT rc.valor as 'valor', rc.dataRegistro as 'dataRegistro' FROM Componente c JOIN RegistroComponente rc ON c.idComponente = rc.fkComponente WHERE c.fkComputador = 6 AND c.nome LIKE 'Memória' ORDER BY idRegistro DESC LIMIT 7;`
+
+  consultaBanco(`/conexao/${queryMemoria}`, 'GET').then((resposta) =>{
+    initLineChart(chart6,resposta, 'Processador', timeoutCPU)
   })
 
-  consultaBanco(`/conexao/${queryMemoria}`, 'GET').then((resposta) => {
-    initLineChartRam(resposta)
+  consultaBanco(`/conexao/${queryProcessador}`, 'GET').then((resposta) => {
+    initLineChart(chart7, resposta, 'Memória', timeoutRAM)
   })
+  
 
 }
 
-const initLineChartCPU = (data) =>{
+
+
+const initLineChart = (chart, data, componente, timeout) =>{
+
   let configuracaoInicial = []
   for(var i = 0; i < data.length; i++){
     configuracaoInicial.push({x: new Date(data[i].dataRegistro).getTime(), y: parseFloat(data[i].valor)}) 
   }
 
-  chart6.series[0].setData(configuracaoInicial)
+  chart.series[0].setData(configuracaoInicial)
+  setTimeout(() => {
+    updateLineChart(chart, componente, timeout)
+  }, 3000)
 }
 
-const initLineChartRam = (data) => {
-  let configuracaoInicial = []
-  for(var i = 0; i < data.length; i ++){
-    configuracaoInicial.push({x: new Date(data[i].dataRegistro).getTime(), y: parseFloat(data[i].valor)})
-  }
+const updateLineChart = (chart, componente, timeout) => {
+  
+  chartData = chart.series[0].userOptions.data
+  const query = `SELECT rc.valor as 'valor', rc.dataRegistro as 'dataRegistro' FROM Componente c JOIN RegistroComponente rc ON c.idComponente = rc.fkComponente WHERE c.fkComputador = 6 AND c.nome LIKE '${componente}' ORDER BY idRegistro DESC LIMIT 1;`
+  let resposta;
+  consultaBanco(`/conexao/${query}`, 'GET').then(data => {
+    resposta = data
+  })
+  timeout = setTimeout(() => {
+    if(new Date(resposta[0].dataRegistro).getTime() != chart.series[0].xData[chart.series[0].xData.length -1]){
+      chartData.shift()
+      chartData.push({x: new Date(resposta[0].dataRegistro).getTime(), y: parseFloat(resposta[0].valor)})
+      if(componente == 'Processador'){
+        chart.series[0].setData(chart6.series[0].userOptions.data)
+      }else{
+        chart.series[0].setData(chart7.series[0].userOptions.data)
+      }
+    }
+    updateLineChart(chart, componente, timeout)
+  }, 3000)
 
-  chart7.series[0].setData(configuracaoInicial)
 }
