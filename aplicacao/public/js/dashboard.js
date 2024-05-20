@@ -112,27 +112,31 @@ const buscarUsoMaquina = (idComputador = 6) => {
 }
 
 selectDasCidades.addEventListener('change', function () {
+  let computadores = [];
   let idDarkstore = selectDasCidades.value;
   const consultaComputador = `SELECT * FROM Computador WHERE fkDarkstore = ${idDarkstore}`
 
   consultaBanco(`conexao/${consultaComputador}`, 'GET').then(function (resposta) {
     console.log(resposta);
+    if (resposta != null) {
+      computadores = resposta;
+    }
   }).catch(function (resposta) {
     console.log(`#ERRO: ${resposta}`);
   });
 
   const consultaDarkStore = `SELECT * FROM DarkStore WHERE idDarkstore = ${idDarkstore}`
-  document.querySelector('.estado').innerHTML = '';
+  // document.querySelector('.estado').innerHTML = '';
   consultaBanco(`conexao/${consultaDarkStore}`, 'GET').then(function (resposta) {
-    document.querySelector('.estado').innerHTML = resposta[0].uf;
+    // document.querySelector('.estado').innerHTML = resposta[0].uf;
   }).catch(function (resposta) {
     console.log(`#ERRO: ${resposta}`);
   });
 });
 
-const computadores = [];
 
 function buscarMaquinas() {
+  let computadores = [];
   query = `SELECT pc.*, c.nome as 'nomeComponente', c.idComponente as 'idComponente', ca.nome as 'nomeCaracteristica', ca.valor 'valorCaracteristica' 
   FROM Componente c JOIN Computador pc ON c.fkComputador = pc.idComputador JOIN CaracteristicaComponente ca ON ca.fkComponente = c.idComponente WHERE pc.fkDarkStore = ${sessionStorage.FKDARKSTORE};
   `
@@ -493,4 +497,8 @@ function buscarCodigoAcesso(nome){
   enviarMensagemSlack(`Foi adicionado um novo computador com o nome de ${nome} e o código de acesso é ${codigoAcesso}`)
 
   return codigoAcesso;
+}
+
+function criarDashCargo(cargo){
+
 }

@@ -297,7 +297,7 @@
           <div class="estado">
             <h1>São Paulo</h1>
             <div class="header-computadores">
-              <div style="display: flex; width: 100%; justify-content: space-between;">
+              <div style="display: flex; width: 100%; justify-content: space-between">
                 <div class="maquina-geral">
                   <div class="texto-maquina">
                     <p>Máquinas próximas ao limite de CPU.</p>
@@ -319,81 +319,38 @@
                   </div>
                   <div class="footer-maquina">Limite alerta: 70 - 80% de uso</div>
                 </div>
-                <button class="adicionar-maquina" id="button_maquina">Adicionar Máquina</button>
+                <button class="adicionar-maquina" id="button_maquina">
+                  Adicionar Máquina
+                </button>
               </div>
-
-              <div style="width: 100%; display: flex; justify-content: space-between">
+          
+              <div class="desc-maquinas">
                 <div>
                   <h3>Total de máquinas: 4</h3>
                 </div>
-  
-                <div
-                  class="alertas-dash"
-                  style="justify-content: end; margin-bottom: 2%"
-                >
-                  <p>
-                    <span style="background-color: green"></span> Estado Normal
-                  </p>
-                  <p>
-                    <span style="background-color: yellow"></span> Estado Atenção
-                  </p>
-                  <p>
-                    <span style="background-color: red"></span> Estado Crítico
-                  </p>
-                </div>  
+          
+                <div class="alertas-dash">
+                  <p><span style="background-color: green"></span> Estado Normal</p>
+                  <p><span style="background-color: yellow"></span> Estado Atenção</p>
+                  <p><span style="background-color: red"></span> Estado Crítico</p>
+                </div>
               </div>
             </div>
-            <ul class="lista-maquinas" id="maquinas_darkstore">
-              <li class="item-maquina">
-                <div class="header-maquina">
-                  <div>Máquina 1</div>
-
-                  <div class="kpi-progress">
-                    <p>
-                      CPU:<progress
-                        value="50"
-                        max="100"
-                        min="0"
-                        class="barra-progresso"
-                      ></progress>
-                    </p>
-                    <p>
-                      RAM:<progress
-                        value="50"
-                        max="100"
-                        min="0"
-                        class="barra-progresso"
-                      ></progress>
-                    </p>
-                    <p>
-                      Disco:<progress
-                        value="50"
-                        max="100"
-                        min="0"
-                        class="barra-progresso"
-                      ></progress>
-                    </p>
-                  </div>
-
-                  <button>Desativar Modo de Segurança</button>
-                </div>
-
-                <div class="grafico-maquina">
-                  <article>
-                    <div class="chart-linha">
-                      <a>Porcentagem de uso de CPU em tempo real</a>
-                      <canvas id="graficoMaquina1Linha1"></canvas>
-                    </div>
-
-                    <div class="chart-linha">
-                      <a>Porcentagem de uso de Memória RAM em tempo real</a>
-                      <canvas id="graficoMaquina1Linha2"></canvas>
-                    </div>
-                  </article>
-                </div>
-              </li>
-            </ul>
+            <table>
+              <thead>
+                <tr>
+                  <th>Nome da Máquina</th>
+                  <th>MacAdress</th>
+                  <th>Tempo de Uso</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="maquinasContent">
+                <!-- Esta sendo montado no JavaScipt -->
+              </tbody>
+            </table>
           </div>
+          
         </article>
       </section>
       <section class="telas" style="display: none" id="telaComputadores">

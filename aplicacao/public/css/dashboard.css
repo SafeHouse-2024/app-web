@@ -33,7 +33,7 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color: #13004C;
+  background-color: #13004c;
   height: 100vh;
   border-radius: 0px 18px 18px 0px;
   position: relative;
@@ -84,7 +84,7 @@ main {
 }
 
 .side-item.active {
-  background-color: #FFC444;
+  background-color: #ffc444;
 }
 
 .side-item:hover:not(.active),
@@ -184,7 +184,7 @@ main {
   pointer-events: none;
 }
 
-.telas article{
+.telas article {
   pointer-events: all;
 }
 
@@ -225,9 +225,9 @@ main {
   margin-bottom: 10px;
 }
 
-.item-maquina .header-maquina button{
-  padding: .5% 3%;
-  background-color: #FFC444;
+.item-maquina .header-maquina button {
+  padding: 0.5% 3%;
+  background-color: #ffc444;
   color: black;
   border: none;
   border-radius: 15px;
@@ -248,16 +248,15 @@ main {
   padding: 0 10px;
 
   border: 1px solid #000;
-  background-color: #13004C;
+  background-color: #13004c;
 }
 
 .header-maquina:hover {
   cursor: pointer;
   background-color: #adadad;
-
 }
 
-.grafico-maquina{
+.grafico-maquina {
   width: 100%;
   height: 90%;
 
@@ -268,10 +267,9 @@ main {
   border: 1px solid #fff;
 
   overflow: hidden;
-
 }
 
-.grafico-maquina article{
+.grafico-maquina article {
   width: 33%;
   height: 100%;
 
@@ -280,8 +278,8 @@ main {
   align-items: center;
 }
 
-.chart-linha{
-  width: 90%;  
+.chart-linha {
+  width: 90%;
   height: 46%;
 
   display: flex;
@@ -290,21 +288,20 @@ main {
   align-items: center;
   flex-direction: column;
   /* padding-bottom: 25px; */
-  }
+}
 
-.chart-linha>a{
+.chart-linha > a {
   display: flex;
   font-size: 14px;
   color: black;
 }
 
-.chart-donut{
+.chart-donut {
   width: 70%;
   margin-top: 2%;
 }
 
-
-.content_component{
+.content_component {
   background-color: white;
   width: 100%;
   border-radius: 10px;
@@ -313,19 +310,17 @@ main {
   overflow-x: hidden;
   padding: 0 2%;
 
-  & .body-log{
+  & .body-log {
     width: 100%;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: auto;
     gap: 10px;
     justify-items: center;
-
-    
   }
 }
 
-.content_component .header{
+.content_component .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -334,32 +329,32 @@ main {
   /* margin: 3% 5% 1% 3%; */
 }
 
-.content_component .header .button_user{
+.content_component .header .button_user {
   padding: 1% 3%;
   width: 15%;
   border-radius: 15px;
   cursor: pointer;
   text-align: center;
-  background-color: #13004C;
+  background-color: #13004c;
   color: white;
 }
 
-.content_component .header .title h2{
+.content_component .header .title h2 {
   font-size: 20px;
   font-weight: 700;
 }
 
-.content_component .header .buttons{
+.content_component .header .buttons {
   display: flex;
   margin-right: 8%;
 }
 
-.content_component .header .buttons label{
+.content_component .header .buttons label {
   padding-top: 2%;
 }
 
-.content_component .header .buttons span{
-  background-color: #13004C;
+.content_component .header .buttons span {
+  background-color: #13004c;
   color: white;
   margin-right: 4%;
   padding: 5% 8%;
@@ -367,7 +362,7 @@ main {
   cursor: pointer;
 }
 
-.content_component .content-users{
+.content_component .content-users {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -376,25 +371,25 @@ main {
   justify-items: center;
 }
 
-.break{
+.break {
   flex-basis: 100%;
   height: 0;
 }
 
-.content_component .card{
+.content_component .card {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 60%;
   /* margin: 3% 1% 0 1%; */
-  background-color: #13004C;
+  background-color: #13004c;
   padding: 5%;
   border-radius: 15px;
   height: 100%;
 }
 
-.content_component .card .picture{
+.content_component .card .picture {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -405,48 +400,48 @@ main {
   color: white;
 }
 
-.content_component .card .picture_user{
+.content_component .card .picture_user {
   margin-left: 2%;
   padding: 5px 0;
 }
 
-.content_component .card .picture_user img{
+.content_component .card .picture_user img {
   margin-top: 5px;
 }
 
-.content_component .card .buttons{
+.content_component .card .buttons {
   display: flex;
   justify-content: center;
   width: 100%;
 }
 
-.content_component .card .buttons span{
+.content_component .card .buttons span {
   padding: 3% 8%;
   border-radius: 15px;
   margin-top: 10px;
   cursor: pointer;
 }
 
-.content_component .card .buttons span:nth-child(1){
-  background-color: #FFC44B;
+.content_component .card .buttons span:nth-child(1) {
+  background-color: #ffc44b;
   margin-right: 4%;
 }
 
-.content_component .card .buttons span:nth-child(2){
-  background-color: #D11414;
+.content_component .card .buttons span:nth-child(2) {
+  background-color: #d11414;
 }
 
-.content_component .card .picture img{
-  width: 50px;  
+.content_component .card .picture img {
+  width: 50px;
 }
 
-.content_component .card .picture p{
+.content_component .card .picture p {
   margin: 8px 0;
   text-align: center;
   font-size: 16px;
 }
 
-.content_component .card .descricao{
+.content_component .card .descricao {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -456,22 +451,20 @@ main {
   color: white;
 }
 
-.content_component .card .descricao:nth-child(1){
+.content_component .card .descricao:nth-child(1) {
   margin-bottom: 4%;
 }
 
-#telaDash article{
+#telaDash article {
   width: 100%;
   height: 100%;
 
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-
-
 }
 
-.header-computadores{
+.header-computadores {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -482,7 +475,7 @@ main {
   margin: 30px 0;
 }
 
-.maquina-geral{
+.maquina-geral {
   width: 24%;
   height: 100%;
 
@@ -495,7 +488,7 @@ main {
   border-radius: 10px;
   background-color: rgba(255, 255, 255, 0.57);
 }
-.texto-maquina{
+.texto-maquina {
   width: 100%;
   height: 80%;
 
@@ -506,17 +499,17 @@ main {
   padding: 5%;
 }
 
-.texto-maquina p{
+.texto-maquina p {
   font-size: 20px;
   width: 70%;
 }
 
-.texto-maquina span{
+.texto-maquina span {
   font-size: 30px;
   width: 15%;
 }
 
-.footer-maquina{
+.footer-maquina {
   width: 90%;
   height: 20%;
 
@@ -525,7 +518,7 @@ main {
   align-items: center;
 }
 
-#telaDash > article{
+#telaDash > article {
   width: 100%;
   height: 100%;
 
@@ -536,14 +529,14 @@ main {
   background-color: #fff;
 }
 
-.content-dash{
+.content-dash {
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
 }
 
-.header-content{
+.header-content {
   width: 100%;
   height: 10%;
 
@@ -552,30 +545,30 @@ main {
   align-items: center;
 }
 
-.alertas-dash{
+.desc-maquinas {
+  width: 100%;
+  height: 50px;
+  padding: 5px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  &.alertas-dash {
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &.alertas-dash p span {
+    width: 30px;
+    height: 10px;
+    border-radius: 10px;
+    display: inline-block;
+  }
 }
 
-.alertas-dash div{
-  z-index: 0;
-}
-
-.alertas-dash div p{
-  margin: 0 10px;
-  width: max-content;
-  padding: 2% 0;
-}
-
-.alertas-dash div p span{
-  width: 30px;
-  height: 10px;
-  border-radius: 10px;
-  display: inline-block;
-}
-
-.main-content{
+.main-content {
   width: 100%;
   height: 100%;
   margin-top: 2%;
@@ -587,21 +580,21 @@ main {
   gap: 2%;
 }
 
-.empresas-content{
+.empresas-content {
   width: 100%;
   height: 90%;
   display: flex;
   padding: 0 2% 0 3%;
 }
 
-.empresas-content .grafico-barra-content{
+.empresas-content .grafico-barra-content {
   width: 40%;
   height: 92%;
   margin-left: 7%;
   margin-top: 2%;
 }
 
-.dark-content{
+.dark-content {
   width: 100%;
   height: 150px;
 
@@ -611,17 +604,17 @@ main {
   align-items: start;
 
   padding: 10px;
-  background-color: #13004C;
+  background-color: #13004c;
   color: white;
   border-radius: 10px;
-  transition: .3s;
+  transition: 0.3s;
 }
 
-.dark-content:hover{
+.dark-content:hover {
   cursor: pointer;
 }
 
-.status-maquina{
+.status-maquina {
   width: 30px;
   height: 10px;
   border-radius: 10px;
@@ -632,7 +625,7 @@ main {
   top: -30px;
 }
 
-.graficos-content{
+.graficos-content {
   /* width: 100%;
   height: 50vh;
   display: flex;
@@ -640,30 +633,30 @@ main {
   padding: 16% 3% 0 0; */
 }
 
-.grafico-barra-content{
+.grafico-barra-content {
   /* width: 35%;
   height: 100%; */
 }
 
-.infosHardware{
-  background-color: #13004C;
+.infosHardware {
+  background-color: #13004c;
   padding: 20px;
   border-radius: 5px;
   width: 100%;
   margin-top: 2%;
 
-    & a{
-      width: 100%;
-    }
- }
+  & a {
+    width: 100%;
+  }
+}
 
-.infosDash{
+.infosDash {
   width: 100%;
-  background-color: #13004C;
+  background-color: #13004c;
   color: white;
 }
 
- .infosDash>h2{
+.infosDash > h2 {
   display: flex;
   width: 300px;
   /* position: relative; */
@@ -672,8 +665,7 @@ main {
   right: 120%;
 }
 
-
-h2{
+h2 {
   display: flex;
   font-size: 16px;
   /* position: relative; */
@@ -684,13 +676,13 @@ h2{
   border-radius: 5px;
 }
 
-h2>span{
+h2 > span {
   display: flex;
   padding: 5px;
   align-items: center;
 }
 
-.helpdesk{
+.helpdesk {
   position: absolute;
   z-index: 9999;
   width: 100vw;
@@ -703,7 +695,7 @@ h2>span{
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-.card-help{
+.card-help {
   position: relative;
   width: max-content;
   height: 75%;
@@ -715,10 +707,9 @@ h2>span{
 
   background-color: white;
   border-radius: 10px;
-
 }
 
-.fechar-helpdesk{
+.fechar-helpdesk {
   cursor: pointer;
 
   /* width: 30px;
@@ -738,9 +729,9 @@ h2>span{
   right: 0;
 }
 
-.abrir-helpdesk{
+.abrir-helpdesk {
   cursor: pointer;
-/*  
+  /*  
   width: 55px;
   height: 55px;  */
 
@@ -750,7 +741,7 @@ h2>span{
 
   border-radius: 10px;
   border: 2px solid #fff;
-  background-color: #FFC444;
+  background-color: #ffc444;
   color: rgb(0, 0, 0);
   font-size: 20px;
   padding: 8px;
@@ -759,20 +750,19 @@ h2>span{
 
   position: absolute;
   z-index: 999999;
-  bottom:20px;
+  bottom: 20px;
   right: 20px;
 }
 
-
-.estado{
+.estado {
   margin-top: 20px;
 }
 
-#cidades{
+#cidades {
   width: 20%;
 }
 
-.kpi-progress{
+.kpi-progress {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -780,7 +770,7 @@ h2>span{
   height: 100%;
   padding: 10px;
 }
-.kpi-progress p{
+.kpi-progress p {
   font-size: 20px;
   display: flex;
   align-items: center;
@@ -788,8 +778,8 @@ h2>span{
   width: 30%;
   border-right: 1px solid #000;
 }
-.barra-progresso{
-  width:50%;
+.barra-progresso {
+  width: 50%;
   height: 10px;
   border-radius: 10px;
 }
@@ -860,7 +850,7 @@ h2>span{
   font-size: large;
 }
 
-.fechar-popup-user{
+.fechar-popup-user {
   position: relative;
   width: 35px;
   height: 35px;
@@ -887,7 +877,7 @@ h2>span{
 
   border: none;
   cursor: pointer;
-  background-color: #13004C;
+  background-color: #13004c;
   color: white;
 }
 
@@ -899,131 +889,131 @@ h2>span{
   padding-left: 10px;
 }
 
-.configuration-page{
+.configuration-page {
   display: flex;
   justify-content: space-between;
   margin-top: 5%;
   width: 100%;
 }
 
-.configuration-page .header{
+.configuration-page .header {
   width: 100%;
   margin: 0;
 }
 
-.configuration-page .header .seguranca{
+.configuration-page .header .seguranca {
   margin-right: 10px;
 }
 
-.edit-profile{
+.edit-profile {
   width: 60%;
   padding: 0 3%;
 }
 
-#nome{
+#nome {
   width: 90%;
 }
 
-#sobrenome{
+#sobrenome {
   width: 100%;
 }
 
-.profile{
-  background-color: #13004C; 
-  color: white; 
-  width: 100%; 
-  padding: 4% 5% 10% 5%; 
+.profile {
+  background-color: #13004c;
+  color: white;
+  width: 100%;
+  padding: 4% 5% 10% 5%;
   margin-top: 3%;
   border-radius: 10px;
 }
 
-.edit-user{
+.edit-user {
   width: 20%;
   height: 10%;
   padding: 5px;
   cursor: pointer;
-  background-color: #FFC444;
+  background-color: #ffc444;
   color: #000;
   border: none;
   border-radius: 15px;
 }
 
-#email{
+#email {
   width: 100%;
 }
 
-.config-item{
+.config-item {
   margin-top: 2%;
   display: flex;
   flex-direction: column;
   width: 100%;
 }
 
-label{
+label {
   margin-bottom: 2%;
 }
 
-.notification{
+.notification {
   width: 40%;
   padding: 0 4%;
   height: 70vh;
 }
 
-.content_component .notification .headers{
+.content_component .notification .headers {
   width: 100%;
   display: flex;
   margin-top: 2%;
 }
 
-.content_component .notification .headers .maquina, 
-.content_component .notification .headers .seguranca{
-  background-color: #13004C;
+.content_component .notification .headers .maquina,
+.content_component .notification .headers .seguranca {
+  background-color: #13004c;
   color: white;
   padding: 1% 2%;
   cursor: pointer;
 }
 
-.content_component .notification .notification-content{
-  display: flex; 
-  flex-direction: column; 
+.content_component .notification .notification-content {
+  display: flex;
+  flex-direction: column;
   margin: 0;
   padding: 5%;
   height: 90%;
-  background-color: #13004C;
+  background-color: #13004c;
   color: white;
 }
 
-.checkbox{
+.checkbox {
   display: flex;
   margin-top: 2%;
   width: 100%;
   justify-content: end;
 }
 
-.checkbox label{
+.checkbox label {
   margin-right: 2%;
 }
 
-.checkbox input{
+.checkbox input {
   width: 5%;
   margin-bottom: 2%;
   cursor: pointer;
 }
 
-.search{
+.search {
   padding: 0;
 }
 
-.search input{
+.search input {
   width: 100%;
 }
 
-.user-configs{
+.user-configs {
   height: 80%;
   overflow-y: scroll;
 }
 
-.user-config{
+.user-config {
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -1033,21 +1023,21 @@ label{
   color: black;
 }
 
-.user-config img{
+.user-config img {
   width: 30%;
 }
 
-.user-information{
+.user-information {
   display: flex;
 }
 
-.user-information div{
+.user-information div {
   margin-left: 8%;
 }
 
-.adicionar-maquina{
+.adicionar-maquina {
   padding: 1% 2%;
-  background-color: #13004C;
+  background-color: #13004c;
   color: white;
   border: none;
   border-radius: 15px;
@@ -1055,10 +1045,10 @@ label{
   cursor: pointer;
 }
 
-.adicionar-maquina:hover{
-  background-color: #FFC444;
+.adicionar-maquina:hover {
+  background-color: #ffc444;
   color: black;
-  transition: .5s;
+  transition: 0.5s;
 
   cursor: pointer;
 }
@@ -1076,7 +1066,7 @@ label{
 
   border: none;
   cursor: pointer;
-  background-color: #13004C;
+  background-color: #13004c;
   color: white;
 }
 
@@ -1088,131 +1078,131 @@ label{
   padding-left: 10px;
 }
 
-.configuration-page{
+.configuration-page {
   display: flex;
   justify-content: space-between;
   margin-top: 5%;
   width: 100%;
 }
 
-.configuration-page .header{
+.configuration-page .header {
   width: 100%;
   margin: 0;
 }
 
-.configuration-page .header .seguranca{
+.configuration-page .header .seguranca {
   margin-right: 10px;
 }
 
-.edit-profile{
+.edit-profile {
   width: 60%;
   padding: 0 3%;
 }
 
-#nome{
+#nome {
   width: 90%;
 }
 
-#sobrenome{
+#sobrenome {
   width: 100%;
 }
 
-.profile{
-  background-color: #13004C; 
-  color: white; 
-  width: 100%; 
-  padding: 4% 5% 10% 5%; 
+.profile {
+  background-color: #13004c;
+  color: white;
+  width: 100%;
+  padding: 4% 5% 10% 5%;
   margin-top: 3%;
   border-radius: 10px;
 }
 
-.edit-user{
+.edit-user {
   width: 20%;
   height: 10%;
   padding: 5px;
   cursor: pointer;
-  background-color: #FFC444;
+  background-color: #ffc444;
   color: #000;
   border: none;
   border-radius: 15px;
 }
 
-#email{
+#email {
   width: 100%;
 }
 
-.config-item{
+.config-item {
   margin-top: 2%;
   display: flex;
   flex-direction: column;
   width: 100%;
 }
 
-label{
+label {
   margin-bottom: 2%;
 }
 
-.notification{
+.notification {
   width: 40%;
   padding: 0 4%;
   height: 70vh;
 }
 
-.content_component .notification .headers{
+.content_component .notification .headers {
   width: 100%;
   display: flex;
   margin-top: 2%;
 }
 
-.content_component .notification .headers .maquina, 
-.content_component .notification .headers .seguranca{
-  background-color: #13004C;
+.content_component .notification .headers .maquina,
+.content_component .notification .headers .seguranca {
+  background-color: #13004c;
   color: white;
   padding: 1% 2%;
   cursor: pointer;
 }
 
-.content_component .notification .notification-content{
-  display: flex; 
-  flex-direction: column; 
+.content_component .notification .notification-content {
+  display: flex;
+  flex-direction: column;
   margin: 0;
   padding: 5%;
   height: 90%;
-  background-color: #13004C;
+  background-color: #13004c;
   color: white;
 }
 
-.checkbox{
+.checkbox {
   display: flex;
   margin-top: 2%;
   width: 100%;
   justify-content: end;
 }
 
-.checkbox label{
+.checkbox label {
   margin-right: 2%;
 }
 
-.checkbox input{
+.checkbox input {
   width: 5%;
   margin-bottom: 2%;
   cursor: pointer;
 }
 
-.search{
+.search {
   padding: 0;
 }
 
-.search input{
+.search input {
   width: 100%;
 }
 
-.user-configs{
+.user-configs {
   height: 80%;
   overflow-y: scroll;
 }
 
-.user-config{
+.user-config {
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -1222,41 +1212,42 @@ label{
   color: black;
 }
 
-.user-config img{
+.user-config img {
   width: 30%;
 }
 
-.user-information{
+.user-information {
   display: flex;
 }
 
-.user-information div{
+.user-information div {
   margin-left: 8%;
 }
 
-.darkstore-geral{
+.darkstore-geral {
   width: 100%;
   border: 1px solid black;
   height: auto;
 }
 
-.darkstore-geral thead, .darkstore-geral tbody{
+.darkstore-geral thead,
+.darkstore-geral tbody {
   border: 1px solid black;
 }
 
-.darkstore-geral td{
+.darkstore-geral td {
   border: 1px solid black;
   text-align: center;
 }
 
-.darkstore-geral th{
+.darkstore-geral th {
   border: 1px solid black;
   text-align: center;
-  background-color: #13004C;
+  background-color: #13004c;
   color: white;
 }
 
-#div-informativa{
+#div-informativa {
   z-index: 9999;
   color: rgb(0, 0, 0);
   position: absolute;
@@ -1266,53 +1257,56 @@ label{
   background-color: rgb(255, 255, 255);
 }
 
-.informacoes-segurança{
+.informacoes-segurança {
   width: 100%;
 }
 
-.informacoes-maquina{
+.informacoes-maquina {
   width: 100%;
   max-height: 100vh;
 
   display: grid;
-  grid-template: 
+  grid-template:
     "header header header header" 10%
     "maquinas grafico informacoes informacoes" 90%;
   gap: 10px;
 
-  & .header{
+  align-items: start;
+  justify-items: center;
+
+  & .header {
     grid-area: header;
   }
-  & .maquinas{
+  & .maquinas {
     grid-area: maquinas;
   }
-  & .graficos{
+  & .graficos {
     grid-area: grafico;
     max-width: 90%;
     height: 100%;
     display: flex;
     flex-direction: column;
 
-    & .grafico-linha-content{
+    & .grafico-linha-content {
       width: 100%;
       height: 50%;
     }
   }
-  & .informacoes-dash{
+  & .informacoes-dash {
     grid-area: informacoes;
   }
 }
 
-#maquinas{
-  background-color: #13004C;
+#maquinas {
+  background-color: #13004c;
   color: white;
   height: 80%;
 }
 
-.maquina-info{
+.maquina-info {
   display: flex;
   justify-content: space-between;
-  background-color: #FFC444;
+  background-color: #ffc444;
   color: black;
   padding: 4%;
 }
