@@ -85,7 +85,6 @@
       </div>
     </nav>
     <main>
-      <div id="particles-js"></div>
       <section class="telas" style="display: flex" id="telaDash">
         <article>
           <div class="content-dash">
@@ -400,42 +399,37 @@
       <section class="telas" style="display: none" id="telaComputadores">
         <article class="content_component">
           <div class="informacoes-maquina">
-            <div class="body">
-              <div class="maquinas">
-                <div class="header">
-                  <h2 >Máquina 1</h2>
-                  <button onclick="desativarModoSeguranca('a4:63:a1:6d:0f:f7')">Desativar modo de segurança</button>
+            <div class="header">
+              <h2 >Máquina 1</h2>
+              <button onclick="desativarModoSeguranca('a4:63:a1:6d:0f:f7')">Desativar modo de segurança</button>
+            </div>
+            <div class="maquinas">
+              <div id="maquinas"></div>
+            </div>
+            <div class="graficos">
+              <div class="grafico-linha-content">
+                <div id="rede-linha"></div>
+              </div>
+              <div class="grafico-linha-content">
+                <div id="cpu-linha"></div>
+              </div>
+              <div class="grafico-linha-content">
+                <div id="ram-linha"></div>
+              </div>
+            </div>
+            <div class="informacoes-dash">
+              <div>
+                <div class="infosDash" id="infosDash">
                 </div>
-                <div id="maquinas">
-                  
+                <div class="chart-donut">
+                  <div id="disco-donut"></div>
                 </div>
               </div>
-              <div class="graficos">
-                <div class="grafico-linha-content">
-                  <div id="rede-linha" style="width: 100%; height: 100%;"></div>
-                </div>
-                <div class="grafico-linha-content">
-                  <div id="cpu-linha" style="width: 100%; height: 100%;"></div>
-                </div>
-                <div class="grafico-linha-content">
-                  <div id="ram-linha" style="width: 100%; height: 100%;"></div>
-                </div>
+              <div>
+                <h1>Informações do Hardware</h1>
+                <div id="infoHardware"></div>
               </div>
-              <div class="informacoes-dash">
-                <div>
-                  <div class="infosDash" id="infosDash">
-                  </div>
-                  <div class="chart-donut">
-                    <div id="disco-donut"></div>
-                  </div>
-                </div>
-                <div>
-                  <h1>Informações do Hardware</h1>
-                  <div id="infoHardware"></div>
-                </div>
-              </div>
-          </div>
-          </div>
+            </div>
         </article>
       </section>
       <section class="telas" style="display: none" id="telaLog">

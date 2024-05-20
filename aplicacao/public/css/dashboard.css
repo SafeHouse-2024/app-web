@@ -329,8 +329,9 @@ main {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 83%;
-  margin: 3% 5% 1% 3%;
+  width: 100%;
+  padding: 2% 0 2% 0;
+  /* margin: 3% 5% 1% 3%; */
 }
 
 .content_component .header .button_user{
@@ -1270,64 +1271,42 @@ label{
 }
 
 .informacoes-maquina{
-  width: 100vw;
-  height: 100vh;
-}
-
-.informacoes-maquina .header{
-  width: 85%;
-  display: flex;
-  justify-content: space-between;
-}
-
-.informacoes-maquina .body{
   width: 100%;
-  height: max-content;
+  max-height: 100vh;
+
   display: grid;
-  grid-template-columns: 25% 37.5% 37.5%;
-  grid-template-rows: auto;
-}
+  grid-template: 
+    "header header header header" 10%
+    "maquinas grafico informacoes informacoes" 90%;
+  gap: 10px;
 
-.informacoes-maquina .body .maquinas{
-  width: 95%;
-}
+  & .header{
+    grid-area: header;
+  }
+  & .maquinas{
+    grid-area: maquinas;
+  }
+  & .graficos{
+    grid-area: grafico;
+    max-width: 90%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 
-.informacoes-maquina .body .maquinas .header{
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-}
-
-.informacoes-maquina .body .maquinas .header button{
-  width: 40%;
-  font-size: 14px;
-}
-
-.informacoes-maquina .body .graficos{
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: repeat(3, 1fr);
-  height: 100%;
-  width: 100%;
-}
-
-.informacoes-maquina .body .graficos .grafico-linha-content{
-  height: 100%;
-  width: 100%;
-}
-
-.informacoes-maquina .body .informacoes-dash{
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: repeat(1, 1fr);
-  width: 100%;
+    & .grafico-linha-content{
+      width: 100%;
+      height: 50%;
+    }
+  }
+  & .informacoes-dash{
+    grid-area: informacoes;
+  }
 }
 
 #maquinas{
-  width: 100%;
   background-color: #13004C;
   color: white;
-  height: 100%;
+  height: 80%;
 }
 
 .maquina-info{

@@ -246,27 +246,27 @@ function buscarMaquinas() {
   </li>`;
     }
 
-    for (let i = 0; i < computadores.length; i++) {
-      let infoHardware = document.querySelector(`#infoHardware`);
-      infoHardware.innerHTML = '';
-      for (let j = 0; j < computadores[i].componentes.length; j++) {
-        infoHardware.innerHTML += `
-      <div class="infoHardware">
-      <h2>${computadores[i].componentes[j].nome}</h2>
-      <ul>
-      ${computadores[i].componentes[j].caracteristicas.map(caracteristica => {
-          return `
-        <li>
-        <span>${caracteristica.nome}</span>
-        <span>${caracteristica.valor}</span>
-        </li>
-        `;
-        }).join('')}
-      </ul>
-      </div>
-      `;
-      }
-    }
+    // for (let i = 0; i < computadores.length; i++) {
+    //   let infoHardware = document.querySelector(`#infoHardware`);
+    //   infoHardware.innerHTML = '';
+    //   for (let j = 0; j < computadores[i].componentes.length; j++) {
+    //     infoHardware.innerHTML += `
+    //   <div class="infoHardware">
+    //   <h2>${computadores[i].componentes[j].nome}</h2>
+    //   <ul>
+    //   ${computadores[i].componentes[j].caracteristicas.map(caracteristica => {
+    //       return `
+    //     <li>
+    //     <span>${caracteristica.nome}</span>
+    //     <span>${caracteristica.valor}</span>
+    //     </li>
+    //     `;
+    //     }).join('')}
+    //   </ul>
+    //   </div>
+    //   `;
+    //   }
+    // }
 
     for (let i = 0; i < computadores.length; i++){
       document.getElementById("maquinas").innerHTML += `
@@ -489,6 +489,8 @@ function buscarCodigoAcesso(nome){
   }).catch(function (resposta) {
     console.log(`#ERRO: ${resposta}`);
   });
+
+  enviarMensagemSlack(`Foi adicionado um novo computador com o nome de ${nome} e o código de acesso é ${codigoAcesso}`)
 
   return codigoAcesso;
 }
