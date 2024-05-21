@@ -14,6 +14,7 @@
       referrerpolicy="no-referrer"
     />
     <link rel="short icon" href="./assets/Logo png.png" type="img" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   </head>
 
   <body>
@@ -147,9 +148,7 @@
               <h2>Funcionários</h2>
             </div>
 
-            <div class="button_user" id="button_user">
-              <span>Adicionar</span>
-            </div>
+            
           </div>
 
           <div class="content-users" style="margin-top: 0">
@@ -223,44 +222,6 @@
             <div class="break"></div>
           </div>
         </article>
-        <div class="popup" id="popup_usuario" style="display: none">
-          <div class="popup-card">
-            <div class="fechar-popup-user" id="fechar-popup-user">X</div>
-
-            <h1>ADICIONAR FUNCIONÁRIO</h1>
-
-            <div class="popup-ipt">
-              <div class="ipt-info-user">
-                <div>
-                  <label for="nome">Nome:</label>
-                  <input type="text" name="nome" class="ipt-campo" />
-                </div>
-
-                <div>
-                  <label for="sobrenome">Sobrenome:</label>
-                  <input type="text" name="sobrenome" class="ipt-campo" />
-                </div>
-              </div>
-
-              <div class="ipt-info">
-                <label for="email"> E-mail:</label>
-                <input type="text" name="email" class="ipt-campo" />
-              </div>
-
-              <div class="ipt-info">
-                <label for="senha"> Senha:</label>
-                <input type="text" name="senha" class="ipt-campo" />
-              </div>
-
-              <div class="ipt-info">
-                <label for="cargo">Cargo:</label>
-                <input type="text" name="cargo" class="ipt-campo" />
-              </div>
-            </div>
-
-            <button class="bto-criar-user">Criar Usuario</button>
-          </div>
-        </div>
       </section>
       <div class="popup" id="popup_maquina" style="display: none">
         <div class="popup-card">
@@ -520,102 +481,68 @@
                 </div>
               </div>
             </div>
-
-            <div class="notification">
-              <h3>Notificações</h3>
-              <div class="headers">
-                <div class="seguranca">Segurança</div>
-
-                <div class="maquina">Uso Máquina</div>
-              </div>
-
-              <div class="notification-content">
-                <div class="search">
-                  <input type="text" placeholder="Pesquisar usuário" />
-                </div>
-
-                <div class="checkbox">
-                  <label for="check">Selecionar todos</label>
-                  <input id="check" type="checkbox" />
-                </div>
-
-                <div class="user-configs">
-                  <div class="user-config">
-                    <div class="user-information">
-                      <img src="assets/user-icon.png" alt="" />
-                      <div>
-                        <p>Usuário</p>
-                        <p>E-mail</p>
-                      </div>
-                    </div>
-
-                    <input type="checkbox" />
-                  </div>
-
-                  <div class="user-config">
-                    <div class="user-information">
-                      <img src="assets/user-icon.png" alt="" />
-                      <div>
-                        <p>Usuário</p>
-                        <p>E-mail</p>
-                      </div>
-                    </div>
-
-                    <input type="checkbox" />
-                  </div>
-
-                  <div class="user-config">
-                    <div class="user-information">
-                      <img src="assets/user-icon.png" alt="" />
-                      <div>
-                        <p>Usuário</p>
-                        <p>E-mail</p>
-                      </div>
-                    </div>
-
-                    <input type="checkbox" />
-                  </div>
-
-                  <div class="user-config">
-                    <div class="user-information">
-                      <img src="assets/user-icon.png" alt="" />
-                      <div>
-                        <p>Usuário</p>
-                        <p>E-mail</p>
-                      </div>
-                    </div>
-
-                    <input type="checkbox" />
-                  </div>
-
-                  <div class="user-config">
-                    <div class="user-information">
-                      <img src="assets/user-icon.png" alt="" />
-                      <div>
-                        <p>Usuário</p>
-                        <p>E-mail</p>
-                      </div>
-                    </div>
-
-                    <input type="checkbox" />
-                  </div>
-
-                  <div class="user-config">
-                    <div class="user-information">
-                      <img src="assets/user-icon.png" alt="" />
-                      <div>
-                        <p>Usuário</p>
-                        <p>E-mail</p>
-                      </div>
-                    </div>
-
-                    <input type="checkbox" />
-                  </div>
+            
+            <div class="user-table">
+              <div class="header">
+                <h2>Funcionários</h2>
+                <div id="button_user">
+                  <span>Adicionar</span>
                 </div>
               </div>
+              <table class="usuarios-geral">
+                <thead>
+                  <tr>
+                    <th>Nome</th>
+                    <th>Cargo</th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="funcionariosContent">
+                  <!-- Esta sendo montado no JavaScipt -->
+                </tbody>
+              </table>
             </div>
           </div>
         </article>
+        <div class="popup" id="popup_usuario" style="display: none">
+          <div class="popup-card">
+            <div class="fechar-popup-user" id="fechar-popup-user">X</div>
+
+            <h1>ADICIONAR FUNCIONÁRIO</h1>
+
+            <div class="popup-ipt">
+              <div class="ipt-info-user">
+                <div>
+                  <label for="nome_usuario">Nome:</label>
+                  <input type="text" name="nome" class="ipt-campo" id="nome_usuario"/>
+                </div>
+
+                <div>
+                  <label for="sobrenome_usuario">Sobrenome:</label>
+                  <input type="text" name="sobrenome" class="ipt-campo" id="sobrenome_usuario"/>
+                </div>
+              </div>
+
+              <div class="ipt-info">
+                <label for="email_usuario"> E-mail:</label>
+                <input type="text" name="email" class="ipt-campo" id="email_usuario"/>
+              </div>
+
+              <div class="ipt-info">
+                <label for="senha_usuario"> Senha:</label>
+                <input type="password" name="senha" class="ipt-campo" id="senha_usuario"/>
+              </div>
+
+              <div class="ipt-info">
+                <label for="cargo">Cargo:</label>
+                <input type="text" name="cargo" class="ipt-campo" id="cargo_usuario"/>
+              </div>
+            </div>
+
+            <button class="bto-criar-user" onclick="salvarFuncionario()">Criar Funcionário</button>
+          </div>
+        </div>
       </section>
     </main>
 
@@ -648,6 +575,7 @@
 </html>
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="./js/graficos.js"></script>
 <script src="./js/dashboard.js"></script>
 <script src="./js/websocket.js"></script>

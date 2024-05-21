@@ -918,6 +918,7 @@ h2 > span {
   justify-content: space-between;
   margin-top: 5%;
   width: 100%;
+  height: 100vh;
 }
 
 .configuration-page .header {
@@ -929,9 +930,10 @@ h2 > span {
   margin-right: 10px;
 }
 
-.edit-profile {
-  width: 60%;
+.edit-profile{
+  width: 70%;
   padding: 0 3%;
+  height: 100%;
 }
 
 #nome {
@@ -942,11 +944,12 @@ h2 > span {
   width: 100%;
 }
 
-.profile {
-  background-color: #13004c;
-  color: white;
+.profile{
+  background-color: #13004C; 
+  color: white; 
   width: 100%;
-  padding: 4% 5% 10% 5%;
+  height: 60%; 
+  padding: 4% 5% 10% 5%; 
   margin-top: 3%;
   border-radius: 10px;
 }
@@ -1118,12 +1121,7 @@ label {
   margin-right: 10px;
 }
 
-.edit-profile {
-  width: 60%;
-  padding: 0 3%;
-}
-
-#nome {
+#nome{
   width: 90%;
 }
 
@@ -1333,4 +1331,50 @@ label {
   background-color: #ffc444;
   color: black;
   padding: 4%;
+}
+
+.usuarios-geral{
+  width: 100%;
+  border: 1px solid black;
+  height: auto;
+}
+
+.usuarios-geral thead, .usuarios-geral tbody{
+  border: 1px solid black;
+}
+
+.usuarios-geral td{
+  border: 1px solid black;
+  text-align: center;
+}
+
+.usuarios-geral th{
+  border: 1px solid black;
+  text-align: center;
+  background-color: #13004C;
+  color: white;
+}
+
+
+.user-table{
+  width: 70%;
+}
+
+.user-table .header{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.user-table .header h2{
+  font-size: 20px;
+}
+
+#button_user{
+  padding: 2% 3%;
+  border-radius: 15px;
+  background-color: #13004C;
+  color: white;
+  border: none;
+  cursor: pointer;
 }

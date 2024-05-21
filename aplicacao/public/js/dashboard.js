@@ -207,32 +207,27 @@ function buscarUsuarios() {
   consultaBanco(`conexao/${consulta}`, 'GET').then(function (resposta) {
     if (resposta != null) {
       funcionarios = resposta;
-      console.log(funcionarios);
+      console.log("Funcionários ", resposta);
     }
   }).catch(function (resposta) {
     console.log(`#ERRO: ${resposta}`);
   });
 
-  let conteudoUsers = document.querySelector('.content-users');
-  conteudoUsers.innerHTML = '';
+  let funcionariosContent = document.getElementById("funcionariosContent");
+  funcionariosContent.innerHTML = '';
   setTimeout(() => {
     for (let i = 0; i < funcionarios.length; i++) {
-      conteudoUsers.innerHTML += `
-      <div class="card">
-      <div class="picture_user">
-        <img src="assets/user-icon.png" style="width: 60px" alt="" />
-      </div>
-
-      <div class="descricao">
-        <div>Nome do Usuário: ${funcionarios[i].nome}</div>
-        <div>Cargo: ${funcionarios[i].cargo}</div>
-      </div>
-
-      <div class="buttons">
-        <span>Editar</span>
-        <span>Excluir</span>
-      </div>
-    </div>
+      funcionariosContent.innerHTML += `
+          <tr>
+            <td>${funcionarios[i].nome}</td>
+            <td>${funcionarios[i].cargo}</td>
+            <td><span style="color: red; cursor: pointer; margin-top: 7%;" onclick="deletarFuncionario(this)" value="${funcionarios[i].idUsuario}" class="material-symbols-outlined">
+              delete
+            </span></td>
+            <td><span style="color: green; cursor: pointer; margin-top: 7%" onclick="editarFuncionario(this)" value="${funcionarios[i].idUsuario}" class="material-symbols-outlined">
+            edit
+            </span></td>
+          </tr>
     `;
     }
   }, 1000);
@@ -394,6 +389,51 @@ function buscarCodigoAcesso(nome){
   return codigoAcesso;
 }
 
-function criarDashCargo(cargo){
+
+const deletarFuncionario = (valor) => {
+  const idUsuario = valor.getAttribute("value")
+  query = `DELETE FROM Usuario WHERE idUsuario = ${idUsuario}`
+  Swal.fire({
+    title: `Tem certeza que deseja deletar seu funcionário?`,
+    width: 500,
+    padding: "3em",
+    color: "#00259C",
+    showDenyButton: true,
+    confirmButtonText: "Deletar",
+    confirmButtonColor: "#00259C",
+    denyButtonText: `Cancelar`,
+    focusConfirm: false
+  }).then((result) => {
+    if(result.isConfirmed){
+      consultaBanco(`/conexao/${query}`, 'DELETE').then(resposta => {
+        console.log(resposta)
+      })
+      Swal.fire(
+        {title: "Usuário deletado com sucesso", 
+        icon: "success", 
+        confirmButtonColor: "#00259C"
+      }).then(() => {
+
+      }
+      )
+    }
+  }
+  );
+  
+
+}
+
+const salvarFuncionario = () => {
+  let nomeUsuario = nome_usuario.value;
+  let sobrenomeUsuario = sobrenome_usuario.value;
+  let emailUsuario = email_usuario.value;
+  let senhaUsuario = senha_usuario.value;
+  let cargoUsuario = cargo_usuario.value;
+
+  query = `INSERT INTO Usuario(nome,sobrenome,email,senha,cargo,fkDarkStore, tipo) VALUES ('${nomeUsuario}', '${sobrenomeUsuario}', '${emailUsuario}', '${senhaUsuario}', '${cargoUsuario}', ${sessionStorage.FKDARKSTORE}, 'Funcionário')`
+
+  consultaBanco(`/conexao/${query}`, 'POST').then(() => {
+    console.log("Usuário criado com sucesso")
+  })
 
 }
