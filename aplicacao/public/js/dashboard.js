@@ -1,5 +1,7 @@
 // const { connect } = require("mssql");
 
+// const { text } = require("express");
+
 document.getElementById('open_btn').addEventListener('click', function () {
   document.getElementById('sidebar').classList.toggle('open-sidebar');
 });
@@ -359,6 +361,7 @@ function adicionarMaquina(){
   let macAddress = inputs[1].value;
   let darkstore = selectDasCidades.value;
   let usuario = sessionStorage.IDUSUARIO;
+  let codigoAcesso = '';
   const consulta = `INSERT INTO Computador (nome, macAddress, fkDarkStore, fkUsuario) VALUES ('${nome}', '${macAddress}', ${darkstore}, ${usuario})`
 
   consultaBanco(`conexao/${consulta}`, 'POST')
@@ -369,8 +372,19 @@ function adicionarMaquina(){
   });
 
   setTimeout(() => {
-    let codigoAcesso = buscarCodigoAcesso(nome);
+    codigoAcesso = buscarCodigoAcesso(nome);
   }, 1000);
+
+  Swal.fire({
+    title: "Máquina adicionada com sucesso",
+    text: `O código de acesso é: ${codigoAcesso} \n Foi enviado uma copia para o seu Slack`,
+    icon: "success",
+    confirmButtonColor: "#00259C"
+  }).then(() => {
+    enviarMensagemSlack(`Foi adicionado um novo computador com o nome de ${nome} e o código de acesso é ${codigoAcesso}`)
+  });
+
+  document.getElementById('popup_maquina').style.display = 'none';
 }
 
 function buscarCodigoAcesso(nome){
