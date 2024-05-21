@@ -110,11 +110,12 @@ const buscarUsoMaquina = (idComputador = 6) => {
     `
   }, 1000)
 }
+let computadores = [];
 
 selectDasCidades.addEventListener('change', function () {
-  let computadores = [];
   let idDarkstore = selectDasCidades.value;
   const consultaComputador = `SELECT * FROM Computador WHERE fkDarkstore = ${idDarkstore}`
+  let tabelaMaquinas = document.querySelector('#maquinasContent');
 
   consultaBanco(`conexao/${consultaComputador}`, 'GET').then(function (resposta) {
     console.log(resposta);
@@ -124,6 +125,20 @@ selectDasCidades.addEventListener('change', function () {
   }).catch(function (resposta) {
     console.log(`#ERRO: ${resposta}`);
   });
+
+  setTimeout(() => {
+    tabelaMaquinas.innerHTML = '';
+    for (let i = 0; i < computadores.length; i++) {
+      tabelaMaquinas.innerHTML += `
+      <tr>
+        <td>${computadores[i].nome}</td>
+        <td>${computadores[i].macAddress}</td>
+        <td>${computadores[i].fkUsuario}</td>
+        <td>${computadores[i].ativo == 1 ? 'Ativo' : 'Inativo'}</td>
+      </tr>`;
+
+    }
+  }, 1000);
 
   const consultaDarkStore = `SELECT * FROM DarkStore WHERE idDarkstore = ${idDarkstore}`
   // document.querySelector('.estado').innerHTML = '';
@@ -136,7 +151,6 @@ selectDasCidades.addEventListener('change', function () {
 
 
 function buscarMaquinas() {
-  let computadores = [];
   query = `SELECT pc.*, c.nome as 'nomeComponente', c.idComponente as 'idComponente', ca.nome as 'nomeCaracteristica', ca.valor 'valorCaracteristica' 
   FROM Componente c JOIN Computador pc ON c.fkComputador = pc.idComputador JOIN CaracteristicaComponente ca ON ca.fkComponente = c.idComponente WHERE pc.fkDarkStore = ${sessionStorage.FKDARKSTORE};
   `
@@ -177,125 +191,6 @@ function buscarMaquinas() {
     }).catch(function (resposta) {
       console.log(`#ERRO: ${resposta}`);
     });
-
-  document.querySelector('#maquinas_darkstore').innerHTML = '';
-  document.getElementById("maquinas").innerHTML = ""
-  setTimeout(() => {
-    for (let i = 0; i < computadores.length; i++) {
-      document.querySelector('#maquinas_darkstore').innerHTML += `
-    <li class="item-maquina">
-    <div class="header-maquina">
-    <div>${computadores[i].hostname}</div>
-    
-      <div class="kpi-progress">
-      <p>
-          CPU:<progress
-            value="50"
-            max="100"
-            min="0"
-            class="barra-progresso"
-          ></progress>
-        </p>
-        <p>
-          RAM:<progress
-            value="50"
-            max="100"
-            min="0"
-            class="barra-progresso"
-          ></progress>
-        </p>
-        <p>
-          Disco:<progress
-            value="50"
-            max="100"
-            min="0"
-            class="barra-progresso"
-          ></progress>
-        </p>
-      </div>
-
-      <button>Desativar Modo de Segurança</button>
-    </div>
-
-    <div class="grafico-maquina">
-      <article>
-        <div class="chart-linha">
-          <a>Porcentagem de uso de CPU em tempo real</a>
-          <canvas id="graficoMaquina1Linha1"></canvas>
-        </div>
-
-        <div class="chart-linha">
-          <a>Porcentagem de uso de Memória RAM em tempo real</a>
-          <canvas id="graficoMaquina1Linha2"></canvas>
-        </div>
-      </article>
-      <article>
-        <div class="infosDash">
-          <h2>Tempo de uso da máquina: <span>15h</span></h2>
-          <h2>
-            Data da última inicialização: <span>22/12/2023</span>
-          </h2>
-        </div>
-        
-        <div class="chart-donut">
-          <canvas id="graficoMaquina1Donut1"></canvas>
-          </div>
-      </article>
-      <article class="infosHardware">
-        <h1>Informações do Hardware</h1>
-        <div id="info_hardware_${i}">
-        </div>
-      </article>
-    </div>
-  </li>`;
-    }
-
-    // for (let i = 0; i < computadores.length; i++) {
-    //   let infoHardware = document.querySelector(`#infoHardware`);
-    //   infoHardware.innerHTML = '';
-    //   for (let j = 0; j < computadores[i].componentes.length; j++) {
-    //     infoHardware.innerHTML += `
-    //   <div class="infoHardware">
-    //   <h2>${computadores[i].componentes[j].nome}</h2>
-    //   <ul>
-    //   ${computadores[i].componentes[j].caracteristicas.map(caracteristica => {
-    //       return `
-    //     <li>
-    //     <span>${caracteristica.nome}</span>
-    //     <span>${caracteristica.valor}</span>
-    //     </li>
-    //     `;
-    //     }).join('')}
-    //   </ul>
-    //   </div>
-    //   `;
-    //   }
-    // }
-
-    for (let i = 0; i < computadores.length; i++){
-      document.getElementById("maquinas").innerHTML += `
-      <div class="maquina-info">
-        <span>${computadores[i].hostname}</span>
-        <span>${computadores[i].macAddress}</span>
-      </div>
-        `
-    }
-
-    console.log('Dashboard criado');
-
-    let maquinas = document.querySelectorAll('#maquinas_darkstore > li')
-
-    maquinas.forEach(maquina => {
-      maquina.firstElementChild.addEventListener('click', function () {
-        console.log(maquina);
-        if (maquina.classList.contains('activeMaquina')) {
-          maquina.classList.remove('activeMaquina')
-        } else {
-          maquina.classList.add('activeMaquina')
-        }
-      });
-    });
-  }, 1000);
 
   setTimeout(() => {
     buscarUsuarios();
