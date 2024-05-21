@@ -97,11 +97,11 @@ function buscarDarkstore() {
 const buscarUsoMaquina = (idComputador = 6) => {
   query = `SELECT * FROM UsoSistema WHERE fkComputador = ${idComputador} ORDER BY idUsoSistema DESC LIMIT 1`
   consultaBanco(`conexao/${query}`, 'GET').then((resposta) => {
-      usoSistema = resposta
+    usoSistema = resposta
   }).catch(err => console.log(err))
 
   setTimeout(() => {
-    tempoDeUso = String(usoSistema[0].tempoAtividadeMinutos / 60 /60).split(".")
+    tempoDeUso = String(usoSistema[0].tempoAtividadeMinutos / 60 / 60).split(".")
     let hours = tempoDeUso[0]
     let minutos = String(parseFloat(tempoDeUso[1]) * 60).split("")
     document.getElementById("infosDash").innerHTML = `
@@ -253,15 +253,15 @@ function buscarLog() {
   conteudoLogs.innerHTML = '';
   setTimeout(() => {
     for (let i = 0; i < logs.length; i++) {
-        data = logs[i].dataLog.split('T');
-        data = data[0].split('-');
-        data = `${data[2]}/${data[1]}/${data[0]}`;
+      data = logs[i].dataLog.split('T');
+      data = data[0].split('-');
+      data = `${data[2]}/${data[1]}/${data[0]}`;
 
-        hora = logs[i].dataLog.split('T');
-        hora = hora[1].split(':');
-        hora = `${hora[0]}:${hora[1]}`;
+      hora = logs[i].dataLog.split('T');
+      hora = hora[1].split(':');
+      hora = `${hora[0]}:${hora[1]}`;
 
-        conteudoLogs.innerHTML += `
+      conteudoLogs.innerHTML += `
       <div class="card">
               <div class="picture">
                 <img src="assets/user-icon.png" alt="" />
@@ -285,7 +285,7 @@ function buscarLog() {
 
 }
 
-function enviarMensagemSlack(mensagem){
+function enviarMensagemSlack(mensagem) {
   fetch(`/slack/mensagem`, {
     method: 'POST',
     headers: {
@@ -303,44 +303,60 @@ function enviarMensagemSlack(mensagem){
   });
 }
 
-function editarUsuario(){
+function editarUsuario() {
 
   //venficando se no botão de editar está escrito "Editar"
-  let botao = document.querySelector('.edit-user');
-  let inputs = document.querySelectorAll('.config-item input');
-  let podeEditar = false;
 
-  if(botao.innerText == 'Editar'){
-    botao.innerText = 'Salvar';
-    inputs.forEach(input => {
-      input.removeAttribute('readonly');
-    });
-  }else{
-    botao.innerText = 'Editar';
-    inputs.forEach(input => {
-      input.setAttribute('readonly', 'true');
-    });
-    podeEditar = true;
-    console.log(inputs[0].value, inputs[1].value, inputs[2].value, inputs[3].value);
-  }
+  Swal.fire({
+    title: "Tem certeza que deseja editar seu usuário?",
+    width: 500,
+    padding: "3em",
+    color: "#00259C",
+    showDenyButton: true,
+    confirmButtonText: "Editar",
+    confirmButtonColor: "#00259C",
+    denyButtonText: `Cancelar`,
+    focusConfirm: false
+  }).then((result) => {
+    if (result.isConfirmed) {
+      let botao = document.querySelector('.edit-user');
+      let inputs = document.querySelectorAll('.config-item input');
+      let podeEditar = false;
 
-  if(podeEditar){
+      if (botao.innerText == 'Editar') {
+        botao.innerText = 'Salvar';
+        inputs.forEach(input => {
+          input.removeAttribute('readonly');
+        });
+      } else {
+        botao.innerText = 'Editar';
+        inputs.forEach(input => {
+          input.setAttribute('readonly', 'true');
+        });
+        podeEditar = true;
+        console.log(inputs[0].value, inputs[1].value, inputs[2].value, inputs[3].value);
+      }
+    }
+  });
+
+
+  if (podeEditar) {
     let nome = inputs[0].value;
     let sobrenome = inputs[1].value;
     let email = inputs[2].value;
     let cargo = inputs[3].value;
     const consulta = `UPDATE Usuario SET nome = '${nome}', sobrenome = '${sobrenome}', email = '${email}', cargo = '${cargo}' WHERE idUsuario = ${sessionStorage.IDUSUARIO}`
 
-   consultaBanco(`conexao/${consulta}`, 'PUT')
-   .then(function (resposta) {
-      console.log(resposta);
-    }).catch(function (resposta) {
-      console.log(`#ERRO: ${resposta}`);
-    });
+    consultaBanco(`conexao/${consulta}`, 'PUT')
+      .then(function (resposta) {
+        console.log(resposta);
+      }).catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+      });
   }
 }
 
-function colocarDadosUsuario(){
+function colocarDadosUsuario() {
   let inputs = document.querySelectorAll('.config-item input');
   inputs[0].value = sessionStorage.NOME;
   inputs[1].value = sessionStorage.SOBRENOME;
@@ -353,9 +369,9 @@ const logout = () => {
   window.location.href = '/';
 }
 
-if(sessionStorage.IDUSUARIO == undefined) window.location.href = '/';
+if (sessionStorage.IDUSUARIO == undefined) window.location.href = '/';
 
-function adicionarMaquina(){
+function adicionarMaquina() {
   let inputs = document.querySelectorAll('#popup_maquina input');
   let nome = inputs[0].value;
   let macAddress = inputs[1].value;
@@ -365,11 +381,11 @@ function adicionarMaquina(){
   const consulta = `INSERT INTO Computador (nome, macAddress, fkDarkStore, fkUsuario) VALUES ('${nome}', '${macAddress}', ${darkstore}, ${usuario})`
 
   consultaBanco(`conexao/${consulta}`, 'POST')
-  .then(function (resposta) {
-    console.log(resposta);
-  }).catch(function (resposta) {
-    console.log(`#ERRO: ${resposta}`);
-  });
+    .then(function (resposta) {
+      console.log(resposta);
+    }).catch(function (resposta) {
+      console.log(`#ERRO: ${resposta}`);
+    });
 
   setTimeout(() => {
     codigoAcesso = buscarCodigoAcesso(nome);
@@ -387,16 +403,16 @@ function adicionarMaquina(){
   document.getElementById('popup_maquina').style.display = 'none';
 }
 
-function buscarCodigoAcesso(nome){
+function buscarCodigoAcesso(nome) {
   let codigoAcesso = '';
   const consulta = `SELECT codigoAcesso FROM Computador WHERE nome = '${nome}'`
   consultaBanco(`conexao/${consulta}`, 'GET')
-  .then(function (resposta) {
-    console.log(resposta[0].codigoAcesso);
-    codigoAcesso = resposta[0].codigoAcesso;
-  }).catch(function (resposta) {
-    console.log(`#ERRO: ${resposta}`);
-  });
+    .then(function (resposta) {
+      console.log(resposta[0].codigoAcesso);
+      codigoAcesso = resposta[0].codigoAcesso;
+    }).catch(function (resposta) {
+      console.log(`#ERRO: ${resposta}`);
+    });
 
   enviarMensagemSlack(`Foi adicionado um novo computador com o nome de ${nome} e o código de acesso é ${codigoAcesso}`)
 
@@ -418,22 +434,23 @@ const deletarFuncionario = (valor) => {
     denyButtonText: `Cancelar`,
     focusConfirm: false
   }).then((result) => {
-    if(result.isConfirmed){
+    if (result.isConfirmed) {
       consultaBanco(`/conexao/${query}`, 'DELETE').then(resposta => {
         console.log(resposta)
       })
       Swal.fire(
-        {title: "Usuário deletado com sucesso", 
-        icon: "success", 
-        confirmButtonColor: "#00259C"
-      }).then(() => {
+        {
+          title: "Usuário deletado com sucesso",
+          icon: "success",
+          confirmButtonColor: "#00259C"
+        }).then(() => {
 
-      }
-      )
+        }
+        )
     }
   }
   );
-  
+
 
 }
 
