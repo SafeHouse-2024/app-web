@@ -147,6 +147,9 @@ selectDasCidades.addEventListener('change', function () {
   }).catch(function (resposta) {
     console.log(`#ERRO: ${resposta}`);
   });
+
+  
+
 });
 
 
@@ -353,24 +356,36 @@ const logout = () => {
 
 if(sessionStorage.IDUSUARIO == undefined) window.location.href = '/';
 
-function adicionarMaquina(){
+function adicionarMaquina() {
   let inputs = document.querySelectorAll('#popup_maquina input');
   let nome = inputs[0].value;
   let macAddress = inputs[1].value;
   let darkstore = selectDasCidades.value;
   let usuario = sessionStorage.IDUSUARIO;
+  let codigoAcesso = '';
   const consulta = `INSERT INTO Computador (nome, macAddress, fkDarkStore, fkUsuario) VALUES ('${nome}', '${macAddress}', ${darkstore}, ${usuario})`
 
   consultaBanco(`conexao/${consulta}`, 'POST')
-  .then(function (resposta) {
-    console.log(resposta);
-  }).catch(function (resposta) {
-    console.log(`#ERRO: ${resposta}`);
-  });
+    .then(function (resposta) {
+      console.log(resposta);
+    }).catch(function (resposta) {
+      console.log(`#ERRO: ${resposta}`);
+    });
 
   setTimeout(() => {
-    let codigoAcesso = buscarCodigoAcesso(nome);
+    codigoAcesso = buscarCodigoAcesso(nome);
   }, 1000);
+
+  Swal.fire({
+    title: "Máquina adicionada com sucesso",
+    text: `O código de acesso é: ${codigoAcesso} \n Foi enviado uma copia para o seu Slack`,
+    icon: "success",
+    confirmButtonColor: "#00259C"
+  }).then(() => {
+    enviarMensagemSlack(`Foi adicionado um novo computador com o nome de ${nome} e o código de acesso é ${codigoAcesso}`)
+  });
+
+  document.getElementById('popup_maquina').style.display = 'none';
 }
 
 function buscarCodigoAcesso(nome){
