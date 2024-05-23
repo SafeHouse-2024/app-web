@@ -378,11 +378,23 @@ function adicionarMaquina() {
   let darkstore = selectDasCidades.value;
   let usuario = sessionStorage.IDUSUARIO;
   let codigoAcesso = '';
-  const consulta = `INSERT INTO Computador (nome, macAddress, fkDarkStore, fkUsuario) VALUES ('${nome}', '${macAddress}', ${darkstore}, ${usuario})`
+  const consultaCodigo = `SELECT codigoAcesso FROM Computador WHERE nome = '${nome}'`
+  const consultaCriacao = `INSERT INTO Computador (nome, macAddress, fkDarkStore, fkUsuario) VALUES ('${nome}', '${macAddress}', ${darkstore}, ${usuario})`
 
-  consultaBanco(`conexao/${consulta}`, 'POST')
-    .then(function (resposta) {
-      console.log(resposta);
+  consultaBanco(`conexao/${consultaCriacao}`, 'POST')
+    .then(() => {
+      consultaBanco(`conexao/${consultaCodigo}`, 'GET').then(function (resposta) {
+        Swal.fire({
+          title: "Máquina adicionada com sucesso",
+          text: `O código de acesso é: ${resposta[0].codigoAcesso} \n Foi enviado uma copia para o seu Slack`,
+          icon: "success",
+          confirmButtonColor: "#00259C"
+        }).then(() => {
+          enviarMensagemSlack(`Foi adicionado um novo computador com o nome de ${nome} e o código de acesso é ${codigoAcesso}`)
+        });
+    }).catch(function (resposta) {
+      console.log(`#ERRO: ${resposta}`);
+    });
     }).catch(function (resposta) {
       console.log(`#ERRO: ${resposta}`);
     });
@@ -391,32 +403,9 @@ function adicionarMaquina() {
     codigoAcesso = buscarCodigoAcesso(nome);
   }, 1000);
 
-  Swal.fire({
-    title: "Máquina adicionada com sucesso",
-    text: `O código de acesso é: ${codigoAcesso} \n Foi enviado uma copia para o seu Slack`,
-    icon: "success",
-    confirmButtonColor: "#00259C"
-  }).then(() => {
-    enviarMensagemSlack(`Foi adicionado um novo computador com o nome de ${nome} e o código de acesso é ${codigoAcesso}`)
-  });
+  
 
   document.getElementById('popup_maquina').style.display = 'none';
-}
-
-function buscarCodigoAcesso(nome) {
-  let codigoAcesso = '';
-  const consulta = `SELECT codigoAcesso FROM Computador WHERE nome = '${nome}'`
-  consultaBanco(`conexao/${consulta}`, 'GET')
-    .then(function (resposta) {
-      console.log(resposta[0].codigoAcesso);
-      codigoAcesso = resposta[0].codigoAcesso;
-    }).catch(function (resposta) {
-      console.log(`#ERRO: ${resposta}`);
-    });
-
-  enviarMensagemSlack(`Foi adicionado um novo computador com o nome de ${nome} e o código de acesso é ${codigoAcesso}`)
-
-  return codigoAcesso;
 }
 
 
