@@ -88,6 +88,7 @@ function buscarDarkstore() {
             <td>Normal</td>
           </tr>`;
     }
+    buscarDarkstorePorUf();
   }, 1000);
 
 }
@@ -112,7 +113,7 @@ const buscarUsoMaquina = (idComputador = 6) => {
 }
 let computadores = [];
 
-selectDasCidades.addEventListener('change', function () {
+function buscarDarkstorePorUf(){
   let idDarkstore = selectDasCidades.value;
   const consultaComputador = `SELECT * FROM Computador WHERE fkDarkstore = ${idDarkstore}`
   let tabelaMaquinas = document.querySelector('#maquinasContent');
@@ -139,6 +140,10 @@ selectDasCidades.addEventListener('change', function () {
 
     }
   }, 1000);
+}
+
+selectDasCidades.addEventListener('change', function () {
+  buscarDarkstorePorUf();
 
   const consultaDarkStore = `SELECT * FROM DarkStore WHERE idDarkstore = ${idDarkstore}`
   // document.querySelector('.estado').innerHTML = '';
@@ -147,9 +152,6 @@ selectDasCidades.addEventListener('change', function () {
   }).catch(function (resposta) {
     console.log(`#ERRO: ${resposta}`);
   });
-
-  
-
 });
 
 
