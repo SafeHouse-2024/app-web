@@ -72,7 +72,7 @@ function buscarDarkstore() {
   consultaBanco(`conexao/${consulta}`, 'GET').then(function (resposta) {
     if (resposta != null && resposta.length > 0) {
       resposta.forEach(darkstore => {
-        selectDasCidades.innerHTML += `<option value="${darkstore.idDarkStore}">${darkstore.uf}</option>`;
+        selectDasCidades.innerHTML += `<option value="${darkstore.idDarkStore}">${darkstore.nome}</option>`;
       });
     }
   }).catch(function (resposta) {
@@ -88,7 +88,7 @@ function buscarDarkstore() {
             <td>Normal</td>
           </tr>`;
     }
-    buscarDarkstorePorUf();
+    buscarDarkstorePorNome();
   }, 1000);
 
 }
@@ -113,8 +113,10 @@ const buscarUsoMaquina = (idComputador = 6) => {
 }
 let computadores = [];
 
-function buscarDarkstorePorUf(){
+function buscarDarkstorePorNome(){
   let idDarkstore = selectDasCidades.value;
+  let nomeDarkstore = document.querySelector('#nome_darkstore');
+  nomeDarkstore.value = selectDasCidades.options[selectDasCidades.selectedIndex].text;
   const consultaComputador = `SELECT * FROM Computador WHERE fkDarkstore = ${idDarkstore}`
   let tabelaMaquinas = document.querySelector('#maquinasContent');
 
@@ -143,17 +145,47 @@ function buscarDarkstorePorUf(){
 }
 
 selectDasCidades.addEventListener('change', function () {
-  buscarDarkstorePorUf();
+  buscarDarkstorePorNome();
 
-  const consultaDarkStore = `SELECT * FROM DarkStore WHERE idDarkstore = ${idDarkstore}`
-  // document.querySelector('.estado').innerHTML = '';
-  consultaBanco(`conexao/${consultaDarkStore}`, 'GET').then(function (resposta) {
-    // document.querySelector('.estado').innerHTML = resposta[0].uf;
+  // const consultaDarkStore = `SELECT * FROM DarkStore WHERE idDarkstore = ${idDarkstore}`
+  // // document.querySelector('.estado').innerHTML = '';
+  // consultaBanco(`conexao/${consultaDarkStore}`, 'GET').then(function (resposta) {
+  //   // document.querySelector('.estado').innerHTML = resposta[0].uf;
+  // }).catch(function (resposta) {
+  //   console.log(`#ERRO: ${resposta}`);
+  // });
+});
+
+function liberarInputNomeDarkstore(){
+  let nomeDarkstore = document.querySelector('#nome_darkstore');
+
+  if(nomeDarkstore.hasAttribute('readonly')){
+    nomeDarkstore.removeAttribute('readonly');
+  }else{
+    nomeDarkstore.setAttribute('readonly', 'true');
+  }
+  let botao = document.querySelector('#lapis_nome_darkstore');
+
+  if(botao.classList.contains('fa-pencil')){
+    botao.classList.remove('fa-pencil');
+    botao.classList.add('fa-check');
+  }else{
+    botao.classList.remove('fa-check');
+    botao.classList.add('fa-pencil');
+    editarNomeDarkstore();
+  }
+}
+
+function editarNomeDarkstore() {
+  let nomeDarkstore = document.querySelector('#nome_darkstore');
+  let idDarkstore = selectDasCidades.value;
+  const consulta = `UPDATE DarkStore SET nome = '${nomeDarkstore.value}' WHERE idDarkstore = ${idDarkstore}`
+  consultaBanco(`conexao/${consulta}`, 'PUT').then(function (resposta) {
+    console.log(resposta);
   }).catch(function (resposta) {
     console.log(`#ERRO: ${resposta}`);
   });
-});
-
+}
 
 function buscarMaquinas() {
   query = `SELECT pc.*, c.nome as 'nomeComponente', c.idComponente as 'idComponente', ca.nome as 'nomeCaracteristica', ca.valor 'valorCaracteristica' 

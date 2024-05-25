@@ -780,6 +780,27 @@ h2 > span {
 
 .estado {
   margin-top: 20px;
+
+  & .nome-darkstore{
+    width: max-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    color: #13004c;
+    gap: 10px;
+
+    & input{
+      width: max-content;
+      height: 30px;
+      border: none;
+      border-bottom: 1px solid #13004c;
+    }
+
+    & i{
+      cursor: pointer;
+    }
+  }
 }
 
 #cidades {
