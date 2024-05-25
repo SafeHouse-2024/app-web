@@ -596,6 +596,38 @@ main {
   width: 100%;
   height: 100%;
   display: flex;
+
+  & .graficos-de-barra{
+    width: 60%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    align-items: center;
+    justify-items: center;
+    
+    & .grafico-barra-content{
+      width: 80%;
+      height: 80%;
+    }
+  }
+
+  & .tabela-geral-maquinas{
+    width: 40%;
+    height: 100%;
+    & .alertas-dash{
+      width: 100%;
+      height: 10%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    & .darkstore-geral{
+      /* width: 100%;
+      height: 90%; */
+    }
+  }
 }
 
 .empresas-content {
