@@ -378,7 +378,9 @@
               </table>
             </div>
           </div>
+          
         </article>
+        
         <div class="popup" id="popup_usuario" style="display: none">
           <div class="popup-card">
             <div class="fechar-popup-user" id="fechar-popup-user">X</div>
@@ -443,6 +445,51 @@
           src="https://app.pipefy.com/public/form/IpfrKHRZ?embedded=true"
           frameborder="0"
         ></iframe> -->
+      </div>
+    </div>
+    <div class="modal fade" id="editarFuncionario" tabindex="-1" aria-labelledby="editarFuncionarioModal" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div class="d-flex justify-content-center" style="width: 100%; margin-left: 2%;">
+              <h5 class="modal-title" id="exampleModalLabel">Editar Funcionário</h5>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div style="width: 100%; padding: 3% 6%;">
+              <div class="editar_funcionario_nome">
+                <label for="nome_funcionario">Nome:</label>
+                <input type="text" id="nome_funcionario"/>
+                <label for="sobrenome_funcionario">Sobrenome:</label>
+                <input type="text" id="sobrenome_funcionario"/>
+              </div>
+              <div class="editar_funcionario">
+                <div>
+                  <label for="email_funcionario">Email:</label>
+                  <input type="text" id="email_funcionario"/>
+                </div>
+                <div>
+                  <label for="senha_funcionario">Senha:</label>
+                  <input type="password" id="senha_funcionario"/>
+                </div>
+              </div>
+              <div class="editar_funcionario">
+                <div>
+                  <label for="confirmar_senha_funcionario">Confirme a senha:</label>
+                  <input type="password" id="confirmar_senha_funcionario"/>
+                </div>
+                <div>
+                  <label for="cargo_funcionario">Cargo</label>
+                  <input type="text" id="cargo_funcionario"/>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="editar_funcionario_button" onclick="salvarAlteracoesUsuario()">Editar</button>
+          </div>
+        </div>
       </div>
     </div>
   </body>

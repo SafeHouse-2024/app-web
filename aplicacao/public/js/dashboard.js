@@ -232,8 +232,8 @@ function buscarMaquinas() {
 
 window.onload = buscarDarkstore();
 
+let funcionarios = [];
 function buscarUsuarios() {
-  let funcionarios = [];
   const consulta = `SELECT * FROM Usuario WHERE fkDarkstore = ${sessionStorage.FKDARKSTORE} AND tipo = 'Funcionário'`
   consultaBanco(`conexao/${consulta}`, 'GET').then(function (resposta) {
     if (resposta != null) {
@@ -255,7 +255,7 @@ function buscarUsuarios() {
             <td><span style="color: red; cursor: pointer; margin-top: 7%;" onclick="deletarFuncionario(this)" value="${funcionarios[i].idUsuario}" class="material-symbols-outlined">
               delete
             </span></td>
-            <td><span style="color: green; cursor: pointer; margin-top: 7%" onclick="editarFuncionario(this)" value="${funcionarios[i].idUsuario}" class="material-symbols-outlined">
+            <td><span style="color: green; cursor: pointer; margin-top: 7%" value="${funcionarios[i].idUsuario}" onclick="editarFuncionario(this)" class="material-symbols-outlined" data-bs-toggle="modal" data-bs-target="#editarFuncionario">
             edit
             </span></td>
           </tr>
@@ -483,6 +483,33 @@ const salvarFuncionario = () => {
 
   consultaBanco(`/conexao/${query}`, 'POST').then(() => {
     console.log("Usuário criado com sucesso")
+  })
+
+}
+
+const editarFuncionario = (valor) => {
+  let funcionarioById = funcionarios.filter(funcionario => funcionario.idUsuario == valor.getAttribute("value"))
+  nome_funcionario.value = funcionarioById[0].nome
+  sobrenome_funcionario.value = funcionarioById[0].sobrenome
+  email_funcionario.value = funcionarioById[0].email
+  senha_funcionario.value = funcionarioById[0].senha
+  cargo_funcionario.value = funcionarioById[0].cargo
+  document.querySelector(".editar_funcionario_button").setAttribute("value", `${valor.getAttribute("value")}`)
+}
+
+const salvarAlteracoesUsuario = () => {
+  
+  let nomeFuncionario = nome_funcionario.value
+  let sobrenomeFuncionario = sobrenome_funcionario.value
+  let emailFuncionario = email_funcionario.value
+  let senhaFuncionario = senha_funcionario.value
+  let cargoFuncionario = cargo_funcionario.value
+  let idFuncionario = document.querySelector(".editar_funcionario_button").getAttribute("value")
+
+  const query = `UPDATE Usuario set nome='${nomeFuncionario}', sobrenome='${sobrenomeFuncionario}', email='${emailFuncionario}', senha='${senhaFuncionario}', cargo='${cargoFuncionario}' WHERE idUsuario = ${idFuncionario}`;
+
+  consultaBanco(`/conexao/${query}`, 'PUT').then(resposta => {
+    console.log(resposta)
   })
 
 }
