@@ -94,7 +94,7 @@ function buscarDarkstore() {
 
 }
 
-const buscarUsoMaquina = (idComputador = 6) => {
+const buscarUsoMaquina = (idComputador = 7) => {
   query = `SELECT * FROM UsoSistema WHERE fkComputador = ${idComputador} ORDER BY idUsoSistema DESC LIMIT 1`
   consultaBanco(`conexao/${query}`, 'GET').then((resposta) => {
     usoSistema = resposta
@@ -105,10 +105,10 @@ const buscarUsoMaquina = (idComputador = 6) => {
     let hours = tempoDeUso[0]
     let minutos = String(parseFloat(tempoDeUso[1]) * 60).split("")
     document.getElementById("infosDash").innerHTML = `
-    <h2>Tempo de uso da máquina: <span>${hours} Horas e ${minutos[0]}${minutos[1]} minutos</span></h2>
-    <h2>
-      Data e hora da última inicialização: <span>${usoSistema[0].dataInicializacao.split("T").join(" ").split(".000Z")[0]}</span>
-    </h2>
+    <h4><b>Tempo de uso da máquina:</b> <br><span>${hours} Horas e ${minutos[0]}${minutos[1]} minutos</span></h4>
+    <h4>
+      <b>Data e hora da última inicialização:</b> <br><span>${usoSistema[0].dataInicializacao.split("T").join(" ").split(".000Z")[0]}</span>
+    </h4>
     `
   }, 1000)
 }
@@ -193,12 +193,41 @@ function buscarMaquinas() {
     }).catch(function (resposta) {
       console.log(`#ERRO: ${resposta}`);
     });
-
-  setTimeout(() => {
-    buscarUsuarios();
-    colocarDadosUsuario();
-    buscarLog();
-  }, 2000);
+    document.getElementById("maquinas").innerHTML = ""
+    setTimeout(() => {
+      for(let i = 0; i < computadores.length; i++){
+        document.getElementById("maquinas").innerHTML += `
+        <div class="maquina-info">
+          <div>${computadores[i].hostname}</div>
+          <div>${computadores[i].macAddress}<div>
+        </div>
+        `
+      }
+      for (let i = 0; i < computadores.length; i++) {
+        let infoHardware = document.querySelector(`#infoHardware`);
+        infoHardware.innerHTML = '';
+        for (let j = 0; j < computadores[i].componentes.length; j++) {
+          infoHardware.innerHTML += `
+        <div class="hardware-description">
+        <h3>${computadores[i].componentes[j].nome}</h3>
+        <ul>
+        ${computadores[i].componentes[j].caracteristicas.map(caracteristica => {
+            return `
+          <li>
+          <span><b>${caracteristica.nome}:</b></span>
+          <span>${caracteristica.valor}</span>
+          </li>
+          `;
+          }).join('')}
+        </ul>
+        </div>
+        `;
+        }
+      }
+      buscarUsuarios();
+      colocarDadosUsuario();
+      buscarLog();
+    }, 1500)
 }
 
 window.onload = buscarDarkstore();
@@ -249,7 +278,7 @@ function buscarLog() {
     console.log(`#ERRO: ${resposta}`);
   });
 
-  let conteudoLogs = document.querySelector('.body-log');
+  let conteudoLogs = document.querySelector('#body-log');
   conteudoLogs.innerHTML = '';
   setTimeout(() => {
     for (let i = 0; i < logs.length; i++) {
@@ -262,23 +291,12 @@ function buscarLog() {
       hora = `${hora[0]}:${hora[1]}`;
 
       conteudoLogs.innerHTML += `
-      <div class="card">
-              <div class="picture">
-                <img src="assets/user-icon.png" alt="" />
-                <p>${logs[i].usuarioNome != null ? logs[i].computadorNome : logs[i].usuarioNome}</p>
-              </div>
-
-              <div class="descricao log">
-                <div style="margin-bottom: 10px">
-                  <p>Descrição: ${logs[i].descricao}</p>
-                  <p></p>
-                </div>
-
-                <div>
-                  <p>Data: ${data} Hora: ${hora}</p>
-                </div>
-              </div>
-            </div>
+      <tr>
+        <td>${logs[i].fkUsuario == null ? "Máquina" : "Usuário"}</td>
+        <td>${logs[i].fkUsuario == null ? logs[i].computadorNome : logs[i].usuarioNome}</td>
+        <td>${logs[i].descricao}</td>
+        <td>Data: ${data} Hora: ${hora}</td>
+      </tr>
     `;
     }
   }, 1000);

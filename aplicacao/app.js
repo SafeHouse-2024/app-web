@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const porta = 3000;
+const porta = 3004;
 var cors = require("cors");
 var path = require("path");
 const server = require("http").createServer(app);
@@ -25,7 +25,7 @@ app.use("/", rotaIndex);
 app.use("/conexao", rotaConexao);
 app.use("/slack", rotaSlack);
 
-io.listen(3001);
+io.listen(3005);
 
 io.on('connection', (socket) => {
     //if(socket.handshake.headers.token != '123') return 
