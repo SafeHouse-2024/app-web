@@ -283,9 +283,14 @@
                   </div>
                   <div class="footer-maquina">Limite alerta: 70 - 80% de uso</div>
                 </div>
-                <button class="adicionar-maquina" id="button_maquina">
-                  Adicionar Máquina
-                </button>
+                <div class="maquina-geral">
+                  <div class="texto-maquina">
+                    <p>Máquinas próximas ao limite de Rede.</p>
+                    <span>2</span>
+                  </div>
+                  <div class="footer-maquina">Limite alerta: 70 - 80% de uso</div>
+                </div>
+                
               </div>
           
               <div class="desc-maquinas">
@@ -300,7 +305,14 @@
             <div class="tabelas-darkstore">
               <table class="tabela-maquinas">
                 <thead>
+                  <tr>
                     <th>Total Maquinas</th>
+                    <th style="display: flex; align-items: center; justify-content: end;">
+                      <button class="adicionar-maquina" id="button_maquina">
+                        Adicionar Máquina
+                      </button>
+                    </th>
+                  </tr>
                   <tr>
                     <th>Nome da Máquina</th>
                     <th>MacAdress</th>
