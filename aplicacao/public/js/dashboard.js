@@ -1,5 +1,7 @@
 // const { connect } = require("mssql");
 
+// const { query } = require("express");
+
 document.getElementById('open_btn').addEventListener('click', function () {
   document.getElementById('sidebar').classList.toggle('open-sidebar');
 });
@@ -96,11 +98,11 @@ function buscarDarkstore() {
 const buscarUsoMaquina = (idComputador = 6) => {
   query = `SELECT * FROM UsoSistema WHERE fkComputador = ${idComputador} ORDER BY idUsoSistema DESC LIMIT 1`
   consultaBanco(`conexao/${query}`, 'GET').then((resposta) => {
-      usoSistema = resposta
+    usoSistema = resposta
   }).catch(err => console.log(err))
 
   setTimeout(() => {
-    tempoDeUso = String(usoSistema[0].tempoAtividadeMinutos / 60 /60).split(".")
+    tempoDeUso = String(usoSistema[0].tempoAtividadeMinutos / 60 / 60).split(".")
     let hours = tempoDeUso[0]
     let minutos = String(parseFloat(tempoDeUso[1]) * 60).split("")
     document.getElementById("infosDash").innerHTML = `
@@ -113,7 +115,7 @@ const buscarUsoMaquina = (idComputador = 6) => {
 }
 let computadores = [];
 
-function buscarDarkstorePorNome(){
+function buscarDarkstorePorNome() {
   let idDarkstore = selectDasCidades.value;
   let nomeDarkstore = document.querySelector('#nome_darkstore');
   nomeDarkstore.value = selectDasCidades.options[selectDasCidades.selectedIndex].text;
@@ -142,6 +144,8 @@ function buscarDarkstorePorNome(){
 
     }
   }, 1000);
+
+  buscarViolacoes(idDarkstore);
 }
 
 selectDasCidades.addEventListener('change', function () {
@@ -156,20 +160,20 @@ selectDasCidades.addEventListener('change', function () {
   // });
 });
 
-function liberarInputNomeDarkstore(){
+function liberarInputNomeDarkstore() {
   let nomeDarkstore = document.querySelector('#nome_darkstore');
 
-  if(nomeDarkstore.hasAttribute('readonly')){
+  if (nomeDarkstore.hasAttribute('readonly')) {
     nomeDarkstore.removeAttribute('readonly');
-  }else{
+  } else {
     nomeDarkstore.setAttribute('readonly', 'true');
   }
   let botao = document.querySelector('#lapis_nome_darkstore');
 
-  if(botao.classList.contains('fa-pencil')){
+  if (botao.classList.contains('fa-pencil')) {
     botao.classList.remove('fa-pencil');
     botao.classList.add('fa-check');
-  }else{
+  } else {
     botao.classList.remove('fa-check');
     botao.classList.add('fa-pencil');
     editarNomeDarkstore();
@@ -288,15 +292,15 @@ function buscarLog() {
   conteudoLogs.innerHTML = '';
   setTimeout(() => {
     for (let i = 0; i < logs.length; i++) {
-        data = logs[i].dataLog.split('T');
-        data = data[0].split('-');
-        data = `${data[2]}/${data[1]}/${data[0]}`;
+      data = logs[i].dataLog.split('T');
+      data = data[0].split('-');
+      data = `${data[2]}/${data[1]}/${data[0]}`;
 
-        hora = logs[i].dataLog.split('T');
-        hora = hora[1].split(':');
-        hora = `${hora[0]}:${hora[1]}`;
+      hora = logs[i].dataLog.split('T');
+      hora = hora[1].split(':');
+      hora = `${hora[0]}:${hora[1]}`;
 
-        conteudoLogs.innerHTML += `
+      conteudoLogs.innerHTML += `
       <div class="card">
               <div class="picture">
                 <img src="assets/user-icon.png" alt="" />
@@ -320,7 +324,7 @@ function buscarLog() {
 
 }
 
-function enviarMensagemSlack(mensagem){
+function enviarMensagemSlack(mensagem) {
   fetch(`/slack/mensagem`, {
     method: 'POST',
     headers: {
@@ -338,19 +342,19 @@ function enviarMensagemSlack(mensagem){
   });
 }
 
-function editarUsuario(){
+function editarUsuario() {
 
   //venficando se no botão de editar está escrito "Editar"
   let botao = document.querySelector('.edit-user');
   let inputs = document.querySelectorAll('.config-item input');
   let podeEditar = false;
 
-  if(botao.innerText == 'Editar'){
+  if (botao.innerText == 'Editar') {
     botao.innerText = 'Salvar';
     inputs.forEach(input => {
       input.removeAttribute('readonly');
     });
-  }else{
+  } else {
     botao.innerText = 'Editar';
     inputs.forEach(input => {
       input.setAttribute('readonly', 'true');
@@ -359,23 +363,23 @@ function editarUsuario(){
     console.log(inputs[0].value, inputs[1].value, inputs[2].value, inputs[3].value);
   }
 
-  if(podeEditar){
+  if (podeEditar) {
     let nome = inputs[0].value;
     let sobrenome = inputs[1].value;
     let email = inputs[2].value;
     let cargo = inputs[3].value;
     const consulta = `UPDATE Usuario SET nome = '${nome}', sobrenome = '${sobrenome}', email = '${email}', cargo = '${cargo}' WHERE idUsuario = ${sessionStorage.IDUSUARIO}`
 
-   consultaBanco(`conexao/${consulta}`, 'PUT')
-   .then(function (resposta) {
-      console.log(resposta);
-    }).catch(function (resposta) {
-      console.log(`#ERRO: ${resposta}`);
-    });
+    consultaBanco(`conexao/${consulta}`, 'PUT')
+      .then(function (resposta) {
+        console.log(resposta);
+      }).catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+      });
   }
 }
 
-function colocarDadosUsuario(){
+function colocarDadosUsuario() {
   let inputs = document.querySelectorAll('.config-item input');
   inputs[0].value = sessionStorage.NOME;
   inputs[1].value = sessionStorage.SOBRENOME;
@@ -388,7 +392,7 @@ const logout = () => {
   window.location.href = '/';
 }
 
-if(sessionStorage.IDUSUARIO == undefined) window.location.href = '/';
+if (sessionStorage.IDUSUARIO == undefined) window.location.href = '/';
 
 function adicionarMaquina() {
   let inputs = document.querySelectorAll('#popup_maquina input');
@@ -422,16 +426,16 @@ function adicionarMaquina() {
   document.getElementById('popup_maquina').style.display = 'none';
 }
 
-function buscarCodigoAcesso(nome){
+function buscarCodigoAcesso(nome) {
   let codigoAcesso = '';
   const consulta = `SELECT codigoAcesso FROM Computador WHERE nome = '${nome}'`
   consultaBanco(`conexao/${consulta}`, 'GET')
-  .then(function (resposta) {
-    console.log(resposta[0].codigoAcesso);
-    codigoAcesso = resposta[0].codigoAcesso;
-  }).catch(function (resposta) {
-    console.log(`#ERRO: ${resposta}`);
-  });
+    .then(function (resposta) {
+      console.log(resposta[0].codigoAcesso);
+      codigoAcesso = resposta[0].codigoAcesso;
+    }).catch(function (resposta) {
+      console.log(`#ERRO: ${resposta}`);
+    });
 
   enviarMensagemSlack(`Foi adicionado um novo computador com o nome de ${nome} e o código de acesso é ${codigoAcesso}`)
 
@@ -453,22 +457,23 @@ const deletarFuncionario = (valor) => {
     denyButtonText: `Cancelar`,
     focusConfirm: false
   }).then((result) => {
-    if(result.isConfirmed){
+    if (result.isConfirmed) {
       consultaBanco(`/conexao/${query}`, 'DELETE').then(resposta => {
         console.log(resposta)
       })
       Swal.fire(
-        {title: "Usuário deletado com sucesso", 
-        icon: "success", 
-        confirmButtonColor: "#00259C"
-      }).then(() => {
+        {
+          title: "Usuário deletado com sucesso",
+          icon: "success",
+          confirmButtonColor: "#00259C"
+        }).then(() => {
 
-      }
-      )
+        }
+        )
     }
   }
   );
-  
+
 
 }
 
@@ -485,4 +490,41 @@ const salvarFuncionario = () => {
     console.log("Usuário criado com sucesso")
   })
 
+}
+
+function buscarViolacoes(idDarkStore) {
+  let violacoes = [];
+  queryViolacoes = `SELECT Log.*, Computador.nome as computadorNome FROM Log
+  JOIN Computador ON Log.fkComputador = Computador.idComputador
+  JOIN DarkStore ON Computador.fkDarkStore = DarkStore.idDarkStore`
+  consultaBanco(`conexao/${queryViolacoes}`, 'GET').then(function (resposta) {
+    console.log(resposta);
+    violacoes = resposta;
+  }).catch(function (resposta) {
+    console.log(`#ERRO: ${resposta}`);
+  });
+
+  var computadoresDessaDarkstore = [];
+  setTimeout(() => {
+    for (let i = 0; i < computadores.length; i++) {
+      if (computadores[i].fkDarkStore == idDarkStore) {
+        computadoresDessaDarkstore.push(computadores[i]);
+      }
+    }
+  }, 1000);
+
+  let conteudoViolacoes = document.querySelector('#violacoesContent');
+  conteudoViolacoes.innerHTML = '';
+  setTimeout(() => {
+    for (let i = 0; i < violacoes.length; i++) {
+      if (computadoresDessaDarkstore.find(computador => computador.nome == violacoes[i].computadorNome)) {
+        conteudoViolacoes.innerHTML += `
+      <tr>
+        <td>${violacoes[i].computadorNome}</td>
+        <td>${violacoes[i].descricao}</td>
+      </tr>
+    `;
+      }
+    }
+  }, 1000);
 }
