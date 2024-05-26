@@ -397,85 +397,6 @@ main {
   height: 0;
 }
 
-.content_component .card {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 60%;
-  /* margin: 3% 1% 0 1%; */
-  background-color: #13004c;
-  padding: 5%;
-  border-radius: 15px;
-  height: 100%;
-}
-
-.content_component .card .picture {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  text-align: center;
-  font-size: 14px;
-  color: white;
-}
-
-.content_component .card .picture_user {
-  margin-left: 2%;
-  padding: 5px 0;
-}
-
-.content_component .card .picture_user img {
-  margin-top: 5px;
-}
-
-.content_component .card .buttons {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
-
-.content_component .card .buttons span {
-  padding: 3% 8%;
-  border-radius: 15px;
-  margin-top: 10px;
-  cursor: pointer;
-}
-
-.content_component .card .buttons span:nth-child(1) {
-  background-color: #ffc44b;
-  margin-right: 4%;
-}
-
-.content_component .card .buttons span:nth-child(2) {
-  background-color: #d11414;
-}
-
-.content_component .card .picture img {
-  width: 50px;
-}
-
-.content_component .card .picture p {
-  margin: 8px 0;
-  text-align: center;
-  font-size: 16px;
-}
-
-.content_component .card .descricao {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-  width: 90%;
-  margin-left: 3%;
-  color: white;
-}
-
-.content_component .card .descricao:nth-child(1) {
-  margin-bottom: 4%;
-}
-
 #telaDash article {
   width: 100%;
   height: 100%;
@@ -668,19 +589,6 @@ main {
   /* position: relative; */
   left: 90%;
   top: -30px;
-}
-
-.graficos-content {
-  /* width: 100%;
-  height: 50vh;
-  display: flex;
-
-  padding: 16% 3% 0 0; */
-}
-
-.grafico-barra-content {
-  /* width: 35%;
-  height: 100%; */
 }
 
 #infoHardware {
@@ -955,9 +863,15 @@ h2 > span {
 }
 
 .edit-profile{
-  width: 70%;
-  padding: 0 3%;
-  height: 100%;
+  background-color: white;
+  width: 60%;
+  height: 70%;
+  margin-right: 2%;
+  border-radius: 15px;
+}
+
+.edit-profile h2{
+  font-size: 20px;
 }
 
 #nome {
@@ -969,11 +883,10 @@ h2 > span {
 }
 
 .profile{
-  background-color: #13004C; 
-  color: white; 
+  color: black; 
   width: 100%;
   height: 60%; 
-  padding: 4% 5% 10% 5%; 
+  padding: 0 5% 10% 5%;
   margin-top: 3%;
   border-radius: 10px;
 }
@@ -1151,15 +1064,6 @@ label {
 
 #sobrenome {
   width: 100%;
-}
-
-.profile {
-  background-color: #13004c;
-  color: white;
-  width: 100%;
-  padding: 4% 5% 10% 5%;
-  margin-top: 3%;
-  border-radius: 10px;
 }
 
 .edit-user {
@@ -1415,6 +1319,10 @@ label {
 
 .user-table{
   width: 70%;
+  background-color: white;
+  height: 70%;
+  border-radius: 15px;
+  padding: 0 2%;
 }
 
 .user-table .header{
@@ -1428,7 +1336,7 @@ label {
 }
 
 #button_user{
-  padding: 2% 3%;
+  padding: 1% 2%;
   border-radius: 15px;
   background-color: #13004C;
   color: white;
