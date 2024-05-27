@@ -305,7 +305,7 @@ function buscarLog() {
   JOIN Computador ON Log.fkComputador = Computador.idComputador
   JOIN DarkStore ON Computador.fkDarkStore = DarkStore.idDarkStore
   LEFT JOIN Usuario ON Log.fkUsuario = Usuario.idUsuario
-  WHERE DarkStore.idDarkStore = ${sessionStorage.FKDARKSTORE}`
+  WHERE DarkStore.idDarkStore = ${sessionStorage.FKDARKSTORE};`
   consultaBanco(`conexao/${query}`, 'GET').then(function (resposta) {
     console.log(resposta);
     logs = resposta;
@@ -359,27 +359,44 @@ function enviarMensagemSlack(mensagem) {
 function editarUsuario() {
 
   //venficando se no botão de editar está escrito "Editar"
-  if (botao.innerText == 'Editar') {
-    botao.innerText = 'Salvar';
-    inputs.forEach(input => {
-      input.removeAttribute('readonly');
-    });
-  } else {
-    botao.innerText = 'Editar';
-    inputs.forEach(input => {
-      input.setAttribute('readonly', 'true');
-    });
-    podeEditar = true;
-    console.log(inputs[0].value, inputs[1].value, inputs[2].value, inputs[3].value);
-  }
+  let podeEditar = false
+  let inputs = document.querySelectorAll('.config-item input');
+
+      let botao = document.querySelector('.edit-user');
+      
+
+      if (botao.innerText == 'Editar') {
+        botao.innerText = 'Salvar';
+        inputs.forEach(input => {
+          input.removeAttribute('readonly');
+        });
+      } else {
+        botao.innerText = 'Editar';
+        inputs.forEach(input => {
+          input.setAttribute('readonly', 'true');
+        });
+        podeEditar = true;
+        console.log(inputs[0].value, inputs[1].value, inputs[2].value, inputs[3].value);
+      }
 
   if (podeEditar) {
     let nome = inputs[0].value;
     let sobrenome = inputs[1].value;
     let email = inputs[2].value;
     let cargo = inputs[3].value;
-    const consulta = `UPDATE Usuario SET nome = '${nome}', sobrenome = '${sobrenome}', email = '${email}', cargo = '${cargo}' WHERE idUsuario = ${sessionStorage.IDUSUARIO}`
-
+    const consulta = `UPDATE Usuario set nome = '${nome}', sobrenome = '${sobrenome}', email = '${email}', cargo = '${cargo}' WHERE idUsuario = ${sessionStorage.IDUSUARIO};`
+    Swal.fire({
+      title: "Tem certeza que deseja editar seu usuário?",
+      width: 500,
+      padding: "3em",
+      color: "#00259C",
+      showDenyButton: true,
+      confirmButtonText: "Editar",
+      confirmButtonColor: "#00259C",
+      denyButtonText: `Cancelar`,
+      focusConfirm: false
+    }).then((result) => {
+      if (result.isConfirmed) {  
     consultaBanco(`conexao/${consulta}`, 'PUT')
       .then(function (resposta) {
         console.log(resposta);
@@ -387,14 +404,26 @@ function editarUsuario() {
         console.log(`#ERRO: ${resposta}`);
       });
   }
+  }
+ }
+
+  
 }
 
 function colocarDadosUsuario() {
   let inputs = document.querySelectorAll('.config-item input');
-  inputs[0].value = sessionStorage.NOME;
-  inputs[1].value = sessionStorage.SOBRENOME;
-  inputs[2].value = sessionStorage.EMAIL;
-  inputs[3].value = sessionStorage.CARGO;
+  let query = `SELECT nome, sobrenome, email, cargo FROM Usuario WHERE idUsuario=${sessionStorage.IDUSUARIO}`;
+  
+  consultaBanco(`/conexao/${query}`, "GET").then((resposta) => {
+    inputs[0].value = resposta[0].nome;
+    inputs[1].value = resposta[0].sobrenome;
+    inputs[2].value = resposta[0].email;
+    inputs[3].value = resposta[0].cargo;
+    sessionStorage.NOME = reposta[0].nome;
+    sessionStorage.SOBRENOME = reposta[0].sobrenome
+    sessionStorage.EMAIL = resposta[0].email
+    sessionStorage.CARGO = reposta[0].cargo
+  })
 }
 
 const logout = () => {
