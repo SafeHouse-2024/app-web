@@ -17,7 +17,7 @@
 body {
   display: flex;
   min-height: 100vh;
-  background-color: #e3e9f7;
+  background-color: #c0c0c0;
 }
 
 main {
@@ -73,8 +73,9 @@ main {
 #side_items {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  padding: 0;
   list-style: none;
+  color: white;
 }
 
 .side-item {
@@ -85,6 +86,7 @@ main {
 
 .side-item.active {
   background-color: #ffc444;
+  color: #000;
 }
 
 .side-item:hover:not(.active),
@@ -297,27 +299,46 @@ main {
 }
 
 .chart-donut {
-  width: 70%;
+  width: 100%;
   margin-top: 2%;
 }
 
 .content_component {
-  background-color: white;
+  background-color: #dddddd;
   width: 100%;
   border-radius: 10px;
   overflow-y: scroll;
   overflow-x: hidden;
   overflow-x: hidden;
   padding: 0 2%;
+}
 
-  & .body-log {
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: auto;
-    gap: 10px;
-    justify-items: center;
-  }
+.content_component .body-log{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content_component .body-log table{
+  width: 100%;
+}
+
+.content_component .body-log table thead{
+  height: 50px;
+  background-color: #13004C;
+  color: white;
+  border: 1px solid black;
+}
+
+.content_component .body-log table tbody tr{
+  height: 35px;
+  background-color: white;
+}
+
+.content_component .body-log table tr{
+  text-align: center;
+  border: 1px solid black;
 }
 
 .content_component .header {
@@ -346,7 +367,7 @@ main {
 
 .content_component .header .buttons {
   display: flex;
-  margin-right: 8%;
+  justify-content: space-between  ;
 }
 
 .content_component .header .buttons label {
@@ -688,31 +709,34 @@ main {
   height: 100%; */
 }
 
-.infosHardware {
-  background-color: #13004c;
-  padding: 20px;
-  border-radius: 5px;
-  width: 100%;
-  margin-top: 2%;
-
-  & a {
-    width: 100%;
-  }
-}
-
-.infosDash {
-  width: 100%;
-  background-color: #13004c;
-  color: white;
-}
-
-.infosDash > h2 {
+#infoHardware {
   display: flex;
-  width: 300px;
-  /* position: relative; */
-  padding-bottom: 5px;
-  border-radius: 5px;
-  right: 120%;
+  width: 100%;
+}
+
+#infoHardware h3{
+  font-size: 18px;
+  font-weight: bold;
+}
+
+#infoHardware ul{
+  padding: 0;
+}
+
+#infoHardware ul li{
+  list-style: none;
+}
+
+#infosDash{
+  width: 100%;
+}
+
+#infosDash h4{
+  font-size: 18px;
+}
+
+#infosDash span{
+  font-size: 14px;
 }
 
 h2 {
@@ -1309,46 +1333,78 @@ label {
   width: 100%;
 }
 
-.informacoes-maquina {
+.informacoes-maquina{
+  height: 100%; 
+
+}
+
+.informacoes-maquina .card.maquina{
+  background-color: white;
+  border: none;
+  padding: 0;
+  height: 93%;
+  margin-top: 20px;
+}
+.informacoes-maquina .card-header.d-flex.header{
+  background-color: white;
+  border: none;
+  justify-content: space-between;
   width: 100%;
-  max-height: 100vh;
+}
 
-  display: grid;
-  grid-template:
-    "header header header header" 10%
-    "maquinas grafico informacoes informacoes" 90%;
-  gap: 10px;
+.informacoes-maquina .card-header.d-flex.header h2{
+  font-size: 20px;
+  background-color: white;
+}
 
-  align-items: start;
-  justify-items: center;
+.informacoes-maquina .card-header.d-flex.header button{
+  border: none;
+  font-size: 14px;
+  padding: 1% 2%;
+  border-radius: 15px;
+  background-color: #13004C;
+  color: white;
+}
 
-  & .header {
-    grid-area: header;
-  }
-  & .maquinas {
-    grid-area: maquinas;
-  }
-  & .graficos {
-    grid-area: grafico;
-    max-width: 90%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
+.informacoes-maquina .card-body{
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
 
-    & .grafico-linha-content {
-      width: 100%;
-      height: 50%;
-    }
-  }
-  & .informacoes-dash {
-    grid-area: informacoes;
-  }
+
+.maquina-individual{
+  height: 50vh;
+  padding-right: 0;
+}
+
+.maquina-individual .graficos{
+  height: 100%;
+  margin: 20px 0 0 30px;
+  padding: 20px 20px 0 20px;
+}
+
+.info-template.row{
+  margin: 20px 0 0 30px;
+  padding: 15px;
+}
+
+#linha{
+  margin: 0;
+}
+
+#graficos{
+  width: 35%;
+  height: 25px;
+  font-size: 14px;
 }
 
 #maquinas {
-  background-color: #13004c;
+  background-color: white;
   color: white;
-  height: 80%;
+  width: 100%;
+  padding: 0;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .maquina-info {
@@ -1367,6 +1423,7 @@ label {
 
 .usuarios-geral thead, .usuarios-geral tbody{
   border: 1px solid black;
+  background-color: white;
 }
 
 .usuarios-geral td{
@@ -1403,4 +1460,68 @@ label {
   color: white;
   border: none;
   cursor: pointer;
+}
+
+.hardware-description{
+  text-align: left;
+  width: 100%;
+  font-size: 14px;
+  margin-left: 3px;
+}
+
+.modal-dialog{
+  height: 90%;
+}
+
+.modal-content{
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-header{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #DFDCDE;
+}
+
+.modal-body{
+  background-color: #DFDCDE;
+}
+
+.modal-body .editar_funcionario_nome input{
+  margin-bottom: 6px;
+}
+
+.modal-body .editar_funcionario_nome input{
+  width: 30%;
+}
+
+.modal-body .editar_funcionario{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.modal-body .editar_funcionario input{
+  width: 100%;
+  margin-bottom: 6px;
+}
+
+.modal-footer{
+  width: 100%;
+  background-color: #DFDCDE;
+}
+
+.modal-footer button{
+  border: none;
+  padding: 1% 4%;
+  border-radius: 15px;
+  background-color: #13004C;
+  color: white;
+  margin-right: 7%;
 }
