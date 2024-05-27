@@ -6,13 +6,15 @@
     <title>DashBoard</title>
     <link rel="stylesheet" href="./css/dashboard.css" />
     <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+      />
     <link rel="short icon" href="./assets/Logo png.png" type="img" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   </head>
@@ -38,34 +40,27 @@
               <span class="item-description"> Dashboard </span>
             </a>
           </li>
-
-          <li id="menuUsuarios" class="side-item" onclick="trocarTela(1)">
-            <a>
-              <i class="fa-solid fa-user"></i>
-              <span class="item-description"> Usuários </span>
-            </a>
-          </li>
-          <li id="menuDarkStores" class="side-item" onclick="trocarTela(2)">
+          <li id="menuDarkStores" class="side-item" onclick="trocarTela(1)">
             <a>
               <i class="fa-solid fa-store"></i>
               <span class="item-description"> Dark Stores </span>
             </a>
           </li>
-          <li id="menuComputadores" class="side-item" onclick="trocarTela(3)">
+          <li id="menuComputadores" class="side-item" onclick="trocarTela(2)">
             <a>
               <i class="fa-solid fa-computer"></i>
               <span class="item-description"> Computadores </span>
             </a>
           </li>
 
-          <li id="menuLog" class="side-item" onclick="trocarTela(4)">
+          <li id="menuLog" class="side-item" onclick="trocarTela(3)">
             <a>
               <i class="fa-solid fa-paperclip"></i>
               <span class="item-description"> Histórico </span>
             </a>
           </li>
 
-          <li id="menuConfig" class="side-item" onclick="trocarTela(5)">
+          <li id="menuConfig" class="side-item" onclick="trocarTela(4)">
             <a>
               <i class="fa-solid fa-gear"></i>
               <span class="item-description"> Configurações </span>
@@ -90,6 +85,7 @@
         <article>
           <div class="content-dash">
             <div class="main-content">
+              <div class="graficos-de-barra">
                 <div class="grafico-barra-content">
                   <div id="cpu-darkstore" style="width:100%; height: 100%;"></div>
                 </div>
@@ -99,8 +95,12 @@
                 <div class="grafico-barra-content">
                   <div id="rede-darkstore" style="width: 100%; height: 100%;"></div>
                 </div>
+                <div class="grafico-barra-content">
+                  <div id="seguranca-darkstore" style="width: 100%; height: 100%;"></div>
+                </div>
+              </div>
               
-              <span>
+              <div class="tabela-geral-maquinas">
                 <div class="alertas-dash" id="alertasGeral">
                   <div id="estadoNormalGeral">
                     <p >
@@ -130,99 +130,12 @@
                     <!-- Esta sendo montado no JavaScipt -->
                   </tbody>
                 </table>
-              </span>
-              <div class="grafico-barra-content">
-                <div id="seguranca-darkstore" style="width: 100%; height: 100%;"></div>
               </div>
-            </div>
-
             </div>
           </div>
         </article>
       </section>
 
-      <section class="telas" style="display: none" id="telaUsuarios">
-        <article class="content_component">
-          <div class="header" style="width: 93%">
-            <div class="title">
-              <h2>Funcionários</h2>
-            </div>
-
-            
-          </div>
-
-          <div class="content-users" style="margin-top: 0">
-            <div class="card">
-              <div class="picture_user">
-                <img src="assets/user-icon.png" style="width: 60px" alt="" />
-              </div>
-
-              <div class="descricao">
-                <div>Nome do Usuário: Alissa Souza</div>
-                <div>Cargo: Analista Jr.</div>
-              </div>
-
-              <div class="buttons">
-                <span>Editar</span>
-                <span>Excluir</span>
-              </div>
-            </div>
-
-            <div class="card">
-              <div class="picture_user">
-                <img src="assets/user-icon.png" style="width: 60px" alt="" />
-              </div>
-
-              <div class="descricao">
-                <div>Nome do Usuário: George Albert</div>
-
-                <div>Cargo: Técnico de TI</div>
-              </div>
-
-              <div class="buttons">
-                <span>Editar</span>
-                <span>Excluir</span>
-              </div>
-            </div>
-
-            <div class="card">
-              <div class="picture_user">
-                <img src="assets/user-icon.png" style="width: 60px" alt="" />
-              </div>
-
-              <div class="descricao">
-                <div>Nome do Usuário: Yuri Maladosso</div>
-
-                <div>Cargo: Analista Pleno</div>
-              </div>
-
-              <div class="buttons">
-                <span>Editar</span>
-                <span>Excluir</span>
-              </div>
-            </div>
-
-            <div class="card">
-              <div class="picture_user">
-                <img src="assets/user-icon.png" style="width: 60px" alt="" />
-              </div>
-
-              <div class="descricao">
-                <div>Nome do Usuário: Bianca Nolasco</div>
-
-                <div>Cargo: Técnico de TI</div>
-              </div>
-
-              <div class="buttons">
-                <span>Editar</span>
-                <span>Excluir</span>
-              </div>
-            </div>
-
-            <div class="break"></div>
-          </div>
-        </article>
-      </section>
       <div class="popup" id="popup_maquina" style="display: none">
         <div class="popup-card">
           <div class="fechar-popup-user" id="fechar-popup-maquina">X</div>
@@ -343,36 +256,39 @@
       </section>
       <section class="telas" style="display: none" id="telaComputadores">
         <article class="content_component">
-          <div class="informacoes-maquina">
-            <div class="header">
-              <h2 >Máquina 1</h2>
-              <button onclick="desativarModoSeguranca('a4:63:a1:6d:0f:f7')">Desativar modo de segurança</button>
-            </div>
-            <div class="maquinas">
-              <div id="maquinas"></div>
-            </div>
-            <div class="graficos">
-              <div class="grafico-linha-content">
-                <div id="rede-linha"></div>
+          <div class="informacoes-maquina container row" style="padding-right: 0;">
+            <div class="card maquina col rounded-3">
+              <div class="card-header d-flex header">
+                <h2 >Máquina 1</h2>
+                <button onclick="desativarModoSeguranca('a4:63:a1:6d:0f:f7')">Desligar segurança</button>
               </div>
-              <div class="grafico-linha-content">
-                <div id="cpu-linha"></div>
-              </div>
-              <div class="grafico-linha-content">
-                <div id="ram-linha"></div>
-              </div>
+              <div id="maquinas" class="card-body"></div>
             </div>
-            <div class="informacoes-dash">
-              <div>
-                <div class="infosDash" id="infosDash">
-                </div>
-                <div class="chart-donut">
-                  <div id="disco-donut"></div>
+            <div class="maquina-individual col-9" style="padding-right: 0;">
+              <div class="info-template row rounded-3 bg-white text-dark">
+                <div class="row">
+                    <h3 style="font-size: 22px;">Informações do Hardware</h3>
+                    <div id="infoHardware" style="padding-right: 0;"></div>
                 </div>
               </div>
-              <div>
-                <h1>Informações do Hardware</h1>
-                <div id="infoHardware"></div>
+              <div class="graficos row gap-3 rounded-3 bg-white text-dark">
+                <div id="infosDash" class="col" style="padding: 0;"></div>
+                <div class="grafico-linha-content col-8" style="padding: 0;">   
+                  <div class="row">
+                    <div class="d-flex justify-content-end">
+                      <label style="margin-right: 8px;" for="graficos">Selecione a informação: </label>
+                      <select onchange="buscarGraficos(this.value)" name="graficos" id="graficos">
+                        <option value="cpu">Cpu</option>
+                        <option value="rede">Rede</option>
+                        <option value="ram">RAM</option>
+                        <option value="disco">Disco</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row" style="height: 88%;">
+                    <p id="linha" style="width: 100%;"></p>
+                  </div>
+                </div>
               </div>
             </div>
         </article>
@@ -397,7 +313,7 @@
                 </select>
               </div>
 
-              <div style="width: 50%">
+              <div style="width: 60%">
                 <label for="periodo">Periodo: </label>
                 <select name="periodo" id="periodo">
                   <option value="Hoje">Hoje</option>
@@ -409,59 +325,17 @@
           </div>
 
           <div class="body-log">
-            <div class="card">
-              <div class="picture">
-                <img src="assets/user-icon.png" alt="" />
-                <p>George Albert</p>
-              </div>
-
-              <div class="descricao log">
-                <div style="margin-bottom: 10px">
-                  <p>Descrição: Adicionou uma nova máquina</p>
-                  <p></p>
-                </div>
-
-                <div>
-                  <p>Data: 27/04/2024 às 18:59:00</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="card">
-              <div class="picture">
-                <img src="assets/computador-icon.png" alt="" />
-                <p>Máquina 1</p>
-              </div>
-
-              <div class="descricao log">
-                <div style="margin-bottom: 10px">
-                  <p>Descrição: Houve uma tentativa de abrir o Whatsapp</p>
-                  <p></p>
-                </div>
-
-                <div>
-                  <p>Data: 27/04/2024 às 18:59:00</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="card">
-              <div class="picture">
-                <img src="assets/computador-icon.png" alt="" />
-                <p>Máquina 1</p>
-              </div>
-
-              <div class="descricao log">
-                <div style="margin-bottom: 10px">
-                  <p>Descrição: Houve uma tentativa de abrir o Whatsapp</p>
-                  <p></p>
-                </div>
-
-                <div>
-                  <p>Data: 27/04/2024 às 18:59:00</p>
-                </div>
-              </div>
-            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Tipo</th>
+                  <th>Nome</th>
+                  <th>Descricao do ocorrido</th>
+                  <th>Data do ocorrido</th>
+                </tr>
+              </thead>
+              <tbody id="body-log"></tbody>
+            </table>
           </div>
         </article>
       </section>
@@ -531,7 +405,9 @@
               </table>
             </div>
           </div>
+          
         </article>
+        
         <div class="popup" id="popup_usuario" style="display: none">
           <div class="popup-card">
             <div class="fechar-popup-user" id="fechar-popup-user">X</div>
@@ -596,6 +472,51 @@
           src="https://app.pipefy.com/public/form/IpfrKHRZ?embedded=true"
           frameborder="0"
         ></iframe> -->
+      </div>
+    </div>
+    <div class="modal fade" id="editarFuncionario" tabindex="-1" aria-labelledby="editarFuncionarioModal" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div class="d-flex justify-content-center" style="width: 100%; margin-left: 2%;">
+              <h5 class="modal-title" id="exampleModalLabel">Editar Funcionário</h5>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div style="width: 100%; padding: 3% 6%;">
+              <div class="editar_funcionario_nome">
+                <label for="nome_funcionario">Nome:</label>
+                <input type="text" id="nome_funcionario"/>
+                <label for="sobrenome_funcionario">Sobrenome:</label>
+                <input type="text" id="sobrenome_funcionario"/>
+              </div>
+              <div class="editar_funcionario">
+                <div>
+                  <label for="email_funcionario">Email:</label>
+                  <input type="text" id="email_funcionario"/>
+                </div>
+                <div>
+                  <label for="senha_funcionario">Senha:</label>
+                  <input type="password" id="senha_funcionario"/>
+                </div>
+              </div>
+              <div class="editar_funcionario">
+                <div>
+                  <label for="confirmar_senha_funcionario">Confirme a senha:</label>
+                  <input type="password" id="confirmar_senha_funcionario"/>
+                </div>
+                <div>
+                  <label for="cargo_funcionario">Cargo</label>
+                  <input type="text" id="cargo_funcionario"/>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="editar_funcionario_button" onclick="salvarAlteracoesUsuario()">Editar</button>
+          </div>
+        </div>
       </div>
     </div>
   </body>

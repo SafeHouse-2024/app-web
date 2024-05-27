@@ -1,7 +1,3 @@
-// const { connect } = require("mssql");
-
-// const { query } = require("express");
-
 document.getElementById('open_btn').addEventListener('click', function () {
   document.getElementById('sidebar').classList.toggle('open-sidebar');
 });
@@ -95,7 +91,7 @@ function buscarDarkstore() {
 
 }
 
-const buscarUsoMaquina = (idComputador = 6) => {
+const buscarUsoMaquina = (idComputador = 7) => {
   query = `SELECT * FROM UsoSistema WHERE fkComputador = ${idComputador} ORDER BY idUsoSistema DESC LIMIT 1`
   consultaBanco(`conexao/${query}`, 'GET').then((resposta) => {
     usoSistema = resposta
@@ -106,10 +102,10 @@ const buscarUsoMaquina = (idComputador = 6) => {
     let hours = tempoDeUso[0]
     let minutos = String(parseFloat(tempoDeUso[1]) * 60).split("")
     document.getElementById("infosDash").innerHTML = `
-    <h2>Tempo de uso da máquina: <span>${hours} Horas e ${minutos[0]}${minutos[1]} minutos</span></h2>
-    <h2>
-      Data e hora da última inicialização: <span>${usoSistema[0].dataInicializacao.split("T").join(" ").split(".000Z")[0]}</span>
-    </h2>
+    <h4><b>Tempo de uso da máquina:</b> <br><span>${hours} Horas e ${minutos[0]}${minutos[1]} minutos</span></h4>
+    <h4>
+      <b>Data e hora da última inicialização:</b> <br><span>${usoSistema[0].dataInicializacao.split("T").join(" ").split(".000Z")[0]}</span>
+    </h4>
     `
   }, 1000)
 }
@@ -232,18 +228,47 @@ function buscarMaquinas() {
     }).catch(function (resposta) {
       console.log(`#ERRO: ${resposta}`);
     });
-
-  setTimeout(() => {
-    buscarUsuarios();
-    colocarDadosUsuario();
-    buscarLog();
-  }, 2000);
+    document.getElementById("maquinas").innerHTML = ""
+    setTimeout(() => {
+      for(let i = 0; i < computadores.length; i++){
+        document.getElementById("maquinas").innerHTML += `
+        <div class="maquina-info">
+          <div>${computadores[i].hostname}</div>
+          <div>${computadores[i].macAddress}<div>
+        </div>
+        `
+      }
+      for (let i = 0; i < computadores.length; i++) {
+        let infoHardware = document.querySelector(`#infoHardware`);
+        infoHardware.innerHTML = '';
+        for (let j = 0; j < computadores[i].componentes.length; j++) {
+          infoHardware.innerHTML += `
+        <div class="hardware-description">
+        <h3>${computadores[i].componentes[j].nome}</h3>
+        <ul>
+        ${computadores[i].componentes[j].caracteristicas.map(caracteristica => {
+            return `
+          <li>
+          <span><b>${caracteristica.nome}:</b></span>
+          <span>${caracteristica.valor}</span>
+          </li>
+          `;
+          }).join('')}
+        </ul>
+        </div>
+        `;
+        }
+      }
+      buscarUsuarios();
+      colocarDadosUsuario();
+      buscarLog();
+    }, 1500)
 }
 
 window.onload = buscarDarkstore();
 
+let funcionarios = [];
 function buscarUsuarios() {
-  let funcionarios = [];
   const consulta = `SELECT * FROM Usuario WHERE fkDarkstore = ${sessionStorage.FKDARKSTORE} AND tipo = 'Funcionário'`
   consultaBanco(`conexao/${consulta}`, 'GET').then(function (resposta) {
     if (resposta != null) {
@@ -265,7 +290,7 @@ function buscarUsuarios() {
             <td><span style="color: red; cursor: pointer; margin-top: 7%;" onclick="deletarFuncionario(this)" value="${funcionarios[i].idUsuario}" class="material-symbols-outlined">
               delete
             </span></td>
-            <td><span style="color: green; cursor: pointer; margin-top: 7%" onclick="editarFuncionario(this)" value="${funcionarios[i].idUsuario}" class="material-symbols-outlined">
+            <td><span style="color: green; cursor: pointer; margin-top: 7%" value="${funcionarios[i].idUsuario}" onclick="editarFuncionario(this)" class="material-symbols-outlined" data-bs-toggle="modal" data-bs-target="#editarFuncionario">
             edit
             </span></td>
           </tr>
@@ -288,7 +313,7 @@ function buscarLog() {
     console.log(`#ERRO: ${resposta}`);
   });
 
-  let conteudoLogs = document.querySelector('.body-log');
+  let conteudoLogs = document.querySelector('#body-log');
   conteudoLogs.innerHTML = '';
   setTimeout(() => {
     for (let i = 0; i < logs.length; i++) {
@@ -301,23 +326,12 @@ function buscarLog() {
       hora = `${hora[0]}:${hora[1]}`;
 
       conteudoLogs.innerHTML += `
-      <div class="card">
-              <div class="picture">
-                <img src="assets/user-icon.png" alt="" />
-                <p>${logs[i].usuarioNome != null ? logs[i].computadorNome : logs[i].usuarioNome}</p>
-              </div>
-
-              <div class="descricao log">
-                <div style="margin-bottom: 10px">
-                  <p>Descrição: ${logs[i].descricao}</p>
-                  <p></p>
-                </div>
-
-                <div>
-                  <p>Data: ${data} Hora: ${hora}</p>
-                </div>
-              </div>
-            </div>
+      <tr>
+        <td>${logs[i].fkUsuario == null ? "Máquina" : "Usuário"}</td>
+        <td>${logs[i].fkUsuario == null ? logs[i].computadorNome : logs[i].usuarioNome}</td>
+        <td>${logs[i].descricao}</td>
+        <td>Data: ${data} Hora: ${hora}</td>
+      </tr>
     `;
     }
   }, 1000);
@@ -345,10 +359,6 @@ function enviarMensagemSlack(mensagem) {
 function editarUsuario() {
 
   //venficando se no botão de editar está escrito "Editar"
-  let botao = document.querySelector('.edit-user');
-  let inputs = document.querySelectorAll('.config-item input');
-  let podeEditar = false;
-
   if (botao.innerText == 'Editar') {
     botao.innerText = 'Salvar';
     inputs.forEach(input => {
@@ -401,11 +411,23 @@ function adicionarMaquina() {
   let darkstore = selectDasCidades.value;
   let usuario = sessionStorage.IDUSUARIO;
   let codigoAcesso = '';
-  const consulta = `INSERT INTO Computador (nome, macAddress, fkDarkStore, fkUsuario) VALUES ('${nome}', '${macAddress}', ${darkstore}, ${usuario})`
+  const consultaCodigo = `SELECT codigoAcesso FROM Computador WHERE nome = '${nome}'`
+  const consultaCriacao = `INSERT INTO Computador (nome, macAddress, fkDarkStore, fkUsuario) VALUES ('${nome}', '${macAddress}', ${darkstore}, ${usuario})`
 
-  consultaBanco(`conexao/${consulta}`, 'POST')
-    .then(function (resposta) {
-      console.log(resposta);
+  consultaBanco(`conexao/${consultaCriacao}`, 'POST')
+    .then(() => {
+      consultaBanco(`conexao/${consultaCodigo}`, 'GET').then(function (resposta) {
+        Swal.fire({
+          title: "Máquina adicionada com sucesso",
+          text: `O código de acesso é: ${resposta[0].codigoAcesso} \n Foi enviado uma copia para o seu Slack`,
+          icon: "success",
+          confirmButtonColor: "#00259C"
+        }).then(() => {
+          enviarMensagemSlack(`Foi adicionado um novo computador com o nome de ${nome} e o código de acesso é ${codigoAcesso}`)
+        });
+    }).catch(function (resposta) {
+      console.log(`#ERRO: ${resposta}`);
+    });
     }).catch(function (resposta) {
       console.log(`#ERRO: ${resposta}`);
     });
@@ -413,33 +435,6 @@ function adicionarMaquina() {
   setTimeout(() => {
     codigoAcesso = buscarCodigoAcesso(nome);
   }, 1000);
-
-  Swal.fire({
-    title: "Máquina adicionada com sucesso",
-    text: `O código de acesso é: ${codigoAcesso} \n Foi enviado uma copia para o seu Slack`,
-    icon: "success",
-    confirmButtonColor: "#00259C"
-  }).then(() => {
-    enviarMensagemSlack(`Foi adicionado um novo computador com o nome de ${nome} e o código de acesso é ${codigoAcesso}`)
-  });
-
-  document.getElementById('popup_maquina').style.display = 'none';
-}
-
-function buscarCodigoAcesso(nome) {
-  let codigoAcesso = '';
-  const consulta = `SELECT codigoAcesso FROM Computador WHERE nome = '${nome}'`
-  consultaBanco(`conexao/${consulta}`, 'GET')
-    .then(function (resposta) {
-      console.log(resposta[0].codigoAcesso);
-      codigoAcesso = resposta[0].codigoAcesso;
-    }).catch(function (resposta) {
-      console.log(`#ERRO: ${resposta}`);
-    });
-
-  enviarMensagemSlack(`Foi adicionado um novo computador com o nome de ${nome} e o código de acesso é ${codigoAcesso}`)
-
-  return codigoAcesso;
 }
 
 
@@ -527,4 +522,28 @@ function buscarViolacoes(idDarkStore) {
       }
     }
   }, 1000);
+const editarFuncionario = (valor) => {
+  let funcionarioById = funcionarios.filter(funcionario => funcionario.idUsuario == valor.getAttribute("value"))
+  nome_funcionario.value = funcionarioById[0].nome
+  sobrenome_funcionario.value = funcionarioById[0].sobrenome
+  email_funcionario.value = funcionarioById[0].email
+  senha_funcionario.value = funcionarioById[0].senha
+  cargo_funcionario.value = funcionarioById[0].cargo
+  document.querySelector(".editar_funcionario_button").setAttribute("value", `${valor.getAttribute("value")}`)
+}
+
+const salvarAlteracoesUsuario = () => {
+  
+  let nomeFuncionario = nome_funcionario.value
+  let sobrenomeFuncionario = sobrenome_funcionario.value
+  let emailFuncionario = email_funcionario.value
+  let senhaFuncionario = senha_funcionario.value
+  let cargoFuncionario = cargo_funcionario.value
+  let idFuncionario = document.querySelector(".editar_funcionario_button").getAttribute("value")
+
+  const query = `UPDATE Usuario set nome='${nomeFuncionario}', sobrenome='${sobrenomeFuncionario}', email='${emailFuncionario}', senha='${senhaFuncionario}', cargo='${cargoFuncionario}' WHERE idUsuario = ${idFuncionario}`;
+
+  consultaBanco(`/conexao/${query}`, 'PUT').then(resposta => {
+    console.log(resposta)
+  })
 }
