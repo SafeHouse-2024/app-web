@@ -1,7 +1,3 @@
-// const { connect } = require("mssql");
-
-// const { text } = require("express");
-
 document.getElementById('open_btn').addEventListener('click', function () {
   document.getElementById('sidebar').classList.toggle('open-sidebar');
 });
@@ -74,7 +70,7 @@ function buscarDarkstore() {
   consultaBanco(`conexao/${consulta}`, 'GET').then(function (resposta) {
     if (resposta != null && resposta.length > 0) {
       resposta.forEach(darkstore => {
-        selectDasCidades.innerHTML += `<option value="${darkstore.idDarkStore}">${darkstore.uf}</option>`;
+        selectDasCidades.innerHTML += `<option value="${darkstore.idDarkStore}">${darkstore.nome}</option>`;
       });
     }
   }).catch(function (resposta) {
@@ -90,6 +86,7 @@ function buscarDarkstore() {
             <td>Normal</td>
           </tr>`;
     }
+    buscarDarkstorePorNome();
   }, 1000);
 
 }
@@ -114,8 +111,10 @@ const buscarUsoMaquina = (idComputador = 7) => {
 }
 let computadores = [];
 
-selectDasCidades.addEventListener('change', function () {
+function buscarDarkstorePorNome() {
   let idDarkstore = selectDasCidades.value;
+  let nomeDarkstore = document.querySelector('#nome_darkstore');
+  nomeDarkstore.value = selectDasCidades.options[selectDasCidades.selectedIndex].text;
   const consultaComputador = `SELECT * FROM Computador WHERE fkDarkstore = ${idDarkstore}`
   let tabelaMaquinas = document.querySelector('#maquinasContent');
 
@@ -142,15 +141,51 @@ selectDasCidades.addEventListener('change', function () {
     }
   }, 1000);
 
-  const consultaDarkStore = `SELECT * FROM DarkStore WHERE idDarkstore = ${idDarkstore}`
-  // document.querySelector('.estado').innerHTML = '';
-  consultaBanco(`conexao/${consultaDarkStore}`, 'GET').then(function (resposta) {
-    // document.querySelector('.estado').innerHTML = resposta[0].uf;
+  buscarViolacoes(idDarkstore);
+}
+
+selectDasCidades.addEventListener('change', function () {
+  buscarDarkstorePorNome();
+
+  // const consultaDarkStore = `SELECT * FROM DarkStore WHERE idDarkstore = ${idDarkstore}`
+  // // document.querySelector('.estado').innerHTML = '';
+  // consultaBanco(`conexao/${consultaDarkStore}`, 'GET').then(function (resposta) {
+  //   // document.querySelector('.estado').innerHTML = resposta[0].uf;
+  // }).catch(function (resposta) {
+  //   console.log(`#ERRO: ${resposta}`);
+  // });
+});
+
+function liberarInputNomeDarkstore() {
+  let nomeDarkstore = document.querySelector('#nome_darkstore');
+
+  if (nomeDarkstore.hasAttribute('readonly')) {
+    nomeDarkstore.removeAttribute('readonly');
+  } else {
+    nomeDarkstore.setAttribute('readonly', 'true');
+  }
+  let botao = document.querySelector('#lapis_nome_darkstore');
+
+  if (botao.classList.contains('fa-pencil')) {
+    botao.classList.remove('fa-pencil');
+    botao.classList.add('fa-check');
+  } else {
+    botao.classList.remove('fa-check');
+    botao.classList.add('fa-pencil');
+    editarNomeDarkstore();
+  }
+}
+
+function editarNomeDarkstore() {
+  let nomeDarkstore = document.querySelector('#nome_darkstore');
+  let idDarkstore = selectDasCidades.value;
+  const consulta = `UPDATE DarkStore SET nome = '${nomeDarkstore.value}' WHERE idDarkstore = ${idDarkstore}`
+  consultaBanco(`conexao/${consulta}`, 'PUT').then(function (resposta) {
+    console.log(resposta);
   }).catch(function (resposta) {
     console.log(`#ERRO: ${resposta}`);
   });
-});
-
+}
 
 function buscarMaquinas() {
   query = `SELECT pc.*, c.nome as 'nomeComponente', c.idComponente as 'idComponente', ca.nome as 'nomeCaracteristica', ca.valor 'valorCaracteristica' 
@@ -324,39 +359,19 @@ function enviarMensagemSlack(mensagem) {
 function editarUsuario() {
 
   //venficando se no botão de editar está escrito "Editar"
-
-  Swal.fire({
-    title: "Tem certeza que deseja editar seu usuário?",
-    width: 500,
-    padding: "3em",
-    color: "#00259C",
-    showDenyButton: true,
-    confirmButtonText: "Editar",
-    confirmButtonColor: "#00259C",
-    denyButtonText: `Cancelar`,
-    focusConfirm: false
-  }).then((result) => {
-    if (result.isConfirmed) {
-      let botao = document.querySelector('.edit-user');
-      let inputs = document.querySelectorAll('.config-item input');
-      let podeEditar = false;
-
-      if (botao.innerText == 'Editar') {
-        botao.innerText = 'Salvar';
-        inputs.forEach(input => {
-          input.removeAttribute('readonly');
-        });
-      } else {
-        botao.innerText = 'Editar';
-        inputs.forEach(input => {
-          input.setAttribute('readonly', 'true');
-        });
-        podeEditar = true;
-        console.log(inputs[0].value, inputs[1].value, inputs[2].value, inputs[3].value);
-      }
-    }
-  });
-
+  if (botao.innerText == 'Editar') {
+    botao.innerText = 'Salvar';
+    inputs.forEach(input => {
+      input.removeAttribute('readonly');
+    });
+  } else {
+    botao.innerText = 'Editar';
+    inputs.forEach(input => {
+      input.setAttribute('readonly', 'true');
+    });
+    podeEditar = true;
+    console.log(inputs[0].value, inputs[1].value, inputs[2].value, inputs[3].value);
+  }
 
   if (podeEditar) {
     let nome = inputs[0].value;
@@ -420,10 +435,6 @@ function adicionarMaquina() {
   setTimeout(() => {
     codigoAcesso = buscarCodigoAcesso(nome);
   }, 1000);
-
-  
-
-  document.getElementById('popup_maquina').style.display = 'none';
 }
 
 
@@ -476,6 +487,41 @@ const salvarFuncionario = () => {
 
 }
 
+function buscarViolacoes(idDarkStore) {
+  let violacoes = [];
+  queryViolacoes = `SELECT Log.*, Computador.nome as computadorNome FROM Log
+  JOIN Computador ON Log.fkComputador = Computador.idComputador
+  JOIN DarkStore ON Computador.fkDarkStore = DarkStore.idDarkStore`
+  consultaBanco(`conexao/${queryViolacoes}`, 'GET').then(function (resposta) {
+    console.log(resposta);
+    violacoes = resposta;
+  }).catch(function (resposta) {
+    console.log(`#ERRO: ${resposta}`);
+  });
+
+  var computadoresDessaDarkstore = [];
+  setTimeout(() => {
+    for (let i = 0; i < computadores.length; i++) {
+      if (computadores[i].fkDarkStore == idDarkStore) {
+        computadoresDessaDarkstore.push(computadores[i]);
+      }
+    }
+  }, 1000);
+
+  let conteudoViolacoes = document.querySelector('#violacoesContent');
+  conteudoViolacoes.innerHTML = '';
+  setTimeout(() => {
+    for (let i = 0; i < violacoes.length; i++) {
+      if (computadoresDessaDarkstore.find(computador => computador.nome == violacoes[i].computadorNome)) {
+        conteudoViolacoes.innerHTML += `
+      <tr>
+        <td>${violacoes[i].computadorNome}</td>
+        <td>${violacoes[i].descricao}</td>
+      </tr>
+    `;
+      }
+    }
+  }, 1000);
 const editarFuncionario = (valor) => {
   let funcionarioById = funcionarios.filter(funcionario => funcionario.idUsuario == valor.getAttribute("value"))
   nome_funcionario.value = funcionarioById[0].nome
@@ -500,5 +546,4 @@ const salvarAlteracoesUsuario = () => {
   consultaBanco(`/conexao/${query}`, 'PUT').then(resposta => {
     console.log(resposta)
   })
-
 }
