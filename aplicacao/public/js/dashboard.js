@@ -401,12 +401,11 @@ function editarUsuario() {
       }).catch(function (resposta) {
         console.log(`#ERRO: ${resposta}`);
       });
-  }
+  }})
   }
  }
 
   
-}
 
 function colocarDadosUsuario() {
   let inputs = document.querySelectorAll('.config-item input');
@@ -574,6 +573,6 @@ const salvarAlteracoesUsuario = () => {
     console.log(resposta)
   })
 
-}
+}}
 
 window.onload = buscarDarkstore();
