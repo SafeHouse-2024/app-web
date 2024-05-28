@@ -285,8 +285,15 @@
                       </select>
                     </div>
                   </div>
-                  <div class="row" style="height: 88%;">
+                  <div class="row" id="grafico_linha_filtro" style="height: 88%;">
                     <p id="linha" style="width: 100%;"></p>
+                  </div>
+                  <div class="row" id="grafico_rede_filtro" style="height: 85%;"> 
+                    <p id="linha_rede" style="width: 100%;"></p>
+                  </div>
+                  <div class="row" id="grafico_donut_filtro" style="height: 45%;">
+                    <p id="disco_donut" style="width: 100%;"></p>
+                  </div>
                   </div>
                 </div>
               </div>
@@ -343,16 +350,16 @@
         <article class="content_component" style="overflow-y: hidden">
           <div class="configuration-page">
             <div class="edit-profile">
-              <h1>Configurações</h1>
               <div class="profile">
                 <div
-                  style="
+                style="
                     display: flex;
                     justify-content: space-between;
-                    width: 100%;
-                  "
+                    align-items: center;
+                    width: 100%; border-bottom: 1px solid rgba(0, 0, 0, 0.534);
+                    "
                 >
-                  <h2 style="padding: 0">Usuário</h2>
+                <h2>Configurações do usuário</h2>
                   <button class="edit-user" onclick="editarUsuario()">Editar</button>
                 </div>
 

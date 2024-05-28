@@ -231,6 +231,8 @@ ramChartConfig = {
     }
   },
   plotOptions: {
+    stacking: 'normal',
+    connectNulls: true,
     series: {
         pointStart: (new Date()).getTime()
     },
@@ -253,17 +255,19 @@ ramChartConfig = {
       title: {
           text: 'Valor em percentual'
       }
-  },
-  series: [{
-    colorByPoint: false,
-    name: 'RAM',
-    data: [],
-    showInLegend: false
-  }
-]
+    },
+    series: [{
+      colorByPoint: false,
+      name: 'RAM',
+      data: [],
+      showInLegend: false
+    }
+  ]
 }
 
-redeChartConfig = {
+const chart5 = Highcharts.chart("linha", cpuChartConfig)
+
+const chart6 = Highcharts.chart("linha_rede", {
   chart: {
         type: 'areaspline'
     },
@@ -295,6 +299,8 @@ redeChartConfig = {
     }
   },
   plotOptions: {
+    stacking: 'normal',
+    connectNulls: true,
     series: {
         pointStart: (new Date()).getTime()
     },
@@ -303,10 +309,10 @@ redeChartConfig = {
     }
   },
   xAxis: {
-      type: 'datetime',
-      plotBands: [{ // Highlight the two last years
-        from: 2019,
-        to: 2020,
+    type: 'datetime',
+    plotBands: [{ // Highlight the two last years
+      from: 2019,
+      to: 2020,
         color: 'rgba(68, 170, 213, .2)'
     }],
     title: {
@@ -314,9 +320,9 @@ redeChartConfig = {
     }
   },
   yAxis: {
-      title: {
-          text: 'Medições de rede'
-      }
+    title: {
+      text: 'Medições de rede'
+    }
   },
   series: [{
     colorByPoint: false,
@@ -330,9 +336,9 @@ redeChartConfig = {
       y: 38
     }
   ],
-    showInLegend: false
-  },
-  {
+  showInLegend: false
+},
+{
     name: "Upload",
     data: [{
       x: (new Date()).getTime(),
@@ -359,9 +365,9 @@ redeChartConfig = {
     showInLegend: false
   }
 ]
-}
+})
 
-discoChartConfig = {
+const chart7 = Highcharts.chart("disco_donut", {
   chart: {
       type: 'pie'
   },
@@ -386,9 +392,8 @@ series: [ {
     colorByPoint: true,
     data: []
   }]
-}
+})
 
-const chart5 = Highcharts.chart("linha", cpuChartConfig)
 
 var estadoNormalGeral = document.getElementById("estadoNormalGeral")
 estadoNormalGeral.addEventListener('mouseenter', () => {
@@ -429,34 +434,48 @@ const buscarGraficos = (tipoGrafico = "cpu") => {
   const queryProcessador = `SELECT rc.valor as 'valor', rc.dataRegistro as 'dataRegistro' FROM Componente c JOIN RegistroComponente rc ON c.idComponente = rc.fkComponente WHERE c.fkComputador = 7 AND c.nome LIKE 'Processador' ORDER BY idRegistro DESC LIMIT 7;`
   const queryMemoria = `SELECT rc.valor as 'valor', rc.dataRegistro as 'dataRegistro' FROM Componente c JOIN RegistroComponente rc ON c.idComponente = rc.fkComponente WHERE c.fkComputador = 7 AND c.nome LIKE 'Memória' ORDER BY idRegistro DESC LIMIT 7;`
   const queryDisco = `SELECT ca.nome, ca.valor FROM Componente c JOIN CaracteristicaComponente ca ON c.idComponente = ca.fkComponente WHERE c.fkComputador = 7 AND c.nome LIKE 'Disco';`
+  const queryRede = `SELECT rc.nome as 'nome', rc.valor as 'valor', rc.dataRegistro as 'dataRegistro' FROM Componente c JOIN RegistroComponente rc ON rc.fkComponente = c.idComponente WHERE fkComputador = 7 AND rc.nome IN ('Ping', 'Download', 'Upload') ORDER BY rc.idRegistro DESC LIMIT 21;`
 
   if(tipoGrafico == "cpu"){
+    grafico_linha_filtro.style.display=`block`;
+    grafico_donut_filtro.style.display=`none`
+    grafico_rede_filtro.style.display = `none`
     chart5.update(cpuChartConfig)  
     consultaBanco(`/conexao/${queryProcessador}`, 'GET').then((resposta) =>{
       initLineChart(chart5,resposta, 'Processador', timeout)
     })
   }else if(tipoGrafico == "ram"){
+    grafico_linha_filtro.style.display=`block`
+    grafico_donut_filtro.style.display=`none`
+    grafico_rede_filtro.style.display = `none`
     chart5.update(ramChartConfig)
     consultaBanco(`/conexao/${queryMemoria}`, 'GET').then((resposta) => {
       initLineChart(chart5, resposta, 'Memória', timeout)
     })
   }else if(tipoGrafico == "disco"){
-    chart5.update(discoChartConfig)
+    grafico_linha_filtro.style.display=`none`
+    grafico_donut_filtro.style.display=`block`
+    grafico_rede_filtro.style.display = `none`
     consultaBanco(`/conexao/${queryDisco}`, 'GET').then((resposta) => {
       initDonutChart(resposta)
     })
   }else if(tipoGrafico == "rede"){
-    chart5.update(redeChartConfig)
+    grafico_linha_filtro.style.display=`none`
+    grafico_donut_filtro.style.display=`none`
+    grafico_rede_filtro.style.display = `block`
+    consultaBanco(`/conexao/${queryRede}`, 'GET').then((resposta) => {
+      initRedeChart(chart6, resposta, 'Rede')
+    })
   }
   
 }
 
 
 const initDonutChart = (data) =>{
-
+  // Falta colocar em percentual
   console.log((parseFloat(data[0].valor.split(" ")) - parseFloat(data[1].valor.split(" "))))
   let configuracaoInicial = [{name: "Livre", y: parseFloat(data[1].valor.split(" ")[0])},{name: "Ocupado",y: (parseFloat(data[0].valor.split(" ")[0]) - parseFloat(data[1].valor.split(" ")[0]))}]
-  chart5.series[0].setData(configuracaoInicial)
+  chart7.series[0].setData(configuracaoInicial)
 }
 
 const initLineChart = (chart, data, componente) =>{
@@ -490,4 +509,55 @@ const updateLineChart = (chart, componente) => {
     updateLineChart(chart, componente, timeout)
   }, 3000)
 
+}
+
+const initRedeChart = (chart, resposta, componente) => {
+  
+  let pings = [];
+  let downloads =[];
+  let uploads = [];
+  for(var i = 0; i < resposta.length; i++){
+    if(resposta[i].nome == 'Ping'){
+      pings.push({x: new Date(resposta[i].dataRegistro).getTime(), y: parseFloat(resposta[i].valor.split(" ")[1])})
+    }else if(resposta[i].nome == 'Download'){
+      downloads.push({x: new Date(resposta[i].dataRegistro).getTime(), y: parseFloat(resposta[i].valor.split(" ")[1])})
+    }else if(resposta[i].nome == 'Upload'){
+      uploads.push({x: new Date(resposta[i].dataRegistro).getTime(), y: parseFloat(resposta[i].valor.split(" ")[1])})
+    }
+  }
+
+  console.log(chart)
+  let configuracaoInicial = [
+   
+  ]
+
+  chart.update({
+    series: [{ 
+
+      name: 'Ping',
+      data: pings
+    },
+    {
+
+      name: 'Download',
+      data: downloads
+    },
+    {
+
+      name: 'Upload',
+      data: uploads
+    }]
+  })
+}
+
+const updateRedeChart = () => {
+    let pingData = chart6.userOptions.series[0].data
+    let downloadData = chart6.userOptions.series[1].data
+    let uploadData = chart6.userOptions.series[2].data
+    let data;
+    const query = `SELECT rc.nome as 'nome', rc.valor as 'valor', rc.dataRegistro as 'dataRegistro' FROM Componente c JOIN RegistroComponente rc ON rc.fkComponente = c.idComponente WHERE fkComputador = 7 AND rc.nome IN ('Ping', 'Download', 'Upload') ORDER BY rc.idRegistro DESC LIMIT 3;`
+
+    consultaBanco(`/conexao/${query}`, 'GET').then(resposta => {
+      data = resposta
+    })
 }

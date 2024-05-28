@@ -265,8 +265,6 @@ function buscarMaquinas() {
     }, 1500)
 }
 
-window.onload = buscarDarkstore();
-
 let funcionarios = [];
 function buscarUsuarios() {
   const consulta = `SELECT * FROM Usuario WHERE fkDarkstore = ${sessionStorage.FKDARKSTORE} AND tipo = 'Funcionário'`
@@ -575,4 +573,7 @@ const salvarAlteracoesUsuario = () => {
   consultaBanco(`/conexao/${query}`, 'PUT').then(resposta => {
     console.log(resposta)
   })
+
 }
+
+window.onload = buscarDarkstore();
