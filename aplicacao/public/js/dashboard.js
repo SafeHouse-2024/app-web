@@ -109,6 +109,30 @@ const buscarUsoMaquina = (idComputador = 7) => {
       <b>Data e hora da última inicialização:</b> <br><span>${usoSistema[0].dataInicializacao.split("T").join(" ").split(".000Z")[0]}</span>
     </h4>
     `
+
+    let infoHardware = document.querySelector(`#infoHardware`);
+    infoHardware.innerHTML = '';
+    for (let i = 0; i < computadores.length; i++) {
+      for (let j = 0; j < computadores[i].componentes.length; j++) {
+        if(computadores[i].idComputador == idComputador){
+            infoHardware.innerHTML += `
+          <div class="hardware-description">
+          <h3>${computadores[i].componentes[j].nome}</h3>
+          <ul>
+          ${computadores[i].componentes[j].caracteristicas.map(caracteristica => {
+              return `
+            <li>
+            <span><b>${caracteristica.nome}:</b></span>
+            <span>${caracteristica.valor}</span>
+            </li>
+            `;
+            }).join('')}
+          </ul>
+          </div>
+          `;
+          }
+        }
+      }
   }, 1000)
 }
 
@@ -205,6 +229,7 @@ function buscarMaquinas() {
         for (let i = 0; i < resposta.length; i++) {
           if (resposta[i].idComputador != idComputador) {
             computadores.push({
+              idComputador: resposta[i].idComputador,
               hostname: resposta[i].nome,
               ativo: resposta[i].ativo,
               darkstore: resposta[i].fkDarkStore,
