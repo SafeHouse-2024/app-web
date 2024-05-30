@@ -142,7 +142,6 @@ function buscarDarkstorePorNome() {
   nomeDarkstore.value = selectDasCidades.options[selectDasCidades.selectedIndex].text;
   const consultaComputador = `SELECT * FROM Computador WHERE fkDarkstore = ${idDarkstore}`
   let tabelaMaquinas = document.querySelector('#maquinasContent');
-  let computadores = [];
 
   consultaBanco(`conexao/${consultaComputador}`, 'GET').then(function (resposta) {
     console.log(resposta);
@@ -532,7 +531,7 @@ function buscarViolacoes(idDarkStore) {
   var computadoresDessaDarkstore = [];
   setTimeout(() => {
     for (let i = 0; i < computadores.length; i++) {
-      if (computadores[i].darkstore == idDarkStore) {
+      if (computadores[i].fkDarkStore == idDarkStore) {
         computadoresDessaDarkstore.push(computadores[i]);
       }
     }
@@ -543,7 +542,7 @@ function buscarViolacoes(idDarkStore) {
   setTimeout(() => {
     console.log(violacoes)
     for (let i = 0; i < violacoes.length; i++) {
-      if (computadoresDessaDarkstore.find(computador => computador.hostname == violacoes[i].computadorNome)) {
+      if (computadoresDessaDarkstore.find(computador => computador.nome == violacoes[i].computadorNome)) {
         conteudoViolacoes.innerHTML += `
       <tr>
         <td>${violacoes[i].computadorNome}</td>
