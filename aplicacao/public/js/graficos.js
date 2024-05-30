@@ -385,34 +385,6 @@ series: [ {
 })
 
 
-var estadoNormalGeral = document.getElementById("estadoNormalGeral")
-estadoNormalGeral.addEventListener('mouseenter', () => {
-  document.getElementById("alertasGeral").insertBefore(criarHover("Estado Normal indica que essa darkstore não tem nenhuma máquina com uso excessivo de hardware"), estadoNormalGeral)
-})
-
-estadoNormalGeral.addEventListener('mouseout', () => {
-  document.getElementById("alertasGeral").removeChild(document.getElementById("div-informativa"));
-})
-
-var estadoAlertaGeral = document.getElementById("estadoAlertaGeral")
-estadoAlertaGeral.addEventListener('mouseenter', () => {
-  document.getElementById("alertasGeral").insertBefore(criarHover("Estado de alerta indica que essa darkstore tem até 30% dos computadores com uso excessivo de hardware"), estadoAlertaGeral)
-})
-
-estadoAlertaGeral.addEventListener('mouseout', () => {
-  document.getElementById("alertasGeral").removeChild(document.getElementById("div-informativa"))
-})
-
-var estadoCriticoGeral = document.getElementById("estadoCriticoGeral")
-estadoCriticoGeral.addEventListener('mouseenter', () => {
-  document.getElementById("alertasGeral").insertBefore(criarHover("Estado de alerta indica que essa darkstore tem mais de 50% dos computadores com uso excessivo de hardware"), estadoCriticoGeral)
-})
-
-estadoCriticoGeral.addEventListener('mouseout', () => {
-  document.getElementById("alertasGeral").removeChild(document.getElementById("div-informativa"))
-})
-
-
 let timeout = undefined;
 
 const buscarGraficos = (tipoGrafico = "cpu") => {

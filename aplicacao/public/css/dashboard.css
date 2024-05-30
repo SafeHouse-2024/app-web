@@ -533,6 +533,13 @@ main {
       display: flex;
       justify-content: space-between;
       align-items: center;
+
+      & div p span{
+        width: 30px;
+        height: 10px;
+        border-radius: 10px;
+        display: inline-block;
+      }
     }
 
     & .darkstore-geral{
@@ -1280,16 +1287,6 @@ label {
   text-align: center;
   background-color: #13004c;
   color: white;
-}
-
-#div-informativa {
-  z-index: 9999;
-  color: rgb(0, 0, 0);
-  position: absolute;
-  top: 40%;
-  width: 20%;
-  height: 15%;
-  background-color: rgb(255, 255, 255);
 }
 
 .informacoes-segurança {

@@ -11,6 +11,11 @@ $('#datepicker-end').change(e => {
   filtrarLog(informacao.value, dataInicioHistorico, dataFinalHistorico)
 })
 
+$(document).ready(function() {
+  $('[data-toggle="tooltip"]').tooltip();
+});
+
+
 document.getElementById('open_btn').addEventListener('click', function () {
   document.getElementById('sidebar').classList.toggle('open-sidebar');
 });
