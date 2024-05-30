@@ -1,3 +1,5 @@
+// const { query } = require("express");
+
 document.getElementById('open_btn').addEventListener('click', function () {
   document.getElementById('sidebar').classList.toggle('open-sidebar');
 });
@@ -91,6 +93,7 @@ function buscarDarkstore() {
     buscarDarkstorePorNome();
   }, 1000);
 
+
 }
 
 const buscarUsoMaquina = (idComputador = 7) => {
@@ -114,25 +117,25 @@ const buscarUsoMaquina = (idComputador = 7) => {
     infoHardware.innerHTML = '';
     for (let i = 0; i < computadores.length; i++) {
       for (let j = 0; j < computadores[i].componentes.length; j++) {
-        if(computadores[i].idComputador == idComputador){
-            infoHardware.innerHTML += `
+        if (computadores[i].idComputador == idComputador) {
+          infoHardware.innerHTML += `
           <div class="hardware-description">
           <h3>${computadores[i].componentes[j].nome}</h3>
           <ul>
           ${computadores[i].componentes[j].caracteristicas.map(caracteristica => {
-              return `
+            return `
             <li>
             <span><b>${caracteristica.nome}:</b></span>
             <span>${caracteristica.valor}</span>
             </li>
             `;
-            }).join('')}
+          }).join('')}
           </ul>
           </div>
           `;
-          }
         }
       }
+    }
   }, 1000)
 }
 
@@ -167,6 +170,7 @@ function buscarDarkstorePorNome() {
   }, 1000);
 
   buscarViolacoes(idDarkstore);
+  buscarTaxaDeUso(idDarkstore);
 }
 
 selectDasCidades.addEventListener('change', function () {
@@ -255,17 +259,17 @@ function buscarMaquinas() {
     }).catch(function (resposta) {
       console.log(`#ERRO: ${resposta}`);
     });
-    document.getElementById("maquinas").innerHTML = ""
-    setTimeout(() => {
-      for(let i = 0; i < computadores.length; i++){
-        document.getElementById("maquinas").innerHTML += `
+  document.getElementById("maquinas").innerHTML = ""
+  setTimeout(() => {
+    for (let i = 0; i < computadores.length; i++) {
+      document.getElementById("maquinas").innerHTML += `
         <div class="maquina-info">
           <div>${computadores[i].hostname}</div>
           <div>${computadores[i].macAddress}<div>
         </div>
         `
-      }
-    }, 3000)
+    }
+  }, 3000)
 }
 
 let funcionarios = [];
@@ -363,22 +367,22 @@ function editarUsuario() {
   let podeEditar = false
   let inputs = document.querySelectorAll('.config-item input');
 
-      let botao = document.querySelector('.edit-user');
-      
+  let botao = document.querySelector('.edit-user');
 
-      if (botao.innerText == 'Editar') {
-        botao.innerText = 'Salvar';
-        inputs.forEach(input => {
-          input.removeAttribute('readonly');
-        });
-      } else {
-        botao.innerText = 'Editar';
-        inputs.forEach(input => {
-          input.setAttribute('readonly', 'true');
-        });
-        podeEditar = true;
-        console.log(inputs[0].value, inputs[1].value, inputs[2].value, inputs[3].value);
-      }
+
+  if (botao.innerText == 'Editar') {
+    botao.innerText = 'Salvar';
+    inputs.forEach(input => {
+      input.removeAttribute('readonly');
+    });
+  } else {
+    botao.innerText = 'Editar';
+    inputs.forEach(input => {
+      input.setAttribute('readonly', 'true');
+    });
+    podeEditar = true;
+    console.log(inputs[0].value, inputs[1].value, inputs[2].value, inputs[3].value);
+  }
 
   if (podeEditar) {
     let nome = inputs[0].value;
@@ -397,23 +401,24 @@ function editarUsuario() {
       denyButtonText: `Cancelar`,
       focusConfirm: false
     }).then((result) => {
-      if (result.isConfirmed) {  
-    consultaBanco(`conexao/${consulta}`, 'PUT')
-      .then(function (resposta) {
-        console.log(resposta);
-      }).catch(function (resposta) {
-        console.log(`#ERRO: ${resposta}`);
-      });
-  }})
+      if (result.isConfirmed) {
+        consultaBanco(`conexao/${consulta}`, 'PUT')
+          .then(function (resposta) {
+            console.log(resposta);
+          }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+          });
+      }
+    })
   }
- }
+}
 
-  
+
 
 function colocarDadosUsuario() {
   let inputs = document.querySelectorAll('.config-item input');
   let query = `SELECT nome, sobrenome, email, cargo FROM Usuario WHERE idUsuario=${sessionStorage.IDUSUARIO}`;
-  
+
   consultaBanco(`/conexao/${query}`, "GET").then((resposta) => {
     inputs[0].value = resposta[0].nome;
     inputs[1].value = resposta[0].sobrenome;
@@ -454,9 +459,9 @@ function adicionarMaquina() {
         }).then(() => {
           enviarMensagemSlack(`Foi adicionado um novo computador com o nome de ${nome} e o código de acesso é ${codigoAcesso}`)
         });
-    }).catch(function (resposta) {
-      console.log(`#ERRO: ${resposta}`);
-    });
+      }).catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+      });
     }).catch(function (resposta) {
       console.log(`#ERRO: ${resposta}`);
     });
@@ -552,32 +557,81 @@ function buscarViolacoes(idDarkStore) {
       }
     }
   }, 1000);
-  
-const editarFuncionario = (valor) => {
-  let funcionarioById = funcionarios.filter(funcionario => funcionario.idUsuario == valor.getAttribute("value"))
-  nome_funcionario.value = funcionarioById[0].nome
-  sobrenome_funcionario.value = funcionarioById[0].sobrenome
-  email_funcionario.value = funcionarioById[0].email
-  senha_funcionario.value = funcionarioById[0].senha
-  cargo_funcionario.value = funcionarioById[0].cargo
-  document.querySelector(".editar_funcionario_button").setAttribute("value", `${valor.getAttribute("value")}`)
+
+  const editarFuncionario = (valor) => {
+    let funcionarioById = funcionarios.filter(funcionario => funcionario.idUsuario == valor.getAttribute("value"))
+    nome_funcionario.value = funcionarioById[0].nome
+    sobrenome_funcionario.value = funcionarioById[0].sobrenome
+    email_funcionario.value = funcionarioById[0].email
+    senha_funcionario.value = funcionarioById[0].senha
+    cargo_funcionario.value = funcionarioById[0].cargo
+    document.querySelector(".editar_funcionario_button").setAttribute("value", `${valor.getAttribute("value")}`)
+  }
+
+  const salvarAlteracoesUsuario = () => {
+
+    let nomeFuncionario = nome_funcionario.value
+    let sobrenomeFuncionario = sobrenome_funcionario.value
+    let emailFuncionario = email_funcionario.value
+    let senhaFuncionario = senha_funcionario.value
+    let cargoFuncionario = cargo_funcionario.value
+    let idFuncionario = document.querySelector(".editar_funcionario_button").getAttribute("value")
+
+    const query = `UPDATE Usuario set nome='${nomeFuncionario}', sobrenome='${sobrenomeFuncionario}', email='${emailFuncionario}', senha='${senhaFuncionario}', cargo='${cargoFuncionario}' WHERE idUsuario = ${idFuncionario}`;
+
+    consultaBanco(`/conexao/${query}`, 'PUT').then(resposta => {
+      console.log(resposta)
+    })
+
+  }
 }
 
-const salvarAlteracoesUsuario = () => {
-  
-  let nomeFuncionario = nome_funcionario.value
-  let sobrenomeFuncionario = sobrenome_funcionario.value
-  let emailFuncionario = email_funcionario.value
-  let senhaFuncionario = senha_funcionario.value
-  let cargoFuncionario = cargo_funcionario.value
-  let idFuncionario = document.querySelector(".editar_funcionario_button").getAttribute("value")
-
-  const query = `UPDATE Usuario set nome='${nomeFuncionario}', sobrenome='${sobrenomeFuncionario}', email='${emailFuncionario}', senha='${senhaFuncionario}', cargo='${cargoFuncionario}' WHERE idUsuario = ${idFuncionario}`;
-
-  consultaBanco(`/conexao/${query}`, 'PUT').then(resposta => {
-    console.log(resposta)
-  })
-
-}}
-
 window.onload = buscarDarkstore();
+
+function buscarTaxaDeUso(idDarkstore) {
+  query = `SELECT Computador.nome as computadorNome, Componente.nome as componenteNome, RegistroComponente.valor as uso FROM Computador
+  JOIN Componente ON Computador.idComputador = Componente.fkComputador
+  LEFT JOIN RegistroComponente ON Componente.idComponente = RegistroComponente.fkComponente
+  WHERE Computador.fkDarkStore = ${idDarkstore}`;
+
+  resposta = [];
+
+  consultaBanco(`conexao/${query}`, 'GET').then(function (res) {
+    console.log(resposta);
+    resposta = res;
+  }
+  ).catch(function (resposta) {
+    console.log(`#ERRO: ${resposta}`);
+  });
+
+  let conteudoUsoCpu = document.querySelector('#maquinas_limite_cpu');
+  let conteudoUsoRam = document.querySelector('#maquinas_limite_ram');
+  let conteudoUsoDisco = document.querySelector('#maquinas_limite_disco');
+
+  let maquinasProximoLimiteCpu = 0;
+  let maquinasProximoLimiteRam = 0;
+  let maquinasProximoLimiteDisco = 0;
+
+  conteudoUsoCpu.innerHTML = '';
+  conteudoUsoRam.innerHTML = '';
+  conteudoUsoDisco.innerHTML = '';
+
+  for (let i = 0; i < resposta.length; i++) {
+    if (resposta[i].componenteNome == 'Processador') {
+      if (resposta[i].uso >= 1) maquinasProximoLimiteCpu++;
+    }
+    if (resposta[i].componenteNome == 'Memória') {
+      if (resposta[i].uso >= 1) maquinasProximoLimiteRam++;
+    }
+    if (resposta[i].componenteNome == 'Disco') {
+      if (resposta[i].uso >= 90) maquinasProximoLimiteDisco++;
+    }
+  }
+
+  conteudoUsoCpu.innerHTML = `${maquinasProximoLimiteCpu}`;
+  conteudoUsoRam.innerHTML = `${maquinasProximoLimiteRam}`;
+  conteudoUsoDisco.innerHTML = `${maquinasProximoLimiteDisco}`;
+
+  console.log("Maquinas no limite: ", maquinasProximoLimiteCpu, maquinasProximoLimiteRam, maquinasProximoLimiteDisco);
+
+}
