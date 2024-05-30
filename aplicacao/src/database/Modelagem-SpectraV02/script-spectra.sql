@@ -120,7 +120,7 @@ CREATE TABLE UsoSistema(
 CREATE TABLE Processo(
     idProcesso INT PRIMARY KEY AUTO_INCREMENT,
     permitido VARCHAR(30),
-    CONSTRAINT chkPermitido CHECK (permitido IN ('Permitido', 'Não Permitido'))
+    CONSTRAINT chkPermitido CHECK (permitido IN ('Permitido', 'Nao Permitido'))
 );
 
 CREATE TABLE NomeProcesso(
@@ -203,8 +203,8 @@ INSERT INTO RegistroComponente (nome, valor, fkComponente) VALUES ('taxaUso', '2
 SELECT c.nome, r.nome, r.valor FROM RegistroComponente r JOIN Componente c ON c.idComponente = r.idRegistro 
 JOIN Computador pc ON pc.idComputador = c.fkComputador WHERE pc.idComputador = 1;
 
-INSERT INTO Processo (permitido) VALUES ('Não Permitido');
-INSERT INTO Processo (permitido) VALUES ('Não Permitido');
+INSERT INTO Processo (permitido) VALUES ('Nao Permitido');
+INSERT INTO Processo (permitido) VALUES ('Nao Permitido');
 INSERT INTO NomeProcesso (nome, fkProcesso) VALUES ('Discord',1);
 INSERT INTO NomeProcesso (nome, fkProcesso) VALUES ('discord.exe',1);
 INSERT INTO NomeProcesso (nome, fkProcesso) VALUES ('firefox',2);
