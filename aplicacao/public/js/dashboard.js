@@ -419,10 +419,10 @@ function colocarDadosUsuario() {
     inputs[1].value = resposta[0].sobrenome;
     inputs[2].value = resposta[0].email;
     inputs[3].value = resposta[0].cargo;
-    sessionStorage.NOME = reposta[0].nome;
-    sessionStorage.SOBRENOME = reposta[0].sobrenome
+    sessionStorage.NOME = resposta[0].nome;
+    sessionStorage.SOBRENOME = resposta[0].sobrenome
     sessionStorage.EMAIL = resposta[0].email
-    sessionStorage.CARGO = reposta[0].cargo
+    sessionStorage.CARGO = resposta[0].cargo
   })
 }
 

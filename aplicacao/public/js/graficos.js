@@ -548,6 +548,8 @@ const initRedeChart = (chart, resposta, componente) => {
       data: uploads
     }]
   })
+
+  updateRedeChart()
 }
 
 const updateRedeChart = () => {
@@ -558,6 +560,7 @@ const updateRedeChart = () => {
     const query = `SELECT rc.nome as 'nome', rc.valor as 'valor', rc.dataRegistro as 'dataRegistro' FROM Componente c JOIN RegistroComponente rc ON rc.fkComponente = c.idComponente WHERE fkComputador = 7 AND rc.nome IN ('Ping', 'Download', 'Upload') ORDER BY rc.idRegistro DESC LIMIT 3;`
 
     consultaBanco(`/conexao/${query}`, 'GET').then(resposta => {
+      console.log(resposta)
       data = resposta
     })
 }
