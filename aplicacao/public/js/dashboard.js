@@ -1,4 +1,15 @@
-// const { query } = require("express");
+let dataInicioHistorico;
+let dataFinalHistorico = new Date();
+$('#datepicker-init').datepicker({ uiLibrary: 'bootstrap5' });
+$('#datepicker-end').datepicker({uiLibrary: 'bootstrap5'})
+$('#datepicker-init').change(e => {
+  dataInicioHistorico = e.currentTarget.value
+  filtrarLog(informacao.value, dataInicioHistorico, dataFinalHistorico)
+})
+$('#datepicker-end').change(e => {
+  dataFinalHistorico = e.currentTarget.value
+  filtrarLog(informacao.value, dataInicioHistorico, dataFinalHistorico)
+})
 
 document.getElementById('open_btn').addEventListener('click', function () {
   document.getElementById('sidebar').classList.toggle('open-sidebar');
@@ -292,7 +303,7 @@ function buscarUsuarios() {
           <tr>
             <td>${funcionarios[i].nome}</td>
             <td>${funcionarios[i].cargo}</td>
-            <td><span style="color: red; cursor: pointer; margin-top: 7%;" onclick="deletarFuncionario(this)" value="${funcionarios[i].idUsuario}" class="material-symbols-outlined">
+            <td><span style="color: red; cursor: pointer; margin-top: 7%;" onclick="deletarFuncionario(this)" value="${funcionarios[i].idUsuario}#${funcionarios[i].nome}" class="material-symbols-outlined">
               delete
             </span></td>
             <td><span style="color: green; cursor: pointer; margin-top: 7%" value="${funcionarios[i].idUsuario}" onclick="editarFuncionario(this)" class="material-symbols-outlined" data-bs-toggle="modal" data-bs-target="#editarFuncionario">
@@ -304,43 +315,105 @@ function buscarUsuarios() {
   }, 1000);
 }
 
+let logs = [];
 function buscarLog() {
-  let logs = [];
-  query = `SELECT Log.*, Usuario.nome as usuarioNome, Computador.nome as computadorNome FROM Log
-  JOIN Computador ON Log.fkComputador = Computador.idComputador
-  JOIN DarkStore ON Computador.fkDarkStore = DarkStore.idDarkStore
-  LEFT JOIN Usuario ON Log.fkUsuario = Usuario.idUsuario
-  WHERE DarkStore.idDarkStore = ${sessionStorage.FKDARKSTORE};`
+  query = `SELECT l.*, c.nome as 'nome' FROM Log l JOIN Computador c ON l.fkComputador = c.idComputador JOIN DarkStore d ON d.idDarkStore = c.fkDarkStore WHERE d.idDarkStore = ${sessionStorage.FKDARKSTORE}
+  UNION SELECT l.*, u.nome as 'nome' FROM Log l JOIN Usuario u ON l.fkUsuario = u.idUsuario JOIN DarkStore
+  d ON u.fkDarkStore = d.idDarkStore WHERE d.idDarkStore = ${sessionStorage.FKDARKSTORE} ORDER BY idLog DESC;`
   consultaBanco(`conexao/${query}`, 'GET').then(function (resposta) {
-    console.log(resposta);
-    logs = resposta;
+    resposta.forEach(res => {
+      console.log(res)
+      let tipo;
+      if(res.descricao.includes("pendrive") || res.descricao.includes("processo")){
+        tipo = "segurança"
+      }else if(res.fkUsuario != null){
+        tipo = "usuario"
+      }
+      logs.push({
+        log: res,
+        tipo: tipo
+      })
+    })
   }).catch(function (resposta) {
     console.log(`#ERRO: ${resposta}`);
   });
-
+  console.log(logs)
   let conteudoLogs = document.querySelector('#body-log');
   conteudoLogs.innerHTML = '';
   setTimeout(() => {
     for (let i = 0; i < logs.length; i++) {
-      data = logs[i].dataLog.split('T');
+      data = logs[i].log.dataLog.split('T');
       data = data[0].split('-');
       data = `${data[2]}/${data[1]}/${data[0]}`;
 
-      hora = logs[i].dataLog.split('T');
+      hora = logs[i].log.dataLog.split('T');
       hora = hora[1].split(':');
       hora = `${hora[0]}:${hora[1]}`;
 
       conteudoLogs.innerHTML += `
       <tr>
-        <td>${logs[i].fkUsuario == null ? "Máquina" : "Usuário"}</td>
-        <td>${logs[i].fkUsuario == null ? logs[i].computadorNome : logs[i].usuarioNome}</td>
-        <td>${logs[i].descricao}</td>
+        <td>${logs[i].log.fkUsuario == null ? "Máquina" : "Usuário"}</td>
+        <td>${logs[i].log.nome}</td>
+        <td>${logs[i].log.descricao}</td>
         <td>Data: ${data} Hora: ${hora}</td>
       </tr>
     `;
     }
   }, 2000);
 
+}
+
+const filtrarLog = (tipo, dataInicio = dataInicioHistorico, dataFinal = dataFinalHistorico) =>{
+  console.log(tipo)
+  let conteudoLogs = document.querySelector('#body-log');
+  conteudoLogs.innerHTML = '';
+  dataInicio != undefined ? dataInicio = dataInicio : dataInicio = new Date(logs[logs.length - 1].log.dataLog);
+  console.log(dataInicio)
+    if(tipo == ""){
+      filtrarLogData(logs, dataInicio, dataFinal).forEach((infos) => {
+      data = infos.log.dataLog.split('T');
+      data = data[0].split('-');
+      data = `${data[2]}/${data[1]}/${data[0]}`;
+  
+      hora = infos.log.dataLog.split('T');
+      hora = hora[1].split(':');
+      hora = `${hora[0]}:${hora[1]}`;
+  
+      conteudoLogs.innerHTML += `
+        <tr>
+          <td>${infos.log.fkUsuario == null ? "Máquina" : "Usuário"}</td>
+          <td>${infos.log.nome}</td>
+          <td>${infos.log.descricao}</td>
+          <td>Data: ${data} Hora: ${hora}</td>
+        </tr>
+      `;
+    })
+  }
+
+  filtrarLogData(logs, dataInicio, dataFinal).filter(log => log.tipo == tipo).forEach((infos) => {
+    console.log(infos)
+    data = infos.log.dataLog.split('T');
+    data = data[0].split('-');
+    data = `${data[2]}/${data[1]}/${data[0]}`;
+
+    hora = infos.log.dataLog.split('T');
+    hora = hora[1].split(':');
+    hora = `${hora[0]}:${hora[1]}`;
+
+    conteudoLogs.innerHTML += `
+      <tr>
+        <td>${infos.log.fkUsuario == null ? "Máquina" : "Usuário"}</td>
+        <td>${infos.log.nome}</td>
+        <td>${infos.log.descricao}</td>
+        <td>Data: ${data} Hora: ${hora}</td>
+      </tr>
+    `;
+  }) 
+}
+
+filtrarLogData = (logs, inicio, fim) => {
+  console.log(logs)
+  return logs.filter(log => new Date(log.log.dataLog) >= new Date(inicio) && new Date(log.log.dataLog) <= new Date(fim))
 }
 
 function enviarMensagemSlack(mensagem) {
@@ -439,6 +512,7 @@ const logout = () => {
 if (sessionStorage.IDUSUARIO == undefined) window.location.href = '/';
 
 function adicionarMaquina() {
+  
   let inputs = document.querySelectorAll('#popup_maquina input');
   let nome = inputs[0].value;
   let macAddress = inputs[1].value;
@@ -447,7 +521,8 @@ function adicionarMaquina() {
   let codigoAcesso = '';
   const consultaCodigo = `SELECT codigoAcesso FROM Computador WHERE nome = '${nome}'`
   const consultaCriacao = `INSERT INTO Computador (nome, macAddress, fkDarkStore, fkUsuario) VALUES ('${nome}', '${macAddress}', ${darkstore}, ${usuario})`
-
+  const queryLog = `INSERT INTO Log(descricao, fkUsuario) VALUES ('Máquina ${nome} foi criada por ${sessionStorage.NOME} de cargo ${sessionStorage.CARGO}', ${sessionStorage.IDUSUARIO})`
+  
   consultaBanco(`conexao/${consultaCriacao}`, 'POST')
     .then(() => {
       consultaBanco(`conexao/${consultaCodigo}`, 'GET').then(function (resposta) {
@@ -457,6 +532,9 @@ function adicionarMaquina() {
           icon: "success",
           confirmButtonColor: "#00259C"
         }).then(() => {
+          consultaBanco(`/conexao/${queryLog}`, 'POST').then(() => {
+            console.log("Adicionando Log");
+          })
           enviarMensagemSlack(`Foi adicionado um novo computador com o nome de ${nome} e o código de acesso é ${codigoAcesso}`)
         });
       }).catch(function (resposta) {
@@ -473,8 +551,11 @@ function adicionarMaquina() {
 
 
 const deletarFuncionario = (valor) => {
-  const idUsuario = valor.getAttribute("value")
-  query = `DELETE FROM Usuario WHERE idUsuario = ${idUsuario}`
+  const parametros = valor.getAttribute("value").split("#")
+  const idUsuario = parametros[0];
+  const nomeUsuario = parametros[1]
+  const query = `DELETE FROM Usuario WHERE idUsuario = ${idUsuario}`
+  const  queryLog = `INSERT INTO Log(descricao, fkUsuario) VALUES ('Funcionário ${nomeUsuario} foi deletado por ${sessionStorage.NOME} de cargo ${sessionStorage.CARGO}', ${sessionStorage.IDUSUARIO})`
   Swal.fire({
     title: `Tem certeza que deseja deletar seu funcionário?`,
     width: 500,
@@ -488,7 +569,11 @@ const deletarFuncionario = (valor) => {
   }).then((result) => {
     if (result.isConfirmed) {
       consultaBanco(`/conexao/${query}`, 'DELETE').then(resposta => {
-        console.log(resposta)
+        if(resposta.affectedRows == 1){
+          consultaBanco(`/conexao/${queryLog}`, 'POST').then(() => {
+            console.log("Log adicionado com sucesso!")
+          })
+        }
       })
       Swal.fire(
         {
@@ -514,9 +599,13 @@ const salvarFuncionario = () => {
   let cargoUsuario = cargo_usuario.value;
 
   query = `INSERT INTO Usuario(nome,sobrenome,email,senha,cargo,fkDarkStore, tipo) VALUES ('${nomeUsuario}', '${sobrenomeUsuario}', '${emailUsuario}', '${senhaUsuario}', '${cargoUsuario}', ${sessionStorage.FKDARKSTORE}, 'Funcionário')`
-
-  consultaBanco(`/conexao/${query}`, 'POST').then(() => {
-    console.log("Usuário criado com sucesso")
+  queryLog = `INSERT INTO Log(descricao, fkUsuario) VALUES ('Funcionário ${nomeUsuario} foi criado por ${sessionStorage.NOME} de cargo ${sessionStorage.CARGO}', ${sessionStorage.IDUSUARIO})`
+  consultaBanco(`/conexao/${query}`, 'POST').then((resposta) => {
+    if(resposta.affectedRows == 1){
+      consultaBanco(`/conexao/${queryLog}`, 'POST').then(() => {
+        console.log("Log adicionado com sucesso!")
+      })
+    }
   })
 
 }
@@ -557,6 +646,7 @@ function buscarViolacoes(idDarkStore) {
       }
     }
   }, 1000);
+}
 
   const editarFuncionario = (valor) => {
     let funcionarioById = funcionarios.filter(funcionario => funcionario.idUsuario == valor.getAttribute("value"))
@@ -577,13 +667,16 @@ function buscarViolacoes(idDarkStore) {
     let cargoFuncionario = cargo_funcionario.value
     let idFuncionario = document.querySelector(".editar_funcionario_button").getAttribute("value")
 
-    const query = `UPDATE Usuario set nome='${nomeFuncionario}', sobrenome='${sobrenomeFuncionario}', email='${emailFuncionario}', senha='${senhaFuncionario}', cargo='${cargoFuncionario}' WHERE idUsuario = ${idFuncionario}`;
+  const query = `UPDATE Usuario set nome='${nomeFuncionario}', sobrenome='${sobrenomeFuncionario}', email='${emailFuncionario}', senha='${senhaFuncionario}', cargo='${cargoFuncionario}' WHERE idUsuario = ${idFuncionario}`;
+  const queryLog = `INSERT INTO Log(descricao, fkUsuario) VALUES ('Funcionário ${nomeFuncionario} foi alterado por ${sessionStorage.NOME} de cargo ${sessionStorage.CARGO}', ${sessionStorage.IDUSUARIO})`
+  consultaBanco(`/conexao/${query}`, 'PUT').then(resposta => {
+    if(resposta.affectedRows == 1){
+      consultaBanco(`/conexao/${queryLog}`, 'POST').then(() => {
+        console.log("Log adicionado com sucesso");
+      })
+    }
+  })
 
-    consultaBanco(`/conexao/${query}`, 'PUT').then(resposta => {
-      console.log(resposta)
-    })
-
-  }
 }
 
 window.onload = buscarDarkstore();

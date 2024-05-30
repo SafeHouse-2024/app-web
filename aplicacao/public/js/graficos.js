@@ -176,11 +176,6 @@ cpuChartConfig = {
   },
   xAxis: {
       type: 'datetime',
-      plotBands: [{ // Highlight the two last years
-        from: 2019,
-        to: 2020,
-        color: 'rgba(68, 170, 213, .2)'
-    }],
     title: {
       text: 'Horário da medição'
     }
@@ -193,8 +188,10 @@ cpuChartConfig = {
   series: [{
     colorByPoint: false,
     name: 'CPU',
-    data: [
-  ],
+    data: [{
+      x: (new Date()).getTime(),
+      y: 35
+    }],
     showInLegend: false
   }
 ]
@@ -242,11 +239,6 @@ ramChartConfig = {
   },
   xAxis: {
       type: 'datetime',
-      plotBands: [{ // Highlight the two last years
-        from: 2019,
-        to: 2020,
-        color: 'rgba(68, 170, 213, .2)'
-    }],
     title: {
       text: 'Horário da medição'
     }
@@ -259,7 +251,10 @@ ramChartConfig = {
     series: [{
       colorByPoint: false,
       name: 'RAM',
-      data: [],
+      data: [{
+        x: (new Date()).getTime(),
+        y: 35
+      }],
       showInLegend: false
     }
   ]
@@ -310,11 +305,6 @@ const chart6 = Highcharts.chart("linha_rede", {
   },
   xAxis: {
     type: 'datetime',
-    plotBands: [{ // Highlight the two last years
-      from: 2019,
-      to: 2020,
-        color: 'rgba(68, 170, 213, .2)'
-    }],
     title: {
       text: 'Horário da medição'
     }
@@ -493,7 +483,7 @@ const initLineChart = (chart, data, componente) =>{
 
 const updateLineChart = (chart, componente) => {
   
-  chartData = chart.series[0].userOptions.data
+  chartData = [...chart.series[0].userOptions.data]
   const query = `SELECT rc.valor as 'valor', rc.dataRegistro as 'dataRegistro' FROM Componente c JOIN RegistroComponente rc ON c.idComponente = rc.fkComponente WHERE c.fkComputador = 7 AND c.nome LIKE '${componente}' ORDER BY idRegistro DESC LIMIT 1;`
   let resposta;
   consultaBanco(`/conexao/${query}`, 'GET').then(data => {
@@ -503,7 +493,16 @@ const updateLineChart = (chart, componente) => {
     if(new Date(resposta[0].dataRegistro).getTime() != chart.series[0].xData[chart.series[0].xData.length -1]){
       chartData.shift()
       chartData.push({x: new Date(resposta[0].dataRegistro).getTime(), y: parseFloat(resposta[0].valor)})
-      chart.series[0].setData(chart.series[0].userOptions.data)
+      chart.update({
+        series:[
+          {
+            colorByPoint: false,
+            name: componente == 'Processador' ? "CPU" : "RAM",
+            data: [...chartData],
+            showInLegend: false
+          }
+        ]
+      })
       // chart.series[0].setData(chart7.series[0].userOptions.data)
     }
     updateLineChart(chart, componente, timeout)
@@ -526,11 +525,6 @@ const initRedeChart = (chart, resposta, componente) => {
     }
   }
 
-  console.log(chart)
-  let configuracaoInicial = [
-   
-  ]
-
   chart.update({
     series: [{ 
 
@@ -549,13 +543,15 @@ const initRedeChart = (chart, resposta, componente) => {
     }]
   })
 
-  updateRedeChart()
+  setTimeout(() => {
+    updateRedeChart()
+  }, 2000)
 }
 
 const updateRedeChart = () => {
-    let pingData = chart6.userOptions.series[0].data
-    let downloadData = chart6.userOptions.series[1].data
-    let uploadData = chart6.userOptions.series[2].data
+    let pingData = [...chart6.userOptions.series[2].data]
+    let downloadData = [...chart6.userOptions.series[0].data]
+    let uploadData = [...chart6.userOptions.series[1].data]
     let data;
     const query = `SELECT rc.nome as 'nome', rc.valor as 'valor', rc.dataRegistro as 'dataRegistro' FROM Componente c JOIN RegistroComponente rc ON rc.fkComponente = c.idComponente WHERE fkComputador = 7 AND rc.nome IN ('Ping', 'Download', 'Upload') ORDER BY rc.idRegistro DESC LIMIT 3;`
 
@@ -563,4 +559,53 @@ const updateRedeChart = () => {
       console.log(resposta)
       data = resposta
     })
+
+    timeout = setTimeout(() => {
+      if(new Date(data[0].dataRegistro).getTime() != uploadData[uploadData.length -1].x){
+        console.log("Atualizando o gráfico")
+        for (var i = 0; i < data.length; i++){
+          if(data[i].nome == "Upload"){
+            uploadData.shift()
+            uploadData.push({
+                x: new Date(data[i].dataRegistro).getTime(),
+                y: parseFloat(data[i].valor.split(" ")[1])
+              })
+          }else if(data[i].nome == "Download"){
+            downloadData.shift()
+            downloadData.push({
+              x: new Date(data[i].dataRegistro).getTime(),
+              y: parseFloat(data[i].valor.split(" ")[1])
+            })
+          }else if(data[i].nome == "Ping"){
+            pingData.shift()
+            pingData.push({
+              x: new Date(data[i].dataRegistro).getTime(),
+              y: parseFloat(data[i].valor.split(" ")[1])
+            })
+          }
+        }
+        
+        chart6.update({
+            series: [{
+              colorByPoint: false,
+              name: 'Download',
+              data: downloadData,
+              showInLegend: false
+          },
+          {
+            colorByPoint: false,
+            name: "Upload",
+            data: uploadData,
+            showInLegend: false
+          },
+          {
+            colorByPoint: false,
+            name: "Ping",
+            data: pingData,
+            showInLegend: false
+          }]
+          })
+        }
+        updateRedeChart()
+          }, 2000)
 }
