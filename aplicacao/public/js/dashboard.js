@@ -51,12 +51,14 @@ function trocarTela(tela) {
 let usoSistema;
 const darkstores = []
 const selectDasCidades = document.querySelector('#cidades');
+let computadores = [];
 
 function buscarDarkstore() {
   consulta = `SELECT * FROM DarkStore WHERE fkEmpresa = ${sessionStorage.IDEMPRESA}`
   buscarMaquinas();
   buscarUsoMaquina();
   buscarGraficos();
+  buscarLog();
   consultaBanco(`conexao/${consulta}`, 'GET')
     .then(function (resposta) {
       if (resposta != null) {
@@ -109,7 +111,6 @@ const buscarUsoMaquina = (idComputador = 7) => {
     `
   }, 1000)
 }
-let computadores = [];
 
 function buscarDarkstorePorNome() {
   let idDarkstore = selectDasCidades.value;
@@ -117,6 +118,7 @@ function buscarDarkstorePorNome() {
   nomeDarkstore.value = selectDasCidades.options[selectDasCidades.selectedIndex].text;
   const consultaComputador = `SELECT * FROM Computador WHERE fkDarkstore = ${idDarkstore}`
   let tabelaMaquinas = document.querySelector('#maquinasContent');
+  let computadores = [];
 
   consultaBanco(`conexao/${consultaComputador}`, 'GET').then(function (resposta) {
     console.log(resposta);
@@ -191,7 +193,8 @@ function buscarMaquinas() {
   query = `SELECT pc.*, c.nome as 'nomeComponente', c.idComponente as 'idComponente', ca.nome as 'nomeCaracteristica', ca.valor 'valorCaracteristica' 
   FROM Componente c JOIN Computador pc ON c.fkComputador = pc.idComputador JOIN CaracteristicaComponente ca ON ca.fkComponente = c.idComponente WHERE pc.fkDarkStore = ${sessionStorage.FKDARKSTORE};
   `
-
+  buscarUsuarios();
+  colocarDadosUsuario();
   let idComputador = 0;
   let indiceComputador = -1;
   let idComponente = 0;
@@ -238,31 +241,7 @@ function buscarMaquinas() {
         </div>
         `
       }
-      for (let i = 0; i < computadores.length; i++) {
-        let infoHardware = document.querySelector(`#infoHardware`);
-        infoHardware.innerHTML = '';
-        for (let j = 0; j < computadores[i].componentes.length; j++) {
-          infoHardware.innerHTML += `
-        <div class="hardware-description">
-        <h3>${computadores[i].componentes[j].nome}</h3>
-        <ul>
-        ${computadores[i].componentes[j].caracteristicas.map(caracteristica => {
-            return `
-          <li>
-          <span><b>${caracteristica.nome}:</b></span>
-          <span>${caracteristica.valor}</span>
-          </li>
-          `;
-          }).join('')}
-        </ul>
-        </div>
-        `;
-        }
-      }
-      buscarUsuarios();
-      colocarDadosUsuario();
-      buscarLog();
-    }, 1500)
+    }, 3000)
 }
 
 let funcionarios = [];
@@ -332,7 +311,7 @@ function buscarLog() {
       </tr>
     `;
     }
-  }, 1000);
+  }, 2000);
 
 }
 
@@ -528,7 +507,7 @@ function buscarViolacoes(idDarkStore) {
   var computadoresDessaDarkstore = [];
   setTimeout(() => {
     for (let i = 0; i < computadores.length; i++) {
-      if (computadores[i].fkDarkStore == idDarkStore) {
+      if (computadores[i].darkstore == idDarkStore) {
         computadoresDessaDarkstore.push(computadores[i]);
       }
     }
@@ -537,8 +516,9 @@ function buscarViolacoes(idDarkStore) {
   let conteudoViolacoes = document.querySelector('#violacoesContent');
   conteudoViolacoes.innerHTML = '';
   setTimeout(() => {
+    console.log(violacoes)
     for (let i = 0; i < violacoes.length; i++) {
-      if (computadoresDessaDarkstore.find(computador => computador.nome == violacoes[i].computadorNome)) {
+      if (computadoresDessaDarkstore.find(computador => computador.hostname == violacoes[i].computadorNome)) {
         conteudoViolacoes.innerHTML += `
       <tr>
         <td>${violacoes[i].computadorNome}</td>
@@ -548,6 +528,7 @@ function buscarViolacoes(idDarkStore) {
       }
     }
   }, 1000);
+  
 const editarFuncionario = (valor) => {
   let funcionarioById = funcionarios.filter(funcionario => funcionario.idUsuario == valor.getAttribute("value"))
   nome_funcionario.value = funcionarioById[0].nome
