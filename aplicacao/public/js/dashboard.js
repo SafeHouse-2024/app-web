@@ -280,7 +280,7 @@ function buscarMaquinas() {
     for (let i = 0; i < computadores.length; i++) {
       document.getElementById("maquinas").innerHTML += `
         <div class="maquina-info">
-          <div>${computadores[i].hostname}</div>
+          <div>${computadores[i].nome}</div>
           <div>${computadores[i].macAddress}<div>
         </div>
         `
@@ -507,7 +507,12 @@ function colocarDadosUsuario() {
     sessionStorage.EMAIL = resposta[0].email
     sessionStorage.CARGO = resposta[0].cargo
   })
+
+  document.querySelector('#userName').innerHTML = `${sessionStorage.NOME} ${sessionStorage.SOBRENOME}`;
+  document.querySelector('#userEmail').innerHTML = `${sessionStorage.EMAIL}`;
 }
+
+colocarDadosUsuario();
 
 const logout = () => {
   sessionStorage.clear();

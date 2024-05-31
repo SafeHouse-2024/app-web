@@ -76,6 +76,7 @@ main {
   padding: 0;
   list-style: none;
   color: white;
+  gap: 10px;
 }
 
 .side-item {
