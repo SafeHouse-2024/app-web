@@ -141,30 +141,6 @@
           </div>
         </article>
       </section>
-
-      <div class="popup" id="popup_maquina" style="display: none">
-        <div class="popup-card">
-          <div class="fechar-popup-user" id="fechar-popup-maquina">X</div>
-
-          <h1>ADICIONAR MAQUINA</h1>
-
-          <div class="popup-ipt">
-            <div class="ipt-info-user">
-              <div>
-                <label for="nome">Nome da maquina:</label>
-                <input type="text" name="nome" class="ipt-campo" />
-              </div>
-
-              <div>
-                <label for="sobrenome">MacAdress:</label>
-                <input type="text" name="sobrenome" class="ipt-campo" />
-              </div>
-            </div>
-          </div>
-
-          <button class="bto-criar-user" onclick="adicionarMaquina()">Adicionar maquina</button>
-        </div>
-      </div>
       <section class="telas" style="display: none;" id="telaDarkStores">
         <article class="content_component">
           <div class="estado">
@@ -227,7 +203,7 @@
                   <tr>
                     <th>Total Maquinas</th>
                     <th style="display: flex; align-items: center; justify-content: end;">
-                      <button class="adicionar-maquina" id="button_maquina">
+                      <button data-bs-toggle="modal" data-bs-target="#adicionarMaquina" class="adicionar-maquina" id="button_maquina">
                         Adicionar Máquina
                       </button>
                     </th>
@@ -488,6 +464,31 @@
           src="https://app.pipefy.com/public/form/IpfrKHRZ?embedded=true"
           frameborder="0"
         ></iframe>
+      </div>
+    </div>
+    <div class="modal fade" id="adicionarMaquina" tabindex="-1" aria-labelledby="adicionarMaquina" aria-hidden="true">
+      <div class="modal-dialog" style="height: 40%; margin-top: 15%;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Adicionar Máquina</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" style="width: 100%; padding: 2% 15% 0 15%;">
+            <form>
+              <div class="mb-3">
+                <label for="computador_nome" class="col-form-label">Nome:</label>
+                <input type="text" class="form-control" id="computador_nome">
+              </div>
+              <div class="mb-3">
+                <label for="computador_macAddress" class="col-form-label">MacAddress:</label>
+                <input class="form-control" id="computador_macAddress"></input>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" onclick="adicionarMaquina()">Criar máquina</button>
+          </div>
+        </div>
       </div>
     </div>
     <div class="modal fade" id="salvarDarkStore" tabindex="-1" aria-labelledby="salvarDarkStoreModal" aria-hidden="true">

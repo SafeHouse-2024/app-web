@@ -25,12 +25,6 @@ document.querySelector('#fechar-popup-user').addEventListener('click', () => {
 document.querySelector('#button_user').addEventListener('click', () => {
   document.querySelector('#popup_usuario').style.display = 'flex';
 });
-document.getElementById('fechar-popup-maquina').addEventListener('click', () => {
-  document.getElementById('popup_maquina').style.display = 'none';
-});
-document.querySelector('#button_maquina').addEventListener('click', () => {
-  document.getElementById('popup_maquina').style.display = 'flex';
-});
 
 function consultaBanco(caminho, metodo) {
   return fetch(`${caminho}`, {
@@ -522,9 +516,8 @@ if (sessionStorage.IDUSUARIO == undefined) window.location.href = '/';
 
 function adicionarMaquina() {
   
-  let inputs = document.querySelectorAll('#popup_maquina input');
-  let nome = inputs[0].value;
-  let macAddress = inputs[1].value;
+  let nome = computador_nome.value;
+  let macAddress = computador_macAddress.value;
   let darkstore = selectDasCidades.value;
   let usuario = sessionStorage.IDUSUARIO;
   let codigoAcesso = '';
@@ -545,6 +538,12 @@ function adicionarMaquina() {
             console.log("Adicionando Log");
           })
           enviarMensagemSlack(`Foi adicionado um novo computador com o nome de ${nome} e o código de acesso é ${codigoAcesso}`)
+          let machine = document.getElementById("adicionarMaquina")
+          let button = document.createElement("button")
+          button.setAttribute("data-bs-dismiss", "modal")
+          machine.appendChild(button)
+          button.click()
+          machine.removeChild(button)
         });
       }).catch(function (resposta) {
         console.log(`#ERRO: ${resposta}`);
