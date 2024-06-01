@@ -67,12 +67,11 @@ function trocarTela(tela) {
 }
 
 let usoSistema;
-const darkstores = []
+let darkstores = []
 const selectDasCidades = document.querySelector('#cidades');
 let computadores = [];
 
 function buscarDarkstore() {
-  let darkStore = []
   consulta = `SELECT * FROM DarkStore WHERE fkEmpresa = ${sessionStorage.IDEMPRESA}`
   buscarMaquinas();
   buscarUsoMaquina();
@@ -82,7 +81,7 @@ function buscarDarkstore() {
   selectDasCidades.innerHTML = '';
   consultaBanco(`conexao/${consulta}`, 'GET').then(function (resposta) {
     if (resposta != null && resposta.length > 0) {
-      darkStore = resposta
+      darkstores = resposta
       resposta.forEach(darkstore => {
         selectDasCidades.innerHTML += `<option value="${darkstore.idDarkStore}">${darkstore.nome}</option>`;
       });
@@ -92,16 +91,16 @@ function buscarDarkstore() {
   });
 
   setTimeout(() => {
-    for (let i = 0; i < darkStore.length; i++) {
+    for (let i = 0; i < darkstores.length; i++) {
       document.querySelector('#empresasContent').innerHTML += `
           <tr>
-            <td>${darkStore[i].nome}</td>
+            <td>${darkstores[i].nome}</td>
             <td>${computadores.length}</td>
             <td>Normal</td>
-            <td><span style="color: red; cursor: pointer; margin-top: 7%;" onclick="deletarDarkStore(this)" value="${darkStore[i].idDarkStore}#${darkStore[i].nome}" class="material-symbols-outlined">
+            <td><span style="color: red; cursor: pointer; margin-top: 7%;" onclick="deletarDarkStore(this)" value="${darkstores[i].idDarkStore}#${darkstores[i].nome}" class="material-symbols-outlined">
             delete
           </span></td>
-            <td><span style="color: green; cursor: pointer; margin-top: 7%;" onclick="editarDarkStore(this)" value="${darkStore[i].idDarkStore}#${darkStore[i].nome}" class="material-symbols-outlined">
+            <td><span style="color: green; cursor: pointer; margin-top: 7%;" onclick="editarDarkStore(this)" value="${darkstores[i].idDarkStore}" class="material-symbols-outlined" data-bs-toggle="modal" data-bs-target="#editarDarkStore">
             edit
           </span></td>
           </tr>`;
@@ -658,6 +657,82 @@ function buscarViolacoes(idDarkStore) {
   }, 1000);
 }
 
+const salvarDarkStore = () => {
+  let nomeDarkStore = nome_salvar_darkstore.value
+  let ruaDarkStore = rua_salvar_darkstore.value
+  let complemento = complemento_salvar_darkstore.value
+  let numero = numero_salvar_darkstore.value
+  let cep = cep_salvar_darkstore.value
+  let uf = uf_salvar_darkstore.value
+  const query = `INSERT INTO DarkStore (nome, rua, numero, complemento, cep, uf, fkEmpresa) VALUES ('${nomeDarkStore}', '${ruaDarkStore}', ${numero}, '${complemento}', '${cep}', '${uf}', ${sessionStorage.IDEMPRESA});`
+  queryLog = `INSERT INTO Log(descricao, fkUsuario) VALUES ('DarkStore ${nomeDarkStore} foi criada por ${sessionStorage.NOME} de cargo ${sessionStorage.CARGO}', ${sessionStorage.IDUSUARIO})`
+
+  consultaBanco(`/conexao/${query}`, 'POST').then(resposta => {
+    if(resposta.affectedRows == 1){
+      Swal.fire({
+        title: "Dark Store criada com sucesso",
+        icon: "success",
+        confirmButtonColor: "#00259C"
+      }).then(() => {
+        let dk = document.getElementById("salvarDarkStore")
+        let button = document.createElement('button')
+        button.setAttribute('data-bs-dismiss', 'modal')
+        dk.appendChild(button)
+        button.click()
+        dk.removeChild(button)
+      })
+      consultaBanco(`/conexao/${queryLog}`, 'POST').then(() => {
+        console.log("Log adicionado com sucesso!")
+      })
+    }
+  })
+}
+
+const editarDarkStore = (valor) => {
+  let darkstoreById = darkstores.filter(darkstore => darkstore.idDarkStore == valor.getAttribute("value"))
+  nome_edit_darkstore.value = darkstoreById[0].nome
+  rua_darkstore.value = darkstoreById[0].rua
+  uf_darkstore.value = darkstoreById[0].uf
+  numero_darkstore.value = darkstoreById[0].numero
+  complemento_darkstore.value = darkstoreById[0].complemento
+  cep_darkstore.value = darkstoreById[0].cep
+  document.querySelector(".editar_darkstore_button").setAttribute("value", `${valor.getAttribute("value")}`)
+}
+
+const salvarAlteracoesDarkStore = () => {
+
+  let nomeDarkStore = nome_edit_darkstore.value
+  let ruaDarkStore = rua_darkstore.value
+  let ufDarkStore = uf_darkstore.value
+  let numeroDarkStore = numero_darkstore.value
+  let complementoDarkStore = complemento_darkstore.value
+  let cepDarkStore = cep_darkstore.value
+  let idDarkStore = document.querySelector(".editar_darkstore_button").getAttribute("value")
+
+const query = `UPDATE DarkStore set nome='${nomeDarkStore}', rua='${ruaDarkStore}', uf='${ufDarkStore}', numero='${numeroDarkStore}', complemento='${complementoDarkStore}',cep='${cepDarkStore}' WHERE idDarkStore = ${idDarkStore}`;
+const queryLog = `INSERT INTO Log(descricao, fkUsuario) VALUES ('DarkStore ${nomeDarkStore} foi alterada por ${sessionStorage.NOME} de cargo ${sessionStorage.CARGO}', ${sessionStorage.IDUSUARIO})`
+consultaBanco(`/conexao/${query}`, 'PUT').then(resposta => {
+  if(resposta.affectedRows == 1){
+    Swal.fire({
+      title: "Dark Store editada com sucesso",
+      icon: "success",
+      confirmButtonColor: "#00259C"
+    }).then(() => {
+      let dk = document.getElementById("editarDarkStore")
+      let button = document.createElement('button')
+      button.setAttribute('data-bs-dismiss', 'modal')
+      dk.appendChild(button)
+      button.click()
+      dk.removeChild(button)
+    })
+    consultaBanco(`/conexao/${queryLog}`, 'POST').then(() => {
+      console.log("Log adicionado com sucesso");
+    })
+  }
+})
+
+}
+
   const editarFuncionario = (valor) => {
     let funcionarioById = funcionarios.filter(funcionario => funcionario.idUsuario == valor.getAttribute("value"))
     nome_funcionario.value = funcionarioById[0].nome
@@ -737,12 +812,6 @@ function buscarTaxaDeUso(idDarkstore) {
 
   console.log("Maquinas no limite: ", maquinasProximoLimiteCpu, maquinasProximoLimiteRam, maquinasProximoLimiteDisco);
 
-}
-
-const editarDarkStore = (valor) => {
-    const parametros = valor.getAttribute("value").split("#")
-    const idDarkStore = parametros[0]
-    const nomeDarkStore = parametros[1]
 }
 
 const deletarDarkStore = (valor) => {
