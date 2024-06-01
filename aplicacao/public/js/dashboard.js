@@ -72,23 +72,17 @@ const selectDasCidades = document.querySelector('#cidades');
 let computadores = [];
 
 function buscarDarkstore() {
+  let darkStore = []
   consulta = `SELECT * FROM DarkStore WHERE fkEmpresa = ${sessionStorage.IDEMPRESA}`
   buscarMaquinas();
   buscarUsoMaquina();
   buscarGraficos();
   buscarLog();
-  consultaBanco(`conexao/${consulta}`, 'GET')
-    .then(function (resposta) {
-      if (resposta != null) {
-        darkstores.push(resposta[0]);
-      }
-    }).catch(function (resposta) {
-      console.log(`#ERRO: ${resposta}`);
-    });
 
   selectDasCidades.innerHTML = '';
   consultaBanco(`conexao/${consulta}`, 'GET').then(function (resposta) {
     if (resposta != null && resposta.length > 0) {
+      darkStore = resposta
       resposta.forEach(darkstore => {
         selectDasCidades.innerHTML += `<option value="${darkstore.idDarkStore}">${darkstore.nome}</option>`;
       });
@@ -98,12 +92,18 @@ function buscarDarkstore() {
   });
 
   setTimeout(() => {
-    for (let i = 0; i < darkstores.length; i++) {
+    for (let i = 0; i < darkStore.length; i++) {
       document.querySelector('#empresasContent').innerHTML += `
           <tr>
-            <td>${darkstores[i].uf}</td>
+            <td>${darkStore[i].nome}</td>
             <td>${computadores.length}</td>
             <td>Normal</td>
+            <td><span style="color: red; cursor: pointer; margin-top: 7%;" onclick="deletarDarkStore(this)" value="${darkStore[i].idDarkStore}#${darkStore[i].nome}" class="material-symbols-outlined">
+            delete
+          </span></td>
+            <td><span style="color: green; cursor: pointer; margin-top: 7%;" onclick="editarDarkStore(this)" value="${darkStore[i].idDarkStore}#${darkStore[i].nome}" class="material-symbols-outlined">
+            edit
+          </span></td>
           </tr>`;
     }
     buscarDarkstorePorNome();
@@ -737,4 +737,50 @@ function buscarTaxaDeUso(idDarkstore) {
 
   console.log("Maquinas no limite: ", maquinasProximoLimiteCpu, maquinasProximoLimiteRam, maquinasProximoLimiteDisco);
 
+}
+
+const editarDarkStore = (valor) => {
+    const parametros = valor.getAttribute("value").split("#")
+    const idDarkStore = parametros[0]
+    const nomeDarkStore = parametros[1]
+}
+
+const deletarDarkStore = (valor) => {
+  const parametros = valor.getAttribute("value").split("#")
+  const idDarkStore = parametros[0]
+  const nomeDarkStore = parametros[1]
+
+  const query = `DELETE FROM DarkStore WHERE idDarkStore = ${idDarkStore}`
+  const  queryLog = `INSERT INTO Log(descricao, fkUsuario) VALUES ('DarkStore ${nomeDarkStore} foi deletada por ${sessionStorage.NOME} de cargo ${sessionStorage.CARGO}', ${sessionStorage.IDUSUARIO})`
+  Swal.fire({
+    title: `Tem certeza que deseja deletar a darkstore ${nomeDarkStore}?`,
+    width: 500,
+    padding: "3em",
+    color: "#00259C",
+    showDenyButton: true,
+    confirmButtonText: "Deletar",
+    confirmButtonColor: "#00259C",
+    denyButtonText: `Cancelar`,
+    focusConfirm: false
+  }).then((result) => {
+    if (result.isConfirmed) {
+      consultaBanco(`/conexao/${query}`, 'DELETE').then(resposta => {
+        if(resposta.affectedRows == 1){
+          consultaBanco(`/conexao/${queryLog}`, 'POST').then(() => {
+            console.log("Log adicionado com sucesso!")
+          })
+        }
+      })
+      Swal.fire(
+        {
+          title: "Darkstore deletada com sucesso",
+          icon: "success",
+          confirmButtonColor: "#00259C"
+        }).then(() => {
+
+        }
+        )
+    }
+  }
+  );
 }
