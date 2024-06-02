@@ -379,7 +379,7 @@
               <div class="header">
                 <h2>Funcionários</h2>
                 <div id="button_user">
-                  <span>Adicionar</span>
+                  <span data-bs-toggle="modal" data-bs-target="#salvarFuncionario">Adicionar</span>
                 </div>
               </div>
               <table class="usuarios-geral">
@@ -399,45 +399,6 @@
           </div>
           
         </article>
-        
-        <div class="popup" id="popup_usuario" style="display: none">
-          <div class="popup-card">
-            <div class="fechar-popup-user" id="fechar-popup-user">X</div>
-
-            <h1>ADICIONAR FUNCIONÁRIO</h1>
-
-            <div class="popup-ipt">
-              <div class="ipt-info-user">
-                <div>
-                  <label for="nome_usuario">Nome:</label>
-                  <input type="text" name="nome" class="ipt-campo" id="nome_usuario"/>
-                </div>
-
-                <div>
-                  <label for="sobrenome_usuario">Sobrenome:</label>
-                  <input type="text" name="sobrenome" class="ipt-campo" id="sobrenome_usuario"/>
-                </div>
-              </div>
-
-              <div class="ipt-info">
-                <label for="email_usuario"> E-mail:</label>
-                <input type="text" name="email" class="ipt-campo" id="email_usuario"/>
-              </div>
-
-              <div class="ipt-info">
-                <label for="senha_usuario"> Senha:</label>
-                <input type="password" name="senha" class="ipt-campo" id="senha_usuario"/>
-              </div>
-
-              <div class="ipt-info">
-                <label for="cargo">Cargo:</label>
-                <input type="text" name="cargo" class="ipt-campo" id="cargo_usuario"/>
-              </div>
-            </div>
-
-            <button class="bto-criar-user" onclick="salvarFuncionario()">Criar Funcionário</button>
-          </div>
-        </div>
       </section>
     </main>
 
@@ -465,6 +426,51 @@
           frameborder="0"
         ></iframe>
       </div>
+    </div>
+    <div class="modal fade" id="salvarFuncionario" tabindex="-1" aria-labelledby="salvarFuncionario" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <div class="d-flex justify-content-center" style="width: 100%; margin-left: 2%;">
+                <h5 class="modal-title" id="exampleModalLabel">Criar Funcionário</h5>
+              </div>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div style="width: 100%; padding: 3% 6%;">
+                <div class="editar_funcionario_nome">
+                  <label for="nome_usuario">Nome:</label>
+                  <input type="text" id="nome_usuario"/>
+                  <label for="sobrenome_usuario">Sobrenome:</label>
+                  <input type="text" id="sobrenome_usuario"/>
+                </div>
+                <div class="editar_funcionario">
+                  <div>
+                    <label for="email_usuario">Email:</label>
+                    <input type="text" id="email_usuario"/>
+                  </div>
+                  <div>
+                    <label for="senha_usuario">Senha:</label>
+                    <input type="password" id="senha_usuario"/>
+                  </div>
+                </div>
+                <div class="editar_funcionario">
+                  <div>
+                    <label for="confirmar_senha_usuario">Confirme a senha:</label>
+                    <input type="password" id="confirmar_senha_usuario"/>
+                  </div>
+                  <div>
+                    <label for="cargo_usuario">Cargo:</label>
+                    <input type="text" id="cargo_usuario"/>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="salva_funcionario_button" onclick="salvarFuncionario()">Criar</button>
+            </div>
+          </div>
+        </div>
     </div>
     <div class="modal fade" id="adicionarMaquina" tabindex="-1" aria-labelledby="adicionarMaquina" aria-hidden="true">
       <div class="modal-dialog" style="height: 40%; margin-top: 15%;">

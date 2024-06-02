@@ -15,7 +15,7 @@ CREATE TABLE TokenVerificacao(
 	idTokenVerificacao INT AUTO_INCREMENT,
     valor VARCHAR(36) NOT NULL DEFAULT(UUID()),
 	fkEmpresa INT,
-    CONSTRAINT fkTokenEmpresa FOREIGN KEY (fkEmpresa) REFERENCES Empresa(idEmpresa),
+    CONSTRAINT fkTokenEmpresa FOREIGN KEY (fkEmpresa) REFERENCES Empresa(idEmpresa) ON DELETE CASCADE,
     PRIMARY KEY(idTokenVerificacao, fkEmpresa)
 );
 
@@ -28,7 +28,7 @@ CREATE TABLE DarkStore(
     cep CHAR(8) NOT NULL,
     uf CHAR(2) NOT NULL,
     fkEmpresa INT,
-    CONSTRAINT fkEmpresa FOREIGN KEY (fkEmpresa) REFERENCES Empresa(idEmpresa),
+    CONSTRAINT fkEmpresa FOREIGN KEY (fkEmpresa) REFERENCES Empresa(idEmpresa) ON DELETE CASCADE,
 	PRIMARY KEY(idDarkStore, fkEmpresa)
 );
 
@@ -44,7 +44,7 @@ CREATE TABLE Usuario(
     fkDarkStore INT,
     CONSTRAINT chTipo CHECK (tipo IN ('Funcionario', 'Maquina')),
 	CONSTRAINT fkSupervisor FOREIGN KEY (fkSupervisor) REFERENCES Usuario(idUsuario),
-    CONSTRAINT fkDarkStore FOREIGN KEY (fkDarkStore) REFERENCES DarkStore(idDarkStore),
+    CONSTRAINT fkDarkStore FOREIGN KEY (fkDarkStore) REFERENCES DarkStore(idDarkStore) ON DELETE CASCADE,
 	PRIMARY KEY(idUsuario,fkDarkStore)
 );
 
@@ -58,7 +58,7 @@ CREATE TABLE Computador(
     fkUsuario INT,
     fkToken INT,
     CONSTRAINT fkUsuario FOREIGN KEY (fkUsuario) REFERENCES Usuario(idUsuario),
-    CONSTRAINT fkDarkStoreComputador FOREIGN KEY (fkDarkStore) REFERENCES DarkStore(idDarkStore),
+    CONSTRAINT fkDarkStoreComputador FOREIGN KEY (fkDarkStore) REFERENCES DarkStore(idDarkStore) ON DELETE CASCADE,
     CONSTRAINT fkTokenComputador FOREIGN KEY (fkToken) REFERENCES TokenVerificacao(idTokenVerificacao),
     CONSTRAINT chkAtivo CHECK (ativo IN ('Ativo', 'Inativo')),
     PRIMARY KEY(idComputador, fkDarkStore, fkUsuario)
@@ -68,7 +68,7 @@ CREATE TABLE Componente(
 	idComponente INT AUTO_INCREMENT,
     nome VARCHAR(45) NOT NULL,
     fkComputador INT,
-    CONSTRAINT fkComponente FOREIGN KEY (fkComputador) REFERENCES Computador(idComputador),
+    CONSTRAINT fkComponente FOREIGN KEY (fkComputador) REFERENCES Computador(idComputador) ON DELETE CASCADE,
     PRIMARY KEY(idComponente, fkComputador)
 );
 
@@ -77,7 +77,7 @@ CREATE TABLE CaracteristicaComponente(
     nome VARCHAR(45) NOT NULL,
     valor VARCHAR(225) NOT NULL,
     fkComponente INT,
-    CONSTRAINT fkComponenteCaracteristica FOREIGN KEY (fkComponente) REFERENCES Componente(idComponente),
+    CONSTRAINT fkComponenteCaracteristica FOREIGN KEY (fkComponente) REFERENCES Componente(idComponente) ON DELETE CASCADE,
 	PRIMARY KEY(idCaracteristicaComponente, fkComponente)
 );
 
@@ -87,7 +87,7 @@ CREATE TABLE RegistroComponente(
     valor VARCHAR(70) NOT NULL,
     dataRegistro DATETIME DEFAULT CURRENT_TIMESTAMP,
     fkComponente INT,
-    CONSTRAINT fkRegistroComponente FOREIGN KEY (fkComponente) REFERENCES Componente(idComponente),
+    CONSTRAINT fkRegistroComponente FOREIGN KEY (fkComponente) REFERENCES Componente(idComponente) ON DELETE CASCADE,
     PRIMARY KEY(idRegistro, fkComponente)
 );
 
@@ -98,7 +98,7 @@ CREATE TABLE Log(
     fkUsuario INT,
     fkComputador INT,
     CONSTRAINT fkUsuarioLog FOREIGN KEY (fkUsuario) REFERENCES Usuario(idUsuario),
-    CONSTRAINT fkComputadorLog FOREIGN KEY (fkComputador) REFERENCES Computador(idComputador)
+    CONSTRAINT fkComputadorLog FOREIGN KEY (fkComputador) REFERENCES Computador(idComputador) ON DELETE CASCADE
 );
 
 CREATE TABLE SistemaOperacional(
@@ -112,7 +112,7 @@ CREATE TABLE UsoSistema(
     tempoAtividadeMinutos INT,
     fkSistemaOperacional INT,
     fkComputador INT,
-    CONSTRAINT fkComputadorUso FOREIGN KEY (fkComputador) REFERENCES Computador(idComputador),
+    CONSTRAINT fkComputadorUso FOREIGN KEY (fkComputador) REFERENCES Computador(idComputador) ON DELETE CASCADE,
     CONSTRAINT fkSistemaUso FOREIGN KEY (fkSistemaOperacional) REFERENCES SistemaOperacional(idSistemaOperacional),
 	PRIMARY KEY(idUsoSistema, fkSistemaOperacional, fkComputador)
 );
@@ -127,14 +127,14 @@ CREATE TABLE NomeProcesso(
     idNome INT AUTO_INCREMENT,
     nome VARCHAR(45),
     fkProcesso INT,
-    CONSTRAINT fkNomeProcesso FOREIGN KEY (fkProcesso) REFERENCES Processo(idProcesso),
+    CONSTRAINT fkNomeProcesso FOREIGN KEY (fkProcesso) REFERENCES Processo(idProcesso) ON DELETE CASCADE,
     PRIMARY KEY (idNome, fkProcesso)
 );
 
 CREATE TABLE ProcessoSistema(
 	fkNomeProcesso INT,
     fkSistemaOperacional INT,
-    CONSTRAINT fkNomeProcessoSistema FOREIGN KEY (fkNomeProcesso) REFERENCES NomeProcesso(idNome),
+    CONSTRAINT fkNomeProcessoSistema FOREIGN KEY (fkNomeProcesso) REFERENCES NomeProcesso(idNome) ON DELETE CASCADE,
     CONSTRAINT fkSistemaProcesso FOREIGN KEY (fkSistemaOperacional) REFERENCES SistemaOperacional(idSistemaOperacional),
     PRIMARY KEY(fkNomeProcesso, fkSistemaOperacional)
 );
@@ -143,7 +143,7 @@ CREATE TABLE SistemaComputador(
 	fkSistemaOperacional INT,
     fkComputador INT,
     CONSTRAINT fkSistemaOperacionalComputador FOREIGN KEY (fkSistemaOperacional) REFERENCES SistemaOperacional(idSistemaOperacional),
-    CONSTRAINT fkComputadorSistema FOREIGN KEY (fkComputador) REFERENCES Computador(idComputador),
+    CONSTRAINT fkComputadorSistema FOREIGN KEY (fkComputador) REFERENCES Computador(idComputador) ON DELETE CASCADE,
     PRIMARY KEY (fkSistemaOperacional, fkComputador)
 );
 

@@ -19,12 +19,7 @@ $(document).ready(function() {
 document.getElementById('open_btn').addEventListener('click', function () {
   document.getElementById('sidebar').classList.toggle('open-sidebar');
 });
-document.querySelector('#fechar-popup-user').addEventListener('click', () => {
-  document.querySelector('#popup_usuario').style.display = 'none';
-});
-document.querySelector('#button_user').addEventListener('click', () => {
-  document.querySelector('#popup_usuario').style.display = 'flex';
-});
+
 
 function consultaBanco(caminho, metodo) {
   return fetch(`${caminho}`, {
@@ -278,6 +273,8 @@ function buscarMaquinas() {
         </div>
         `
     }
+
+    computadores.forEach(computador => buscarAlertas(computador.idComputador))
   }, 3000)
 }
 
@@ -610,6 +607,18 @@ const salvarFuncionario = () => {
   queryLog = `INSERT INTO Log(descricao, fkUsuario) VALUES ('Funcionário ${nomeUsuario} foi criado por ${sessionStorage.NOME} de cargo ${sessionStorage.CARGO}', ${sessionStorage.IDUSUARIO})`
   consultaBanco(`/conexao/${query}`, 'POST').then((resposta) => {
     if(resposta.affectedRows == 1){
+      Swal.fire({
+        title: "Funcionário criado com sucesso",
+        icon: "success",
+        confirmButtonColor: "#00259C"
+      }).then(() => {
+        let dk = document.getElementById("salvarFuncionario")
+        let button = document.createElement('button')
+        button.setAttribute('data-bs-dismiss', 'modal')
+        dk.appendChild(button)
+        button.click()
+        dk.removeChild(button)
+      })
       consultaBanco(`/conexao/${queryLog}`, 'POST').then(() => {
         console.log("Log adicionado com sucesso!")
       })
@@ -744,17 +753,29 @@ consultaBanco(`/conexao/${query}`, 'PUT').then(resposta => {
 
   const salvarAlteracoesUsuario = () => {
 
-    let nomeFuncionario = nome_funcionario.value
-    let sobrenomeFuncionario = sobrenome_funcionario.value
-    let emailFuncionario = email_funcionario.value
-    let senhaFuncionario = senha_funcionario.value
-    let cargoFuncionario = cargo_funcionario.value
-    let idFuncionario = document.querySelector(".editar_funcionario_button").getAttribute("value")
+  let nomeFuncionario = nome_funcionario.value
+  let sobrenomeFuncionario = sobrenome_funcionario.value
+  let emailFuncionario = email_funcionario.value
+  let senhaFuncionario = senha_funcionario.value
+  let cargoFuncionario = cargo_funcionario.value
+  let idFuncionario = document.querySelector(".editar_funcionario_button").getAttribute("value")
 
   const query = `UPDATE Usuario set nome='${nomeFuncionario}', sobrenome='${sobrenomeFuncionario}', email='${emailFuncionario}', senha='${senhaFuncionario}', cargo='${cargoFuncionario}' WHERE idUsuario = ${idFuncionario}`;
   const queryLog = `INSERT INTO Log(descricao, fkUsuario) VALUES ('Funcionário ${nomeFuncionario} foi alterado por ${sessionStorage.NOME} de cargo ${sessionStorage.CARGO}', ${sessionStorage.IDUSUARIO})`
   consultaBanco(`/conexao/${query}`, 'PUT').then(resposta => {
     if(resposta.affectedRows == 1){
+      Swal.fire({
+        title: "Funcionário editado com sucesso",
+        icon: "success",
+        confirmButtonColor: "#00259C"
+      }).then(() => {
+        let dk = document.getElementById("editarFuncionario")
+        let button = document.createElement('button')
+        button.setAttribute('data-bs-dismiss', 'modal')
+        dk.appendChild(button)
+        button.click()
+        dk.removeChild(button)
+      })    
       consultaBanco(`/conexao/${queryLog}`, 'POST').then(() => {
         console.log("Log adicionado com sucesso");
       })
@@ -851,4 +872,67 @@ const deletarDarkStore = (valor) => {
     }
   }
   );
+}
+
+// alertas
+const buscarAlertas = (idComputador) => {
+
+  const queryAlertasCPU = `SELECT DISTINCT(pc.idComputador), count(rc.valor) as 'totalRegistros' FROM RegistroComponente rc JOIN Componente c ON c.idComponente = rc.fkComponente JOIN Computador pc ON c.fkComputador = pc.IdComputador JOIN DarkStore d ON d.idDarkStore = pc.fkDarkStore WHERE dataRegistro >= NOW() - INTERVAL 5000000 MINUTE AND c.nome LIKE 'Processador' AND rc.valor > 80 AND pc.idComputador = ${idComputador} GROUP BY pc.idComputador;`
+  const queryAlertasRAM = `SELECT DISTINCT(pc.idComputador), count(rc.valor) as 'totalRegistros' FROM RegistroComponente rc JOIN Componente c ON c.idComponente = rc.fkComponente JOIN Computador pc ON c.fkComputador = pc.IdComputador JOIN DarkStore d ON d.idDarkStore = pc.fkDarkStore WHERE dataRegistro >= NOW() - INTERVAL 5 MINUTE AND c.nome LIKE 'Memória' AND rc.valor > SUBSTRING_INDEX((SELECT ca.valor FROM CaracteristicaComponente ca JOIN Componente c ON c.idComponente = ca.fkComponente JOIN Computador pc ON pc.idComputador = c.fkComputador WHERE pc.idComputador = ${idComputador} AND c.nome LIKE 'Memória' AND ca.nome LIKE 'Memória Total'), " ", 1) * 0.8 GROUP BY pc.idComputador;`;
+  const queryAlertasDisco = `SELECT DISTINCT(pc.idComputador) as 'totalRegistros' FROM Componente c JOIN Computador pc ON c.fkComputador = pc.IdComputador JOIN CaracteristicaComponente ca ON ca.fkComponente = c.idComponente WHERE c.nome LIKE 'Disco' AND (SUBSTRING_INDEX((SELECT ca.valor FROM CaracteristicaComponente ca JOIN Componente c ON c.idComponente = ca.fkComponente JOIN Computador pc ON pc.idComputador = c.fkComputador WHERE pc.idComputador = ${idComputador} AND c.nome LIKE 'Disco' AND ca.nome LIKE 'Memória Disponível'), " ", 1)) < (SUBSTRING_INDEX((SELECT ca.valor FROM CaracteristicaComponente ca JOIN Componente c ON c.idComponente = ca.fkComponente JOIN Computador pc ON pc.idComputador = c.fkComputador WHERE pc.idComputador = ${idComputador} AND c.nome LIKE 'Disco' AND ca.nome LIKE 'Memória Total'), " ", 1) * 0.2)`
+
+
+  darkstores.forEach(darkstore => {
+
+    consultaBanco(`/conexao/${queryAlertasCPU}`, 'GET').then(resposta => {
+        resposta.forEach(res => {
+          if(res.totalRegistros > 25){
+            darkstore.statusCPU = `Crítico`
+            computadores.filter(computador => computador.fkDarkStore == darkstore.idDarkStore).forEach(pc => pc.statusCPU = `Crítico`)
+          }else if(res.totalRegistros > 15){
+            darkstore.statusCPU = `Alerta`
+            computadores.filter(computador => computador.fkDarkStore == darkstore.idDarkStore).forEach(pc => pc.statusCPU = `Alerta`)
+          }else{
+            darkstore.statusCPU = `Normal`
+            computadores.filter(computador => computador.fkDarkStore == darkstore.idDarkStore).forEach(pc => pc.statusCPU = `Normal`)
+          }
+        })
+    })
+
+    consultaBanco(`/conexao/${queryAlertasRAM}`, 'GET').then(resposta => {
+      resposta.forEach(res => {
+        if(res.totalRegistros > 25){
+          darkstore.statusRAM = `Crítico`
+          computadores.filter(computador => computador.fkDarkStore == darkstore.idDarkStore).forEach(pc => pc.statusRAM = `Crítico`)
+        }else if(res.totalRegistros > 15){
+          darkstore.statusRAM = `Alerta`
+          computadores.filter(computador => computador.fkDarkStore == darkstore.idDarkStore).forEach(pc => pc.statusRAM = `Alerta`)
+        }else{
+          darkstore.statusRAM = `Normal`
+          computadores.filter(computador => computador.fkDarkStore == darkstore.idDarkStore).forEach(pc => pc.statusRAM = `Normal`)
+        }
+      })
+    })
+
+    consultaBanco(`/conexao/${queryAlertasDisco}`, 'GET').then(resposta => {
+      resposta.forEach(res => {
+        if(res.totalRegistros > 25){
+          darkstore.statusDisco = `Crítico`
+          computadores.filter(computador => computador.fkDarkStore == darkstore.idDarkStore).forEach(pc => pc.statusDisco = `Crítico`)
+        }else if(res.totalRegistros > 15){
+          darkstore.statusDisco = `Alerta`
+          computadores.filter(computador => computador.fkDarkStore == darkstore.idDarkStore).forEach(pc => pc.statusDisco = `Alerta`)
+        }else{
+          darkstore.statusDisco = `Normal`
+          computadores.filter(computador => computador.fkDarkStore == darkstore.idDarkStore).forEach(pc => pc.statusDisco = `Normal`)
+        }
+      })
+    })
+
+  })
+
+  setTimeout(() => {
+    buscarAlertas(idComputador)
+  }, 60000)
+
 }
