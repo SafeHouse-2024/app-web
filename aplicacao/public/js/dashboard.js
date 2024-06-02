@@ -60,19 +60,32 @@ let darkstores = []
 const selectDasCidades = document.querySelector('#cidades');
 let computadores = [];
 
+const definirStatusDarkStore = (darkstore) => {
+  if(darkstore.statusCPU == `Crítico` || darkstore.statusRAM == `Crítico` || darkstore.statusDisco == `Crítico`){
+    return `Crítico`
+  }else if(darkstore.statusCPU == `Alerta` || darkstore.statusRAM == `Alerta` || darkstore.statusDisco == `Alerta`){
+    return `Alerta`
+  }else{
+    return `Normal`
+  }
+}
+
 function buscarDarkstore() {
   consulta = `SELECT * FROM DarkStore WHERE fkEmpresa = ${sessionStorage.IDEMPRESA}`
-  buscarMaquinas();
+  // buscarGraficos();
+  
+  
   buscarUsoMaquina();
-  buscarGraficos();
   buscarLog();
 
   selectDasCidades.innerHTML = '';
   consultaBanco(`conexao/${consulta}`, 'GET').then(function (resposta) {
     if (resposta != null && resposta.length > 0) {
       darkstores = resposta
+      
       resposta.forEach(darkstore => {
         selectDasCidades.innerHTML += `<option value="${darkstore.idDarkStore}">${darkstore.nome}</option>`;
+        buscarMaquinas(darkstore.idDarkStore);
       });
     }
   }).catch(function (resposta) {
@@ -81,11 +94,12 @@ function buscarDarkstore() {
 
   setTimeout(() => {
     for (let i = 0; i < darkstores.length; i++) {
+      buscarGraficosIniciais(darkstores)
       document.querySelector('#empresasContent').innerHTML += `
           <tr>
             <td>${darkstores[i].nome}</td>
-            <td>${computadores.length}</td>
-            <td>Normal</td>
+            <td>${computadores.filter(computador => computador.darkstore == darkstores[i].idDarkStore).length}</td>
+            <td>${definirStatusDarkStore(darkstores[i])}</td>
             <td><span style="color: red; cursor: pointer; margin-top: 7%;" onclick="deletarDarkStore(this)" value="${darkstores[i].idDarkStore}#${darkstores[i].nome}" class="material-symbols-outlined">
             delete
           </span></td>
@@ -94,8 +108,10 @@ function buscarDarkstore() {
           </span></td>
           </tr>`;
     }
-    buscarDarkstorePorNome();
-  }, 1000);
+    buscarUsuarios();
+    colocarDadosUsuario();
+    buscarDarkstorePorNomeInicio();
+  }, 2000);
 
 
 }
@@ -143,11 +159,55 @@ const buscarUsoMaquina = (idComputador = 7) => {
   }, 1000)
 }
 
-function buscarDarkstorePorNome() {
+function totalMaquinas(componente, idDarkStore){
+
+  let total = 0
+  if(componente == 'Processador'){
+    computadores.filter(pc => pc.darkstore == idDarkStore).forEach(computador => {
+      if(computador.statusCPU == `Crítico` || computador.statusCPU == `Alerta`){
+        total++
+      }
+    })
+  }
+  if(componente == 'Memória'){
+    computadores.filter(pc => pc.darkstore == idDarkStore).forEach(computador => {
+      if(computador.statusRAM == `Crítico` || computador.statusRAM == `Alerta`){
+        total++
+      }
+    })
+  }
+  if(componente == 'Disco'){
+    computadores.filter(pc => pc.darkstore == idDarkStore).forEach(computador => {
+      if(computador.statusDisco == `Crítico` || computador.statusDisco == `Alerta`){
+        total++
+      }
+    })
+  }
+  if(componente == `Rede`){
+    computadores.filter(pc => pc.darkstore == idDarkStore).forEach(computador => {
+      if(computador.statusRede == `Crítico` || computador.statusRede == `Alerta`){
+        total++
+      }
+    })
+  }
+  return total
+}
+
+function definirStatusMaquina(computador){
+
+  if(computador.statusCPU == `Crítico` || computador.statusRAM == `Crítico` || computador.statusDisco == `Crítico` || computador.statusRede == `Crítico`){
+    return "Crítico"
+  }else if(computador.statusCPU == `Alerta`|| computador.statusRAM == `Alerta` || computador.statusDisco == `Alerta` || computador.statusRede == `Alerta`){
+    return `Alerta`
+  }else{
+    return `Normal`
+  }
+}
+
+function buscarDarkstorePorNomeInicio() {
   let idDarkstore = selectDasCidades.value;
   let nomeDarkstore = document.querySelector('#nome_darkstore');
   nomeDarkstore.value = selectDasCidades.options[selectDasCidades.selectedIndex].text;
-  const consultaComputador = `SELECT * FROM Computador WHERE fkDarkstore = ${idDarkstore}`
   let tabelaMaquinas = document.querySelector('#maquinasContent');
 
   consultaBanco(`conexao/${consultaComputador}`, 'GET').then(function (resposta) {
@@ -159,21 +219,58 @@ function buscarDarkstorePorNome() {
   });
 
   setTimeout(() => {
+    let computadoresDarkStore = [...computadores.filter(computador => computador.darkstore == idDarkstore)]
+    let totalMaquinasCPU = totalMaquinas("Processador", idDarkstore);
+    document.getElementById("maquinas_limite_cpu").innerHTML = totalMaquinasCPU
+    let totalMaquinasRAM = totalMaquinas("Memória", idDarkstore);
+    document.getElementById("maquinas_limite_ram").innerHTML = totalMaquinasRAM
+    let totalMaquinasDisco = totalMaquinas("Disco", idDarkstore);
+    document.getElementById("maquinas_limite_disco").innerHTML = totalMaquinasDisco
+    let totalMaquinasRede;
     tabelaMaquinas.innerHTML = '';
-    for (let i = 0; i < computadores.length; i++) {
+    for (let i = 0; i < computadoresDarkStore.length; i++) {
       tabelaMaquinas.innerHTML += `
       <tr>
-        <td>${computadores[i].nome}</td>
-        <td>${computadores[i].macAddress}</td>
-        <td>${computadores[i].fkUsuario}</td>
-        <td>${computadores[i].ativo == 1 ? 'Ativo' : 'Inativo'}</td>
+        <td>${computadoresDarkStore[i].hostname}</td>
+        <td>${computadoresDarkStore[i].macAddress}</td>
+        <td>${computadoresDarkStore[i].fkUsuario}</td>
+        <td>${definirStatusMaquina(computadoresDarkStore[i])}</td>
       </tr>`;
 
     }
-  }, 1000);
+    buscarViolacoes(idDarkstore);
+  }, 5000);
+
+  
+}
+
+function buscarDarkstorePorNome() {
+  let idDarkstore = selectDasCidades.value;
+  let nomeDarkstore = document.querySelector('#nome_darkstore');
+  nomeDarkstore.value = selectDasCidades.options[selectDasCidades.selectedIndex].text;
+  let tabelaMaquinas = document.querySelector('#maquinasContent');
+
+
+  let computadoresDarkStore = [...computadores.filter(computador => computador.darkstore == idDarkstore)]
+  let totalMaquinasCPU = totalMaquinas("Processador", idDarkstore);
+  document.getElementById("maquinas_limite_cpu").innerHTML = totalMaquinasCPU
+  let totalMaquinasRAM = totalMaquinas("Memória", idDarkstore);
+  document.getElementById("maquinas_limite_ram").innerHTML = totalMaquinasRAM
+  let totalMaquinasDisco = totalMaquinas("Disco", idDarkstore);
+  document.getElementById("maquinas_limite_disco").innerHTML = totalMaquinasDisco
+  let totalMaquinasRede;
+  tabelaMaquinas.innerHTML = '';
+  for (let i = 0; i < computadoresDarkStore.length; i++) {
+    tabelaMaquinas.innerHTML += `
+    <tr>
+      <td>${computadoresDarkStore[i].hostname}</td>
+      <td>${computadoresDarkStore[i].macAddress}</td>
+      <td>${computadoresDarkStore[i].fkUsuario}</td>
+      <td>${definirStatusMaquina(computadoresDarkStore[i])}</td>
+    </tr>`;
+  }
 
   buscarViolacoes(idDarkstore);
-  buscarTaxaDeUso(idDarkstore);
 }
 
 selectDasCidades.addEventListener('change', function () {
@@ -219,18 +316,18 @@ function editarNomeDarkstore() {
   });
 }
 
-function buscarMaquinas() {
+function buscarMaquinas(idDarkStore) {
   query = `SELECT pc.*, c.nome as 'nomeComponente', c.idComponente as 'idComponente', ca.nome as 'nomeCaracteristica', ca.valor 'valorCaracteristica' 
-  FROM Componente c JOIN Computador pc ON c.fkComputador = pc.idComputador JOIN CaracteristicaComponente ca ON ca.fkComponente = c.idComponente WHERE pc.fkDarkStore = ${sessionStorage.FKDARKSTORE};
+  FROM Computador pc LEFT JOIN Componente c ON c.fkComputador = pc.idComputador LEFT JOIN CaracteristicaComponente ca ON ca.fkComponente = c.idComponente WHERE pc.fkDarkStore = ${idDarkStore};
   `
-  buscarUsuarios();
-  colocarDadosUsuario();
+  
   let idComputador = 0;
   let indiceComputador = -1;
   let idComponente = 0;
 
   consultaBanco(`conexao/${query}`, 'GET')
     .then(function (resposta) {
+      console.log(resposta)
       if (resposta) {
         for (let i = 0; i < resposta.length; i++) {
           if (resposta[i].idComputador != idComputador) {
@@ -247,11 +344,17 @@ function buscarMaquinas() {
             indiceComputador++;
           }
           if (resposta[i].idComponente != idComponente) {
+            if(resposta[i].idComponente == null){
+              continue
+            }
             computadores[indiceComputador].componentes.push({
               nome: resposta[i].nomeComponente,
               caracteristicas: []
             });
             idComponente = resposta[i].idComponente;
+          }
+          if(resposta[i].nomeCaracteristica == null || resposta[i].valorCaracteristica == null){
+            continue
           }
           computadores[indiceComputador].componentes[computadores[indiceComputador].componentes.length - 1].caracteristicas.push({
             nome: resposta[i].nomeCaracteristica,
@@ -267,14 +370,14 @@ function buscarMaquinas() {
     for (let i = 0; i < computadores.length; i++) {
       document.getElementById("maquinas").innerHTML += `
         <div class="maquina-info">
-          <div>${computadores[i].nome}</div>
+          <div>${computadores[i].hostname}</div>
           <div>${computadores[i].macAddress}<div>
         </div>
         `
     }
 
     computadores.forEach(computador => buscarAlertas(computador.idComputador))
-  }, 3000)
+  }, 1000)
 }
 
 let funcionarios = [];
@@ -350,7 +453,7 @@ function buscarLog() {
       </tr>
     `;
     }
-  }, 2000);
+  }, 1300);
 
 }
 
@@ -628,20 +731,13 @@ function buscarViolacoes(idDarkStore) {
     console.log(`#ERRO: ${resposta}`);
   });
 
-  var computadoresDessaDarkstore = [];
-  setTimeout(() => {
-    for (let i = 0; i < computadores.length; i++) {
-      if (computadores[i].fkDarkStore == idDarkStore) {
-        computadoresDessaDarkstore.push(computadores[i]);
-      }
-    }
-  }, 1000);
+  let computadoresDessaDarkstore = [...computadores.filter(computador => computador.darkstore == idDarkStore)];
 
   let conteudoViolacoes = document.querySelector('#violacoesContent');
   conteudoViolacoes.innerHTML = '';
   setTimeout(() => {
     for (let i = 0; i < violacoes.length; i++) {
-      if (computadoresDessaDarkstore.find(computador => computador.nome == violacoes[i].computadorNome)) {
+      if (computadoresDessaDarkstore.find(computador => computador.hostname == violacoes[i].computadorNome)) {
         conteudoViolacoes.innerHTML += `
       <tr>
         <td>${violacoes[i].computadorNome}</td>
@@ -650,7 +746,7 @@ function buscarViolacoes(idDarkStore) {
     `;
       }
     }
-  }, 1000);
+  }, 600);
 }
 
 const salvarDarkStore = () => {
@@ -865,60 +961,78 @@ const buscarAlertas = (idComputador) => {
 
   const queryAlertasCPU = `SELECT DISTINCT(pc.idComputador), count(rc.valor) as 'totalRegistros' FROM RegistroComponente rc JOIN Componente c ON c.idComponente = rc.fkComponente JOIN Computador pc ON c.fkComputador = pc.IdComputador JOIN DarkStore d ON d.idDarkStore = pc.fkDarkStore WHERE dataRegistro >= NOW() - INTERVAL 5000000 MINUTE AND c.nome LIKE 'Processador' AND rc.valor > 80 AND pc.idComputador = ${idComputador} GROUP BY pc.idComputador;`
   const queryAlertasRAM = `SELECT DISTINCT(pc.idComputador), count(rc.valor) as 'totalRegistros' FROM RegistroComponente rc JOIN Componente c ON c.idComponente = rc.fkComponente JOIN Computador pc ON c.fkComputador = pc.IdComputador JOIN DarkStore d ON d.idDarkStore = pc.fkDarkStore WHERE dataRegistro >= NOW() - INTERVAL 5 MINUTE AND c.nome LIKE 'Memória' AND rc.valor > SUBSTRING_INDEX((SELECT ca.valor FROM CaracteristicaComponente ca JOIN Componente c ON c.idComponente = ca.fkComponente JOIN Computador pc ON pc.idComputador = c.fkComputador WHERE pc.idComputador = ${idComputador} AND c.nome LIKE 'Memória' AND ca.nome LIKE 'Memória Total'), " ", 1) * 0.8 GROUP BY pc.idComputador;`;
-  const queryAlertasDisco = `SELECT DISTINCT(pc.idComputador) as 'totalRegistros' FROM Componente c JOIN Computador pc ON c.fkComputador = pc.IdComputador JOIN CaracteristicaComponente ca ON ca.fkComponente = c.idComponente WHERE c.nome LIKE 'Disco' AND (SUBSTRING_INDEX((SELECT ca.valor FROM CaracteristicaComponente ca JOIN Componente c ON c.idComponente = ca.fkComponente JOIN Computador pc ON pc.idComputador = c.fkComputador WHERE pc.idComputador = ${idComputador} AND c.nome LIKE 'Disco' AND ca.nome LIKE 'Memória Disponível'), " ", 1)) < (SUBSTRING_INDEX((SELECT ca.valor FROM CaracteristicaComponente ca JOIN Componente c ON c.idComponente = ca.fkComponente JOIN Computador pc ON pc.idComputador = c.fkComputador WHERE pc.idComputador = ${idComputador} AND c.nome LIKE 'Disco' AND ca.nome LIKE 'Memória Total'), " ", 1) * 0.2)`
+  const queryAlertasDisco = `SELECT DISTINCT(pc.idComputador) FROM Componente c JOIN Computador pc ON c.fkComputador = pc.IdComputador JOIN CaracteristicaComponente ca ON ca.fkComponente = c.idComponente WHERE c.nome LIKE 'Disco' AND (SUBSTRING_INDEX((SELECT ca.valor FROM CaracteristicaComponente ca JOIN Componente c ON c.idComponente = ca.fkComponente JOIN Computador pc ON pc.idComputador = c.fkComputador WHERE pc.idComputador = ${idComputador} AND c.nome LIKE 'Disco' AND ca.nome LIKE 'Memória Disponível'), " ", 1)) < (SUBSTRING_INDEX((SELECT ca.valor FROM CaracteristicaComponente ca JOIN Componente c ON c.idComponente = ca.fkComponente JOIN Computador pc ON pc.idComputador = c.fkComputador WHERE pc.idComputador = ${idComputador} AND c.nome LIKE 'Disco' AND ca.nome LIKE 'Memória Total'), " ", 1) * 0.2)`
 
 
   darkstores.forEach(darkstore => {
-
+    let totalMaquinasCPU = 0;
+    let totalMaquinasRAM = 0;
+    let totalMaquinasDisco = 0;
     consultaBanco(`/conexao/${queryAlertasCPU}`, 'GET').then(resposta => {
-        resposta.forEach(res => {
-          if(res.totalRegistros > 25){
-            darkstore.statusCPU = `Crítico`
-            computadores.filter(computador => computador.fkDarkStore == darkstore.idDarkStore).forEach(pc => pc.statusCPU = `Crítico`)
-          }else if(res.totalRegistros > 15){
-            darkstore.statusCPU = `Alerta`
-            computadores.filter(computador => computador.fkDarkStore == darkstore.idDarkStore).forEach(pc => pc.statusCPU = `Alerta`)
-          }else{
-            darkstore.statusCPU = `Normal`
-            computadores.filter(computador => computador.fkDarkStore == darkstore.idDarkStore).forEach(pc => pc.statusCPU = `Normal`)
+          resposta.forEach(res => {
+            if(res.totalRegistros > 25){
+              totalMaquinasCPU++
+              computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusCPU = `Crítico`)
+            }else if(res.totalRegistros > 15){
+              totalMaquinasCPU++
+              computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusCPU = `Alerta`)
+            }else{
+              computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusCPU = `Normal`)
+            }
+          })
+          if(totalMaquinasCPU > 0){
+            if(totalMaquinasCPU >= computadores.filter(computador => computador.darkstore == darkstore.idDarkStore).length * 0.7){
+              darkstore.statusCPU = `Crítico`
+            }else if(totalMaquinasCPU >= computadores.filter(computador => computador.darkstore == darkstore.idDarkStore).length * 0.5){
+              darkstore.statusCPU = `Alerta`
+            }else{
+              darkstore.statusCPU = `Normal`
+            }
           }
-        })
     })
 
     consultaBanco(`/conexao/${queryAlertasRAM}`, 'GET').then(resposta => {
-      resposta.forEach(res => {
-        if(res.totalRegistros > 25){
-          darkstore.statusRAM = `Crítico`
-          computadores.filter(computador => computador.fkDarkStore == darkstore.idDarkStore).forEach(pc => pc.statusRAM = `Crítico`)
-        }else if(res.totalRegistros > 15){
-          darkstore.statusRAM = `Alerta`
-          computadores.filter(computador => computador.fkDarkStore == darkstore.idDarkStore).forEach(pc => pc.statusRAM = `Alerta`)
-        }else{
-          darkstore.statusRAM = `Normal`
-          computadores.filter(computador => computador.fkDarkStore == darkstore.idDarkStore).forEach(pc => pc.statusRAM = `Normal`)
+        resposta.forEach(res => {
+          if(res.totalRegistros > 25){
+            totalMaquinasRAM++
+            computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusRAM = `Crítico`)
+          }else if(res.totalRegistros > 15){
+            totalMaquinasRAM++
+            computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusRAM = `Alerta`)
+          }else{
+            computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusRAM = `Normal`)
+          }
+        })
+        if(totalMaquinasRAM > 0){
+          if(totalMaquinasRAM >= computadores.filter(computador => computador.darkstore == darkstore.idDarkStore).length * 0.7){
+            darkstore.statusRAM = `Crítico`
+          }else if(totalMaquinasRAM >= computadores.filter(computador => computador.darkstore == darkstore.idDarkStore).length * 0.5){
+            darkstore.statusRAM = `Alerta`
+          }else{
+            darkstore.statusRAM = `Normal`
+          }
         }
-      })
     })
 
     consultaBanco(`/conexao/${queryAlertasDisco}`, 'GET').then(resposta => {
-      resposta.forEach(res => {
-        if(res.totalRegistros > 25){
-          darkstore.statusDisco = `Crítico`
-          computadores.filter(computador => computador.fkDarkStore == darkstore.idDarkStore).forEach(pc => pc.statusDisco = `Crítico`)
-        }else if(res.totalRegistros > 15){
-          darkstore.statusDisco = `Alerta`
-          computadores.filter(computador => computador.fkDarkStore == darkstore.idDarkStore).forEach(pc => pc.statusDisco = `Alerta`)
-        }else{
-          darkstore.statusDisco = `Normal`
-          computadores.filter(computador => computador.fkDarkStore == darkstore.idDarkStore).forEach(pc => pc.statusDisco = `Normal`)
-        }
-      })
+      if(resposta.length == 0){
+        darkstore.statusDisco = `Normal`
+          computadores.filter(computador => computador.darkstore == darkstore.idDarkStore).forEach(pc => pc.statusDisco = `Normal`)
+      }else{
+        resposta.forEach(res => {
+          computadores.filter(computador => {
+            computador.idComputador == res.idComputador
+          }).forEach(pc => pc.statusDisco == `Crítico`)
+        })
+      }
     })
 
   })
 
   setTimeout(() => {
     buscarAlertas(idComputador)
-  }, 60000)
+  }, 3000)
 
 }
+
+window.onload = buscarDarkstore();

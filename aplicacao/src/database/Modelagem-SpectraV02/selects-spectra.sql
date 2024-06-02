@@ -135,4 +135,22 @@ SELECT log.*, usuario.nome as usuarioNome FROM Log
 
 SELECT DISTINCT(pc.idComputador), count(rc.valor) FROM RegistroComponente rc JOIN Componente c ON c.idComponente = rc.fkComponente JOIN Computador pc ON c.fkComputador = pc.IdComputador JOIN DarkStore d ON d.idDarkStore = pc.fkDarkStore WHERE dataRegistro >= NOW() - INTERVAL 30000 MINUTE AND c.nome LIKE 'Processador' AND rc.valor > 80 AND pc.idComputador = 7 GROUP BY pc.idComputador;
 SELECT DISTINCT(pc.idComputador), count(rc.valor) FROM RegistroComponente rc JOIN Componente c ON c.idComponente = rc.fkComponente JOIN Computador pc ON c.fkComputador = pc.IdComputador JOIN DarkStore d ON d.idDarkStore = pc.fkDarkStore WHERE dataRegistro >= NOW() - INTERVAL 30000 MINUTE AND c.nome LIKE 'Memória' AND rc.valor > SUBSTRING_INDEX((SELECT ca.valor FROM CaracteristicaComponente ca JOIN Componente c ON c.idComponente = ca.fkComponente JOIN Computador pc ON pc.idComputador = c.fkComputador WHERE pc.idComputador = 7 AND c.nome LIKE 'Memória' AND ca.nome LIKE 'Memória Total'), " ", 1) * 0.8 GROUP BY pc.idComputador;
-SELECT DISTINCT(pc.idComputador) FROM Componente c JOIN Computador pc ON c.fkComputador = pc.IdComputador JOIN CaracteristicaComponente ca ON ca.fkComponente = c.idComponente WHERE c.nome LIKE 'Disco' AND (SUBSTRING_INDEX((SELECT ca.valor FROM CaracteristicaComponente ca JOIN Componente c ON c.idComponente = ca.fkComponente JOIN Computador pc ON pc.idComputador = c.fkComputador WHERE pc.idComputador = 7 AND c.nome LIKE 'Disco' AND ca.nome LIKE 'Memória Disponível'), " ", 1)) < (SUBSTRING_INDEX((SELECT ca.valor FROM CaracteristicaComponente ca JOIN Componente c ON c.idComponente = ca.fkComponente JOIN Computador pc ON pc.idComputador = c.fkComputador WHERE pc.idComputador = 7 AND c.nome LIKE 'Disco' AND ca.nome LIKE 'Memória Total'), " ", 1) * 0.2)
+SELECT DISTINCT(pc.idComputador) FROM Componente c JOIN Computador pc ON c.fkComputador = pc.IdComputador JOIN CaracteristicaComponente ca ON ca.fkComponente = c.idComponente WHERE c.nome LIKE 'Disco' AND (SUBSTRING_INDEX((SELECT ca.valor FROM CaracteristicaComponente ca JOIN Componente c ON c.idComponente = ca.fkComponente JOIN Computador pc ON pc.idComputador = c.fkComputador WHERE pc.idComputador = 7 AND c.nome LIKE 'Disco' AND ca.nome LIKE 'Memória Disponível'), " ", 1)) < (SUBSTRING_INDEX((SELECT ca.valor FROM CaracteristicaComponente ca JOIN Componente c ON c.idComponente = ca.fkComponente JOIN Computador pc ON pc.idComputador = c.fkComputador WHERE pc.idComputador = 7 AND c.nome LIKE 'Disco' AND ca.nome LIKE 'Memória Total'), " ", 1) * 0.2);
+
+INSERT INTO RegistroComponente(nome ,valor, fkComponente) VALUES ('Taxa de Uso','15', 2);
+SELECT DISTINCT(pc.idComputador), d.nome,  count(rc.valor) FROM RegistroComponente rc JOIN Componente c ON c.idComponente = rc.fkComponente JOIN Computador pc ON c.fkComputador = pc.IdComputador JOIN DarkStore d ON d.idDarkStore = pc.fkDarkStore WHERE dataRegistro >= NOW ;
+SELECT DISTINCT(pc.idComputador), count(rc.valor) as 'count'
+                        FROM RegistroComponente rc 
+                        JOIN Componente c ON c.idComponente = rc.fkComponente 
+                        JOIN Computador pc ON c.fkComputador = pc.IdComputador 
+                        JOIN DarkStore d ON d.idDarkStore = pc.fkDarkStore 
+                        WHERE dataRegistro >= NOW() - INTERVAL 30000 MINUTE 
+                        AND c.nome LIKE 'Processador'
+                        AND rc.valor > 80
+                        AND pc.idComputador = 1
+                        GROUP BY pc.idComputador;
+SELECT * FROM Componente;
+SELECT * FROM CaracteristicaComponente;
+SELECT * FROM Computador;
+INSERT INTO Componente(nome, fkComputador) VALUES ('Processador', 28);
+INSERT INTO RegistroComponente(nome, valor, fkComponente) VALUES ('Taxa de Uso', '90', 25);

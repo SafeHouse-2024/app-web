@@ -432,6 +432,92 @@ const buscarGraficos = (tipoGrafico = "cpu") => {
   
 }
 
+const top5DarkStores = (componente, darkstores) => {
+
+  let contador = 0;
+  let top5 = []
+  for(var i = 0; i < darkstores.length; i++){
+    if(top5.length == 5) break;
+
+    if(componente == `Processador`){
+      console.log(darkstores[i])
+      console.log(darkstores[i].statusCPU == `Crítico`);
+      if(darkstores[i].statusCPU == `Crítico` || darkstores[i].statusCPU == `Alerta`){
+        top5.push(darkstores[i])
+        console.log(darkstores[i])
+        contador++
+      }
+    if(componente == `Memória`){
+      if(darkstores[i].statusRAM == `Crítico` || darkstores[i].statusRAM == `Alerta`){
+        top5.push(darkstores[i])
+        contador++
+      }
+    }
+    if(componente == `Disco`){
+      if(darkstores[i].statusDisco == `Crítico` || darkstores[i].statusDisco == `Alerta`){
+        top5.push(darkstores[i])
+        contador++
+      }
+    }
+    }
+  }
+  console.log(top5)
+  return top5
+}
+
+const buscarGraficosIniciais = (darkstores) => {
+    console.log(darkstores)
+    let top5DarkStoreProcessador = top5DarkStores('Processador', darkstores)
+    let categoriesProcessador = top5DarkStoreProcessador.map(darkstore => darkstore.nome)
+    let usoProcessador = top5DarkStoreProcessador.map(darkstore => totalMaquinas('Processador', darkstore.idDarkStore))
+    let top5DarkStoreRAM = top5DarkStores('Memória',darkstores)
+    let categoriesRAM = top5DarkStoreRAM.map(darkstore => darkstore.nome)
+    let usoRAM = top5DarkStoreRAM.map(darkstore => totalMaquinas("Memória", darkstore.idDarkStore))
+    let top5DarkStoreDisco = top5DarkStores("Disco", darkstores)
+    console.log(top5DarkStoreProcessador, top5DarkStoreRAM)
+    let categoriesDisco = top5DarkStoreDisco.map(darkstore => darkstore.nome)
+    let usoDisco = top5DarkStoreDisco.map(darkstore => totalMaquinas("Disco", darkstore.idDarkStore))
+    console.log(categoriesProcessador)
+    console.log(usoProcessador)
+    chart.update({
+      xAxis: {
+        categories: categoriesProcessador,
+        title: {
+          text: "Darkstore",
+        },
+        labels: {
+          style: {
+            fontSize: "12px"
+          }
+        }
+    },
+    series: [{
+      data: usoProcessador,
+      color: '#13004C',
+      showInLegend: false
+    }]
+    })
+
+    chart2.update({
+      xAxis: {
+        categories: categoriesRAM,
+        title: {
+          text: "Darkstore",
+        },
+        labels: {
+          style: {
+            fontSize: "12px"
+          }
+        }
+    },
+    series: [{
+      data: usoRAM,
+      color: '#13004C',
+      showInLegend: false
+    }]
+    })
+
+}
 
 const initDonutChart = (data) =>{
   // Falta colocar em percentual
@@ -580,4 +666,8 @@ const updateRedeChart = () => {
         }
         updateRedeChart()
           }, 2000)
+}
+
+const initBarChart = (chart, resposta, componente) => {
+
 }
