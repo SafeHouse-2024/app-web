@@ -151,7 +151,6 @@ function buscarDarkstorePorNome() {
   let tabelaMaquinas = document.querySelector('#maquinasContent');
 
   consultaBanco(`conexao/${consultaComputador}`, 'GET').then(function (resposta) {
-    console.log(resposta);
     if (resposta != null) {
       computadores = resposta;
     }
@@ -284,7 +283,6 @@ function buscarUsuarios() {
   consultaBanco(`conexao/${consulta}`, 'GET').then(function (resposta) {
     if (resposta != null) {
       funcionarios = resposta;
-      console.log("Funcionários ", resposta);
     }
   }).catch(function (resposta) {
     console.log(`#ERRO: ${resposta}`);
@@ -317,7 +315,6 @@ function buscarLog() {
   d ON u.fkDarkStore = d.idDarkStore WHERE d.idDarkStore = ${sessionStorage.FKDARKSTORE} ORDER BY idLog DESC;`
   consultaBanco(`conexao/${query}`, 'GET').then(function (resposta) {
     resposta.forEach(res => {
-      console.log(res)
       let tipo;
       if(res.descricao.includes("pendrive") || res.descricao.includes("processo")){
         tipo = "segurança"
@@ -332,7 +329,6 @@ function buscarLog() {
   }).catch(function (resposta) {
     console.log(`#ERRO: ${resposta}`);
   });
-  console.log(logs)
   let conteudoLogs = document.querySelector('#body-log');
   conteudoLogs.innerHTML = '';
   setTimeout(() => {
@@ -359,11 +355,9 @@ function buscarLog() {
 }
 
 const filtrarLog = (tipo, dataInicio = dataInicioHistorico, dataFinal = dataFinalHistorico) =>{
-  console.log(tipo)
   let conteudoLogs = document.querySelector('#body-log');
   conteudoLogs.innerHTML = '';
   dataInicio != undefined ? dataInicio = dataInicio : dataInicio = new Date(logs[logs.length - 1].log.dataLog);
-  console.log(dataInicio)
     if(tipo == ""){
       filtrarLogData(logs, dataInicio, dataFinal).forEach((infos) => {
       data = infos.log.dataLog.split('T');
@@ -386,7 +380,6 @@ const filtrarLog = (tipo, dataInicio = dataInicioHistorico, dataFinal = dataFina
   }
 
   filtrarLogData(logs, dataInicio, dataFinal).filter(log => log.tipo == tipo).forEach((infos) => {
-    console.log(infos)
     data = infos.log.dataLog.split('T');
     data = data[0].split('-');
     data = `${data[2]}/${data[1]}/${data[0]}`;
@@ -407,7 +400,6 @@ const filtrarLog = (tipo, dataInicio = dataInicioHistorico, dataFinal = dataFina
 }
 
 filtrarLogData = (logs, inicio, fim) => {
-  console.log(logs)
   return logs.filter(log => new Date(log.log.dataLog) >= new Date(inicio) && new Date(log.log.dataLog) <= new Date(fim))
 }
 
@@ -449,7 +441,6 @@ function editarUsuario() {
       input.setAttribute('readonly', 'true');
     });
     podeEditar = true;
-    console.log(inputs[0].value, inputs[1].value, inputs[2].value, inputs[3].value);
   }
 
   if (podeEditar) {
@@ -532,7 +523,6 @@ function adicionarMaquina() {
           confirmButtonColor: "#00259C"
         }).then(() => {
           consultaBanco(`/conexao/${queryLog}`, 'POST').then(() => {
-            console.log("Adicionando Log");
           })
           enviarMensagemSlack(`Foi adicionado um novo computador com o nome de ${nome} e o código de acesso é ${codigoAcesso}`)
           let machine = document.getElementById("adicionarMaquina")
@@ -633,7 +623,6 @@ function buscarViolacoes(idDarkStore) {
   JOIN Computador ON Log.fkComputador = Computador.idComputador
   JOIN DarkStore ON Computador.fkDarkStore = DarkStore.idDarkStore`
   consultaBanco(`conexao/${queryViolacoes}`, 'GET').then(function (resposta) {
-    console.log(resposta);
     violacoes = resposta;
   }).catch(function (resposta) {
     console.log(`#ERRO: ${resposta}`);
@@ -651,7 +640,6 @@ function buscarViolacoes(idDarkStore) {
   let conteudoViolacoes = document.querySelector('#violacoesContent');
   conteudoViolacoes.innerHTML = '';
   setTimeout(() => {
-    console.log(violacoes)
     for (let i = 0; i < violacoes.length; i++) {
       if (computadoresDessaDarkstore.find(computador => computador.nome == violacoes[i].computadorNome)) {
         conteudoViolacoes.innerHTML += `
@@ -795,7 +783,6 @@ function buscarTaxaDeUso(idDarkstore) {
   resposta = [];
 
   consultaBanco(`conexao/${query}`, 'GET').then(function (res) {
-    console.log(resposta);
     resposta = res;
   }
   ).catch(function (resposta) {
@@ -830,7 +817,6 @@ function buscarTaxaDeUso(idDarkstore) {
   conteudoUsoRam.innerHTML = `${maquinasProximoLimiteRam}`;
   conteudoUsoDisco.innerHTML = `${maquinasProximoLimiteDisco}`;
 
-  console.log("Maquinas no limite: ", maquinasProximoLimiteCpu, maquinasProximoLimiteRam, maquinasProximoLimiteDisco);
 
 }
 
