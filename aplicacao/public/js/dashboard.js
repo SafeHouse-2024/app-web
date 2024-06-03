@@ -983,6 +983,7 @@ const buscarAlertas = (idComputador) => {
 
     consultaBanco(`/conexao/${queryAlertasRAM}`, 'GET').then(resposta => {
         resposta.forEach(res => {
+          console.log(res.totalRegistros)
           if(res.totalRegistros > 25){
             totalMaquinasRAM++
             computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusRAM = `Crítico`)

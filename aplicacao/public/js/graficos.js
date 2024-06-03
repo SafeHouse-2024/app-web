@@ -434,33 +434,20 @@ const buscarGraficos = (tipoGrafico = "cpu") => {
 
 const top5DarkStores = (componente, darkstores) => {
 
-  let contador = 0;
   let top5 = []
   for(var i = 0; i < darkstores.length; i++){
     if(top5.length == 5) break;
 
     if(componente == `Processador`){
-      console.log(darkstores[i])
-      console.log(darkstores[i].statusCPU == `Crítico`);
-      if(darkstores[i].statusCPU == `Crítico` || darkstores[i].statusCPU == `Alerta`){
         top5.push(darkstores[i])
-        console.log(darkstores[i])
-        contador++
-      }
+    }
     if(componente == `Memória`){
-      if(darkstores[i].statusRAM == `Crítico` || darkstores[i].statusRAM == `Alerta`){
         top5.push(darkstores[i])
-        contador++
       }
-    }
     if(componente == `Disco`){
-      if(darkstores[i].statusDisco == `Crítico` || darkstores[i].statusDisco == `Alerta`){
-        top5.push(darkstores[i])
-        contador++
+        top5.push(darkstores[i])    
       }
     }
-    }
-  }
   console.log(top5)
   return top5
 }
@@ -477,8 +464,9 @@ const buscarGraficosIniciais = (darkstores) => {
     console.log(top5DarkStoreProcessador, top5DarkStoreRAM)
     let categoriesDisco = top5DarkStoreDisco.map(darkstore => darkstore.nome)
     let usoDisco = top5DarkStoreDisco.map(darkstore => totalMaquinas("Disco", darkstore.idDarkStore))
-    console.log(categoriesProcessador)
-    console.log(usoProcessador)
+    console.log(categoriesRAM)
+    console.log(top5DarkStoreProcessador)
+    console.log(top5DarkStoreRAM)
     chart.update({
       xAxis: {
         categories: categoriesProcessador,
