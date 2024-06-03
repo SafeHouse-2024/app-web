@@ -210,14 +210,6 @@ function buscarDarkstorePorNomeInicio() {
   nomeDarkstore.value = selectDasCidades.options[selectDasCidades.selectedIndex].text;
   let tabelaMaquinas = document.querySelector('#maquinasContent');
 
-  consultaBanco(`conexao/${consultaComputador}`, 'GET').then(function (resposta) {
-    if (resposta != null) {
-      computadores = resposta;
-    }
-  }).catch(function (resposta) {
-    console.log(`#ERRO: ${resposta}`);
-  });
-
   setTimeout(() => {
     let computadoresDarkStore = [...computadores.filter(computador => computador.darkstore == idDarkstore)]
     let totalMaquinasCPU = totalMaquinas("Processador", idDarkstore);
@@ -867,8 +859,6 @@ consultaBanco(`/conexao/${query}`, 'PUT').then(resposta => {
   })
 
 }
-
-window.onload = buscarDarkstore();
 
 function buscarTaxaDeUso(idDarkstore) {
   query = `SELECT Computador.nome as computadorNome, Componente.nome as componenteNome, RegistroComponente.valor as uso FROM Computador
