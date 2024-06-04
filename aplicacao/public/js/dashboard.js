@@ -1036,3 +1036,7 @@ const buscarAlertas = (idComputador) => {
 }
 
 window.onload = buscarDarkstore();
+
+function mostrarNotificacoes(){
+  document.querySelector("#notificacoes").classList.toggle("show")
+}

@@ -723,6 +723,11 @@ h2 > span {
     /* flex-direction: column; */
     justify-content: space-between;
     align-items: start;
+
+    & div{
+      width: 48%;
+      height: 100%;
+    }
   }
 }
 
@@ -1423,4 +1428,10 @@ label {
   background-color: #13004C;
   color: white;
   margin-right: 7%;
+}
+
+.dropdown-menu{
+  width: 600px;
+  height: 200px;
+  overflow-y: scroll;
 }

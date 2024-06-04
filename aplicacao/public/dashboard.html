@@ -69,7 +69,27 @@
               <span class="item-description"> Configurações </span>
             </a>
           </li>
+
+          <li id="menuNotificacao" class="side-item" onclick="mostrarNotificacoes()">
+            <a>
+              <i class="fa-regular fa-bell"></i>
+              <span class="item-description"> Notificações </span>
+            </a>
+          </li>
+          
         </ul>
+        <div class="dropdown-menu" id="notificacoes">
+          <!-- Dropdown menu links -->
+          <div class="alert alert-success" role="alert">
+            This is a success alert—check it out!
+          </div>
+          <div class="alert alert-danger" role="alert">
+            This is a danger alert—check it out!
+          </div>
+          <div class="alert alert-warning" role="alert">
+            This is a warning alert—check it out!
+          </div>
+        </div>
 
         <button id="open_btn">
           <i id="open_btn_icon" class="fa-solid fa-chevron-right"></i>
@@ -203,32 +223,36 @@
                 </button>
             </div>
             <div class="tabelas-darkstore">
-              <table class="table">
-                <thead>
-                  <th>Total Maquinas</th>
-                  <tr>
-                    <th>Nome da Máquina</th>
-                    <th>MacAdress</th>
-                    <th>Tempo de Uso</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody id="maquinasContent">
-                  <!-- Esta sendo montado no JavaScipt -->
-                </tbody>
-              </table>
-              <table class="table">
-                <thead>
-                  <th>Violações de Segurança</th>
-                  <tr>
-                    <th>Nome</th>
-                    <th>Descrição</th>
-                  </tr>
-                </thead>
-                <tbody id="violacoesContent">
-                  <!-- Esta sendo montado no JavaScipt -->
-                </tbody>
-              </table>
+              <div class="table-responsive-sm">
+                <table class="table">
+                  <thead>
+                    <th>Total Maquinas</th>
+                    <tr>
+                      <th>Nome da Máquina</th>
+                      <th>MacAdress</th>
+                      <th>Tempo de Uso</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="maquinasContent">
+                    <!-- Esta sendo montado no JavaScipt -->
+                  </tbody>
+                </table>
+              </div>
+              <div class="table-responsive-sm">
+                <table class="table">
+                  <thead>
+                    <th>Violações de Segurança</th>
+                    <tr>
+                      <th>Nome</th>
+                      <th>Descrição</th>
+                    </tr>
+                  </thead>
+                  <tbody id="violacoesContent">
+                    <!-- Esta sendo montado no JavaScipt -->
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
           
@@ -314,9 +338,9 @@
             </div>
           </div>
 
-          <div class="body-log">
-            <table>
-              <thead>
+          <div class="table-responsive">
+            <table class="table">
+              <thead style="background-color: #13004C; color: white;">
                 <tr>
                   <th>Tipo</th>
                   <th>Nome</th>
