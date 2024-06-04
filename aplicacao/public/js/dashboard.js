@@ -47,6 +47,9 @@ function trocarTela(tela) {
   itemClicado.classList.add("active");
   monitores[tela].style.display = "flex";
   document.title = itemClicado.innerText;
+  if(tela == 1){
+    buscarDarkstorePorNome(selectDasCidades.value, selectDasCidades.selectedIndex, tela)
+  }
   for (var i = 0; i < itensMenu.length; i++) {
     if (i != tela) {
       itensMenu[i].classList.remove("active");
@@ -58,6 +61,9 @@ function trocarTela(tela) {
 let usoSistema;
 let darkstores = []
 const selectDasCidades = document.querySelector('#cidades');
+selectDasCidades.addEventListener('change', (e) => {
+  buscarDarkstorePorNome(e.target.value)
+})
 let computadores = [];
 
 const definirStatusDarkStore = (darkstore) => {
@@ -97,7 +103,7 @@ function buscarDarkstore() {
       buscarGraficosIniciais(darkstores)
       document.querySelector('#empresasContent').innerHTML += `
           <tr>
-            <td>${darkstores[i].nome}</td>
+            <td onclick="buscarDarkstorePorNome(${darkstores[i].idDarkStore}, ${i})" style="cursor: pointer;">${darkstores[i].nome}</td>
             <td>${computadores.filter(computador => computador.darkstore == darkstores[i].idDarkStore).length}</td>
             <td>${definirStatusDarkStore(darkstores[i])}</td>
             <td><span style="color: red; cursor: pointer; margin-top: 7%;" onclick="deletarDarkStore(this)" value="${darkstores[i].idDarkStore}#${darkstores[i].nome}" class="material-symbols-outlined">
@@ -110,8 +116,7 @@ function buscarDarkstore() {
     }
     buscarUsuarios();
     colocarDadosUsuario();
-    buscarDarkstorePorNomeInicio();
-  }, 2000);
+  }, 1000);
 
 
 }
@@ -204,44 +209,60 @@ function definirStatusMaquina(computador){
   }
 }
 
-function buscarDarkstorePorNomeInicio() {
-  let idDarkstore = selectDasCidades.value;
-  let nomeDarkstore = document.querySelector('#nome_darkstore');
-  nomeDarkstore.value = selectDasCidades.options[selectDasCidades.selectedIndex].text;
-  let tabelaMaquinas = document.querySelector('#maquinasContent');
+// function buscarDarkstorePorNomeInicio() {
+//   let idDarkstore = selectDasCidades.value;
+//   let nomeDarkstore = document.querySelector('#nome_darkstore');
+//   nomeDarkstore.value = selectDasCidades.options[selectDasCidades.selectedIndex].text;
+//   let tabelaMaquinas = document.querySelector('#maquinasContent');
 
-  setTimeout(() => {
-    let computadoresDarkStore = [...computadores.filter(computador => computador.darkstore == idDarkstore)]
-    let totalMaquinasCPU = totalMaquinas("Processador", idDarkstore);
-    document.getElementById("maquinas_limite_cpu").innerHTML = totalMaquinasCPU
-    let totalMaquinasRAM = totalMaquinas("Memória", idDarkstore);
-    document.getElementById("maquinas_limite_ram").innerHTML = totalMaquinasRAM
-    let totalMaquinasDisco = totalMaquinas("Disco", idDarkstore);
-    document.getElementById("maquinas_limite_disco").innerHTML = totalMaquinasDisco
-    let totalMaquinasRede;
-    tabelaMaquinas.innerHTML = '';
-    for (let i = 0; i < computadoresDarkStore.length; i++) {
-      tabelaMaquinas.innerHTML += `
-      <tr>
-        <td>${computadoresDarkStore[i].hostname}</td>
-        <td>${computadoresDarkStore[i].macAddress}</td>
-        <td>${computadoresDarkStore[i].fkUsuario}</td>
-        <td>${definirStatusMaquina(computadoresDarkStore[i])}</td>
-      </tr>`;
+//   setTimeout(() => {
+//     let computadoresDarkStore = [...computadores.filter(computador => computador.darkstore == idDarkstore)]
+//     let totalMaquinasCPU = totalMaquinas("Processador", idDarkstore);
+//     document.getElementById("maquinas_limite_cpu").innerHTML = totalMaquinasCPU
+//     let totalMaquinasRAM = totalMaquinas("Memória", idDarkstore);
+//     document.getElementById("maquinas_limite_ram").innerHTML = totalMaquinasRAM
+//     let totalMaquinasDisco = totalMaquinas("Disco", idDarkstore);
+//     document.getElementById("maquinas_limite_disco").innerHTML = totalMaquinasDisco
+//     let totalMaquinasRede;
+//     tabelaMaquinas.innerHTML = '';
+//     for (let i = 0; i < computadoresDarkStore.length; i++) {
+//       tabelaMaquinas.innerHTML += `
+//       <tr>
+//         <td>${computadoresDarkStore[i].hostname}</td>
+//         <td>${computadoresDarkStore[i].macAddress}</td>
+//         <td>${computadoresDarkStore[i].fkUsuario}</td>
+//         <td>${definirStatusMaquina(computadoresDarkStore[i])}</td>
+//       </tr>`;
 
-    }
-    buscarViolacoes(idDarkstore);
-  }, 5000);
+//     }
+//     buscarViolacoes(idDarkstore);
+//   }, 5000);
 
   
-}
+// }
 
-function buscarDarkstorePorNome() {
-  let idDarkstore = selectDasCidades.value;
+function buscarDarkstorePorNome(idDarkstore = selectDasCidades.value, indice = selectDasCidades.selectedIndex, origem = 0) {
+  if(origem == 0){
+    trocarTela(1)
+  }
+  console.log(idDarkstore)
   let nomeDarkstore = document.querySelector('#nome_darkstore');
-  nomeDarkstore.value = selectDasCidades.options[selectDasCidades.selectedIndex].text;
+  nomeDarkstore.value = darkstores.filter(darkstore => darkstore.idDarkStore == idDarkstore)[0].nome;
+  let nomeControle
+  let valorControle
+  for(var i = 0; i < darkstores.length; i++){
+    if(i == 0){
+      nomeControle = selectDasCidades.options[i].text
+      valorControle = selectDasCidades.options[i].value
+      selectDasCidades.options[i].text = selectDasCidades.options[indice].text
+      selectDasCidades.options[i].value = selectDasCidades.options[indice].value
+    }else if(i == indice){
+      selectDasCidades.options[i].text = nomeControle
+      selectDasCidades.options[i].value = valorControle
+    }
+  }
+  
   let tabelaMaquinas = document.querySelector('#maquinasContent');
-
 
   let computadoresDarkStore = [...computadores.filter(computador => computador.darkstore == idDarkstore)]
   let totalMaquinasCPU = totalMaquinas("Processador", idDarkstore);
@@ -264,18 +285,6 @@ function buscarDarkstorePorNome() {
 
   buscarViolacoes(idDarkstore);
 }
-
-selectDasCidades.addEventListener('change', function () {
-  buscarDarkstorePorNome();
-
-  // const consultaDarkStore = `SELECT * FROM DarkStore WHERE idDarkstore = ${idDarkstore}`
-  // // document.querySelector('.estado').innerHTML = '';
-  // consultaBanco(`conexao/${consultaDarkStore}`, 'GET').then(function (resposta) {
-  //   // document.querySelector('.estado').innerHTML = resposta[0].uf;
-  // }).catch(function (resposta) {
-  //   console.log(`#ERRO: ${resposta}`);
-  // });
-});
 
 function liberarInputNomeDarkstore() {
   let nomeDarkstore = document.querySelector('#nome_darkstore');
