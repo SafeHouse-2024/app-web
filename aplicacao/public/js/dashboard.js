@@ -387,19 +387,9 @@ function buscarMaquinas(idDarkStore) {
     }).catch(function (resposta) {
       console.log(`#ERRO: ${resposta}`);
     });
-  // document.getElementById("maquinas").innerHTML = ""
-  // setTimeout(() => {
-  //   for (let i = 0; i < computadores.length; i++) {
-  //     document.getElementById("maquinas").innerHTML += `
-  //       <div class="maquina-info">
-  //         <div>${computadores[i].hostname}</div>
-  //         <div>${computadores[i].macAddress}<div>
-  //       </div>
-  //       `
-  //   }
-
-  //   computadores.forEach(computador => buscarAlertas(computador.idComputador))
-  // }, 1000)
+  setTimeout(() => {
+    computadores.forEach(computador => buscarAlertas(computador.idComputador))
+  }, 1000)
 }
 
 let funcionarios = [];
@@ -887,52 +877,6 @@ consultaBanco(`/conexao/${query}`, 'PUT').then(resposta => {
       })
     }
   })
-
-}
-
-function buscarTaxaDeUso(idDarkstore) {
-  query = `SELECT Computador.nome as computadorNome, Componente.nome as componenteNome, RegistroComponente.valor as uso FROM Computador
-  JOIN Componente ON Computador.idComputador = Componente.fkComputador
-  LEFT JOIN RegistroComponente ON Componente.idComponente = RegistroComponente.fkComponente
-  WHERE Computador.fkDarkStore = ${idDarkstore}`;
-
-  resposta = [];
-
-  consultaBanco(`conexao/${query}`, 'GET').then(function (res) {
-    resposta = res;
-  }
-  ).catch(function (resposta) {
-    console.log(`#ERRO: ${resposta}`);
-  });
-
-  let conteudoUsoCpu = document.querySelector('#maquinas_limite_cpu');
-  let conteudoUsoRam = document.querySelector('#maquinas_limite_ram');
-  let conteudoUsoDisco = document.querySelector('#maquinas_limite_disco');
-
-  let maquinasProximoLimiteCpu = 0;
-  let maquinasProximoLimiteRam = 0;
-  let maquinasProximoLimiteDisco = 0;
-
-  conteudoUsoCpu.innerHTML = '';
-  conteudoUsoRam.innerHTML = '';
-  conteudoUsoDisco.innerHTML = '';
-
-  for (let i = 0; i < resposta.length; i++) {
-    if (resposta[i].componenteNome == 'Processador') {
-      if (resposta[i].uso >= 1) maquinasProximoLimiteCpu++;
-    }
-    if (resposta[i].componenteNome == 'Memória') {
-      if (resposta[i].uso >= 1) maquinasProximoLimiteRam++;
-    }
-    if (resposta[i].componenteNome == 'Disco') {
-      if (resposta[i].uso >= 90) maquinasProximoLimiteDisco++;
-    }
-  }
-
-  conteudoUsoCpu.innerHTML = `${maquinasProximoLimiteCpu}`;
-  conteudoUsoRam.innerHTML = `${maquinasProximoLimiteRam}`;
-  conteudoUsoDisco.innerHTML = `${maquinasProximoLimiteDisco}`;
-
 
 }
 
