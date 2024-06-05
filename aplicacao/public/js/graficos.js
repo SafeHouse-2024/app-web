@@ -387,16 +387,16 @@ series: [ {
 
 let timeout = undefined;
 
-const buscarGraficos = (tipoGrafico = "cpu") => {
+const buscarGraficos = (tipoGrafico = "cpu", idComputador) => {
   
   if(timeout != undefined){
     clearTimeout(timeout)
   }
 
-  const queryProcessador = `SELECT rc.valor as 'valor', rc.dataRegistro as 'dataRegistro' FROM Componente c JOIN RegistroComponente rc ON c.idComponente = rc.fkComponente WHERE c.fkComputador = 7 AND c.nome LIKE 'Processador' ORDER BY idRegistro DESC LIMIT 7;`
-  const queryMemoria = `SELECT rc.valor as 'valor', rc.dataRegistro as 'dataRegistro' FROM Componente c JOIN RegistroComponente rc ON c.idComponente = rc.fkComponente WHERE c.fkComputador = 7 AND c.nome LIKE 'Memória' ORDER BY idRegistro DESC LIMIT 7;`
-  const queryDisco = `SELECT ca.nome, ca.valor FROM Componente c JOIN CaracteristicaComponente ca ON c.idComponente = ca.fkComponente WHERE c.fkComputador = 7 AND c.nome LIKE 'Disco';`
-  const queryRede = `SELECT rc.nome as 'nome', rc.valor as 'valor', rc.dataRegistro as 'dataRegistro' FROM Componente c JOIN RegistroComponente rc ON rc.fkComponente = c.idComponente WHERE fkComputador = 7 AND rc.nome IN ('Ping', 'Download', 'Upload') ORDER BY rc.idRegistro DESC LIMIT 21;`
+  const queryProcessador = `SELECT rc.valor as 'valor', rc.dataRegistro as 'dataRegistro' FROM Componente c JOIN RegistroComponente rc ON c.idComponente = rc.fkComponente WHERE c.fkComputador = ${idComputador} AND c.nome LIKE 'Processador' ORDER BY idRegistro DESC LIMIT 7;`
+  const queryMemoria = `SELECT rc.valor as 'valor', rc.dataRegistro as 'dataRegistro' FROM Componente c JOIN RegistroComponente rc ON c.idComponente = rc.fkComponente WHERE c.fkComputador = ${idComputador} AND c.nome LIKE 'Memória' ORDER BY idRegistro DESC LIMIT 7;`
+  const queryDisco = `SELECT ca.nome, ca.valor FROM Componente c JOIN CaracteristicaComponente ca ON c.idComponente = ca.fkComponente WHERE c.fkComputador = ${idComputador} AND c.nome LIKE 'Disco';`
+  const queryRede = `SELECT rc.nome as 'nome', rc.valor as 'valor', rc.dataRegistro as 'dataRegistro' FROM Componente c JOIN RegistroComponente rc ON rc.fkComponente = c.idComponente WHERE fkComputador = ${idComputador} AND rc.nome IN ('Ping', 'Download', 'Upload') ORDER BY rc.idRegistro DESC LIMIT 21;`
 
   if(tipoGrafico == "cpu"){
     grafico_linha_filtro.style.display=`block`;

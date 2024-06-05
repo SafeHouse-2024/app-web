@@ -78,10 +78,7 @@ const definirStatusDarkStore = (darkstore) => {
 
 function buscarDarkstore() {
   consulta = `SELECT * FROM DarkStore WHERE fkEmpresa = ${sessionStorage.IDEMPRESA}`
-  // buscarGraficos();
-  
-  
-  buscarUsoMaquina();
+
   buscarLog();
 
   selectDasCidades.innerHTML = '';
@@ -121,7 +118,31 @@ function buscarDarkstore() {
 
 }
 
-const buscarUsoMaquina = (idComputador = 7) => {
+
+const buscarMaquinaDarkstore = (idComputador, idDarkStore) => {
+
+  trocarTela(2)
+  computador = computadores.filter(computador => computador.idComputador == idComputador)
+  let computadoresDarkStore = computadores.filter(pc => pc.darkstore == idDarkStore)
+
+  buscarUsoMaquina(idComputador)
+  buscarGraficos("cpu", idComputador)
+  console.log(computadoresDarkStore, idDarkStore)
+  console.log(computador, idComputador);
+
+  document.getElementById("maquinas").innerHTML = ""
+  for (let i = 0; i < computadoresDarkStore.length; i++) {
+    document.getElementById("maquinas").innerHTML += `
+      <div class="maquina-info" style="cursor: pointer;" onclick="buscarMaquinaDarkstore(${computadoresDarkStore[i].idComputador}, ${idDarkStore})">
+        <div>${computadoresDarkStore[i].hostname}</div>
+        <div>${computadoresDarkStore[i].macAddress}<div>
+      </div>
+        `
+    }
+
+}
+
+const buscarUsoMaquina = (idComputador) => {
   query = `SELECT * FROM UsoSistema WHERE fkComputador = ${idComputador} ORDER BY idUsoSistema DESC LIMIT 1`
   consultaBanco(`conexao/${query}`, 'GET').then((resposta) => {
     usoSistema = resposta
@@ -275,7 +296,7 @@ function buscarDarkstorePorNome(idDarkstore = selectDasCidades.value, indice = s
   tabelaMaquinas.innerHTML = '';
   for (let i = 0; i < computadoresDarkStore.length; i++) {
     tabelaMaquinas.innerHTML += `
-    <tr>
+    <tr onclick="buscarMaquinaDarkstore(${computadoresDarkStore[i].idComputador}, ${idDarkstore})" style="cursor: pointer">
       <td>${computadoresDarkStore[i].hostname}</td>
       <td>${computadoresDarkStore[i].macAddress}</td>
       <td>${computadoresDarkStore[i].fkUsuario}</td>
@@ -366,19 +387,19 @@ function buscarMaquinas(idDarkStore) {
     }).catch(function (resposta) {
       console.log(`#ERRO: ${resposta}`);
     });
-  document.getElementById("maquinas").innerHTML = ""
-  setTimeout(() => {
-    for (let i = 0; i < computadores.length; i++) {
-      document.getElementById("maquinas").innerHTML += `
-        <div class="maquina-info">
-          <div>${computadores[i].hostname}</div>
-          <div>${computadores[i].macAddress}<div>
-        </div>
-        `
-    }
+  // document.getElementById("maquinas").innerHTML = ""
+  // setTimeout(() => {
+  //   for (let i = 0; i < computadores.length; i++) {
+  //     document.getElementById("maquinas").innerHTML += `
+  //       <div class="maquina-info">
+  //         <div>${computadores[i].hostname}</div>
+  //         <div>${computadores[i].macAddress}<div>
+  //       </div>
+  //       `
+  //   }
 
-    computadores.forEach(computador => buscarAlertas(computador.idComputador))
-  }, 1000)
+  //   computadores.forEach(computador => buscarAlertas(computador.idComputador))
+  // }, 1000)
 }
 
 let funcionarios = [];
@@ -1034,6 +1055,7 @@ const buscarAlertas = (idComputador) => {
   }, 3000)
 
 }
+
 
 window.onload = buscarDarkstore();
 
