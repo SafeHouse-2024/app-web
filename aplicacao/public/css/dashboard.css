@@ -281,32 +281,8 @@ main {
   padding: 20px;
 }
 
-.content_component .body-log{
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.content_component .body-log table{
-  width: 100%;
-}
-
-.content_component .body-log table thead{
-  height: 50px;
-  background-color: #13004C;
-  color: white;
-  border: 1px solid black;
-}
-
-.content_component .body-log table tbody tr{
-  height: 35px;
-  background-color: white;
-}
-
-.content_component .body-log table tr{
-  text-align: center;
-  border: 1px solid black;
+#body-log tr {
+  background-color: #fff;
 }
 
 .content_component .header {
