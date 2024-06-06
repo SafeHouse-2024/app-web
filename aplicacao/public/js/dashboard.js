@@ -1,7 +1,7 @@
 let dataInicioHistorico;
 let dataFinalHistorico = new Date();
 $('#datepicker-init').datepicker({ uiLibrary: 'bootstrap5' });
-$('#datepicker-end').datepicker({uiLibrary: 'bootstrap5'})
+$('#datepicker-end').datepicker({ uiLibrary: 'bootstrap5' })
 $('#datepicker-init').change(e => {
   dataInicioHistorico = e.currentTarget.value
   filtrarLog(informacao.value, dataInicioHistorico, dataFinalHistorico)
@@ -11,7 +11,7 @@ $('#datepicker-end').change(e => {
   filtrarLog(informacao.value, dataInicioHistorico, dataFinalHistorico)
 })
 
-$(document).ready(function() {
+$(document).ready(function () {
   $('[data-toggle="tooltip"]').tooltip();
 });
 
@@ -47,7 +47,7 @@ function trocarTela(tela) {
   itemClicado.classList.add("active");
   monitores[tela].style.display = "flex";
   document.title = itemClicado.innerText;
-  if(tela == 1){
+  if (tela == 1) {
     buscarDarkstorePorNome(selectDasCidades.value, selectDasCidades.selectedIndex, tela)
   }
   for (var i = 0; i < itensMenu.length; i++) {
@@ -67,11 +67,11 @@ selectDasCidades.addEventListener('change', (e) => {
 let computadores = [];
 
 const definirStatusDarkStore = (darkstore) => {
-  if(darkstore.statusCPU == `Crítico` || darkstore.statusRAM == `Crítico` || darkstore.statusDisco == `Crítico`){
+  if (darkstore.statusCPU == `Crítico` || darkstore.statusRAM == `Crítico` || darkstore.statusDisco == `Crítico`) {
     return `Crítico`
-  }else if(darkstore.statusCPU == `Alerta` || darkstore.statusRAM == `Alerta` || darkstore.statusDisco == `Alerta`){
+  } else if (darkstore.statusCPU == `Alerta` || darkstore.statusRAM == `Alerta` || darkstore.statusDisco == `Alerta`) {
     return `Alerta`
-  }else{
+  } else {
     return `Normal`
   }
 }
@@ -85,7 +85,7 @@ function buscarDarkstore() {
   consultaBanco(`conexao/${consulta}`, 'GET').then(function (resposta) {
     if (resposta != null && resposta.length > 0) {
       darkstores = resposta
-      
+
       resposta.forEach(darkstore => {
         selectDasCidades.innerHTML += `<option value="${darkstore.idDarkStore}">${darkstore.nome}</option>`;
         buscarMaquinas(darkstore.idDarkStore);
@@ -138,7 +138,7 @@ const buscarMaquinaDarkstore = (idComputador, idDarkStore) => {
         <div>${computadoresDarkStore[i].macAddress}<div>
       </div>
         `
-    }
+  }
 
 }
 
@@ -185,33 +185,33 @@ const buscarUsoMaquina = (idComputador) => {
   }, 1000)
 }
 
-function totalMaquinas(componente, idDarkStore){
+function totalMaquinas(componente, idDarkStore) {
 
   let total = 0
-  if(componente == 'Processador'){
+  if (componente == 'Processador') {
     computadores.filter(pc => pc.darkstore == idDarkStore).forEach(computador => {
-      if(computador.statusCPU == `Crítico` || computador.statusCPU == `Alerta`){
+      if (computador.statusCPU == `Crítico` || computador.statusCPU == `Alerta`) {
         total++
       }
     })
   }
-  if(componente == 'Memória'){
+  if (componente == 'Memória') {
     computadores.filter(pc => pc.darkstore == idDarkStore).forEach(computador => {
-      if(computador.statusRAM == `Crítico` || computador.statusRAM == `Alerta`){
+      if (computador.statusRAM == `Crítico` || computador.statusRAM == `Alerta`) {
         total++
       }
     })
   }
-  if(componente == 'Disco'){
+  if (componente == 'Disco') {
     computadores.filter(pc => pc.darkstore == idDarkStore).forEach(computador => {
-      if(computador.statusDisco == `Crítico` || computador.statusDisco == `Alerta`){
+      if (computador.statusDisco == `Crítico` || computador.statusDisco == `Alerta`) {
         total++
       }
     })
   }
-  if(componente == `Rede`){
+  if (componente == `Rede`) {
     computadores.filter(pc => pc.darkstore == idDarkStore).forEach(computador => {
-      if(computador.statusRede == `Crítico` || computador.statusRede == `Alerta`){
+      if (computador.statusRede == `Crítico` || computador.statusRede == `Alerta`) {
         total++
       }
     })
@@ -219,13 +219,13 @@ function totalMaquinas(componente, idDarkStore){
   return total
 }
 
-function definirStatusMaquina(computador){
+function definirStatusMaquina(computador) {
 
-  if(computador.statusCPU == `Crítico` || computador.statusRAM == `Crítico` || computador.statusDisco == `Crítico` || computador.statusRede == `Crítico`){
+  if (computador.statusCPU == `Crítico` || computador.statusRAM == `Crítico` || computador.statusDisco == `Crítico` || computador.statusRede == `Crítico`) {
     return "Crítico"
-  }else if(computador.statusCPU == `Alerta`|| computador.statusRAM == `Alerta` || computador.statusDisco == `Alerta` || computador.statusRede == `Alerta`){
+  } else if (computador.statusCPU == `Alerta` || computador.statusRAM == `Alerta` || computador.statusDisco == `Alerta` || computador.statusRede == `Alerta`) {
     return `Alerta`
-  }else{
+  } else {
     return `Normal`
   }
 }
@@ -259,11 +259,11 @@ function definirStatusMaquina(computador){
 //     buscarViolacoes(idDarkstore);
 //   }, 5000);
 
-  
+
 // }
 
 function buscarDarkstorePorNome(idDarkstore = selectDasCidades.value, indice = selectDasCidades.selectedIndex, origem = 0) {
-  if(origem == 0){
+  if (origem == 0) {
     trocarTela(1)
   }
   console.log(idDarkstore)
@@ -271,18 +271,18 @@ function buscarDarkstorePorNome(idDarkstore = selectDasCidades.value, indice = s
   nomeDarkstore.value = darkstores.filter(darkstore => darkstore.idDarkStore == idDarkstore)[0].nome;
   let nomeControle
   let valorControle
-  for(var i = 0; i < darkstores.length; i++){
-    if(i == 0){
+  for (var i = 0; i < darkstores.length; i++) {
+    if (i == 0) {
       nomeControle = selectDasCidades.options[i].text
       valorControle = selectDasCidades.options[i].value
       selectDasCidades.options[i].text = selectDasCidades.options[indice].text
       selectDasCidades.options[i].value = selectDasCidades.options[indice].value
-    }else if(i == indice){
+    } else if (i == indice) {
       selectDasCidades.options[i].text = nomeControle
       selectDasCidades.options[i].value = valorControle
     }
   }
-  
+
   let tabelaMaquinas = document.querySelector('#maquinasContent');
 
   let computadoresDarkStore = [...computadores.filter(computador => computador.darkstore == idDarkstore)]
@@ -342,7 +342,7 @@ function buscarMaquinas(idDarkStore) {
   query = `SELECT pc.*, c.nome as 'nomeComponente', c.idComponente as 'idComponente', ca.nome as 'nomeCaracteristica', ca.valor 'valorCaracteristica' 
   FROM Computador pc LEFT JOIN Componente c ON c.fkComputador = pc.idComputador LEFT JOIN CaracteristicaComponente ca ON ca.fkComponente = c.idComponente WHERE pc.fkDarkStore = ${idDarkStore};
   `
-  
+
   let idComputador = 0;
   let indiceComputador = -1;
   let idComponente = 0;
@@ -366,7 +366,7 @@ function buscarMaquinas(idDarkStore) {
             indiceComputador++;
           }
           if (resposta[i].idComponente != idComponente) {
-            if(resposta[i].idComponente == null){
+            if (resposta[i].idComponente == null) {
               continue
             }
             computadores[indiceComputador].componentes.push({
@@ -375,7 +375,7 @@ function buscarMaquinas(idDarkStore) {
             });
             idComponente = resposta[i].idComponente;
           }
-          if(resposta[i].nomeCaracteristica == null || resposta[i].valorCaracteristica == null){
+          if (resposta[i].nomeCaracteristica == null || resposta[i].valorCaracteristica == null) {
             continue
           }
           computadores[indiceComputador].componentes[computadores[indiceComputador].componentes.length - 1].caracteristicas.push({
@@ -431,9 +431,9 @@ function buscarLog() {
   consultaBanco(`conexao/${query}`, 'GET').then(function (resposta) {
     resposta.forEach(res => {
       let tipo;
-      if(res.descricao.includes("pendrive") || res.descricao.includes("processo")){
+      if (res.descricao.includes("pendrive") || res.descricao.includes("processo")) {
         tipo = "segurança"
-      }else if(res.fkUsuario != null){
+      } else if (res.fkUsuario != null) {
         tipo = "usuario"
       }
       logs.push({
@@ -469,20 +469,20 @@ function buscarLog() {
 
 }
 
-const filtrarLog = (tipo, dataInicio = dataInicioHistorico, dataFinal = dataFinalHistorico) =>{
+const filtrarLog = (tipo, dataInicio = dataInicioHistorico, dataFinal = dataFinalHistorico) => {
   let conteudoLogs = document.querySelector('#body-log');
   conteudoLogs.innerHTML = '';
   dataInicio != undefined ? dataInicio = dataInicio : dataInicio = new Date(logs[logs.length - 1].log.dataLog);
-    if(tipo == ""){
-      filtrarLogData(logs, dataInicio, dataFinal).forEach((infos) => {
+  if (tipo == "") {
+    filtrarLogData(logs, dataInicio, dataFinal).forEach((infos) => {
       data = infos.log.dataLog.split('T');
       data = data[0].split('-');
       data = `${data[2]}/${data[1]}/${data[0]}`;
-  
+
       hora = infos.log.dataLog.split('T');
       hora = hora[1].split(':');
       hora = `${hora[0]}:${hora[1]}`;
-  
+
       conteudoLogs.innerHTML += `
         <tr>
           <td>${infos.log.fkUsuario == null ? "Máquina" : "Usuário"}</td>
@@ -511,7 +511,7 @@ const filtrarLog = (tipo, dataInicio = dataInicioHistorico, dataFinal = dataFina
         <td>Data: ${data} Hora: ${hora}</td>
       </tr>
     `;
-  }) 
+  })
 }
 
 filtrarLogData = (logs, inicio, fim) => {
@@ -618,7 +618,7 @@ const logout = () => {
 if (sessionStorage.IDUSUARIO == undefined) window.location.href = '/';
 
 function adicionarMaquina() {
-  
+
   let nome = computador_nome.value;
   let macAddress = computador_macAddress.value;
   let darkstore = selectDasCidades.value;
@@ -627,7 +627,7 @@ function adicionarMaquina() {
   const consultaCodigo = `SELECT codigoAcesso FROM Computador WHERE nome = '${nome}'`
   const consultaCriacao = `INSERT INTO Computador (nome, macAddress, fkDarkStore, fkUsuario) VALUES ('${nome}', '${macAddress}', ${darkstore}, ${usuario})`
   const queryLog = `INSERT INTO Log(descricao, fkUsuario) VALUES ('Máquina ${nome} foi criada por ${sessionStorage.NOME} de cargo ${sessionStorage.CARGO}', ${sessionStorage.IDUSUARIO})`
-  
+
   consultaBanco(`conexao/${consultaCriacao}`, 'POST')
     .then(() => {
       consultaBanco(`conexao/${consultaCodigo}`, 'GET').then(function (resposta) {
@@ -665,7 +665,7 @@ const deletarFuncionario = (valor) => {
   const idUsuario = parametros[0];
   const nomeUsuario = parametros[1]
   const query = `DELETE FROM Usuario WHERE idUsuario = ${idUsuario}`
-  const  queryLog = `INSERT INTO Log(descricao, fkUsuario) VALUES ('Funcionário ${nomeUsuario} foi deletado por ${sessionStorage.NOME} de cargo ${sessionStorage.CARGO}', ${sessionStorage.IDUSUARIO})`
+  const queryLog = `INSERT INTO Log(descricao, fkUsuario) VALUES ('Funcionário ${nomeUsuario} foi deletado por ${sessionStorage.NOME} de cargo ${sessionStorage.CARGO}', ${sessionStorage.IDUSUARIO})`
   Swal.fire({
     title: `Tem certeza que deseja deletar seu funcionário?`,
     width: 500,
@@ -679,7 +679,7 @@ const deletarFuncionario = (valor) => {
   }).then((result) => {
     if (result.isConfirmed) {
       consultaBanco(`/conexao/${query}`, 'DELETE').then(resposta => {
-        if(resposta.affectedRows == 1){
+        if (resposta.affectedRows == 1) {
           consultaBanco(`/conexao/${queryLog}`, 'POST').then(() => {
             console.log("Log adicionado com sucesso!")
           })
@@ -711,7 +711,7 @@ const salvarFuncionario = () => {
   query = `INSERT INTO Usuario(nome,sobrenome,email,senha,cargo,fkDarkStore, tipo) VALUES ('${nomeUsuario}', '${sobrenomeUsuario}', '${emailUsuario}', '${senhaUsuario}', '${cargoUsuario}', ${sessionStorage.FKDARKSTORE}, 'Funcionário')`
   queryLog = `INSERT INTO Log(descricao, fkUsuario) VALUES ('Funcionário ${nomeUsuario} foi criado por ${sessionStorage.NOME} de cargo ${sessionStorage.CARGO}', ${sessionStorage.IDUSUARIO})`
   consultaBanco(`/conexao/${query}`, 'POST').then((resposta) => {
-    if(resposta.affectedRows == 1){
+    if (resposta.affectedRows == 1) {
       Swal.fire({
         title: "Funcionário criado com sucesso",
         icon: "success",
@@ -772,7 +772,7 @@ const salvarDarkStore = () => {
   queryLog = `INSERT INTO Log(descricao, fkUsuario) VALUES ('DarkStore ${nomeDarkStore} foi criada por ${sessionStorage.NOME} de cargo ${sessionStorage.CARGO}', ${sessionStorage.IDUSUARIO})`
 
   consultaBanco(`/conexao/${query}`, 'POST').then(resposta => {
-    if(resposta.affectedRows == 1){
+    if (resposta.affectedRows == 1) {
       Swal.fire({
         title: "Dark Store criada com sucesso",
         icon: "success",
@@ -813,41 +813,41 @@ const salvarAlteracoesDarkStore = () => {
   let cepDarkStore = cep_darkstore.value
   let idDarkStore = document.querySelector(".editar_darkstore_button").getAttribute("value")
 
-const query = `UPDATE DarkStore set nome='${nomeDarkStore}', rua='${ruaDarkStore}', uf='${ufDarkStore}', numero='${numeroDarkStore}', complemento='${complementoDarkStore}',cep='${cepDarkStore}' WHERE idDarkStore = ${idDarkStore}`;
-const queryLog = `INSERT INTO Log(descricao, fkUsuario) VALUES ('DarkStore ${nomeDarkStore} foi alterada por ${sessionStorage.NOME} de cargo ${sessionStorage.CARGO}', ${sessionStorage.IDUSUARIO})`
-consultaBanco(`/conexao/${query}`, 'PUT').then(resposta => {
-  if(resposta.affectedRows == 1){
-    Swal.fire({
-      title: "Dark Store editada com sucesso",
-      icon: "success",
-      confirmButtonColor: "#00259C"
-    }).then(() => {
-      let dk = document.getElementById("editarDarkStore")
-      let button = document.createElement('button')
-      button.setAttribute('data-bs-dismiss', 'modal')
-      dk.appendChild(button)
-      button.click()
-      dk.removeChild(button)
-    })
-    consultaBanco(`/conexao/${queryLog}`, 'POST').then(() => {
-      console.log("Log adicionado com sucesso");
-    })
-  }
-})
+  const query = `UPDATE DarkStore set nome='${nomeDarkStore}', rua='${ruaDarkStore}', uf='${ufDarkStore}', numero='${numeroDarkStore}', complemento='${complementoDarkStore}',cep='${cepDarkStore}' WHERE idDarkStore = ${idDarkStore}`;
+  const queryLog = `INSERT INTO Log(descricao, fkUsuario) VALUES ('DarkStore ${nomeDarkStore} foi alterada por ${sessionStorage.NOME} de cargo ${sessionStorage.CARGO}', ${sessionStorage.IDUSUARIO})`
+  consultaBanco(`/conexao/${query}`, 'PUT').then(resposta => {
+    if (resposta.affectedRows == 1) {
+      Swal.fire({
+        title: "Dark Store editada com sucesso",
+        icon: "success",
+        confirmButtonColor: "#00259C"
+      }).then(() => {
+        let dk = document.getElementById("editarDarkStore")
+        let button = document.createElement('button')
+        button.setAttribute('data-bs-dismiss', 'modal')
+        dk.appendChild(button)
+        button.click()
+        dk.removeChild(button)
+      })
+      consultaBanco(`/conexao/${queryLog}`, 'POST').then(() => {
+        console.log("Log adicionado com sucesso");
+      })
+    }
+  })
 
 }
 
-  const editarFuncionario = (valor) => {
-    let funcionarioById = funcionarios.filter(funcionario => funcionario.idUsuario == valor.getAttribute("value"))
-    nome_funcionario.value = funcionarioById[0].nome
-    sobrenome_funcionario.value = funcionarioById[0].sobrenome
-    email_funcionario.value = funcionarioById[0].email
-    senha_funcionario.value = funcionarioById[0].senha
-    cargo_funcionario.value = funcionarioById[0].cargo
-    document.querySelector(".editar_funcionario_button").setAttribute("value", `${valor.getAttribute("value")}`)
-  }
+const editarFuncionario = (valor) => {
+  let funcionarioById = funcionarios.filter(funcionario => funcionario.idUsuario == valor.getAttribute("value"))
+  nome_funcionario.value = funcionarioById[0].nome
+  sobrenome_funcionario.value = funcionarioById[0].sobrenome
+  email_funcionario.value = funcionarioById[0].email
+  senha_funcionario.value = funcionarioById[0].senha
+  cargo_funcionario.value = funcionarioById[0].cargo
+  document.querySelector(".editar_funcionario_button").setAttribute("value", `${valor.getAttribute("value")}`)
+}
 
-  const salvarAlteracoesUsuario = () => {
+const salvarAlteracoesUsuario = () => {
 
   let nomeFuncionario = nome_funcionario.value
   let sobrenomeFuncionario = sobrenome_funcionario.value
@@ -859,7 +859,7 @@ consultaBanco(`/conexao/${query}`, 'PUT').then(resposta => {
   const query = `UPDATE Usuario set nome='${nomeFuncionario}', sobrenome='${sobrenomeFuncionario}', email='${emailFuncionario}', senha='${senhaFuncionario}', cargo='${cargoFuncionario}' WHERE idUsuario = ${idFuncionario}`;
   const queryLog = `INSERT INTO Log(descricao, fkUsuario) VALUES ('Funcionário ${nomeFuncionario} foi alterado por ${sessionStorage.NOME} de cargo ${sessionStorage.CARGO}', ${sessionStorage.IDUSUARIO})`
   consultaBanco(`/conexao/${query}`, 'PUT').then(resposta => {
-    if(resposta.affectedRows == 1){
+    if (resposta.affectedRows == 1) {
       Swal.fire({
         title: "Funcionário editado com sucesso",
         icon: "success",
@@ -871,7 +871,7 @@ consultaBanco(`/conexao/${query}`, 'PUT').then(resposta => {
         dk.appendChild(button)
         button.click()
         dk.removeChild(button)
-      })    
+      })
       consultaBanco(`/conexao/${queryLog}`, 'POST').then(() => {
         console.log("Log adicionado com sucesso");
       })
@@ -886,7 +886,7 @@ const deletarDarkStore = (valor) => {
   const nomeDarkStore = parametros[1]
 
   const query = `DELETE FROM DarkStore WHERE idDarkStore = ${idDarkStore}`
-  const  queryLog = `INSERT INTO Log(descricao, fkUsuario) VALUES ('DarkStore ${nomeDarkStore} foi deletada por ${sessionStorage.NOME} de cargo ${sessionStorage.CARGO}', ${sessionStorage.IDUSUARIO})`
+  const queryLog = `INSERT INTO Log(descricao, fkUsuario) VALUES ('DarkStore ${nomeDarkStore} foi deletada por ${sessionStorage.NOME} de cargo ${sessionStorage.CARGO}', ${sessionStorage.IDUSUARIO})`
   Swal.fire({
     title: `Tem certeza que deseja deletar a darkstore ${nomeDarkStore}?`,
     width: 500,
@@ -900,7 +900,7 @@ const deletarDarkStore = (valor) => {
   }).then((result) => {
     if (result.isConfirmed) {
       consultaBanco(`/conexao/${query}`, 'DELETE').then(resposta => {
-        if(resposta.affectedRows == 1){
+        if (resposta.affectedRows == 1) {
           consultaBanco(`/conexao/${queryLog}`, 'POST').then(() => {
             console.log("Log adicionado com sucesso!")
           })
@@ -933,57 +933,57 @@ const buscarAlertas = (idComputador) => {
     let totalMaquinasRAM = 0;
     let totalMaquinasDisco = 0;
     consultaBanco(`/conexao/${queryAlertasCPU}`, 'GET').then(resposta => {
-          resposta.forEach(res => {
-            if(res.totalRegistros > 25){
-              totalMaquinasCPU++
-              computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusCPU = `Crítico`)
-            }else if(res.totalRegistros > 15){
-              totalMaquinasCPU++
-              computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusCPU = `Alerta`)
-            }else{
-              computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusCPU = `Normal`)
-            }
-          })
-          if(totalMaquinasCPU > 0){
-            if(totalMaquinasCPU >= computadores.filter(computador => computador.darkstore == darkstore.idDarkStore).length * 0.7){
-              darkstore.statusCPU = `Crítico`
-            }else if(totalMaquinasCPU >= computadores.filter(computador => computador.darkstore == darkstore.idDarkStore).length * 0.5){
-              darkstore.statusCPU = `Alerta`
-            }else{
-              darkstore.statusCPU = `Normal`
-            }
-          }
+      resposta.forEach(res => {
+        if (res.totalRegistros > 25) {
+          totalMaquinasCPU++
+          computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusCPU = `Crítico`)
+        } else if (res.totalRegistros > 15) {
+          totalMaquinasCPU++
+          computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusCPU = `Alerta`)
+        } else {
+          computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusCPU = `Normal`)
+        }
+      })
+      if (totalMaquinasCPU > 0) {
+        if (totalMaquinasCPU >= computadores.filter(computador => computador.darkstore == darkstore.idDarkStore).length * 0.7) {
+          darkstore.statusCPU = `Crítico`
+        } else if (totalMaquinasCPU >= computadores.filter(computador => computador.darkstore == darkstore.idDarkStore).length * 0.5) {
+          darkstore.statusCPU = `Alerta`
+        } else {
+          darkstore.statusCPU = `Normal`
+        }
+      }
     })
 
     consultaBanco(`/conexao/${queryAlertasRAM}`, 'GET').then(resposta => {
-        resposta.forEach(res => {
-          console.log(res.totalRegistros)
-          if(res.totalRegistros > 25){
-            totalMaquinasRAM++
-            computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusRAM = `Crítico`)
-          }else if(res.totalRegistros > 15){
-            totalMaquinasRAM++
-            computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusRAM = `Alerta`)
-          }else{
-            computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusRAM = `Normal`)
-          }
-        })
-        if(totalMaquinasRAM > 0){
-          if(totalMaquinasRAM >= computadores.filter(computador => computador.darkstore == darkstore.idDarkStore).length * 0.7){
-            darkstore.statusRAM = `Crítico`
-          }else if(totalMaquinasRAM >= computadores.filter(computador => computador.darkstore == darkstore.idDarkStore).length * 0.5){
-            darkstore.statusRAM = `Alerta`
-          }else{
-            darkstore.statusRAM = `Normal`
-          }
+      resposta.forEach(res => {
+        console.log(res.totalRegistros)
+        if (res.totalRegistros > 25) {
+          totalMaquinasRAM++
+          computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusRAM = `Crítico`)
+        } else if (res.totalRegistros > 15) {
+          totalMaquinasRAM++
+          computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusRAM = `Alerta`)
+        } else {
+          computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusRAM = `Normal`)
         }
+      })
+      if (totalMaquinasRAM > 0) {
+        if (totalMaquinasRAM >= computadores.filter(computador => computador.darkstore == darkstore.idDarkStore).length * 0.7) {
+          darkstore.statusRAM = `Crítico`
+        } else if (totalMaquinasRAM >= computadores.filter(computador => computador.darkstore == darkstore.idDarkStore).length * 0.5) {
+          darkstore.statusRAM = `Alerta`
+        } else {
+          darkstore.statusRAM = `Normal`
+        }
+      }
     })
 
     consultaBanco(`/conexao/${queryAlertasDisco}`, 'GET').then(resposta => {
-      if(resposta.length == 0){
+      if (resposta.length == 0) {
         darkstore.statusDisco = `Normal`
-          computadores.filter(computador => computador.darkstore == darkstore.idDarkStore).forEach(pc => pc.statusDisco = `Normal`)
-      }else{
+        computadores.filter(computador => computador.darkstore == darkstore.idDarkStore).forEach(pc => pc.statusDisco = `Normal`)
+      } else {
         resposta.forEach(res => {
           computadores.filter(computador => {
             computador.idComputador == res.idComputador
@@ -1003,6 +1003,6 @@ const buscarAlertas = (idComputador) => {
 
 window.onload = buscarDarkstore();
 
-function mostrarNotificacoes(){
+function mostrarNotificacoes() {
   document.querySelector("#notificacoes").classList.toggle("show")
 }
