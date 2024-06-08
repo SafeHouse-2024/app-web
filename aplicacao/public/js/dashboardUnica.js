@@ -101,10 +101,13 @@ function buscarDarkstore() {
 }
 
 
-const buscarMaquinaDarkstore = (idComputador, idDarkStore) => {
+const buscarMaquinaDarkstore = (idComputador, idDarkStore, origem = 0) => {
 
-  trocarTela(1)
-  computador = computadores.filter(computador => computador.idComputador == idComputador)
+  if(origem == 0){
+    trocarTela(2)
+  }
+  
+  let computador = computadores.filter(computador => computador.idComputador == idComputador)
   let computadoresDarkStore = computadores.filter(pc => pc.darkstore == idDarkStore)
 
   buscarUsoMaquina(idComputador)
