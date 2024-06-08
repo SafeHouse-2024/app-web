@@ -211,3 +211,10 @@ INSERT INTO NomeProcesso (nome, fkProcesso) VALUES ('firefox',2);
 INSERT INTO NomeProcesso (nome, fkProcesso) VALUES ('firefox.exe',2);
 
 INSERT INTO ProcessoSistema (fkNomeProcesso, fkSistemaOperacional) VALUES (1, 2), (3, 2), (2,1), (4, 1);
+
+delimiter //
+CREATE PROCEDURE total_seguranca (idComputador INT)
+BEGIN
+SELECT DISTINCT(pc.idComputador), count(l.idLog) as 'totalRegistros' FROM Computador pc JOIN Log l ON l.fkComputador = pc.idComputador WHERE pc.idComputador = idComputador AND l.descricao LIKE '%pendrive%' OR l.descricao LIKE '%processo%' GROUP BY pc.idComputador;
+END
+//

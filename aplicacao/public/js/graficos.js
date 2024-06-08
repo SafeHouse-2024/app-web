@@ -432,79 +432,128 @@ const buscarGraficos = (tipoGrafico = "cpu", idComputador) => {
   
 }
 
-const top5DarkStores = (componente, darkstores) => {
+const top5DarkStores = (darkstores) => {
 
   let top5 = []
   for(var i = 0; i < darkstores.length; i++){
     if(top5.length == 5) break;
-
-    if(componente == `Processador`){
-        top5.push(darkstores[i])
-    }
-    if(componente == `Memória`){
-        top5.push(darkstores[i])
-      }
-    if(componente == `Disco`){
-        top5.push(darkstores[i])    
-      }
+      top5.push(darkstores[i])
     }
   console.log(top5)
   return top5
 }
 
 const buscarGraficosIniciais = (darkstores) => {
-    console.log(darkstores)
-    let top5DarkStoreProcessador = top5DarkStores('Processador', darkstores)
-    let categoriesProcessador = top5DarkStoreProcessador.map(darkstore => darkstore.nome)
-    let usoProcessador = top5DarkStoreProcessador.map(darkstore => totalMaquinas('Processador', darkstore.idDarkStore))
-    let top5DarkStoreRAM = top5DarkStores('Memória',darkstores)
-    let categoriesRAM = top5DarkStoreRAM.map(darkstore => darkstore.nome)
-    let usoRAM = top5DarkStoreRAM.map(darkstore => totalMaquinas("Memória", darkstore.idDarkStore))
-    let top5DarkStoreDisco = top5DarkStores("Disco", darkstores)
-    console.log(top5DarkStoreProcessador, top5DarkStoreRAM)
-    let categoriesDisco = top5DarkStoreDisco.map(darkstore => darkstore.nome)
-    let usoDisco = top5DarkStoreDisco.map(darkstore => totalMaquinas("Disco", darkstore.idDarkStore))
-    console.log(categoriesRAM)
-    console.log(top5DarkStoreProcessador)
-    console.log(top5DarkStoreRAM)
-    chart.update({
+
+
+  graficoInicialCPU(darkstores)
+  graficoInicialRede(darkstores)
+  graficoInicialRAM(darkstores)
+  graficoInicialSeguranca(darkstores)
+}
+
+const graficoInicialCPU = (darkstores) => {
+  let top5DarkStoreProcessador = top5DarkStores(darkstores)
+  let categoriesProcessador = top5DarkStoreProcessador.map(darkstore => darkstore.nome)
+  let usoProcessador = top5DarkStoreProcessador.map(darkstore => totalMaquinas('Processador', darkstore.idDarkStore))
+
+  chart.update({
+    xAxis: {
+      categories: categoriesProcessador,
+      title: {
+        text: "Darkstore",
+      },
+      labels: {
+        style: {
+          fontSize: "12px"
+        }
+      }
+  },
+  series: [{
+    data: usoProcessador,
+    color: '#13004C',
+    showInLegend: false
+  }]
+  })
+
+
+}
+
+const graficoInicialRAM = (darkstores) => {
+  let top5DarkStoreRAM = top5DarkStores(darkstores)
+  let categoriesRAM = top5DarkStoreRAM.map(darkstore => darkstore.nome)
+  let usoRAM = top5DarkStoreRAM.map(darkstore => totalMaquinas("Memória", darkstore.idDarkStore))
+
+  chart2.update({
+    xAxis: {
+      categories: categoriesRAM,
+      title: {
+        text: "Darkstore",
+      },
+      labels: {
+        style: {
+          fontSize: "12px"
+        }
+      }
+  },
+  series: [{
+    data: usoRAM,
+    color: '#13004C',
+    showInLegend: false
+  }]
+  })
+
+}
+
+const graficoInicialRede = (darkstores) => {
+  let top5DarkStoreRede = top5DarkStores(darkstores)
+  let categoriesRede = top5DarkStoreRede.map(darkstore => darkstore.nome)
+  let usoRede = top5DarkStoreRede.map(darkstore => totalMaquinas("Rede", darkstore.idDarkStore))
+  
+  chart3.update({
+    xAxis: {
+      categories: categoriesRede,
+      labels: {
+        style: {
+          fontSize: "12px"
+        }
+      },
+      title: {
+        text: "Darkstore"
+      }
+  },
+  series: [{
+    data: usoRede,
+    color: '#13004C',
+    showInLegend: false
+}]
+  })
+}
+
+const graficoInicialSeguranca = (darkstores) => {
+    const top5DarkStoreSeguranca = top5DarkStores(darkstores)
+    const categoriesSeguranca = top5DarkStoreSeguranca.map(darkstore => darkstore.nome)
+    const qtdMaquinas = top5DarkStoreSeguranca.map(darkstore => totalMaquinas("Segurança", darkstore.idDarkStore))
+    console.log(categoriesSeguranca)
+    console.log(qtdMaquinas)
+    chart4.update({
       xAxis: {
-        categories: categoriesProcessador,
-        title: {
-          text: "Darkstore",
-        },
+        categories: categoriesSeguranca,
         labels: {
           style: {
             fontSize: "12px"
           }
-        }
-    },
-    series: [{
-      data: usoProcessador,
-      color: '#13004C',
-      showInLegend: false
-    }]
-    })
-
-    chart2.update({
-      xAxis: {
-        categories: categoriesRAM,
-        title: {
-          text: "Darkstore",
         },
-        labels: {
-          style: {
-            fontSize: "12px"
-          }
+        title: {
+          text: "Darkstore"
         }
     },
     series: [{
-      data: usoRAM,
+      data: qtdMaquinas,
       color: '#13004C',
       showInLegend: false
-    }]
+  }]
     })
-
 }
 
 const initDonutChart = (data) =>{
@@ -563,11 +612,11 @@ const initRedeChart = (chart, resposta, componente) => {
   let uploads = [];
   for(var i = 0; i < resposta.length; i++){
     if(resposta[i].nome == 'Ping'){
-      pings.push({x: new Date(resposta[i].dataRegistro).getTime(), y: parseFloat(resposta[i].valor.split(" ")[1])})
+      pings.push({x: new Date(resposta[i].dataRegistro).getTime(), y: parseFloat(resposta[i].valor)})
     }else if(resposta[i].nome == 'Download'){
-      downloads.push({x: new Date(resposta[i].dataRegistro).getTime(), y: parseFloat(resposta[i].valor.split(" ")[1])})
+      downloads.push({x: new Date(resposta[i].dataRegistro).getTime(), y: parseFloat(resposta[i].valor)})
     }else if(resposta[i].nome == 'Upload'){
-      uploads.push({x: new Date(resposta[i].dataRegistro).getTime(), y: parseFloat(resposta[i].valor.split(" ")[1])})
+      uploads.push({x: new Date(resposta[i].dataRegistro).getTime(), y: parseFloat(resposta[i].valor)})
     }
   }
 

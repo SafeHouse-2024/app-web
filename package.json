@@ -5,8 +5,7 @@
   "main": "app.js",
   "scripts": {
     "dev": "nodemon aplicacao/app.js",
-    "start": "node aplicacao/app.js",
-    "postinstall": "cd aplicacao && npm install"
+    "start": "node aplicacao/app.js"
   },
   "repository": {
     "type": "git",
