@@ -50,6 +50,12 @@ function trocarTela(tela) {
   if (tela == 1) {
     buscarDarkstorePorNome(selectDasCidades.value, selectDasCidades.selectedIndex, tela)
   }
+  if(tela == 2){
+    let computadorDarkStoreAtual = computadores.filter(computador => {
+      computador.darkstore == darkstores.filter(darkstore => darkstore.idDarkstore == selectDasCidades.value)
+    })
+    buscarMaquinaDarkstore(computadorDarkStoreAtual, selectDasCidades.value, tela)
+  }
   for (var i = 0; i < itensMenu.length; i++) {
     if (i != tela) {
       itensMenu[i].classList.remove("active");
@@ -58,6 +64,7 @@ function trocarTela(tela) {
   }
 }
 
+let totalViolacoesMaquina = []
 let usoSistema;
 let darkstores = []
 const selectDasCidades = document.querySelector('#cidades');
@@ -67,9 +74,9 @@ selectDasCidades.addEventListener('change', (e) => {
 let computadores = [];
 
 const definirStatusDarkStore = (darkstore) => {
-  if (darkstore.statusCPU == `Crítico` || darkstore.statusRAM == `Crítico` || darkstore.statusDisco == `Crítico`) {
+  if(darkstore.statusCPU == `Crítico` || darkstore.statusRAM == `Crítico` || darkstore.statusDisco == `Crítico` || darkstore.statusRede == `Crítico`){
     return `Crítico`
-  } else if (darkstore.statusCPU == `Alerta` || darkstore.statusRAM == `Alerta` || darkstore.statusDisco == `Alerta`) {
+  }else if(darkstore.statusCPU == `Alerta` || darkstore.statusRAM == `Alerta` || darkstore.statusDisco == `Alerta` || darkstore.statusRede == `Alerta`){
     return `Alerta`
   } else {
     return `Normal`
@@ -113,16 +120,19 @@ function buscarDarkstore() {
     }
     buscarUsuarios();
     colocarDadosUsuario();
-  }, 1000);
+  }, 2000);
 
 
 }
 
 
-const buscarMaquinaDarkstore = (idComputador, idDarkStore) => {
+const buscarMaquinaDarkstore = (idComputador, idDarkStore, origem = 0) => {
 
-  trocarTela(2)
-  computador = computadores.filter(computador => computador.idComputador == idComputador)
+  if(origem == 0){
+    trocarTela(2)
+  }
+  
+  let computador = computadores.filter(computador => computador.idComputador == idComputador)
   let computadoresDarkStore = computadores.filter(pc => pc.darkstore == idDarkStore)
 
   buscarUsoMaquina(idComputador)
@@ -185,6 +195,8 @@ const buscarUsoMaquina = (idComputador) => {
   }, 1000)
 }
 
+
+
 function totalMaquinas(componente, idDarkStore) {
 
   let total = 0
@@ -214,6 +226,12 @@ function totalMaquinas(componente, idDarkStore) {
       if (computador.statusRede == `Crítico` || computador.statusRede == `Alerta`) {
         total++
       }
+    })
+  }
+
+  if(componente == `Segurança`){
+    computadores.filter(pc => pc.darkstore == idDarkStore).forEach(computador => {
+      totalViolacoesMaquina.filter(violacoes => violacoes.idComputador == computador.idComputador).forEach(violacao => total++)
     })
   }
   return total
@@ -292,7 +310,8 @@ function buscarDarkstorePorNome(idDarkstore = selectDasCidades.value, indice = s
   document.getElementById("maquinas_limite_ram").innerHTML = totalMaquinasRAM
   let totalMaquinasDisco = totalMaquinas("Disco", idDarkstore);
   document.getElementById("maquinas_limite_disco").innerHTML = totalMaquinasDisco
-  let totalMaquinasRede;
+  let totalMaquinasRede = totalMaquinas('Rede', idDarkstore);
+  document.getElementById("maquinas_limite_rede").innerHTML = totalMaquinasRede
   tabelaMaquinas.innerHTML = '';
   for (let i = 0; i < computadoresDarkStore.length; i++) {
     tabelaMaquinas.innerHTML += `
@@ -301,6 +320,7 @@ function buscarDarkstorePorNome(idDarkstore = selectDasCidades.value, indice = s
       <td>${computadoresDarkStore[i].macAddress}</td>
       <td>${computadoresDarkStore[i].fkUsuario}</td>
       <td>${definirStatusMaquina(computadoresDarkStore[i])}</td>
+      <td class="material-symbols-outlined" style="cursor: pointer; color: red;" onclick="deletarMaquina(this)" value="${computadoresDarkStore[i].idComputador}">delete</td>
     </tr>`;
   }
 
@@ -333,13 +353,13 @@ function editarNomeDarkstore() {
   const consulta = `UPDATE DarkStore SET nome = '${nomeDarkstore.value}' WHERE idDarkstore = ${idDarkstore}`
   consultaBanco(`conexao/${consulta}`, 'PUT').then(function (resposta) {
     console.log(resposta);
-  }).catch(function (resposta) {
+    }).catch(function (resposta) {
     console.log(`#ERRO: ${resposta}`);
   });
 }
 
 function buscarMaquinas(idDarkStore) {
-  query = `SELECT pc.*, c.nome as 'nomeComponente', c.idComponente as 'idComponente', ca.nome as 'nomeCaracteristica', ca.valor 'valorCaracteristica' 
+  const query = `SELECT pc.*, c.nome as 'nomeComponente', c.idComponente as 'idComponente', ca.nome as 'nomeCaracteristica', ca.valor 'valorCaracteristica' 
   FROM Computador pc LEFT JOIN Componente c ON c.fkComputador = pc.idComputador LEFT JOIN CaracteristicaComponente ca ON ca.fkComponente = c.idComponente WHERE pc.fkDarkStore = ${idDarkStore};
   `
 
@@ -388,6 +408,16 @@ function buscarMaquinas(idDarkStore) {
       console.log(`#ERRO: ${resposta}`);
     });
   setTimeout(() => {
+    computadores.forEach(computador => {
+      const queryGraficoSeguranca = `CALL total_seguranca(${computador.idComputador})`
+
+      consultaBanco(`conexao/${queryGraficoSeguranca}`, 'GET').then(resposta => {
+        console.log(resposta)
+        totalViolacoesMaquina.push({idComputador: resposta[0][0].idComputador, totalRegistros: resposta[0][0].totalRegistros})
+      })
+
+      
+    })
     computadores.forEach(computador => buscarAlertas(computador.idComputador))
   }, 1000)
 }
@@ -659,6 +689,40 @@ function adicionarMaquina() {
   }, 1000);
 }
 
+const deletarMaquina = (valor) =>{
+  const idComputador = valor.getAttribute("value");
+  const computador = computadores.filter(computador => computador.idComputador == idComputador)[0]
+  const query = `DELETE FROM Computador WHERE idComputador = ${idComputador}`
+  const queryLog = `INSERT INTO Log(descricao, fkUsuario) VALUES ('Máquina ${computador.nome} foi deletada pelo funcionário ${sessionStorage.NOME}, de cargo ${sessionStorage.CARGO}', ${sessionStorage.IDUSUARIO})`
+  
+  Swal.fire({
+    title: `Tem certeza que deseja deletar sua Máquina?`,
+    width: 500,
+    padding: "3em",
+    color: "#00259C",
+    showDenyButton: true,
+    confirmButtonText: "Deletar",
+    confirmButtonColor: "#00259C",
+    denyButtonText: `Cancelar`,
+    focusConfirm: false
+  }).then((result) => {
+    if (result.isConfirmed) {
+      consultaBanco(`/conexao/${query}`, 'DELETE').then(() => {
+        if(resposta.affectedRows >= 1){
+          consultaBanco(`/conexao/${queryLog}`, 'POST').then(() => {
+            console.log("Log adicionado com sucesso!")
+          })
+        }
+        Swal.fire(
+          {
+            title: "Máquina deletada com sucesso",
+            icon: "success",
+            confirmButtonColor: "#00259C"
+          })
+      })
+    }})
+  }
+        
 
 const deletarFuncionario = (valor) => {
   const parametros = valor.getAttribute("value").split("#")
@@ -690,10 +754,7 @@ const deletarFuncionario = (valor) => {
           title: "Usuário deletado com sucesso",
           icon: "success",
           confirmButtonColor: "#00259C"
-        }).then(() => {
-
-        }
-        )
+        })
     }
   }
   );
@@ -926,69 +987,101 @@ const buscarAlertas = (idComputador) => {
   const queryAlertasCPU = `SELECT DISTINCT(pc.idComputador), count(rc.valor) as 'totalRegistros' FROM RegistroComponente rc JOIN Componente c ON c.idComponente = rc.fkComponente JOIN Computador pc ON c.fkComputador = pc.IdComputador JOIN DarkStore d ON d.idDarkStore = pc.fkDarkStore WHERE dataRegistro >= NOW() - INTERVAL 5000000 MINUTE AND c.nome LIKE 'Processador' AND rc.valor > 80 AND pc.idComputador = ${idComputador} GROUP BY pc.idComputador;`
   const queryAlertasRAM = `SELECT DISTINCT(pc.idComputador), count(rc.valor) as 'totalRegistros' FROM RegistroComponente rc JOIN Componente c ON c.idComponente = rc.fkComponente JOIN Computador pc ON c.fkComputador = pc.IdComputador JOIN DarkStore d ON d.idDarkStore = pc.fkDarkStore WHERE dataRegistro >= NOW() - INTERVAL 5 MINUTE AND c.nome LIKE 'Memória' AND rc.valor > SUBSTRING_INDEX((SELECT ca.valor FROM CaracteristicaComponente ca JOIN Componente c ON c.idComponente = ca.fkComponente JOIN Computador pc ON pc.idComputador = c.fkComputador WHERE pc.idComputador = ${idComputador} AND c.nome LIKE 'Memória' AND ca.nome LIKE 'Memória Total'), " ", 1) * 0.8 GROUP BY pc.idComputador;`;
   const queryAlertasDisco = `SELECT DISTINCT(pc.idComputador) FROM Componente c JOIN Computador pc ON c.fkComputador = pc.IdComputador JOIN CaracteristicaComponente ca ON ca.fkComponente = c.idComponente WHERE c.nome LIKE 'Disco' AND (SUBSTRING_INDEX((SELECT ca.valor FROM CaracteristicaComponente ca JOIN Componente c ON c.idComponente = ca.fkComponente JOIN Computador pc ON pc.idComputador = c.fkComputador WHERE pc.idComputador = ${idComputador} AND c.nome LIKE 'Disco' AND ca.nome LIKE 'Memória Disponível'), " ", 1)) < (SUBSTRING_INDEX((SELECT ca.valor FROM CaracteristicaComponente ca JOIN Componente c ON c.idComponente = ca.fkComponente JOIN Computador pc ON pc.idComputador = c.fkComputador WHERE pc.idComputador = ${idComputador} AND c.nome LIKE 'Disco' AND ca.nome LIKE 'Memória Total'), " ", 1) * 0.2)`
-
+  const queryAlertasRede = `SELECT DISTINCT(pc.idComputador), count(rc.valor) as 'totalRegistros' FROM Componente c JOIN Computador pc ON c.fkComputador = pc.IdComputador JOIN CaracteristicaComponente ca ON ca.fkComponente = c.idComponente JOIN RegistroComponente rc ON rc.fkComponente = c.idComponente WHERE NOW() - INTERVAL 5 MINUTE AND (c.nome LIKE 'Rede' AND (rc.nome LIKE 'Ping' AND rc.valor > 100) OR (rc.nome LIKE 'Download' AND rc.valor < 5) OR (rc.nome LIKE 'Upload' AND rc.valor < 5)) AND pc.idComputador = ${idComputador} GROUP BY pc.idComputador;`;
 
   darkstores.forEach(darkstore => {
     let totalMaquinasCPU = 0;
     let totalMaquinasRAM = 0;
     let totalMaquinasDisco = 0;
+    let totalMaquinasRede = 0
     consultaBanco(`/conexao/${queryAlertasCPU}`, 'GET').then(resposta => {
-      resposta.forEach(res => {
-        if (res.totalRegistros > 25) {
-          totalMaquinasCPU++
-          computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusCPU = `Crítico`)
-        } else if (res.totalRegistros > 15) {
-          totalMaquinasCPU++
-          computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusCPU = `Alerta`)
-        } else {
-          computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusCPU = `Normal`)
-        }
-      })
-      if (totalMaquinasCPU > 0) {
-        if (totalMaquinasCPU >= computadores.filter(computador => computador.darkstore == darkstore.idDarkStore).length * 0.7) {
-          darkstore.statusCPU = `Crítico`
-        } else if (totalMaquinasCPU >= computadores.filter(computador => computador.darkstore == darkstore.idDarkStore).length * 0.5) {
-          darkstore.statusCPU = `Alerta`
-        } else {
+        if(resposta.length == 0){
           darkstore.statusCPU = `Normal`
         }
-      }
+          resposta.forEach(res => {
+            if(res.totalRegistros > 25){
+              totalMaquinasCPU++
+              computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusCPU = `Crítico`)
+            }else if(res.totalRegistros > 15){
+              totalMaquinasCPU++
+              computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusCPU = `Alerta`)
+            }else{
+              computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusCPU = `Normal`)
+            }
+          })
+          if(totalMaquinasCPU > 0){
+            if(totalMaquinasCPU >= computadores.filter(computador => computador.darkstore == darkstore.idDarkStore).length * 0.7){
+              darkstore.statusCPU = `Crítico`
+            }else if(totalMaquinasCPU >= computadores.filter(computador => computador.darkstore == darkstore.idDarkStore).length * 0.5){
+              darkstore.statusCPU = `Alerta`
+            }else{
+              darkstore.statusCPU = `Normal`
+            }
+          }
     })
 
     consultaBanco(`/conexao/${queryAlertasRAM}`, 'GET').then(resposta => {
-      resposta.forEach(res => {
-        console.log(res.totalRegistros)
-        if (res.totalRegistros > 25) {
-          totalMaquinasRAM++
-          computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusRAM = `Crítico`)
-        } else if (res.totalRegistros > 15) {
-          totalMaquinasRAM++
-          computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusRAM = `Alerta`)
-        } else {
-          computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusRAM = `Normal`)
-        }
-      })
-      if (totalMaquinasRAM > 0) {
-        if (totalMaquinasRAM >= computadores.filter(computador => computador.darkstore == darkstore.idDarkStore).length * 0.7) {
-          darkstore.statusRAM = `Crítico`
-        } else if (totalMaquinasRAM >= computadores.filter(computador => computador.darkstore == darkstore.idDarkStore).length * 0.5) {
-          darkstore.statusRAM = `Alerta`
-        } else {
+        if(resposta.length == 0){
           darkstore.statusRAM = `Normal`
         }
-      }
+        resposta.forEach(res => {
+          console.log(res.totalRegistros)
+          if(res.totalRegistros > 25){
+            totalMaquinasRAM++
+            computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusRAM = `Crítico`)
+          }else if(res.totalRegistros > 15){
+            totalMaquinasRAM++
+            computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusRAM = `Alerta`)
+          }else{
+            computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusRAM = `Normal`)
+          }
+        })
+        if(totalMaquinasRAM > 0){
+          if(totalMaquinasRAM >= computadores.filter(computador => computador.darkstore == darkstore.idDarkStore).length * 0.7){
+            darkstore.statusRAM = `Crítico`
+          }else if(totalMaquinasRAM >= computadores.filter(computador => computador.darkstore == darkstore.idDarkStore).length * 0.5){
+            darkstore.statusRAM = `Alerta`
+          }else{
+            darkstore.statusRAM = `Normal`
+          }
+        }
     })
 
     consultaBanco(`/conexao/${queryAlertasDisco}`, 'GET').then(resposta => {
       if (resposta.length == 0) {
         darkstore.statusDisco = `Normal`
-        computadores.filter(computador => computador.darkstore == darkstore.idDarkStore).forEach(pc => pc.statusDisco = `Normal`)
-      } else {
+      }else{
         resposta.forEach(res => {
           computadores.filter(computador => {
             computador.idComputador == res.idComputador
           }).forEach(pc => pc.statusDisco == `Crítico`)
         })
+      }
+    })
+
+    consultaBanco(`/conexao/${queryAlertasRede}`, 'GET').then(resposta => {
+      if(resposta.length == 0){
+        darkstore.statusRede = `Normal`
+      }
+      resposta.forEach(res => {
+        if(res.totalRegistros > 25){
+          totalMaquinasRede++
+          computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusRede = `Crítico`)
+        }else if(res.totalRegistros > 15){
+          totalMaquinasRede++
+          computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusRede = `Alerta`)
+        }else{
+          computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusRede = `Normal`)
+        }
+      })
+      if(totalMaquinasRede > 0){
+        if(totalMaquinasRede >= computadores.filter(computador => computador.darkstore == darkstore.idDarkStore).length * 0.7){
+          darkstore.statusRede = `Crítico`
+        }else if(totalMaquinasRede >= computadores.filter(computador => computador.darkstore == darkstore.idDarkStore).length * 0.5){
+          darkstore.statusRede = `Alerta`
+        }else{
+          darkstore.statusRede = `Normal`
+        }
       }
     })
 
