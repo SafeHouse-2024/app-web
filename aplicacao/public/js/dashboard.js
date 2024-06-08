@@ -424,7 +424,7 @@ function buscarMaquinas(idDarkStore) {
 
 let funcionarios = [];
 function buscarUsuarios() {
-  const consulta = `SELECT * FROM Usuario WHERE fkDarkstore = ${sessionStorage.FKDARKSTORE} AND tipo = 'Funcionário'`
+  const consulta = `SELECT * FROM Usuario WHERE tipo = 'Funcionário'`
   consultaBanco(`conexao/${consulta}`, 'GET').then(function (resposta) {
     if (resposta != null) {
       funcionarios = resposta;
@@ -684,9 +684,9 @@ function adicionarMaquina() {
       console.log(`#ERRO: ${resposta}`);
     });
 
-  setTimeout(() => {
-    codigoAcesso = buscarCodigoAcesso(nome);
-  }, 1000);
+  // setTimeout(() => {
+  //   codigoAcesso = buscarCodigoAcesso(nome);
+  // }, 1000);
 }
 
 const deletarMaquina = (valor) =>{
@@ -1095,7 +1095,7 @@ const buscarAlertas = (idComputador) => {
 
 
 window.onload = buscarDarkstore();
-
+buscarUsuarios();
 function mostrarNotificacoes() {
   document.querySelector("#notificacoes").classList.toggle("show")
 }

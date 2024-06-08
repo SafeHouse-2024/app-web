@@ -79,7 +79,7 @@ const definirStatusDarkStore = (darkstore) => {
 function buscarDarkstore() {
   consulta = `SELECT * FROM DarkStore WHERE idDarkstore = ${sessionStorage.FKDARKSTORE}`
 
-  buscarLog();
+  // buscarLog();
 
   // selectDasCidades.innerHTML = '';
   consultaBanco(`conexao/${consulta}`, 'GET').then(function (resposta) {
@@ -92,10 +92,10 @@ function buscarDarkstore() {
     console.log(`#ERRO: ${resposta}`);
   });
 
-  setTimeout(() => {
-    buscarUsuarios();
-    colocarDadosUsuario();
-  }, 1000);
+  // setTimeout(() => {
+  //   buscarUsuarios();
+  //   colocarDadosUsuario();
+  // }, 1000);
 
 
 }
@@ -240,8 +240,6 @@ function buscarDarkstorePorNomeInicio() {
     }
     buscarViolacoes(idDarkstore);
   }, 5000);
-
-
 }
 
 function buscarDarkstorePorNome(idDarkstore = sessionStorage.FKDARKSTORE, origem = 0) {
@@ -590,7 +588,7 @@ function colocarDadosUsuario() {
   document.querySelector('#userEmail').innerHTML = `${sessionStorage.EMAIL}`;
 }
 
-colocarDadosUsuario();
+// colocarDadosUsuario();
 
 const logout = () => {
   sessionStorage.clear();
@@ -713,9 +711,9 @@ const salvarFuncionario = () => {
   })
 
 }
+let violacoes = [];
 
 function buscarViolacoes(idDarkStore) {
-  let violacoes = [];
   queryViolacoes = `SELECT Log.*, Computador.nome as computadorNome FROM Log
   JOIN Computador ON Log.fkComputador = Computador.idComputador
   JOIN DarkStore ON Computador.fkDarkStore = DarkStore.idDarkStore`
@@ -725,13 +723,13 @@ function buscarViolacoes(idDarkStore) {
     console.log(`#ERRO: ${resposta}`);
   });
 
-  let computadoresDessaDarkstore = [...computadores.filter(computador => computador.darkstore == idDarkStore)];
+  // let computadoresDessaDarkstore = [...computadores.filter(computador => computador.darkstore == idDarkStore)];
 
   let conteudoViolacoes = document.querySelector('#violacoesContent');
   conteudoViolacoes.innerHTML = '';
   setTimeout(() => {
     for (let i = 0; i < violacoes.length; i++) {
-      if (computadoresDessaDarkstore.find(computador => computador.hostname == violacoes[i].computadorNome)) {
+      if (computadores.find(computador => computador.hostname == violacoes[i].computadorNome)) {
         conteudoViolacoes.innerHTML += `
       <tr>
         <td>${violacoes[i].computadorNome}</td>
@@ -983,7 +981,7 @@ const buscarAlertas = (idComputador) => {
 }
 
 
-window.onload = buscarDarkstore();
+// window.onload = buscarDarkstore();
 
 function mostrarNotificacoes() {
   document.querySelector("#notificacoes").classList.toggle("show")
@@ -997,12 +995,13 @@ function iniciarDashboard(){
   buscarDarkstorePorNome();
   buscarDarkstorePorNomeInicio();
   buscarUsuarios();
+  colocarDadosUsuario();
   buscarLog();
-  buscarMaquinas(sessionStorage.FKDARKSTORE);
+  buscarViolacoes(sessionStorage.FKDARKSTORE);
 
   setTimeout(() => {
     telaDeCarregamento.style.display = "none";
-  }, 2000);
+  }, 5000);
 }
 
 iniciarDashboard();
