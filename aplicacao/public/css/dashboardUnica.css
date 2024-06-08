@@ -1448,3 +1448,41 @@ label {
     transform: rotate(360deg);
   }
 }
+
+.tabela-responsive{
+  width: 100%;
+  height: 85%;
+  max-height: 100%;
+
+ & table {
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+
+  & thead {
+    width: 100%;
+    display: table;
+    table-layout: fixed;
+  }
+
+  & tbody {
+    width: 100%;
+    display: block;
+    overflow-y: scroll !important;
+    max-height: 700px;
+  }
+
+  & tr {
+    width: 100%;
+    display: table;
+    table-layout: fixed;
+  }
+
+  & th, td {
+    width: 100%;
+    display: table-cell;
+    text-align: center;
+  }
+}
