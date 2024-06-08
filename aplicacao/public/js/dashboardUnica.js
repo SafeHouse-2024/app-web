@@ -103,7 +103,7 @@ function buscarDarkstore() {
 
 const buscarMaquinaDarkstore = (idComputador, idDarkStore) => {
 
-  trocarTela(2)
+  trocarTela(1)
   computador = computadores.filter(computador => computador.idComputador == idComputador)
   let computadoresDarkStore = computadores.filter(pc => pc.darkstore == idDarkStore)
 
@@ -246,11 +246,11 @@ function buscarDarkstorePorNomeInicio() {
 
 function buscarDarkstorePorNome(idDarkstore = sessionStorage.FKDARKSTORE, origem = 0) {
   if (origem == 0) {
-    trocarTela(1)
+    trocarTela(0)
   }
   console.log(idDarkstore)
   let nomeDarkstore = document.querySelector('#nome_darkstore');
-  nomeDarkstore.value = darkstores.filter(darkstore => darkstore.idDarkStore == idDarkstore)[0].nome;
+
   let nomeControle
   let valorControle
   // for (var i = 0; i < darkstores.length; i++) {
@@ -988,3 +988,21 @@ window.onload = buscarDarkstore();
 function mostrarNotificacoes() {
   document.querySelector("#notificacoes").classList.toggle("show")
 }
+
+var telaDeCarregamento = document.querySelector("#carregando");
+
+function iniciarDashboard(){
+  telaDeCarregamento.style.display = "flex";
+  buscarDarkstore();
+  buscarDarkstorePorNome();
+  buscarDarkstorePorNomeInicio();
+  buscarUsuarios();
+  buscarLog();
+  buscarMaquinas(sessionStorage.FKDARKSTORE);
+
+  setTimeout(() => {
+    telaDeCarregamento.style.display = "none";
+  }, 2000);
+}
+
+iniciarDashboard();

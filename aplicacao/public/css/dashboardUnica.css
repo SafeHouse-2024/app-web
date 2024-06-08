@@ -189,7 +189,7 @@ main {
 }
 
 .telas article {
-  pointer-events: all;  
+  pointer-events: all;
 }
 
 #telaDarkStores > article {
@@ -311,7 +311,7 @@ main {
 
 .content_component .header .buttons {
   display: flex;
-  justify-content: space-between  ;
+  justify-content: space-between;
 }
 
 .content_component .header .buttons label {
@@ -349,8 +349,6 @@ main {
   flex-direction: column;
   justify-content: space-around;
 }
-
-
 
 .maquina-geral {
   width: 15%;
@@ -437,7 +435,7 @@ main {
     align-items: center;
   }
 
-  & .alertas-dash p span{
+  & .alertas-dash p span {
     width: 30px;
     height: 10px;
     border-radius: 10px;
@@ -445,15 +443,12 @@ main {
   }
 }
 
-
-
-
 .main-content {
   width: 100%;
   height: 100%;
   display: flex;
 
-  & .graficos-de-barra{
+  & .graficos-de-barra {
     width: 60%;
     height: 100%;
     display: grid;
@@ -461,25 +456,25 @@ main {
     grid-template-rows: 1fr 1fr;
     align-items: center;
     justify-items: center;
-    
-    & .grafico-barra-content{
+
+    & .grafico-barra-content {
       width: 80%;
       height: 80%;
     }
   }
 
-  & .tabela-geral-maquinas{
+  & .tabela-geral-maquinas {
     width: 40%;
     height: 100%;
     padding: 10px;
-    & .alertas-dash{
+    & .alertas-dash {
       width: 100%;
       height: 10%;
       display: flex;
       justify-content: space-between;
       align-items: center;
 
-      & div p span{
+      & div p span {
         width: 30px;
         height: 10px;
         border-radius: 10px;
@@ -487,7 +482,7 @@ main {
       }
     }
 
-    & .darkstore-geral{
+    & .darkstore-geral {
       /* width: 100%;
       height: 90%; */
     }
@@ -544,28 +539,28 @@ main {
   width: 100%;
 }
 
-#infoHardware h3{
+#infoHardware h3 {
   font-size: 18px;
   font-weight: bold;
 }
 
-#infoHardware ul{
+#infoHardware ul {
   padding: 0;
 }
 
-#infoHardware ul li{
+#infoHardware ul li {
   list-style: none;
 }
 
-#infosDash{
+#infosDash {
   width: 100%;
 }
 
-#infosDash h4{
+#infosDash h4 {
   font-size: 18px;
 }
 
-#infosDash span{
+#infosDash span {
   font-size: 14px;
 }
 
@@ -662,7 +657,7 @@ h2 > span {
   width: 100%;
   height: 100%;
 
-  & .nome-darkstore{
+  & .nome-darkstore {
     width: max-content;
     height: 10%;
     display: flex;
@@ -672,14 +667,14 @@ h2 > span {
     color: #13004c;
     gap: 10px;
 
-    & input{
+    & input {
       width: max-content;
       height: 30px;
       border: none;
       border-bottom: 1px solid #13004c;
     }
 
-    & i{
+    & i {
       cursor: pointer;
     }
   }
@@ -688,22 +683,24 @@ h2 > span {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-  
+
     height: 20%;
     width: 100%;
     margin: 30px 0;
   }
-  & .tabelas-darkstore{
+  & .tabelas-darkstore {
     width: 100%;
-    height: 70%;
+    height: 55%;
+    max-height: 55%;
     display: flex;
     /* flex-direction: column; */
     justify-content: space-between;
     align-items: start;
-
-    & div{
+    
+    & div {
       width: 48%;
-      height: 100%;
+      max-height: 100%;
+      overflow: scroll  !important;
     }
   }
 }
@@ -856,7 +853,7 @@ h2 > span {
   margin-right: 10px;
 }
 
-.edit-profile{
+.edit-profile {
   background-color: white;
   width: 60%;
   height: 70%;
@@ -864,7 +861,7 @@ h2 > span {
   border-radius: 15px;
 }
 
-.edit-profile h2{
+.edit-profile h2 {
   font-size: 20px;
 }
 
@@ -876,10 +873,10 @@ h2 > span {
   width: 100%;
 }
 
-.profile{
-  color: black; 
+.profile {
+  color: black;
   width: 100%;
-  height: 60%; 
+  height: 60%;
   padding: 0 5% 10% 5%;
   margin-top: 3%;
   border-radius: 10px;
@@ -1007,7 +1004,7 @@ label {
 }
 
 .adicionar-maquina:hover {
-  background-color: #13004C;
+  background-color: #13004c;
   color: white;
 
   cursor: pointer;
@@ -1054,7 +1051,7 @@ label {
   margin-right: 10px;
 }
 
-#nome{
+#nome {
   width: 90%;
 }
 
@@ -1197,50 +1194,48 @@ label {
   width: 100%;
 }
 
-.informacoes-maquina{
+.informacoes-maquina {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   width: 100%;
   height: 100%;
   gap: 20px;
-
 }
 
-.informacoes-maquina .card.maquina{
+.informacoes-maquina .card.maquina {
   background-color: white;
   border: none;
   height: 93%;
   width: 20%;
 }
-.informacoes-maquina .card-header.d-flex.header{
+.informacoes-maquina .card-header.d-flex.header {
   background-color: white;
   border: none;
   justify-content: space-between;
   width: 100%;
 }
 
-.informacoes-maquina .card-header.d-flex.header h2{
+.informacoes-maquina .card-header.d-flex.header h2 {
   font-size: 20px;
   background-color: white;
 }
 
-.informacoes-maquina .card-header.d-flex.header button{
+.informacoes-maquina .card-header.d-flex.header button {
   border: none;
   font-size: 14px;
   padding: 1% 2%;
   border-radius: 15px;
-  background-color: #13004C;
+  background-color: #13004c;
   color: white;
 }
 
-.informacoes-maquina .card-body{
+.informacoes-maquina .card-body {
   overflow-y: scroll;
   overflow-x: hidden;
 }
 
-
-.maquina-individual{
+.maquina-individual {
   width: 80%;
   height: 100%;
   display: flex;
@@ -1249,7 +1244,7 @@ label {
   align-items: center;
 }
 
-.maquina-individual .graficos{
+.maquina-individual .graficos {
   height: 80%;
   width: 100%;
   display: flex;
@@ -1257,7 +1252,7 @@ label {
   align-items: center;
 }
 
-.info-template.row{
+.info-template.row {
   height: 10%;
   width: 100%;
   display: flex;
@@ -1265,11 +1260,11 @@ label {
   align-items: center;
 }
 
-#linha{
+#linha {
   margin: 0;
 }
 
-#graficos{
+#graficos {
   width: 35%;
   height: 25px;
   font-size: 14px;
@@ -1292,31 +1287,31 @@ label {
   padding: 4%;
 }
 
-.usuarios-geral{
+.usuarios-geral {
   width: 100%;
   border: 1px solid black;
   height: auto;
 }
 
-.usuarios-geral thead, .usuarios-geral tbody{
+.usuarios-geral thead,
+.usuarios-geral tbody {
   border: 1px solid black;
   background-color: white;
 }
 
-.usuarios-geral td{
+.usuarios-geral td {
   border: 1px solid black;
   text-align: center;
 }
 
-.usuarios-geral th{
+.usuarios-geral th {
   border: 1px solid black;
   text-align: center;
-  background-color: #13004C;
+  background-color: #13004c;
   color: white;
 }
 
-
-.user-table{
+.user-table {
   width: 70%;
   background-color: white;
   height: 70%;
@@ -1324,37 +1319,37 @@ label {
   padding: 0 2%;
 }
 
-.user-table .header{
+.user-table .header {
   display: flex;
   justify-content: space-between;
   width: 100%;
 }
 
-.user-table .header h2{
+.user-table .header h2 {
   font-size: 20px;
 }
 
-#button_user{
+#button_user {
   padding: 1% 2%;
   border-radius: 15px;
-  background-color: #13004C;
+  background-color: #13004c;
   color: white;
   border: none;
   cursor: pointer;
 }
 
-.hardware-description{
+.hardware-description {
   text-align: left;
   width: 100%;
   font-size: 14px;
   margin-left: 3px;
 }
 
-.modal-dialog{
+.modal-dialog {
   height: 90%;
 }
 
-.modal-content{
+.modal-content {
   height: 80%;
   display: flex;
   flex-direction: column;
@@ -1362,65 +1357,94 @@ label {
   justify-content: center;
 }
 
-.modal-header{
+.modal-header {
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #DFDCDE;
+  background-color: #dfdcde;
 }
 
-.modal-body{
-  background-color: #DFDCDE;
+.modal-body {
+  background-color: #dfdcde;
 }
 
-.modal-body .editar_funcionario_nome input{
+.modal-body .editar_funcionario_nome input {
   margin-bottom: 6px;
 }
 
-.modal-body .editar_funcionario_nome input{
+.modal-body .editar_funcionario_nome input {
   width: 30%;
 }
 
-.modal-body .editar_funcionario{
+.modal-body .editar_funcionario {
   display: flex;
   flex-direction: column;
   width: 100%;
 }
 
-.modal-body .editar_funcionario input{
+.modal-body .editar_funcionario input {
   width: 100%;
   margin-bottom: 6px;
 }
 
-.modal-footer{
+.modal-footer {
   width: 100%;
-  background-color: #DFDCDE;
+  background-color: #dfdcde;
 }
 
-.modal-footer button{
+.modal-footer button {
   border: none;
   padding: 1% 4%;
   border-radius: 15px;
-  background-color: #13004C;
+  background-color: #13004c;
   color: white;
   margin-right: 7%;
 }
 
-.dropdown-menu{
+.dropdown-menu {
   width: 600px;
   height: 200px;
   overflow-y: scroll;
 }
 
-.notificacao{
+.notificacao {
   width: 40px;
   height: 40px;
   border-radius: 50%;
   margin: 20px;
   position: absolute;
-  & i{
+  & i {
     font-size: 30px;
     color: #13004c;
+  }
+}
+
+.container-loader {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.493);
+  z-index: 9999999999999;
+}
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #ffffff;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
