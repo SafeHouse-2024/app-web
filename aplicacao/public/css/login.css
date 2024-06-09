@@ -146,16 +146,16 @@ a:hover{
 }
 
 @media only screen and (max-width: 600px){
-/* 
-  .bgAnimado{
-    display: none;
-  }
-  .bgAdmin{
-    display: none;
-  } */
 
+   .bgAnimado{
+    height: 535px;
+   }
+  main{
+    height: auto;
+    margin: 10%;
+  }
   main div{
-    width: 80%;
-    height: 90vh;
+    width: 90%;
+    height: auto;
   }
 } 

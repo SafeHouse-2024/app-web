@@ -35,12 +35,12 @@
     <div class="menu-mobile">
         <div>
             <div class="menu-mobile-button">
-                <a href="../public/cadastro.html">
+                <a href="./cadastro.html">
                     <button class="btn-cadastro-mobile">Cadastro</button>
                 </a>
             </div>
             <div class="menu-mobile-button">
-                <a href="../public/login.html">
+                <a href="./login.html">
                     <button class="btn-login-mobile">Login</button>
                 </a>
             </div>
@@ -72,17 +72,17 @@
                 <div class="container-infos-esquerda">
                     <div>
                         <h3><b>Proteja</b> seus dados</h3>
-                        <img src="../public/assets/Lock.svg" alt="">
+                        <img src="./assets/Lock.svg" alt="">
                     </div>
                 </div>
                 <div class="container-infos-direita">
                     <div>
                         <h3><b>Otimize</b> seu desempenho</h3>
-                        <img src="../public/assets/Growth And Flag.svg" alt="">
+                        <img src="./assets/Growth And Flag.svg" alt="">
                     </div>
                     <div>
                         <h3><b>Especializada</b> em monitoramento</h3>
-                        <img src="../public/assets/System Task.svg" alt="">
+                        <img src="./assets/System Task.svg" alt="">
                     </div>
                 </div>
             </div>
@@ -208,7 +208,6 @@
         </span>
     </footer>
 </body>
-
 </html>
 <script>
     function mostrarMenu() {
@@ -217,13 +216,13 @@
 
         if (menuMobile.classList.contains('abrir')) {
             menuMobile.classList.remove('abrir');
-            document.querySelector('.icon-menu-mobile').src = "../public/assets/menu-hamburguer.svg";
+            document.querySelector('.icon-menu-mobile').src = "./assets/menu-hamburguer.svg";
             body.style.overflow = 'auto';
         }
         else {
             menuMobile.classList.add('abrir');
             body.style.overflow = 'hidden';
-            document.querySelector('.icon-menu-mobile').src = "../public/assets/Close.svg";
+            document.querySelector('.icon-menu-mobile').src = "./assets/Close.svg";
         }
     }
 </script>
