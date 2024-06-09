@@ -100,6 +100,38 @@ function buscarDarkstore() {
 
 }
 
+function liberarInputNomeMaquina(){
+  let nomeMaquina = document.querySelector('#nome_maquina');
+
+  if(nomeMaquina.hasAttribute('readonly')){
+    nomeMaquina.removeAttribute('readonly');
+  }else{
+    nomeMaquina.setAttribute('readonly', 'true');
+  }
+  let botao = document.querySelector('#lapis_nome_maquina');
+
+  if(botao.classList.contains('fa-pencil')){
+    botao.classList.remove('fa-pencil');
+    botao.classList.add('fa-check');
+  }else{
+    botao.classList.remove('fa-check');
+    botao.classList.add('fa-pencil');
+    editarNomeMaquina();
+  }
+
+}
+
+function editarNomeMaquina(){
+  let nomeMaquina = document.querySelector('#nome_maquina');
+  let idComputador = computadores.filter(computador => computador.darkstore == sessionStorage.FKDARKSTORE)[0].idComputador;
+  const consulta = `UPDATE Computador SET nome = '${nomeMaquina.value}' WHERE idComputador = ${idComputador}`
+  consultaBanco(`conexao/${consulta}`, 'PUT').then(function (resposta) {
+    console.log(resposta);
+  }).catch(function (resposta) {
+    console.log(`#ERRO: ${resposta}`);
+  });
+}
+
 
 const buscarMaquinaDarkstore = (idComputador, idDarkStore, origem = 0) => {
 
