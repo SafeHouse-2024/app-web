@@ -353,12 +353,12 @@ main {
 
 
 .maquina-geral {
-  width: 15%;
-  height: 100%;
-
+  width: 18%;
   display: flex;
+
   flex-direction: column;
   justify-content: space-evenly;
+  padding: 0.3%;
   align-items: center;
 
   border: 1px solid #000;
@@ -366,30 +366,30 @@ main {
   background-color: rgba(255, 255, 255, 0.57);
 }
 .texto-maquina {
-  width: 100%;
-  height: 100%;
+  width: 80%;
+  height: 80%;
 
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
   color: #09037b;
-  padding: 5%;
+  /* padding: 5%; */
 }
 
 .texto-maquina p {
-  font-size: 16px;
-  width: 70%;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
 }
 
 .texto-maquina span {
-  font-size: 18px;
-  width: 15%;
+  font-size: 14px;
 }
 
 .footer-maquina {
-  width: 90%;
-  height: 20%;
-
+  width: 80%;
+  /* height: 20%; */
+  font-size: 12px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -561,7 +561,7 @@ main {
   width: 100%;
 }
 
-#infosDash h4{
+#infosDash h4{https://github.com/SafeHouse-2024/app-web/pull/11/conflict?name=aplicacao%252Fpublic%252Fcss%252Fdashboard.css&ancestor_oid=da4bdd57fca3773d126773f9f9d4f17d9c88346c&base_oid=b7421887dca29844efa73455a4c4b3c70efe591f&head_oid=9f33703960928836b6651bb914681abe2c63701c
   font-size: 18px;
 }
 
@@ -688,10 +688,10 @@ h2 > span {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-
-    height: 20%;
+  
+    /* height: 20%; */
     width: 100%;
-    margin: 30px 0;
+    /* margin: 30px 0; */
   }
   & .tabelas-darkstore {
     width: 100%;
@@ -996,12 +996,13 @@ label {
 }
 
 .adicionar-maquina {
-  width: 50%;
-  height: 50px;
+  width: 150px;
+  height: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
-
+  
+  font-size: 14px;
   background-color: #ffc444;
   border-radius: 10px;
   cursor: pointer;
