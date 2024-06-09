@@ -120,7 +120,7 @@ function buscarDarkstore() {
     }
     buscarUsuarios();
     colocarDadosUsuario();
-  }, 2000);
+  }, 10);
 
 
 }
@@ -1136,18 +1136,12 @@ const buscarAlertas = (idComputador) => {
         }
       }
     })
-
   })
-
-  setTimeout(() => {
-    // buscarAlertas(idComputador)
-  }, 3000)
-
 }
 
 
 window.onload = buscarDarkstore();
-buscarUsuarios();
+// buscarUsuarios();  
 function mostrarNotificacoes() {
   document.querySelector("#notificacoes").classList.toggle("show")
 }
