@@ -561,7 +561,7 @@ main {
   width: 100%;
 }
 
-#infosDash h4{
+#infosDash h4{https://github.com/SafeHouse-2024/app-web/pull/11/conflict?name=aplicacao%252Fpublic%252Fcss%252Fdashboard.css&ancestor_oid=da4bdd57fca3773d126773f9f9d4f17d9c88346c&base_oid=b7421887dca29844efa73455a4c4b3c70efe591f&head_oid=9f33703960928836b6651bb914681abe2c63701c
   font-size: 18px;
 }
 
@@ -662,7 +662,7 @@ h2 > span {
   width: 100%;
   height: 100%;
 
-  & .nome-darkstore{
+  & .nome-darkstore {
     width: max-content;
     height: 10%;
     display: flex;
@@ -672,14 +672,14 @@ h2 > span {
     color: #13004c;
     gap: 10px;
 
-    & input{
+    & input {
       width: max-content;
       height: 30px;
       border: none;
       border-bottom: 1px solid #13004c;
     }
 
-    & i{
+    & i {
       cursor: pointer;
     }
   }
@@ -693,17 +693,19 @@ h2 > span {
     width: 100%;
     /* margin: 30px 0; */
   }
-  & .tabelas-darkstore{
+  & .tabelas-darkstore {
     width: 100%;
-    height: 70%;
+    height: 55%;
+    max-height: 55%;
     display: flex;
     /* flex-direction: column; */
     justify-content: space-between;
     align-items: start;
-
-    & div{
+    
+    & div {
       width: 48%;
-      height: 100%;
+      max-height: 100%;
+      overflow: scroll  !important;
     }
   }
 }
@@ -1428,6 +1430,7 @@ label {
 
 .container-loader{
   position: absolute;
+  z-index: 9999999999999;
   width: 100%;
   height: 100%;
   display: none;
@@ -1451,5 +1454,43 @@ label {
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+.tabela-responsive{
+  width: 100%;
+  height: 85%;
+  max-height: 100%;
+
+ & table {
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+
+  & thead {
+    width: 100%;
+    display: table;
+    table-layout: fixed;
+  }
+
+  & tbody {
+    width: 100%;
+    display: block;
+    overflow-y: scroll !important;
+    max-height: 700px;
+  }
+
+  & tr {
+    width: 100%;
+    display: table;
+    table-layout: fixed;
+  }
+
+  & th, td {
+    width: 100%;
+    display: table-cell;
+    text-align: center;
   }
 }

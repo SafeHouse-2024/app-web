@@ -60,10 +60,6 @@ function trocarTela(tela) {
 
 let usoSistema;
 let darkstores = []
-// const selectDasCidades = document.querySelector('#cidades');
-// selectDasCidades.addEventListener('change', (e) => {
-//   buscarDarkstorePorNome(e.target.value)
-// })
 let computadores = [];
 
 const definirStatusDarkStore = (darkstore) => {
@@ -1037,7 +1033,7 @@ function iniciarDashboard(){
 
   setTimeout(() => {
     telaDeCarregamento.style.display = "none";
-  }, 1000);
+  }, 5000);
 }
 
-iniciarDashboard();
+window.addEventListener("load", iniciarDashboard());
