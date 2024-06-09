@@ -686,6 +686,16 @@ function adicionarMaquina() {
   let darkstore = selectDasCidades.value;
   let usuario = sessionStorage.IDUSUARIO;
   let codigoAcesso = '';
+
+  if (nome == '' || macAddress == '') {
+    Swal.fire({
+      title: "Preencha todos os campos",
+      icon: "error",
+      confirmButtonColor: "#00259C"
+    });
+    return;
+  }
+
   const consultaCodigo = `SELECT codigoAcesso FROM Computador WHERE nome = '${nome}'`
   const consultaCriacao = `INSERT INTO Computador (nome, macAddress, fkDarkStore, fkUsuario) VALUES ('${nome}', '${macAddress}', ${darkstore}, ${usuario})`
   const queryLog = `INSERT INTO Log(descricao, fkUsuario) VALUES ('Máquina ${nome} foi criada por ${sessionStorage.NOME} de cargo ${sessionStorage.CARGO}', ${sessionStorage.IDUSUARIO})`
