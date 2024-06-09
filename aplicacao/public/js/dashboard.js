@@ -120,7 +120,7 @@ function buscarDarkstore() {
     }
     buscarUsuarios();
     colocarDadosUsuario();
-  }, 2000);
+  }, 10);
 
 
 }
@@ -686,6 +686,16 @@ function adicionarMaquina() {
   let darkstore = selectDasCidades.value;
   let usuario = sessionStorage.IDUSUARIO;
   let codigoAcesso = '';
+
+  if (nome == '' || macAddress == '') {
+    Swal.fire({
+      title: "Preencha todos os campos",
+      icon: "error",
+      confirmButtonColor: "#00259C"
+    });
+    return;
+  }
+
   const consultaCodigo = `SELECT codigoAcesso FROM Computador WHERE nome = '${nome}'`
   const consultaCriacao = `INSERT INTO Computador (nome, macAddress, fkDarkStore, fkUsuario) VALUES ('${nome}', '${macAddress}', ${darkstore}, ${usuario})`
   const queryLog = `INSERT INTO Log(descricao, fkUsuario) VALUES ('Máquina ${nome} foi criada por ${sessionStorage.NOME} de cargo ${sessionStorage.CARGO}', ${sessionStorage.IDUSUARIO})`
@@ -861,6 +871,16 @@ const salvarDarkStore = () => {
   let numero = numero_salvar_darkstore.value
   let cep = cep_salvar_darkstore.value
   let uf = uf_salvar_darkstore.value
+
+  if(nomeDarkStore == "" || ruaDarkStore == "" || complemento == "" || numero == "" || cep == "" || uf == ""){
+    Swal.fire({
+      title: "Preencha todos os campos",
+      icon: "error",
+      confirmButtonColor: "#00259C"
+    })
+    return
+  }
+
   const query = `INSERT INTO DarkStore (nome, rua, numero, complemento, cep, uf, fkEmpresa) VALUES ('${nomeDarkStore}', '${ruaDarkStore}', ${numero}, '${complemento}', '${cep}', '${uf}', ${sessionStorage.IDEMPRESA});`
   queryLog = `INSERT INTO Log(descricao, fkUsuario) VALUES ('DarkStore ${nomeDarkStore} foi criada por ${sessionStorage.NOME} de cargo ${sessionStorage.CARGO}', ${sessionStorage.IDUSUARIO})`
 
@@ -1116,18 +1136,12 @@ const buscarAlertas = (idComputador) => {
         }
       }
     })
-
   })
-
-  setTimeout(() => {
-    // buscarAlertas(idComputador)
-  }, 3000)
-
 }
 
 
 window.onload = buscarDarkstore();
-buscarUsuarios();
+// buscarUsuarios();  
 function mostrarNotificacoes() {
   document.querySelector("#notificacoes").classList.toggle("show")
 }

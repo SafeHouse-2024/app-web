@@ -209,9 +209,21 @@
               <div class="desc-maquinas">
 
         <div class="alertas-dash">
-                  <p><span style="background-color: green"></span> Estado Normal</p>
-                  <p><span style="background-color: yellow"></span> Estado Atenção</p>
-                  <p><span style="background-color: red"></span> Estado Crítico</p>
+          <div id="estadoNormalGeral">
+            <p data-toggle="tooltip" title="Estado Normal indica que essa darkstore não tem nenhuma máquina com uso excessivo de hardware" data-placement="bottom">
+              <span style="background-color: green"></span> Estado Normal
+            </p>
+          </div>
+          <div id="estadoAlertaGeral">
+            <p data-toggle="tooltip" title="Estado de alerta indica que essa darkstore tem até 30% dos computadores com uso excessivo de hardware" data-placement="bottom">
+              <span style="background-color: yellow"></span> Estado Atenção
+            </p>
+          </div>
+          <div id="estadoCriticoGeral">
+            <p data-toggle="tooltip" title="Estado de alerta indica que essa darkstore tem mais de 50% dos computadores com uso excessivo de hardware" data-placement="bottom">
+              <span style="background-color: red"></span> Estado Crítico
+            </p>
+          </div>
                 </div>
               </div>
             </div>
@@ -337,7 +349,7 @@
             </div>
           </div>
 
-          <div class="table-responsive">
+          <div class="tabela-responsive">
             <table class="table">
               <thead style="background-color: #13004C; color: white;">
                 <tr>
@@ -533,7 +545,7 @@
                 <label for="nome_salvar_darkstore">Nome:</label>
                 <input type="text" id="nome_salvar_darkstore"/>
                 <label for="uf_salvar_darkstore">UF:</label>
-                  <input type="password" id="uf_salvar_darkstore"/>
+                  <input type="text" id="uf_salvar_darkstore"/>
               </div>
               <div class="editar_funcionario">
                 <div>
@@ -542,13 +554,13 @@
                 </div>
                 <div>
                   <label for="numero_salvar_darkstore">Número:</label>
-                  <input type="password" id="numero_salvar_darkstore"/>
+                  <input type="text" id="numero_salvar_darkstore"/>
                 </div>
               </div>
               <div class="editar_funcionario">
                 <div>
                   <label for="complemento_salvar_darkstore">Complemento:</label>
-                  <input type="password" id="complemento_salvar_darkstore"/>
+                  <input type="text" id="complemento_salvar_darkstore"/>
                 </div>
                 <div>
                   <label for="cep_salvar_darkstore">Cep</label>
@@ -653,9 +665,9 @@
         </div>
       </div>
     </div>
-    <!-- <div class="container-loader" id="carregando">
+    <div class="container-loader" id="carregando">
       <span class="loader"></span>
-    </div> -->
+    </div>
   </body>
 </html>
 <script src="https://code.highcharts.com/highcharts.js"></script>
