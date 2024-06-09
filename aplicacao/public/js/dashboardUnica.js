@@ -1037,7 +1037,7 @@ function iniciarDashboard(){
 
   setTimeout(() => {
     telaDeCarregamento.style.display = "none";
-  }, 5000);
+  }, 1000);
 }
 
 iniciarDashboard();
