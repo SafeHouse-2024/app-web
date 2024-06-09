@@ -861,6 +861,16 @@ const salvarDarkStore = () => {
   let numero = numero_salvar_darkstore.value
   let cep = cep_salvar_darkstore.value
   let uf = uf_salvar_darkstore.value
+
+  if(nomeDarkStore == "" || ruaDarkStore == "" || complemento == "" || numero == "" || cep == "" || uf == ""){
+    Swal.fire({
+      title: "Preencha todos os campos",
+      icon: "error",
+      confirmButtonColor: "#00259C"
+    })
+    return
+  }
+
   const query = `INSERT INTO DarkStore (nome, rua, numero, complemento, cep, uf, fkEmpresa) VALUES ('${nomeDarkStore}', '${ruaDarkStore}', ${numero}, '${complemento}', '${cep}', '${uf}', ${sessionStorage.IDEMPRESA});`
   queryLog = `INSERT INTO Log(descricao, fkUsuario) VALUES ('DarkStore ${nomeDarkStore} foi criada por ${sessionStorage.NOME} de cargo ${sessionStorage.CARGO}', ${sessionStorage.IDUSUARIO})`
 

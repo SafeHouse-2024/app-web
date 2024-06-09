@@ -1040,4 +1040,4 @@ function iniciarDashboard(){
   }, 1000);
 }
 
-iniciarDashboard();
+window.addEventListener("load", iniciarDashboard());
