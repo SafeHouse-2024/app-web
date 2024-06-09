@@ -51,10 +51,10 @@ function trocarTela(tela) {
     buscarDarkstorePorNome(selectDasCidades.value, selectDasCidades.selectedIndex, tela)
   }
   if(tela == 2){
-    let computadorDarkStoreAtual = computadores.filter(computador => {
-      computador.darkstore == darkstores.filter(darkstore => darkstore.idDarkstore == selectDasCidades.value)
-    })
-    buscarMaquinaDarkstore(computadorDarkStoreAtual, selectDasCidades.value, tela)
+    let idComputadorDarkStoreAtual = computadores.filter(computador => computador.darkstore == selectDasCidades.value)
+    let computadorDarkStoreAtual = computadores.filter(computador => computador.idComputador == idComputadorDarkStoreAtual[0].idComputador)
+
+    buscarMaquinaDarkstore(computadorDarkStoreAtual[0].idComputador, selectDasCidades.value, tela)
   }
   for (var i = 0; i < itensMenu.length; i++) {
     if (i != tela) {
@@ -125,6 +125,37 @@ function buscarDarkstore() {
 
 }
 
+function liberarInputNomeMaquina(){
+  let nomeMaquina = document.querySelector('#nome_maquina');
+
+  if(nomeMaquina.hasAttribute('readonly')){
+    nomeMaquina.removeAttribute('readonly');
+  }else{
+    nomeMaquina.setAttribute('readonly', 'true');
+  }
+  let botao = document.querySelector('#lapis_nome_maquina');
+
+  if(botao.classList.contains('fa-pencil')){
+    botao.classList.remove('fa-pencil');
+    botao.classList.add('fa-check');
+  }else{
+    botao.classList.remove('fa-check');
+    botao.classList.add('fa-pencil');
+    editarNomeMaquina();
+  }
+
+}
+
+function editarNomeMaquina(){
+  let nomeMaquina = document.querySelector('#nome_maquina');
+  let idComputador = computadores.filter(computador => computador.darkstore == selectDasCidades.value)[0].idComputador;
+  const consulta = `UPDATE Computador SET nome = '${nomeMaquina.value}' WHERE idComputador = ${idComputador}`
+  consultaBanco(`conexao/${consulta}`, 'PUT').then(function (resposta) {
+    console.log(resposta);
+  }).catch(function (resposta) {
+    console.log(`#ERRO: ${resposta}`);
+  });
+}
 
 const buscarMaquinaDarkstore = (idComputador, idDarkStore, origem = 0) => {
 
@@ -134,11 +165,12 @@ const buscarMaquinaDarkstore = (idComputador, idDarkStore, origem = 0) => {
   
   let computador = computadores.filter(computador => computador.idComputador == idComputador)
   let computadoresDarkStore = computadores.filter(pc => pc.darkstore == idDarkStore)
+  let nomeComputador = document.querySelector('#nome_maquina');
 
   buscarUsoMaquina(idComputador)
   buscarGraficos("cpu", idComputador)
-  console.log(computadoresDarkStore, idDarkStore)
-  console.log(computador, idComputador);
+  nomeComputador.value = computador[0].hostname;
+  console.log("O nome do computador é: ", nomeComputador.value);
 
   document.getElementById("maquinas").innerHTML = ""
   for (let i = 0; i < computadoresDarkStore.length; i++) {
@@ -418,7 +450,7 @@ function buscarMaquinas(idDarkStore) {
 
       
     })
-    computadores.forEach(computador => buscarAlertas(computador.idComputador))
+    // computadores.forEach(computador => buscarAlertas(computador.idComputador))
   }, 1000)
 }
 
@@ -1088,7 +1120,7 @@ const buscarAlertas = (idComputador) => {
   })
 
   setTimeout(() => {
-    buscarAlertas(idComputador)
+    // buscarAlertas(idComputador)
   }, 3000)
 
 }

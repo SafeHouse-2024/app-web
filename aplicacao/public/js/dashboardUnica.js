@@ -109,11 +109,12 @@ const buscarMaquinaDarkstore = (idComputador, idDarkStore, origem = 0) => {
   
   let computador = computadores.filter(computador => computador.idComputador == idComputador)
   let computadoresDarkStore = computadores.filter(pc => pc.darkstore == idDarkStore)
-
+  let nomeComputador = document.querySelector('#nome_maquina');
+  
   buscarUsoMaquina(idComputador)
   buscarGraficos("cpu", idComputador)
-  console.log(computadoresDarkStore, idDarkStore)
-  console.log(computador, idComputador);
+  nomeComputador.innerHTML = computador[0].hostname;
+  console.log("O nome do computador é: ", nomeComputador.value);
 
   document.getElementById("maquinas").innerHTML = ""
   for (let i = 0; i < computadoresDarkStore.length; i++) {
