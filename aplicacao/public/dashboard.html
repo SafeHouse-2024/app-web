@@ -209,9 +209,21 @@
               <div class="desc-maquinas">
 
         <div class="alertas-dash">
-                  <p><span style="background-color: green"></span> Estado Normal</p>
-                  <p><span style="background-color: yellow"></span> Estado Atenção</p>
-                  <p><span style="background-color: red"></span> Estado Crítico</p>
+          <div id="estadoNormalGeral">
+            <p data-toggle="tooltip" title="Estado Normal indica que essa darkstore não tem nenhuma máquina com uso excessivo de hardware" data-placement="bottom">
+              <span style="background-color: green"></span> Estado Normal
+            </p>
+          </div>
+          <div id="estadoAlertaGeral">
+            <p data-toggle="tooltip" title="Estado de alerta indica que essa darkstore tem até 30% dos computadores com uso excessivo de hardware" data-placement="bottom">
+              <span style="background-color: yellow"></span> Estado Atenção
+            </p>
+          </div>
+          <div id="estadoCriticoGeral">
+            <p data-toggle="tooltip" title="Estado de alerta indica que essa darkstore tem mais de 50% dos computadores com uso excessivo de hardware" data-placement="bottom">
+              <span style="background-color: red"></span> Estado Crítico
+            </p>
+          </div>
                 </div>
               </div>
             </div>
