@@ -139,7 +139,7 @@
                     </p>
                   </div>
                 </div>
-                <button data-bs-toggle="modal" data-bs-target="#salvarDarkStore">Adicionar DarkStore</button>
+                <button class="btn-tabela-geral" data-bs-toggle="modal" data-bs-target="#salvarDarkStore">Adicionar DarkStore</button>
                 <table class="darkstore-geral">
                   <thead>
                     <tr>
@@ -275,14 +275,14 @@
               <div class="card-header d-flex header">
                   <input id="nome_maquina" readonly>
                   <i class="fa-solid fa-pencil" onclick="liberarInputNomeMaquina()" id="lapis_nome_maquina"></i>
-                <button onclick="desativarModoSeguranca('a4:63:a1:6d:0f:f7')">Desligar segurança</button>
+                <!-- <button onclick="desativarModoSeguranca('a4:63:a1:6d:0f:f7')">Desligar segurança</button> -->
               </div>
               <div id="maquinas" class="card-body"></div>
             </div>
             <div class="maquina-individual col-9" style="padding-right: 0;">
               <div class="info-template row rounded-3 bg-white text-dark">
                 <div class="row">
-                    <h3 style="font-size: 22px;">Informações do Hardware</h3>
+                    <h3 style="font-size: 18px; font-weight: bold;">Informações do Hardware</h3>
                     <div id="infoHardware" style="padding-right: 0;"></div>
                 </div>
               </div>
@@ -290,7 +290,7 @@
                 <div id="infosDash" class="col" style="padding: 0;"></div>
                 <div class="grafico-linha-content col-8" style="padding: 0;">   
                   <div class="row">
-                    <div class="d-flex justify-content-end">
+                    <div class="d-flex justify-content-center">
                       <label style="margin-right: 8px;" for="graficos">Selecione a informação: </label>
                       <select onchange="buscarGraficos(this.value)" name="graficos" id="graficos">
                         <option value="cpu">Cpu</option>
@@ -300,14 +300,14 @@
                       </select>
                     </div>
                   </div>
-                  <div class="row" id="grafico_linha_filtro" style="height: 88%;">
-                    <p id="linha" style="width: 100%;"></p>
+                  <div class="row" id="grafico_linha_filtro" style="height: 80%; width: 100%;">
+                    <p id="linha" style="width: 100%; height: 100%;"></p>
                   </div>
-                  <div class="row" id="grafico_rede_filtro" style="height: 85%;"> 
-                    <p id="linha_rede" style="width: 100%;"></p>
+                  <div class="row" id="grafico_rede_filtro" style="height: 80%; width: 100%;"> 
+                    <p id="linha_rede" style="width: 100%; height: 100%;"></p>
                   </div>
-                  <div class="row" id="grafico_donut_filtro" style="height: 45%;">
-                    <p id="disco_donut" style="width: 100%;"></p>
+                  <div class="row" id="grafico_donut_filtro" style="height: 80%; width: 100%;">
+                    <p id="disco_donut" style="width: 100%; height: 100%;"></p>
                   </div>
                   </div>
                 </div>

@@ -226,16 +226,16 @@
                 </div>
               </div>
             </div>
-            <div>
-                <button data-bs-toggle="modal" data-bs-target="#adicionarMaquina" class="adicionar-maquina" id="button_maquina">
-                  Adicionar Máquina
-                </button>
-            </div>
             <div class="tabelas-darkstore">
               <div class="table-responsive-sm">
+                <span style="display: flex; flex-direction: row; align-items: center; justify-content: space-between;">
+                  <h6 style="font-weight: bold;">Total Maquinas</h6>
+                  <button data-bs-toggle="modal" data-bs-target="#adicionarMaquina" class="adicionar-maquina" id="button_maquina">
+                    Adicionar Máquina
+                  </button>
+                </span>
                 <table class="table">
                   <thead>
-                    <th>Total Maquinas</th>
                     <tr>
                       <th>Nome da Máquina</th>
                       <th>MacAdress</th>
@@ -274,7 +274,7 @@
               <div class="card-header d-flex header">
                 <input id="nome_maquina" readonly>
                 <i class="fa-solid fa-pencil" onclick="liberarInputNomeMaquina()" id="lapis_nome_maquina"></i>
-                <button onclick="desativarModoSeguranca('a4:63:a1:6d:0f:f7')">Desligar segurança</button>
+                <!-- <button onclick="desativarModoSeguranca('a4:63:a1:6d:0f:f7')">Desligar segurança</button> -->
               </div>
               <div id="maquinas" class="card-body"></div>
             </div>
