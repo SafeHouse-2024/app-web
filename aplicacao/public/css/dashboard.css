@@ -182,7 +182,7 @@ main {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.3);
-  border-radius: 10px;
+  /* border-radius: 10px; */
   padding: 20px;
 
   pointer-events: none;
@@ -196,7 +196,7 @@ main {
   width: 100%;
   height: 100%;
   background-color: #fff;
-  border-radius: 10px;
+  /* border-radius: 10px; */
   padding: 20px;
 }
 
@@ -494,6 +494,15 @@ main {
   }
 }
 
+.btn-tabela-geral{
+  background-color: #ffc444;
+  transition: .7s;
+}
+.btn-tabela-geral:hover{
+  background-color: #13004C;
+  color: #fff;
+}
+
 .empresas-content {
   width: 100%;
   height: 90%;
@@ -561,9 +570,9 @@ main {
   width: 100%;
 }
 
-#infosDash h4{https://github.com/SafeHouse-2024/app-web/pull/11/conflict?name=aplicacao%252Fpublic%252Fcss%252Fdashboard.css&ancestor_oid=da4bdd57fca3773d126773f9f9d4f17d9c88346c&base_oid=b7421887dca29844efa73455a4c4b3c70efe591f&head_oid=9f33703960928836b6651bb914681abe2c63701c
+/* #infosDash h4{https://github.com/SafeHouse-2024/app-web/pull/11/conflict?name=aplicacao%252Fpublic%252Fcss%252Fdashboard.css&ancestor_oid=da4bdd57fca3773d126773f9f9d4f17d9c88346c&base_oid=b7421887dca29844efa73455a4c4b3c70efe591f&head_oid=9f33703960928836b6651bb914681abe2c63701c
   font-size: 18px;
-}
+} */
 
 #infosDash span{
   font-size: 14px;
@@ -1213,13 +1222,13 @@ label {
 .informacoes-maquina .card.maquina{
   background-color: white;
   border: none;
-  height: 93%;
+  height: 100%;
   width: 20%;
 }
 .informacoes-maquina .card-header.d-flex.header{
   background-color: white;
   border: none;
-  justify-content: space-between;
+  justify-content: space-evenly;
   width: 100%;
 }
 
@@ -1244,30 +1253,54 @@ label {
 
 
 .maquina-individual{
-  width: 80%;
+  width: 70%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
 }
 
 .maquina-individual .graficos{
+  height: 55%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.grafico-linha-content{
+  height: 100%;
+}
+.info-template{
+  height: 40%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.info-template .row{
+  height: 100%;
+}
+
+#infosDash{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
   height: 80%;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-around;
 }
 
-.info-template.row{
-  height: 10%;
-  width: 100%;
+#infosDash.col h4{
+  width: 75%;
+  height: 30%;
+  background-color: #c0c0c0;
+  font-size: 14px;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
 }
-
 #linha{
   margin: 0;
 }
@@ -1289,10 +1322,16 @@ label {
 
 .maquina-info {
   display: flex;
+  height: 10%;
   justify-content: space-between;
   background-color: #ffc444;
   color: black;
   padding: 4%;
+  color: #13004C;
+}
+.selected-machine {
+  background-color: #13004C;
+  color: #fff;
 }
 
 .usuarios-geral{
@@ -1349,8 +1388,11 @@ label {
 .hardware-description{
   text-align: left;
   width: 100%;
-  font-size: 14px;
-  margin-left: 3px;
+  font-size: 12px;
+  height: 100%;
+}
+.hardware-description h3{
+  font-size: 16px;
 }
 
 .modal-dialog{
@@ -1420,7 +1462,7 @@ label {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  margin: 20px;
+  /* margin: 20px; */
   position: absolute;
   & i{
     font-size: 30px;
