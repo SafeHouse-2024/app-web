@@ -387,16 +387,16 @@ series: [ {
 
 let timeout = undefined;
 
-const buscarGraficos = (tipoGrafico = "cpu", idComputador) => {
+const buscarGraficos = (tipoGrafico = "cpu", idComputador = computadorAtual.idComputador) => {
   
   if(timeout != undefined){
     clearTimeout(timeout)
   }
 
-  const queryProcessador = `SELECT rc.valor as 'valor', rc.dataRegistro as 'dataRegistro' FROM Componente c JOIN RegistroComponente rc ON c.idComponente = rc.fkComponente WHERE c.fkComputador = ${idComputador} AND c.nome LIKE 'Processador' ORDER BY idRegistro DESC LIMIT 7;`
-  const queryMemoria = `SELECT rc.valor as 'valor', rc.dataRegistro as 'dataRegistro' FROM Componente c JOIN RegistroComponente rc ON c.idComponente = rc.fkComponente WHERE c.fkComputador = ${idComputador} AND c.nome LIKE 'Memória' ORDER BY idRegistro DESC LIMIT 7;`
-  const queryDisco = `SELECT ca.nome, ca.valor FROM Componente c JOIN CaracteristicaComponente ca ON c.idComponente = ca.fkComponente WHERE c.fkComputador = ${idComputador} AND c.nome LIKE 'Disco';`
-  const queryRede = `SELECT rc.nome as 'nome', rc.valor as 'valor', rc.dataRegistro as 'dataRegistro' FROM Componente c JOIN RegistroComponente rc ON rc.fkComponente = c.idComponente WHERE fkComputador = ${idComputador} AND rc.nome IN ('Ping', 'Download', 'Upload') ORDER BY rc.idRegistro DESC LIMIT 21;`
+  const queryProcessador = `grafico_cpu_inicial ${idComputador}`
+  const queryMemoria = `grafico_ram_inicial ${idComputador}`
+  const queryDisco = `grafico_disco_inicial ${idComputador}`
+  const queryRede = `grafico_rede_inicial ${idComputador}`
 
   if(tipoGrafico == "cpu"){
     grafico_linha_filtro.style.display=`block`;
@@ -404,7 +404,7 @@ const buscarGraficos = (tipoGrafico = "cpu", idComputador) => {
     grafico_rede_filtro.style.display = `none`
     chart5.update(cpuChartConfig)  
     consultaBanco(`/conexao/${queryProcessador}`, 'GET').then((resposta) =>{
-      initLineChart(chart5,resposta, 'Processador', timeout)
+      initLineChart(chart5,resposta, 'Processador', idComputador)
     })
   }else if(tipoGrafico == "ram"){
     grafico_linha_filtro.style.display=`block`
@@ -412,7 +412,7 @@ const buscarGraficos = (tipoGrafico = "cpu", idComputador) => {
     grafico_rede_filtro.style.display = `none`
     chart5.update(ramChartConfig)
     consultaBanco(`/conexao/${queryMemoria}`, 'GET').then((resposta) => {
-      initLineChart(chart5, resposta, 'Memória', timeout)
+      initLineChart(chart5, resposta, 'Memória', idComputador)
     })
   }else if(tipoGrafico == "disco"){
     grafico_linha_filtro.style.display=`none`
@@ -426,7 +426,7 @@ const buscarGraficos = (tipoGrafico = "cpu", idComputador) => {
     grafico_donut_filtro.style.display=`none`
     grafico_rede_filtro.style.display = `block`
     consultaBanco(`/conexao/${queryRede}`, 'GET').then((resposta) => {
-      initRedeChart(chart6, resposta, 'Rede')
+      initRedeChart(chart6, resposta, idComputador)
     })
   }
   
@@ -563,7 +563,7 @@ const initDonutChart = (data) =>{
   chart7.series[0].setData(configuracaoInicial)
 }
 
-const initLineChart = (chart, data, componente) =>{
+const initLineChart = (chart, data, componente, idComputador) =>{
 
   let configuracaoInicial = []
   for(var i = 0; i < data.length; i++){
@@ -572,17 +572,18 @@ const initLineChart = (chart, data, componente) =>{
 
   chart.series[0].setData(configuracaoInicial)
   setTimeout(() => {
-    updateLineChart(chart, componente)
+    updateLineChart(chart, componente, idComputador)
   }, 3000)
 }
 
-const updateLineChart = (chart, componente) => {
+const updateLineChart = (chart, componente, idComputador) => {
   
   chartData = [...chart.series[0].userOptions.data]
-  const query = `SELECT rc.valor as 'valor', rc.dataRegistro as 'dataRegistro' FROM Componente c JOIN RegistroComponente rc ON c.idComponente = rc.fkComponente WHERE c.fkComputador = 7 AND c.nome LIKE '${componente}' ORDER BY idRegistro DESC LIMIT 1;`
+  const query = `SELECT TOP 1 rc.valor as 'valor', rc.dataRegistro as 'dataRegistro' FROM Componente c JOIN RegistroComponente rc ON c.idComponente = rc.fkComponente WHERE c.fkComputador = ${idComputador} AND c.nome LIKE '${componente}' ORDER BY idRegistro DESC;`
   let resposta;
   consultaBanco(`/conexao/${query}`, 'GET').then(data => {
     resposta = data
+    console.log(resposta)
   })
   timeout = setTimeout(() => {
     if(new Date(resposta[0].dataRegistro).getTime() != chart.series[0].xData[chart.series[0].xData.length -1]){
@@ -600,12 +601,12 @@ const updateLineChart = (chart, componente) => {
       })
       // chart.series[0].setData(chart7.series[0].userOptions.data)
     }
-    updateLineChart(chart, componente, timeout)
-  }, 3000)
+    updateLineChart(chart, componente, idComputador)
+  }, 2000)
 
 }
 
-const initRedeChart = (chart, resposta, componente) => {
+const initRedeChart = (chart, resposta, idComputador) => {
   
   let pings = [];
   let downloads =[];
@@ -639,16 +640,16 @@ const initRedeChart = (chart, resposta, componente) => {
   })
 
   setTimeout(() => {
-    updateRedeChart()
+    updateRedeChart(idComputador)
   }, 2000)
 }
 
-const updateRedeChart = () => {
+const updateRedeChart = (idComputador) => {
     let pingData = [...chart6.userOptions.series[2].data]
     let downloadData = [...chart6.userOptions.series[0].data]
     let uploadData = [...chart6.userOptions.series[1].data]
     let data;
-    const query = `SELECT rc.nome as 'nome', rc.valor as 'valor', rc.dataRegistro as 'dataRegistro' FROM Componente c JOIN RegistroComponente rc ON rc.fkComponente = c.idComponente WHERE fkComputador = 7 AND rc.nome IN ('Ping', 'Download', 'Upload') ORDER BY rc.idRegistro DESC LIMIT 3;`
+    const query = `SELECT TOP 3 rc.nome as 'nome', rc.valor as 'valor', rc.dataRegistro as 'dataRegistro' FROM Componente c JOIN RegistroComponente rc ON rc.fkComponente = c.idComponente WHERE fkComputador = ${idComputador} AND rc.nome IN ('Ping', 'Download', 'Upload') ORDER BY rc.idRegistro DESC;`
 
     consultaBanco(`/conexao/${query}`, 'GET').then(resposta => {
       console.log(resposta)
@@ -701,10 +702,6 @@ const updateRedeChart = () => {
           }]
           })
         }
-        updateRedeChart()
+        updateRedeChart(idComputador)
           }, 2000)
-}
-
-const initBarChart = (chart, resposta, componente) => {
-
 }

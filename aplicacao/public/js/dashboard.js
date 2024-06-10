@@ -39,6 +39,7 @@ function consultaBanco(caminho, metodo) {
 }
 
 
+let computadorAtual;
 
 function trocarTela(tela) {
   var monitores = document.querySelectorAll('main > .telas');
@@ -51,10 +52,9 @@ function trocarTela(tela) {
     buscarDarkstorePorNome(selectDasCidades.value, selectDasCidades.selectedIndex, tela)
   }
   if(tela == 2){
-    let idComputadorDarkStoreAtual = computadores.filter(computador => computador.darkstore == selectDasCidades.value)
-    let computadorDarkStoreAtual = computadores.filter(computador => computador.idComputador == idComputadorDarkStoreAtual[0].idComputador)
-
-    buscarMaquinaDarkstore(computadorDarkStoreAtual[0].idComputador, selectDasCidades.value, tela)
+    let computadorDarkStoreAtual = computadores.filter(computador => computador.darkstore == darkstores.filter(darkstore => darkstore.idDarkStore == selectDasCidades.value)[0].idDarkStore)[0]
+    computadorAtual = computadorDarkStoreAtual 
+    buscarMaquinaDarkstore(computadorDarkStoreAtual.idComputador, selectDasCidades.value, tela)
   }
   for (var i = 0; i < itensMenu.length; i++) {
     if (i != tela) {
@@ -120,7 +120,8 @@ function buscarDarkstore() {
     }
     buscarUsuarios();
     colocarDadosUsuario();
-  }, 10);
+    buscarAlertasDeSeguranca()
+  }, 3000);
 
 
 }
@@ -161,16 +162,16 @@ const buscarMaquinaDarkstore = (idComputador, idDarkStore, origem = 0) => {
   if(origem == 0){
     trocarTela(2)
   }
-
-  let computador = computadores.filter(computador => computador.idComputador == idComputador);
-  let computadoresDarkStore = computadores.filter(pc => pc.darkstore == idDarkStore);
+  
+  let computador = computadores.filter(computador => computador.idComputador == idComputador)[0]
+  let computadoresDarkStore = computadores.filter(pc => pc.darkstore == idDarkStore)
   let nomeComputador = document.querySelector('#nome_maquina');
+  computadorAtual = computador
 
-  buscarUsoMaquina(idComputador);
-  buscarGraficos("cpu", idComputador);
-  nomeComputador.value = computador[0].hostname;
+  buscarUsoMaquina(computador.idComputador)
+  buscarGraficos("cpu", computador.idComputador)
+  nomeComputador.value = computador.hostname;
   console.log("O nome do computador é: ", nomeComputador.value);
-
   // Limpa a seleção anterior
   let maquinas = document.querySelectorAll('.maquina-info');
   maquinas.forEach(maquina => {
@@ -191,7 +192,7 @@ const buscarMaquinaDarkstore = (idComputador, idDarkStore, origem = 0) => {
 
 
 const buscarUsoMaquina = (idComputador) => {
-  query = `SELECT * FROM UsoSistema WHERE fkComputador = ${idComputador} ORDER BY idUsoSistema DESC LIMIT 1`
+  query = `SELECT TOP 1 * FROM UsoSistema WHERE fkComputador = ${idComputador} ORDER BY idUsoSistema DESC`
   consultaBanco(`conexao/${query}`, 'GET').then((resposta) => {
     usoSistema = resposta
   }).catch(err => console.log(err))
@@ -398,7 +399,7 @@ function editarNomeDarkstore() {
 
 function buscarMaquinas(idDarkStore) {
   const query = `SELECT pc.*, c.nome as 'nomeComponente', c.idComponente as 'idComponente', ca.nome as 'nomeCaracteristica', ca.valor 'valorCaracteristica' 
-  FROM Computador pc LEFT JOIN Componente c ON c.fkComputador = pc.idComputador LEFT JOIN CaracteristicaComponente ca ON ca.fkComponente = c.idComponente WHERE pc.fkDarkStore = ${idDarkStore};
+  FROM Computador pc LEFT JOIN Componente c ON c.fkComputador = pc.idComputador LEFT JOIN CaracteristicaComponente ca ON ca.fkComponente = c.idComponente WHERE pc.fkDarkStore = ${idDarkStore} ORDER BY pc.idComputador DESC;
   `
 
   let idComputador = 0;
@@ -410,7 +411,7 @@ function buscarMaquinas(idDarkStore) {
       console.log(resposta)
       if (resposta) {
         for (let i = 0; i < resposta.length; i++) {
-          if (resposta[i].idComputador != idComputador) {
+          if (resposta[i].idComputador != idComputador ) {
             computadores.push({
               idComputador: resposta[i].idComputador,
               hostname: resposta[i].nome,
@@ -447,22 +448,21 @@ function buscarMaquinas(idDarkStore) {
     });
   setTimeout(() => {
     computadores.forEach(computador => {
-      const queryGraficoSeguranca = `CALL total_seguranca(${computador.idComputador})`
+      const queryGraficoSeguranca = `total_seguranca ${computador.idComputador}`
 
       consultaBanco(`conexao/${queryGraficoSeguranca}`, 'GET').then(resposta => {
-        console.log(resposta)
-        totalViolacoesMaquina.push({idComputador: resposta[0][0].idComputador, totalRegistros: resposta[0][0].totalRegistros})
+        totalViolacoesMaquina.push({idComputador: resposta[0].idComputador, totalRegistros: resposta[0].totalRegistros})
       })
 
       
     })
-    // computadores.forEach(computador => buscarAlertas(computador.idComputador))
+    computadores.forEach(computador => buscarAlertas(computador.idComputador))
   }, 1000)
 }
 
 let funcionarios = [];
 function buscarUsuarios() {
-  const consulta = `SELECT * FROM Usuario WHERE tipo = 'Funcionário'`
+  const consulta = `SELECT * FROM Usuario WHERE tipo = 'Funcionario'`
   consultaBanco(`conexao/${consulta}`, 'GET').then(function (resposta) {
     if (resposta != null) {
       funcionarios = resposta;
@@ -492,10 +492,9 @@ function buscarUsuarios() {
 }
 
 let logs = [];
+
 function buscarLog() {
-  query = `SELECT l.*, c.nome as 'nome' FROM Log l JOIN Computador c ON l.fkComputador = c.idComputador JOIN DarkStore d ON d.idDarkStore = c.fkDarkStore WHERE d.idDarkStore = ${sessionStorage.FKDARKSTORE}
-  UNION SELECT l.*, u.nome as 'nome' FROM Log l JOIN Usuario u ON l.fkUsuario = u.idUsuario JOIN DarkStore
-  d ON u.fkDarkStore = d.idDarkStore WHERE d.idDarkStore = ${sessionStorage.FKDARKSTORE} ORDER BY idLog DESC;`
+  query = `buscar_logs ${sessionStorage.FKDARKSTORE}`
   consultaBanco(`conexao/${query}`, 'GET').then(function (resposta) {
     resposta.forEach(res => {
       let tipo;
@@ -503,6 +502,8 @@ function buscarLog() {
         tipo = "segurança"
       } else if (res.fkUsuario != null) {
         tipo = "usuario"
+      }else{
+        tipo = "uso"
       }
       logs.push({
         log: res,
@@ -512,9 +513,10 @@ function buscarLog() {
   }).catch(function (resposta) {
     console.log(`#ERRO: ${resposta}`);
   });
+
   let conteudoLogs = document.querySelector('#body-log');
-  conteudoLogs.innerHTML = '';
   setTimeout(() => {
+    console.log(logs.length)
     for (let i = 0; i < logs.length; i++) {
       data = logs[i].log.dataLog.split('T');
       data = data[0].split('-');
@@ -533,7 +535,7 @@ function buscarLog() {
       </tr>
     `;
     }
-  }, 1300);
+  }, 3500);
 
 }
 
@@ -756,7 +758,7 @@ const deletarMaquina = (valor) =>{
   }).then((result) => {
     if (result.isConfirmed) {
       consultaBanco(`/conexao/${query}`, 'DELETE').then(() => {
-        if(resposta.affectedRows >= 1){
+        if(resposta == undefined){
           consultaBanco(`/conexao/${queryLog}`, 'POST').then(() => {
             console.log("Log adicionado com sucesso!")
           })
@@ -791,7 +793,7 @@ const deletarFuncionario = (valor) => {
   }).then((result) => {
     if (result.isConfirmed) {
       consultaBanco(`/conexao/${query}`, 'DELETE').then(resposta => {
-        if (resposta.affectedRows == 1) {
+        if (resposta == undefined) {
           consultaBanco(`/conexao/${queryLog}`, 'POST').then(() => {
             console.log("Log adicionado com sucesso!")
           })
@@ -817,10 +819,10 @@ const salvarFuncionario = () => {
   let senhaUsuario = senha_usuario.value;
   let cargoUsuario = cargo_usuario.value;
 
-  query = `INSERT INTO Usuario(nome,sobrenome,email,senha,cargo,fkDarkStore, tipo) VALUES ('${nomeUsuario}', '${sobrenomeUsuario}', '${emailUsuario}', '${senhaUsuario}', '${cargoUsuario}', ${sessionStorage.FKDARKSTORE}, 'Funcionário')`
+  query = `inserir_usuario '${nomeUsuario}', '${sobrenomeUsuario}', '${emailUsuario}', '${senhaUsuario}', '${cargoUsuario}', ${sessionStorage.FKDARKSTORE}`
   queryLog = `INSERT INTO Log(descricao, fkUsuario) VALUES ('Funcionário ${nomeUsuario} foi criado por ${sessionStorage.NOME} de cargo ${sessionStorage.CARGO}', ${sessionStorage.IDUSUARIO})`
   consultaBanco(`/conexao/${query}`, 'POST').then((resposta) => {
-    if (resposta.affectedRows == 1) {
+    if (resposta == undefined) {
       Swal.fire({
         title: "Funcionário criado com sucesso",
         icon: "success",
@@ -843,10 +845,9 @@ const salvarFuncionario = () => {
 
 function buscarViolacoes(idDarkStore) {
   let violacoes = [];
-  queryViolacoes = `SELECT Log.*, Computador.nome as computadorNome FROM Log
-  JOIN Computador ON Log.fkComputador = Computador.idComputador
-  JOIN DarkStore ON Computador.fkDarkStore = DarkStore.idDarkStore`
+  queryViolacoes = `total_seguranca_darkstore ${idDarkStore};`
   consultaBanco(`conexao/${queryViolacoes}`, 'GET').then(function (resposta) {
+    console.log(resposta)
     violacoes = resposta;
   }).catch(function (resposta) {
     console.log(`#ERRO: ${resposta}`);
@@ -867,7 +868,7 @@ function buscarViolacoes(idDarkStore) {
     `;
       }
     }
-  }, 600);
+  }, 900);
 }
 
 const salvarDarkStore = () => {
@@ -891,7 +892,8 @@ const salvarDarkStore = () => {
   queryLog = `INSERT INTO Log(descricao, fkUsuario) VALUES ('DarkStore ${nomeDarkStore} foi criada por ${sessionStorage.NOME} de cargo ${sessionStorage.CARGO}', ${sessionStorage.IDUSUARIO})`
 
   consultaBanco(`/conexao/${query}`, 'POST').then(resposta => {
-    if (resposta.affectedRows == 1) {
+    console.log(resposta)
+    if (resposta == undefined) {
       Swal.fire({
         title: "Dark Store criada com sucesso",
         icon: "success",
@@ -935,7 +937,7 @@ const salvarAlteracoesDarkStore = () => {
   const query = `UPDATE DarkStore set nome='${nomeDarkStore}', rua='${ruaDarkStore}', uf='${ufDarkStore}', numero='${numeroDarkStore}', complemento='${complementoDarkStore}',cep='${cepDarkStore}' WHERE idDarkStore = ${idDarkStore}`;
   const queryLog = `INSERT INTO Log(descricao, fkUsuario) VALUES ('DarkStore ${nomeDarkStore} foi alterada por ${sessionStorage.NOME} de cargo ${sessionStorage.CARGO}', ${sessionStorage.IDUSUARIO})`
   consultaBanco(`/conexao/${query}`, 'PUT').then(resposta => {
-    if (resposta.affectedRows == 1) {
+    if (resposta == undefined) {
       Swal.fire({
         title: "Dark Store editada com sucesso",
         icon: "success",
@@ -978,7 +980,7 @@ const salvarAlteracoesUsuario = () => {
   const query = `UPDATE Usuario set nome='${nomeFuncionario}', sobrenome='${sobrenomeFuncionario}', email='${emailFuncionario}', senha='${senhaFuncionario}', cargo='${cargoFuncionario}' WHERE idUsuario = ${idFuncionario}`;
   const queryLog = `INSERT INTO Log(descricao, fkUsuario) VALUES ('Funcionário ${nomeFuncionario} foi alterado por ${sessionStorage.NOME} de cargo ${sessionStorage.CARGO}', ${sessionStorage.IDUSUARIO})`
   consultaBanco(`/conexao/${query}`, 'PUT').then(resposta => {
-    if (resposta.affectedRows == 1) {
+    if (resposta == undefined) {
       Swal.fire({
         title: "Funcionário editado com sucesso",
         icon: "success",
@@ -1019,7 +1021,7 @@ const deletarDarkStore = (valor) => {
   }).then((result) => {
     if (result.isConfirmed) {
       consultaBanco(`/conexao/${query}`, 'DELETE').then(resposta => {
-        if (resposta.affectedRows == 1) {
+        if (resposta == undefined) {
           consultaBanco(`/conexao/${queryLog}`, 'POST').then(() => {
             console.log("Log adicionado com sucesso!")
           })
@@ -1042,107 +1044,136 @@ const deletarDarkStore = (valor) => {
 // alertas
 const buscarAlertas = (idComputador) => {
 
-  const queryAlertasCPU = `SELECT DISTINCT(pc.idComputador), count(rc.valor) as 'totalRegistros' FROM RegistroComponente rc JOIN Componente c ON c.idComponente = rc.fkComponente JOIN Computador pc ON c.fkComputador = pc.IdComputador JOIN DarkStore d ON d.idDarkStore = pc.fkDarkStore WHERE dataRegistro >= NOW() - INTERVAL 5000000 MINUTE AND c.nome LIKE 'Processador' AND rc.valor > 80 AND pc.idComputador = ${idComputador} GROUP BY pc.idComputador;`
-  const queryAlertasRAM = `SELECT DISTINCT(pc.idComputador), count(rc.valor) as 'totalRegistros' FROM RegistroComponente rc JOIN Componente c ON c.idComponente = rc.fkComponente JOIN Computador pc ON c.fkComputador = pc.IdComputador JOIN DarkStore d ON d.idDarkStore = pc.fkDarkStore WHERE dataRegistro >= NOW() - INTERVAL 5 MINUTE AND c.nome LIKE 'Memória' AND rc.valor > SUBSTRING_INDEX((SELECT ca.valor FROM CaracteristicaComponente ca JOIN Componente c ON c.idComponente = ca.fkComponente JOIN Computador pc ON pc.idComputador = c.fkComputador WHERE pc.idComputador = ${idComputador} AND c.nome LIKE 'Memória' AND ca.nome LIKE 'Memória Total'), " ", 1) * 0.8 GROUP BY pc.idComputador;`;
-  const queryAlertasDisco = `SELECT DISTINCT(pc.idComputador) FROM Componente c JOIN Computador pc ON c.fkComputador = pc.IdComputador JOIN CaracteristicaComponente ca ON ca.fkComponente = c.idComponente WHERE c.nome LIKE 'Disco' AND (SUBSTRING_INDEX((SELECT ca.valor FROM CaracteristicaComponente ca JOIN Componente c ON c.idComponente = ca.fkComponente JOIN Computador pc ON pc.idComputador = c.fkComputador WHERE pc.idComputador = ${idComputador} AND c.nome LIKE 'Disco' AND ca.nome LIKE 'Memória Disponível'), " ", 1)) < (SUBSTRING_INDEX((SELECT ca.valor FROM CaracteristicaComponente ca JOIN Componente c ON c.idComponente = ca.fkComponente JOIN Computador pc ON pc.idComputador = c.fkComputador WHERE pc.idComputador = ${idComputador} AND c.nome LIKE 'Disco' AND ca.nome LIKE 'Memória Total'), " ", 1) * 0.2)`
-  const queryAlertasRede = `SELECT DISTINCT(pc.idComputador), count(rc.valor) as 'totalRegistros' FROM Componente c JOIN Computador pc ON c.fkComputador = pc.IdComputador JOIN CaracteristicaComponente ca ON ca.fkComponente = c.idComponente JOIN RegistroComponente rc ON rc.fkComponente = c.idComponente WHERE NOW() - INTERVAL 5 MINUTE AND (c.nome LIKE 'Rede' AND (rc.nome LIKE 'Ping' AND rc.valor > 100) OR (rc.nome LIKE 'Download' AND rc.valor < 5) OR (rc.nome LIKE 'Upload' AND rc.valor < 5)) AND pc.idComputador = ${idComputador} GROUP BY pc.idComputador;`;
+  const queryAlertasCPU = `cpu_alerta ${idComputador}`
 
-  darkstores.forEach(darkstore => {
-    let totalMaquinasCPU = 0;
-    let totalMaquinasRAM = 0;
-    let totalMaquinasDisco = 0;
-    let totalMaquinasRede = 0
-    consultaBanco(`/conexao/${queryAlertasCPU}`, 'GET').then(resposta => {
+  const queryAlertasRAM = `ram_alerta ${idComputador}`;
+
+  const queryAlertasDisco = `disco_alerta ${idComputador}`
+  const queryAlertasRede = `alerta_rede ${idComputador}`;
+
+  consultaBanco(`/conexao/${queryAlertasCPU}`, 'GET').then(resposta => {
         if(resposta.length == 0){
-          darkstore.statusCPU = `Normal`
-        }
+          computadores.filter(computador => computador.idComputador == idComputador)[0].statusCPU = `Normal`
+        }else{
           resposta.forEach(res => {
             if(res.totalRegistros > 25){
-              totalMaquinasCPU++
               computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusCPU = `Crítico`)
             }else if(res.totalRegistros > 15){
-              totalMaquinasCPU++
               computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusCPU = `Alerta`)
             }else{
               computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusCPU = `Normal`)
             }
           })
-          if(totalMaquinasCPU > 0){
-            if(totalMaquinasCPU >= computadores.filter(computador => computador.darkstore == darkstore.idDarkStore).length * 0.7){
-              darkstore.statusCPU = `Crítico`
-            }else if(totalMaquinasCPU >= computadores.filter(computador => computador.darkstore == darkstore.idDarkStore).length * 0.5){
-              darkstore.statusCPU = `Alerta`
-            }else{
-              darkstore.statusCPU = `Normal`
-            }
-          }
-    })
+        }
+      })
 
     consultaBanco(`/conexao/${queryAlertasRAM}`, 'GET').then(resposta => {
         if(resposta.length == 0){
-          darkstore.statusRAM = `Normal`
-        }
-        resposta.forEach(res => {
-          console.log(res.totalRegistros)
-          if(res.totalRegistros > 25){
-            totalMaquinasRAM++
-            computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusRAM = `Crítico`)
-          }else if(res.totalRegistros > 15){
-            totalMaquinasRAM++
-            computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusRAM = `Alerta`)
-          }else{
-            computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusRAM = `Normal`)
-          }
-        })
-        if(totalMaquinasRAM > 0){
-          if(totalMaquinasRAM >= computadores.filter(computador => computador.darkstore == darkstore.idDarkStore).length * 0.7){
-            darkstore.statusRAM = `Crítico`
-          }else if(totalMaquinasRAM >= computadores.filter(computador => computador.darkstore == darkstore.idDarkStore).length * 0.5){
-            darkstore.statusRAM = `Alerta`
-          }else{
-            darkstore.statusRAM = `Normal`
-          }
+          computadores.filter(computador => computador.idComputador == idComputador)[0].statusRAM = `Normal`
+        }else{
+          resposta.forEach(res => {
+            console.log(res.totalRegistros)
+            if(res.totalRegistros > 25){
+              totalMaquinasRAM++
+              computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusRAM = `Crítico`)
+            }else if(res.totalRegistros > 15){
+              totalMaquinasRAM++
+              computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusRAM = `Alerta`)
+            }else{
+              computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusRAM = `Normal`)
+            }
+          })
         }
     })
 
     consultaBanco(`/conexao/${queryAlertasDisco}`, 'GET').then(resposta => {
       if (resposta.length == 0) {
-        darkstore.statusDisco = `Normal`
+        computadores.filter(computador => computador.idComputador == idComputador)[0].statusDisco = `Normal`
       }else{
-        resposta.forEach(res => {
-          computadores.filter(computador => {
-            computador.idComputador == res.idComputador
-          }).forEach(pc => pc.statusDisco == `Crítico`)
-        })
+        computadores.filter(computador => computador.idComputador == resposta[0].idComputador)[0].statusDisco = `Crítico`
       }
     })
 
     consultaBanco(`/conexao/${queryAlertasRede}`, 'GET').then(resposta => {
       if(resposta.length == 0){
-        darkstore.statusRede = `Normal`
+        computadores.filter(computador => computador.idComputador == idComputador)[0].statusRede = `Normal`
+      }else{
+        resposta.forEach(res => {
+          if(res.totalRegistros > 25){
+            totalMaquinasRede++
+            computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusRede = `Crítico`)
+          }else if(res.totalRegistros > 15){
+            totalMaquinasRede++
+            computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusRede = `Alerta`)
+          }else{
+            computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusRede = `Normal`)
+          }
+        })
       }
-      resposta.forEach(res => {
-        if(res.totalRegistros > 25){
-          totalMaquinasRede++
-          computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusRede = `Crítico`)
-        }else if(res.totalRegistros > 15){
-          totalMaquinasRede++
-          computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusRede = `Alerta`)
-        }else{
-          computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusRede = `Normal`)
-        }
-      })
-      if(totalMaquinasRede > 0){
-        if(totalMaquinasRede >= computadores.filter(computador => computador.darkstore == darkstore.idDarkStore).length * 0.7){
-          darkstore.statusRede = `Crítico`
-        }else if(totalMaquinasRede >= computadores.filter(computador => computador.darkstore == darkstore.idDarkStore).length * 0.5){
-          darkstore.statusRede = `Alerta`
-        }else{
-          darkstore.statusRede = `Normal`
-        }
-      }
-    })
+})
+
+
+  setTimeout(() => {
+    // buscarAlertas(idComputador)
+  }, 3000)
+
+}
+
+let ultimoAlerta;
+let alertasTela = []
+let notificoes = document.getElementById("notificacoes");
+
+const buscarAlertasDeSeguranca = (idDarkStore) => {
+
+  let query = `notificacoes 1`;
+  
+  
+  notificoes.innerHTML = ``;
+  
+  consultaBanco(`/conexao/${query}`, 'GET').then(resposta => {
+    console.log(query)
+    alertasTela = resposta
   })
+
+  setTimeout(() => {
+    ultimoAlerta = alertasTela[0]
+    alertasTela.forEach(alerta => {
+      notificoes.innerHTML += `
+      <div class="alert alert-alert" role="alert">
+          ${alerta.descricao}
+      </div>
+      `
+    })
+
+    atualizarAlertaSegurança()
+  }, 5000)
+}
+
+const atualizarAlertaSegurança = () => {
+
+  let query = `SELECT TOP 1 l.* FROM Log l JOIN Computador c ON l.fkComputador = c.idComputador JOIN DarkStore d ON d.idDarkStore = c.fkDarkStore WHERE d.idDarkStore = 1 ORDER BY l.datalog DESC;`
+  
+  consultaBanco(`/conexao/${query}`, 'GET').then(resposta => {
+    if(resposta[0].dataLog != ultimoAlerta.dataLog){
+      notificoes.innerHTML = ``
+      alertasTela.shift()
+      alertasTela.push(resposta[0])
+      alertasTela.forEach(alerta => {
+        notificoes.innerHTML += `
+        <div class="alert alert-alert" role="alert">
+          ${alerta.descricao}
+      </div>
+        `
+      })
+
+      ultimoAlerta = resposta[0]
+    }
+  })
+
+  setTimeout(() => {
+    atualizarAlertaSegurança()
+  }, 2000)
+
 }
 
 

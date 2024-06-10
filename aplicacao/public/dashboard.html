@@ -86,7 +86,7 @@
     </nav>
     <main>
       <div onclick="mostrarNotificacoes()" class="notificacao">
-        <div>
+        <div style="cursor: pointer;">
           <i class="fa-regular fa-bell"></i>
         </div>
         <div class="dropdown-menu" id="notificacoes">
@@ -330,7 +330,7 @@
                 <label for="informacao">Selecione a informação:</label>
                 <select onchange="filtrarLog(this.value)" name="informacao" id="informacao" style="width: 46%">
                   <option value="">Todos</option>
-                  <option value="Uso de Hardware">Uso de Hardware</option>
+                  <option value="uso">Uso de Hardware</option>
                   <option value="usuario">Usuários</option>
                   <option value="segurança">Segurança das máquinas</option>
                 </select>
