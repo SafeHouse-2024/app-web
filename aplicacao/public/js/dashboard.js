@@ -158,31 +158,37 @@ function editarNomeMaquina(){
 }
 
 const buscarMaquinaDarkstore = (idComputador, idDarkStore, origem = 0) => {
-
   if(origem == 0){
     trocarTela(2)
   }
-  
-  let computador = computadores.filter(computador => computador.idComputador == idComputador)
-  let computadoresDarkStore = computadores.filter(pc => pc.darkstore == idDarkStore)
+
+  let computador = computadores.filter(computador => computador.idComputador == idComputador);
+  let computadoresDarkStore = computadores.filter(pc => pc.darkstore == idDarkStore);
   let nomeComputador = document.querySelector('#nome_maquina');
 
-  buscarUsoMaquina(idComputador)
-  buscarGraficos("cpu", idComputador)
+  buscarUsoMaquina(idComputador);
+  buscarGraficos("cpu", idComputador);
   nomeComputador.value = computador[0].hostname;
   console.log("O nome do computador é: ", nomeComputador.value);
 
-  document.getElementById("maquinas").innerHTML = ""
-  for (let i = 0; i < computadoresDarkStore.length; i++) {
-    document.getElementById("maquinas").innerHTML += `
-      <div class="maquina-info" style="cursor: pointer;" onclick="buscarMaquinaDarkstore(${computadoresDarkStore[i].idComputador}, ${idDarkStore})">
-        <div>${computadoresDarkStore[i].hostname}</div>
-        <div>${computadoresDarkStore[i].macAddress}<div>
-      </div>
-        `
-  }
+  // Limpa a seleção anterior
+  let maquinas = document.querySelectorAll('.maquina-info');
+  maquinas.forEach(maquina => {
+    maquina.classList.remove('selected-machine');
+  });
 
+  document.getElementById("maquinas").innerHTML = "";
+  for (let i = 0; i < computadoresDarkStore.length; i++) {
+    let selectedClass = computadoresDarkStore[i].idComputador == idComputador ? 'selected-machine' : '';
+    document.getElementById("maquinas").innerHTML += `
+      <div class="maquina-info ${selectedClass}" style="cursor: pointer;" onclick="buscarMaquinaDarkstore(${computadoresDarkStore[i].idComputador}, ${idDarkStore})">
+        <div>${computadoresDarkStore[i].hostname}</div>
+        <div>${computadoresDarkStore[i].macAddress}</div>
+      </div>
+    `;
+  }
 }
+
 
 const buscarUsoMaquina = (idComputador) => {
   query = `SELECT * FROM UsoSistema WHERE fkComputador = ${idComputador} ORDER BY idUsoSistema DESC LIMIT 1`
@@ -347,7 +353,7 @@ function buscarDarkstorePorNome(idDarkstore = selectDasCidades.value, indice = s
   tabelaMaquinas.innerHTML = '';
   for (let i = 0; i < computadoresDarkStore.length; i++) {
     tabelaMaquinas.innerHTML += `
-    <tr onclick="buscarMaquinaDarkstore(${computadoresDarkStore[i].idComputador}, ${idDarkstore})" style="cursor: pointer">
+    <tr onclick="buscarMaquinaDarkstore(${computadoresDarkStore[i].idComputador}, ${idDarkstore})" style="cursor: pointer;">
       <td>${computadoresDarkStore[i].hostname}</td>
       <td>${computadoresDarkStore[i].macAddress}</td>
       <td>${computadoresDarkStore[i].fkUsuario}</td>
