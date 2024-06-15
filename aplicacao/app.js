@@ -28,7 +28,6 @@ app.use("/slack", rotaSlack);
 io.listen(3001);
 
 io.on('connection', (socket) => {
-    //if(socket.handshake.headers.token != '123') return 
     let nomeEmpresa = socket.handshake.headers.empresa;
     let nomeDarkStore = socket.handshake.headers.darkstore;
     let macAddress = socket.handshake.headers.macaddress;

@@ -8,4 +8,4 @@ CMD ["node", "app.js"]
 EXPOSE 80
 
 FROM nginx:alpine
-COPY --from=build /usr/src/app/aplicacao/public/index.html /usr/share/nginx/html
+COPY --from=build /usr/src/app/aplicacao/public /usr/share/nginx/html

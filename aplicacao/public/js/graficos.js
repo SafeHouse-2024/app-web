@@ -444,8 +444,6 @@ const top5DarkStores = (darkstores) => {
 }
 
 const buscarGraficosIniciais = (darkstores) => {
-
-
   graficoInicialCPU(darkstores)
   graficoInicialRede(darkstores)
   graficoInicialRAM(darkstores)

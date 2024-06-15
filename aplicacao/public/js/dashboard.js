@@ -85,7 +85,7 @@ const definirStatusDarkStore = (darkstore) => {
 
 function buscarDarkstore() {
   consulta = `SELECT * FROM DarkStore WHERE fkEmpresa = ${sessionStorage.IDEMPRESA}`
-
+  buscarUsuarios();
   buscarLog();
 
   selectDasCidades.innerHTML = '';
@@ -118,10 +118,10 @@ function buscarDarkstore() {
           </span></td>
           </tr>`;
     }
-    buscarUsuarios();
+    
     colocarDadosUsuario();
     buscarAlertasDeSeguranca()
-  }, 3000);
+  }, 10000);
 
 
 }
@@ -357,7 +357,6 @@ function buscarDarkstorePorNome(idDarkstore = selectDasCidades.value, indice = s
     <tr onclick="buscarMaquinaDarkstore(${computadoresDarkStore[i].idComputador}, ${idDarkstore})" style="cursor: pointer;">
       <td>${computadoresDarkStore[i].hostname}</td>
       <td>${computadoresDarkStore[i].macAddress}</td>
-      <td>${computadoresDarkStore[i].fkUsuario}</td>
       <td>${definirStatusMaquina(computadoresDarkStore[i])}</td>
       <td class="material-symbols-outlined" style="cursor: pointer; color: red;" onclick="deletarMaquina(this)" value="${computadoresDarkStore[i].idComputador}">delete</td>
     </tr>`;
@@ -457,12 +456,12 @@ function buscarMaquinas(idDarkStore) {
       
     })
     computadores.forEach(computador => buscarAlertas(computador.idComputador))
-  }, 1000)
+  }, 2500)
 }
 
 let funcionarios = [];
 function buscarUsuarios() {
-  const consulta = `SELECT * FROM Usuario WHERE tipo = 'Funcionario'`
+  const consulta = `SELECT * FROM Usuario WHERE tipo = 'Funcionario' AND fkDarkStore = ${sessionStorage.FKDARKSTORE}`;
   consultaBanco(`conexao/${consulta}`, 'GET').then(function (resposta) {
     if (resposta != null) {
       funcionarios = resposta;
@@ -488,7 +487,7 @@ function buscarUsuarios() {
           </tr>
     `;
     }
-  }, 1000);
+  }, 2500);
 }
 
 let logs = [];
@@ -1056,9 +1055,9 @@ const buscarAlertas = (idComputador) => {
           computadores.filter(computador => computador.idComputador == idComputador)[0].statusCPU = `Normal`
         }else{
           resposta.forEach(res => {
-            if(res.totalRegistros > 25){
+            if(res.quantidade > 25){
               computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusCPU = `Crítico`)
-            }else if(res.totalRegistros > 15){
+            }else if(res.quantidade > 15){
               computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusCPU = `Alerta`)
             }else{
               computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusCPU = `Normal`)
@@ -1072,12 +1071,10 @@ const buscarAlertas = (idComputador) => {
           computadores.filter(computador => computador.idComputador == idComputador)[0].statusRAM = `Normal`
         }else{
           resposta.forEach(res => {
-            console.log(res.totalRegistros)
-            if(res.totalRegistros > 25){
-              totalMaquinasRAM++
+            console.log(res.quantidade)
+            if(res.quantidade > 25){
               computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusRAM = `Crítico`)
-            }else if(res.totalRegistros > 15){
-              totalMaquinasRAM++
+            }else if(res.quantidade > 15){
               computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusRAM = `Alerta`)
             }else{
               computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusRAM = `Normal`)
@@ -1099,11 +1096,9 @@ const buscarAlertas = (idComputador) => {
         computadores.filter(computador => computador.idComputador == idComputador)[0].statusRede = `Normal`
       }else{
         resposta.forEach(res => {
-          if(res.totalRegistros > 25){
-            totalMaquinasRede++
+          if(res.quantidade > 25){
             computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusRede = `Crítico`)
-          }else if(res.totalRegistros > 15){
-            totalMaquinasRede++
+          }else if(res.quantidade > 15){
             computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusRede = `Alerta`)
           }else{
             computadores.filter(computador => computador.idComputador == res.idComputador).forEach(pc => pc.statusRede = `Normal`)
@@ -1177,8 +1172,20 @@ const atualizarAlertaSegurança = () => {
 }
 
 
-window.onload = buscarDarkstore();
 // buscarUsuarios();  
 function mostrarNotificacoes() {
   document.querySelector("#notificacoes").classList.toggle("show")
 }
+
+var telaDeCarregamento = document.querySelector("#carregando");
+
+function iniciarDashboard(){
+  buscarDarkstore();
+  telaDeCarregamento.style.display = "flex";
+
+  setTimeout(() => {
+    telaDeCarregamento.style.display = "none";
+  }, 9000);
+}
+
+window.addEventListener("load", iniciarDashboard());
